@@ -1,0 +1,8 @@
+name: baby-vibration
+channels:
+  - conda-forge
+dependencies:
+  - matplotlib
+  - numpy
+  - python
+  - scipy
