@@ -26,10 +26,28 @@ There will be an extra column of null data because of the trailing comma.
 
 """
 
-df = pd.read_csv(
-    PATH_TO_FILE,
-    header=1,
-    skiprows=[2],
-    index_col=0,
-    usecols=lambda x: x.startswith('S_'))
-df.index = pd.to_datetime(df.index, unit='ms')
+
+def load_shimmer_file(path):
+    """
+    Parameters
+    ==========
+    path : string
+        Path to a Shimmer csv file.
+
+    Returns
+    =======
+    DataFrame
+
+    """
+    df = pd.read_csv(
+        path,
+        header=1,
+        skiprows=[2],
+        index_col=0,
+        usecols=lambda x: x.startswith('S_'))  # skips dangling last column
+    df.index = pd.to_datetime(df.index, unit='ms')
+    return df
+
+
+if __name__ == "__main__":
+    print(load_shimmer_file(PATH_TO_FILE))
