@@ -6,9 +6,9 @@ import pandas as pd
 with open('config.yml') as f:
     config_data = yaml.safe_load(f)
 
+PATH_TO_DATA = config_data['data-directory']
 PATH_TO_REPO = os.path.realpath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-PATH_TO_DATA = config_data['data-directory']
 
 
 def load_shimmer_file(path):
@@ -88,7 +88,7 @@ def merge_imu_data_frames(*data_frames):
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    dfs = load_session_files('session002')
+    dfs = load_session_files('session001')
 
     #dfs['front_wheel'].plot(subplots=True)
     #dfs['rear_wheel'].plot(subplots=True)
