@@ -37,6 +37,10 @@ Data Description
 We mount five Shimmer IMUs on the vehicle. Each Shimmer produces a single CSV
 file for collection time period.
 
+Notes
+
+- Some files are ``maxicos`` and some ``Maxicos`` (different case)
+
 There is a folder with this naming convention::
 
    ├── 2024-11-28_10.43.58_maxicos_1_SH_SD_Session1
@@ -49,6 +53,7 @@ There is a folder with this naming convention::
    │   └── maxicos_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
    ├── 2024-11-28_10.46.45_maxicos_1_BT_SD_Session1
    │   └── maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
+
    ├── 2024-11-28_12.14.31_YOYO_2_SH_SD_Session1
    │   └── YOYO_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
    ├── 2024-11-28_12.15.11_YOYO_2_SB_SD_Session1
@@ -59,6 +64,7 @@ There is a folder with this naming convention::
    │   └── YOYO_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
    ├── 2024-11-28_12.18.35_YOYO_2_BT_SD_Session1
    │   └── YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+
    ├── 2024-11-28_13.13.21_YOYO_LR3_SB_SD_Session1
    │   └── YOYO_LR3_SB_Session1_S_SeatBot_Calibrated_SD.csv
    ├── 2024-11-28_13.13.40_YOYO_LR3_BT_SD_Session1
@@ -69,6 +75,7 @@ There is a folder with this naming convention::
    │   └── YOYO_LR3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
    ├── 2024-11-28_13.14.47_YOYO_LR3_SH_SD_Session1
    │   └── YOYO_LR3_SH_Session1_S_SeatHead_Calibrated_SD.csv
+
    ├── 2024-11-28_15.38.52_Maxicos_3_SH_SD_Session1
    │   └── Maxicos_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
    ├── 2024-11-28_15.39.20_Maxicos_3_FW_SD_Session1
@@ -79,6 +86,7 @@ There is a folder with this naming convention::
    │   └── Maxicos_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
    ├── 2024-11-28_15.42.14_Maxicos_3_BT_SD_Session1
    │   └── Maxicos_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
+
    ├── 2024-11-29_17.04.45_Maxicos_6_SB_SD_Session1
    │   └── Maxicos_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
    ├── 2024-11-29_17.05.14_Maxicos_6_FW_SD_Session1
