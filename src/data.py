@@ -1,4 +1,6 @@
 import os
+import collections
+from datetime import datetime
 
 import yaml
 import pandas as pd
@@ -6,6 +8,8 @@ import pandas as pd
 with open('config.yml') as f:
     config_data = yaml.safe_load(f)
 
+PATH_TO_REPO = os.path.realpath(
+    os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 PATH_TO_DATA = config_data['data-directory']
 PATH_TO_FILE = os.path.join(
     PATH_TO_DATA,
@@ -47,6 +51,32 @@ def load_shimmer_file(path):
         usecols=lambda x: x.startswith('S_'))  # skips dangling last column
     df.index = pd.to_datetime(df.index, unit='ms')
     return df
+
+
+def load_session_files(session_label):
+    """
+    Parameters
+    ==========
+    session_label : string
+        ``session001``, ``session002``, etc.
+
+    Returns
+    =======
+    dictionary of DataFrame
+
+    """
+    with open(os.path.join(PATH_TO_REPO, 'data', 'sessions.yml')) as f:
+        sessions = yaml.safe_load(f)
+    file_names = sessions[session_label]['imu_files']
+    data_frames = {}
+    for label, filename in file_names.items():
+        path_to_file = os.path.join(PATH_TO_DATA, 'Raw_data_csv', filename)
+        data_frames[label] = load_shimmer_file(path_to_file)
+    return data_frames
+
+
+def merge_imu_data_frames(*data_frames):
+    return None
 
 
 if __name__ == "__main__":
