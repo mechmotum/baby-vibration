@@ -2,24 +2,24 @@ session001:
   date: 2024-11-28
   vehicle_type: stroller
   vehicle: maxicosi
-  baby_age:
+  baby_age: 0
   imu_files:
-    front_wheel: 2024-11-28_10.44.49_maxicos_1_FW_SD_Session1/maxicos_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
-    rear_wheel: 2024-11-28_10.45.23_maxicos_1_RW_SD_Session1/maxicos_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
-    seat_bottom: 2024-11-28_10.45.57_maxicos_1_SB_SD_Session1/maxicos_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
-    seat_head: 2024-11-28_10.43.58_maxicos_1_SH_SD_Session1/maxicos_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
-    trike_bottom: 2024-11-28_10.46.45_maxicos_1_BT_SD_Session1/maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-11-28_Maxicos_1_0months/2024-11-28_10.44.49_Maxicos_1_FW_SD_Session1/Maxicos_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-28_Maxicos_1_0months/2024-11-28_10.45.23_Maxicos_1_RW_SD_Session1/Maxicos_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.45.57_Maxicos_1_SB_SD_Session1/Maxicos_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-28_Maxicos_1_0months/2024-11-28_10.43.58_Maxicos_1_SH_SD_Session1/Maxicos_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1/Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session002:
   date: 2024-11-28
   vehicle_type: stroller
   vehicle: yoyo
-  baby_age:
+  baby_age: 0
   imu_files:
-    front_wheel: 2024-11-28_12.15.32_YOYO_2_FW_SD_Session1/YOYO_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
-    rear_wheel: 2024-11-28_12.15.52_YOYO_2_RW_SD_Session1/YOYO_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
-    seat_bottom: 2024-11-28_12.15.11_YOYO_2_SB_SD_Session1/YOYO_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
-    seat_head: 2024-11-28_12.14.31_YOYO_2_SH_SD_Session1/YOYO_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
-    trike_bottom: 2024-11-28_12.18.35_YOYO_2_BT_SD_Session1/YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.32_YOYO_2_FW_SD_Session1/YOYO_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.52_YOYO_2_RW_SD_Session1/YOYO_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.11_YOYO_2_SB_SD_Session1/YOYO_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-28_YOYO_2_0months/2024-11-28_12.14.31_YOYO_2_SH_SD_Session1/YOYO_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.18.35_YOYO_2_BT_SD_Session1/YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session003:
   date: 2024-11-28
   vehicle_type: stroller
