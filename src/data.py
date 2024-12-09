@@ -1,6 +1,5 @@
 import os
-import collections
-from datetime import datetime
+from functools import reduce
 
 import yaml
 import pandas as pd
@@ -50,6 +49,7 @@ def load_shimmer_file(path):
         index_col=0,
         usecols=lambda x: x.startswith('S_'))  # skips dangling last column
     df.index = pd.to_datetime(df.index, unit='ms')
+    df.index.name = 'time'
     return df
 
 
@@ -76,8 +76,29 @@ def load_session_files(session_label):
 
 
 def merge_imu_data_frames(*data_frames):
-    return None
+    return reduce(lambda left, right: pd.merge(left, right, on='time',
+                                               how='outer'), data_frames)
 
 
 if __name__ == "__main__":
-    print(load_shimmer_file(PATH_TO_FILE))
+    import matplotlib.pyplot as plt
+
+    dfs = load_session_files('session001')
+
+    #dfs['front_wheel'].plot(subplots=True)
+    #dfs['rear_wheel'].plot(subplots=True)
+    #dfs['seat_bottom'].plot(subplots=True)
+    #dfs['trike_bottom'].plot(subplots=True)
+    #dfs['seat_head'].plot(subplots=True)
+
+    fig, ax = plt.subplots()
+    #ax.plot(dfs['front_wheel'].index, '.')
+    #ax.plot(dfs['rear_wheel'].index, '.')
+
+    merged = pd.merge(dfs['front_wheel'][:3000],
+                      dfs['rear_wheel'][:3000],
+                      left_index=True,
+                      right_index=True,
+                      how='outer')
+    merged.plot(subplots=True, linestyle=':')
+    plt.show()
