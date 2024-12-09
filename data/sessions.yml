@@ -24,29 +24,65 @@ session003:
   date: 2024-11-28
   vehicle_type: stroller
   vehicle: yoyo
+  baby_age: 0
   imu_files:
-    front_wheel: 2024-11-28_13.14.20_YOYO_LR3_FW_SD_Session1/YOYO_LR3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
-    rear_wheel: 2024-11-28_13.13.59_YOYO_LR3_RW_SD_Session1/YOYO_LR3_RW_Session1_S_RearWheel_Calibrated_SD.csv
-    seat_bottom: 2024-11-28_13.13.21_YOYO_LR3_SB_SD_Session1/YOYO_LR3_SB_Session1_S_SeatBot_Calibrated_SD.csv
-    seat_head: 2024-11-28_13.14.47_YOYO_LR3_SH_SD_Session1/YOYO_LR3_SH_Session1_S_SeatHead_Calibrated_SD.csv
-    trike_bottom: 2024-11-28_13.13.40_YOYO_LR3_BT_SD_Session1/YOYO_LR3_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.14.20_YOYO_LR3_FW_SD_Session1/YOYO_LR3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.59_YOYO_LR3_RW_SD_Session1/YOYO_LR3_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.21_YOYO_LR3_SB_SD_Session1/YOYO_LR3_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.14.47_YOYO_LR3_SH_SD_Session1/YOYO_LR3_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.40_YOYO_LR3_BT_SD_Session1/YOYO_LR3_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session004:
   date: 2024-11-28
   vehicle_type: stroller
   vehicle: maxicosi
+  baby_age: 0
   imu_files:
-    front_wheel: 2024-11-28_15.39.20_Maxicos_3_FW_SD_Session1/Maxicos_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
-    rear_wheel: 2024-11-28_15.41.18_Maxicos_3_RW_SD_Session1/Maxicos_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
-    seat_bottom: 2024-11-28_15.40.51_Maxicos_3_SB_SD_Session1/Maxicos_3_SB_Session1_S_SeatBot_Calibrated_SD.csv
-    seat_head: 2024-11-28_15.38.52_Maxicos_3_SH_SD_Session1/Maxicos_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
-    trike_bottom: 2024-11-28_15.42.14_Maxicos_3_BT_SD_Session1/Maxicos_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-11-28_Maxicos_3_0months/2024-11-28_15.39.20_Maxicos_3_FW_SD_Session1/Maxicos_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-28_Maxicos_3_0months/2024-11-28_15.41.18_Maxicos_3_RW_SD_Session1/Maxicos_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-28_Maxicos_3_0months/2024-11-28_15.40.51_Maxicos_3_SB_SD_Session1/Maxicos_3_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-28_Maxicos_3_0months/2024-11-28_15.38.52_Maxicos_3_SH_SD_Session1/Maxicos_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-11-28_Maxicos_3_0months/2024-11-28_15.42.14_Maxicos_3_BT_SD_Session1/Maxicos_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session005:
   date: 2024-11-29
   vehicle_type: stroller
   vehicle: maxicosi
+  baby_age: 9
   imu_files:
-    front_wheel: 2024-11-29_17.05.14_Maxicos_6_FW_SD_Session1/Maxicos_6_FW_Session1_S_FrontWheel_Calibrated_SD.csv
-    rear_wheel: 2024-11-29_17.06.34_Maxicos_6_RW_SD_Session1/Maxicos_6_RW_Session1_S_RearWheel_Calibrated_SD.csv
-    seat_bottom: 2024-11-29_17.04.45_Maxicos_6_SB_SD_Session1/Maxicos_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
-    seat_head: 2024-11-29_17.05.53_Maxicos_6_SH_SD_Session1/Maxicos_6_SH_Session1_S_SeatHead_Calibrated_SD.csv
-    trike_bottom: 2024-11-29_17.07.03_Maxicos_6_BT_SD_Session1/Maxicos_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-11-29_Maxicos_6_9months/2024-11-29_17.05.14_Maxicos_6_FW_SD_Session1/Maxicos_6_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-29_Maxicos_6_9months/2024-11-29_17.06.34_Maxicos_6_RW_SD_Session1/Maxicos_6_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-29_Maxicos_6_9months/2024-11-29_17.04.45_Maxicos_6_SB_SD_Session1/Maxicos_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-29_Maxicos_6_9months/2024-11-29_17.05.53_Maxicos_6_SH_SD_Session1/Maxicos_6_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-11-29_Maxicos_6_9months/2024-11-29_17.07.03_Maxicos_6_BT_SD_Session1/Maxicos_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session006:
+  date: 2024-11-29
+  vehicle_type: stroller
+  vehicle: bugaboo
+  baby_age: 9
+  imu_files:
+    front_wheel: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session007:
+  date: 2024-11-29
+  vehicle_type: stroller
+  vehicle: maxicosi
+  baby_age: 9
+  imu_files:
+    trike_bottom: 2024-11-29_Maxicos_5_9months/Maxicos_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-11-29_Maxicos_5_9months/Maxicos_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-11-29_Maxicos_5_9months/Maxicos_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-11-29_Maxicos_5_9months/Maxicos_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-11-29_Maxicos_5_9months/Maxicos_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
+session008:
+  date: 2024-12-09
+  vehicle_type: stroller
+  vehicle: bugaboo
+  baby_age: 0
+  imu_files:
+    bottom_trike: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.40.57_Bugaboo_3_BT_SD_Session1/Bugaboo_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.43.11_Bugaboo_3_FW_SD_Session1/Bugaboo_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.40.33_Bugaboo_3_RW_SD_Session1/Bugaboo_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.41.29_Bugaboo_3_SB_SD_Session1/Bugaboo_3_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.42.00_Bugaboo_3_SH_SD_Session1/Bugaboo_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
