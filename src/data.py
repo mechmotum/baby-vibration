@@ -62,7 +62,7 @@ class Session():
 
     def rotate_imu_data(self, subtract_gravity=True):
         df = self.extract_trial('static')
-        mean_df = df.mean()
+        mean_df = df[:1000].mean()
         print(mean_df)
         rot_axis_labels = self.meta_data['imu_lateral_axis']
         for sensor, rot_axis_label in rot_axis_labels.items():
@@ -73,7 +73,7 @@ class Session():
             elif rot_axis_label == 'y':
                 ver_lab, hor_lab = 'Z', 'X'
             elif rot_axis_label == 'z':
-                ver_lab, hor_lab = 'Y', 'X'
+                ver_lab, hor_lab = 'X', 'Y'
             ver_mean = mean_df[template.format(sensor, ver_lab)]
             hor_mean = mean_df[template.format(sensor, hor_lab)]
             print(ver_mean, hor_mean)
@@ -86,7 +86,7 @@ class Session():
                          'S_{}_Accel_WR_Z_CAL']]
             new_acc_cols = [col.format(sensor) for col in
                             ['{}accx', '{}accy', '{}accz']]
-            self.raw_data[new_acc_cols] = self.raw_data[acc_cols].values @ rot_mat
+            self.raw_data[new_acc_cols] = (rot_mat @ self.raw_data[acc_cols].values.T).T
             if subtract_gravity:
                 vert_col = '{}acc{}'.format(sensor, ver_lab.lower())
                 self.raw_data[vert_col] += ACC_DUE_TO_GRAV
@@ -97,7 +97,7 @@ class Session():
                          'S_{}_Gyro_Z_CAL']]
             new_gyr_cols = [col.format(sensor) for col in
                             ['{}gyrx', '{}gyry', '{}gyrz']]
-            self.raw_data[new_gyr_cols] = self.raw_data[gyr_cols].values @ rot_mat
+            self.raw_data[new_gyr_cols] = (rot_mat @ self.raw_data[gyr_cols].values.T).T
         return self.raw_data
 
 
@@ -230,11 +230,11 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
         horizontal = 'x'
         rot = y_rot
     elif lateral_axis == 'z':
-        vertical = 'y'
-        horizontal = 'x'
+        vertical = 'x'
+        horizontal = 'y'
         rot = z_rot
 
-    theta = np.arctan2(vertical_value, horizontal_value)
+    theta = np.arctan(horizontal_value/vertical_value)
     print('Angle:', np.rad2deg(theta))
     # adding pi makes sure the vertical is in the opposite direction as the
     # gravitational acceleration
@@ -278,10 +278,10 @@ if __name__ == "__main__":
 
     s = Session(session_label)
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('Accel')].plot(subplots=True, marker='.')
-    s.rotate_imu_data(subtract_gravity=False)
+    static.loc[:, static.columns.str.contains('FrontWheel_Ac')].plot(subplots=True, marker='.')
+    s.rotate_imu_data() #subtract_gravity=False)
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('acc')].plot(subplots=True, marker='.')
+    static.loc[:, static.columns.str.contains('FrontWheelacc')].plot(subplots=True, marker='.')
     #static.interpolate(method='time').plot(subplots=True)
 
     plt.show()
