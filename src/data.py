@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 import yaml
+from dtk.inertia import x_rot, y_rot, z_rot
 
 with open('config.yml') as f:
     config_data = yaml.safe_load(f)
@@ -10,6 +11,7 @@ with open('config.yml') as f:
 PATH_TO_DATA = config_data['data-directory']
 PATH_TO_REPO = os.path.realpath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+ACC_DUE_TO_GRAV = 9.81
 
 
 class Session():
@@ -57,6 +59,46 @@ class Session():
                 count += 1
 
         return self.raw_data[start_idx:stop_idx]
+
+    def rotate_imu_data(self, subtract_gravity=True):
+        df = self.extract_trial('static')
+        mean_df = df.mean()
+        print(mean_df)
+        rot_axis_labels = self.meta_data['imu_lateral_axis']
+        for sensor, rot_axis_label in rot_axis_labels.items():
+            print(sensor, rot_axis_label)
+            template = 'S_{}_Accel_WR_{}_CAL'
+            if rot_axis_label == 'x':
+                ver_lab, hor_lab = 'Y', 'Z'
+            elif rot_axis_label == 'y':
+                ver_lab, hor_lab = 'Z', 'X'
+            elif rot_axis_label == 'z':
+                ver_lab, hor_lab = 'Y', 'X'
+            ver_mean = mean_df[template.format(sensor, ver_lab)]
+            hor_mean = mean_df[template.format(sensor, hor_lab)]
+            print(ver_mean, hor_mean)
+            rot_mat = compute_gravity_rotation_matrix(rot_axis_label,
+                                                      ver_mean,
+                                                      hor_mean)
+            acc_cols = [col.format(sensor) for col in
+                        ['S_{}_Accel_WR_X_CAL',
+                         'S_{}_Accel_WR_Y_CAL',
+                         'S_{}_Accel_WR_Z_CAL']]
+            new_acc_cols = [col.format(sensor) for col in
+                            ['{}accx', '{}accy', '{}accz']]
+            self.raw_data[new_acc_cols] = self.raw_data[acc_cols].values @ rot_mat
+            if subtract_gravity:
+                vert_col = '{}acc{}'.format(sensor, ver_lab.lower())
+                self.raw_data[vert_col] += ACC_DUE_TO_GRAV
+
+            gyr_cols = [col.format(sensor) for col in
+                        ['S_{}_Gyro_X_CAL',
+                         'S_{}_Gyro_Y_CAL',
+                         'S_{}_Gyro_Z_CAL']]
+            new_gyr_cols = [col.format(sensor) for col in
+                            ['{}gyrx', '{}gyry', '{}gyrz']]
+            self.raw_data[new_gyr_cols] = self.raw_data[gyr_cols].values @ rot_mat
+        return self.raw_data
 
 
 def load_shimmer_file(path):
@@ -164,6 +206,41 @@ Aula,"[65784, 83246]",,,,
     return df
 
 
+def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
+                                    horizontal_value):
+    """
+    lateral_axis : string
+        The sensor's axis that is approximately aligned with the vehicles
+        lateral axis, either ``x``, ``y``, ``z``.
+    vertical_value : float
+        Standard gravity component in the body fixed axis that you desire to be
+        aligned with gravity (vertical).
+    horizontal_value : float
+        Standard gravity component in the body fixed axis that you desire to be
+        normal to gravity (horizontal).
+
+    """
+
+    if lateral_axis == 'x':
+        vertical = 'y'
+        horizontal = 'z'
+        rot = x_rot
+    elif lateral_axis == 'y':
+        vertical = 'z'
+        horizontal = 'x'
+        rot = y_rot
+    elif lateral_axis == 'z':
+        vertical = 'y'
+        horizontal = 'x'
+        rot = z_rot
+
+    theta = np.arctan2(vertical_value, horizontal_value)
+    print('Angle:', np.rad2deg(theta))
+    # adding pi makes sure the vertical is in the opposite direction as the
+    # gravitational acceleration
+    return rot(theta) # + np.pi)
+
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
@@ -198,9 +275,13 @@ if __name__ == "__main__":
     #bounds_df = load_trial_bounds(path_to_file, dfs['rear_wheel'].index)
     #static = merged[bounds_df.loc[0, 'start_time']:bounds_df.loc[0, 'stop_time']]
     #static.plot(subplots=True, marker='.')
+
     s = Session(session_label)
     static = s.extract_trial('static')
     static.loc[:, static.columns.str.contains('Accel')].plot(subplots=True, marker='.')
+    s.rotate_imu_data(subtract_gravity=False)
+    static = s.extract_trial('static')
+    static.loc[:, static.columns.str.contains('acc')].plot(subplots=True, marker='.')
     #static.interpolate(method='time').plot(subplots=True)
 
     plt.show()

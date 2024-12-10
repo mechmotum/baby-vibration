@@ -11,11 +11,11 @@ session001:
     seat_head: 2024-11-28_Maxicos_1_0months/2024-11-28_10.43.58_Maxicos_1_SH_SD_Session1/Maxicos_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1/Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
-    front_wheel: z
-    rear_wheel: z
-    seat_bottom: x
-    seat_head: x
-    trike_bottom: x
+    FrontWheel: z
+    RearWheel: z
+    SeatBot: x
+    SeatHead: x
+    BotTrike: x
 session002:
   date: 2024-11-28
   vehicle_type: stroller

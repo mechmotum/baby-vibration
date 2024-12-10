@@ -2,6 +2,7 @@ name: baby-vibration
 channels:
   - conda-forge
 dependencies:
+  - dynamicisttoolkit
   - ipython
   - matplotlib
   - numpy
