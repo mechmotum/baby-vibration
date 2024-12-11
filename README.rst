@@ -82,15 +82,49 @@ is consistent among the files.
 Data Processing
 ===============
 
-1. Load each acquisition file into a Pandas data frame with the timestamp as the
+#. Load each acquisition file into a Pandas data frame with the timestamp as the
    index.
-2. Combine all sensor data frames from a single session into a single data
+#. Combine all sensor data frames from a single session into a single data
    frame. These can be 700 Mb in size. NaNs are used to represent mismatches in
    the sample times.
-3. Extract the trial start/stop times from the CSV files for the session.
-4. Use a period of no motion, "static", in the session to find the direction of
+#. Extract the trial start/stop times from the CSV files for the session.
+#. Use a period of no motion, "static", in the session to find the direction of
    gravity in all sensors assuming that one axis of each sensor is aligned with
    the lateral axis of the vehicle.
+#. Remove bad data points (random spikes and maybe the repeated values).
+#. Calculate linear speed of the vehicle using wheel radius and rear wheel
+   rate gyro. Calculate the mean speed per trial.
+#. Calculate the frequency spectrum of component and magnitude of acceleration
+   and angular rate for all sensors expect the speed sensor and then find the
+   RMS of the frequency spectrum. This will give 8 RMS values per trial. These
+   should be stored in a tidy data table with each row being a trial.
+#. Same as above but apply the ISO 2631 filters before calculating RMS.
+
+Final data table should have these columns:
+
+- Trial ID
+- Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|trike]
+- Vehicle Type [stroller|bicycle]
+- Baby Age [0|3|9]
+- Surface [pave|stoeptegels|asphalt|klinkers]
+- Speed [m/s]
+- Speed Category [slow|medium|fast]
+- SENSOR_N lateral acceleration RMS [m/s/s]
+- SENSOR_N longitudinal acceleration RMS [m/s/s]
+- SENSOR_N vertical acceleration RMS [m/s/s]
+- SENSOR_N acceleration magnitude RMS [m/s/s]
+- SENSOR_N pitch angular rate RMS [deg/s]
+- SENSOR_N yaw angular rate RMS [deg/s]
+- SENSOR_N roll angular rate RMS [deg/s]
+- SENSOR_N angular rate magnitude RMS [deg/s]
+- SENSOR_N ISO filtered lateral acceleration RMS [m/s/s]
+- SENSOR_N ISO filtered longitudinal acceleration RMS [m/s/s]
+- SENSOR_N ISO filtered vertical acceleration RMS [m/s/s]
+- SENSOR_N ISO filtered acceleration magnitude RMS [m/s/s]
+- SENSOR_N ISO filtered pitch angular rate RMS [deg/s]
+- SENSOR_N ISO filtered yaw angular rate RMS [deg/s]
+- SENSOR_N ISO filtered roll angular rate RMS [deg/s]
+- SENSOR_N ISO filtered angular rate magnitude RMS [deg/s]
 
 Resources
 =========
