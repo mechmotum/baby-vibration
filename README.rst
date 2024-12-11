@@ -92,6 +92,8 @@ Data Processing
    gravity in all sensors assuming that one axis of each sensor is aligned with
    the lateral axis of the vehicle.
 #. Remove bad data points (random spikes and maybe the repeated values).
+#. Low pass filter the time series (not sure if this matters so much if we are
+   converting to frequency spectrum and just taking means of things).
 #. Calculate linear speed of the vehicle using wheel radius and rear wheel
    rate gyro. Calculate the mean speed per trial.
 #. Calculate the frequency spectrum of component and magnitude of acceleration
@@ -103,11 +105,12 @@ Data Processing
 Final data table should have these columns:
 
 - Trial ID
-- Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|trike]
+- Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|keiler]
 - Vehicle Type [stroller|bicycle]
-- Baby Age [0|3|9]
-- Surface [pave|stoeptegels|asphalt|klinkers]
-- Speed [m/s]
+- Baby Age [0|3|9] (implies seat configuration for vehicles with multiple seat
+  setups)
+- Surface [stoeptegels|asphalt|klinkers]
+- Mean Speed [m/s]
 - Speed Category [slow|medium|fast]
 - SENSOR_N lateral acceleration RMS [m/s/s]
 - SENSOR_N longitudinal acceleration RMS [m/s/s]
@@ -129,4 +132,5 @@ Final data table should have these columns:
 Resources
 =========
 
-- https://github.com/tobias-bettinger/comfpy
+- Partial implementation of vibration comfort filters:
+  https://github.com/tobias-bettinger/comfpy
