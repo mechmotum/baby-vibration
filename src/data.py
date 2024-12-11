@@ -282,36 +282,6 @@ if __name__ == "__main__":
 
     session_label = 'session001'
 
-    #dfs = load_session_files(session_label)
-
-    #dfs['front_wheel'].plot(subplots=True)
-    #dfs['rear_wheel'].plot(subplots=True)
-    #dfs['seat_bottom'].plot(subplots=True)
-    #dfs['trike_bottom'].plot(subplots=True)
-    #dfs['seat_head'].plot(subplots=True)
-
-    #merged = merge_imu_data_frames(*dfs.values())
-
-    # NOTE : The missing values (NANs) cause this plot to show gaps. I think it
-    # is simply a consequence of plotting the NANs, but it is a bit confusing.
-    #merged.plot(subplots=True, linestyle='-')
-    #merged.plot(subplots=True, marker='.')
-
-    # NOTE : This fills all NANs with linear interpolation based on the time
-    # index.
-    # TODO : check if there is a difference in method='time' or 'index'
-    #interpolated = merged.interpolate(method='time')
-    #interpolated = merged.interpolate(method='index')
-    #interpolated.plot(subplots=True)
-
-    #with open(os.path.join(PATH_TO_REPO, 'data', 'sessions.yml')) as f:
-        #sessions = yaml.safe_load(f)
-    #filename = sessions[session_label]['trial_bounds_file']
-    #path_to_file = os.path.join(PATH_TO_DATA, 'Interval_indexes', filename)
-    #bounds_df = load_trial_bounds(path_to_file, dfs['rear_wheel'].index)
-    #static = merged[bounds_df.loc[0, 'start_time']:bounds_df.loc[0, 'stop_time']]
-    #static.plot(subplots=True, marker='.')
-
     s = Session(session_label)
     s.rotate_imu_data()
     static = s.extract_trial('static')
