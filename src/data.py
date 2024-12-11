@@ -44,6 +44,11 @@ class Session():
         self.imu_data_frames = load_session_files(self.session_label)
         self.bounds_data_frame = load_trial_bounds(
             path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
+        self.trial_bounds = {}
+        for trial_name in s.bounds_data_frame['Surface'].unique():
+            selector = s.bounds_data_frame['Surface'].str.contains(trial_name)
+            counts = list(self.bounds_data_frame['count'][selector])
+            self.trial_bounds[trial_name] = counts
 
     def merge_imu_data(self):
         """Creates a single data frame, ``imu_data``, for all IMU data with NaN
@@ -148,6 +153,26 @@ class Session():
                                            self.imu_data[gyr_cols].values.T).T
         return self.imu_data
 
+    def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
+                             gyr=True):
+        if trial is not None:
+            data = self.extract_trial(trial, trial_number=trial_number)
+        else:
+            data = self.imu_data
+
+        if acc and gyr:
+            cols = data.columns.str.startswith('S_')
+        elif acc:
+            cols = data.columns.str.contains('Accel')
+        elif gyr:
+            cols = data.columns.str.contains('Gyro')
+        else:
+            raise ValueError('One of acc or gyr must be True.')
+
+        subset = data.loc[:, cols]
+
+        return subset.plot(subplots=True, marker='.')
+
 
 def load_shimmer_file(path):
     """Loads a single Shimmer aquisition csv file into Pandas data frame.
@@ -248,9 +273,17 @@ Aula,"[65784, 83246]",,,,
     df['start_time'] = rw_timestamp[:len(df)]
     df['stop_time'] = rw_timestamp[:len(df)]
 
+    df['count'] = [0]*len(df)
+
+    counts = {}
     for idx, row in df.iterrows():
+        if row['Surface'] in counts:
+            counts[row['Surface']] += 1
+        else:
+            counts[row['Surface']] = 0
         df.loc[idx, 'start_time'] = rw_timestamp.values[row['start_idx']]
         df.loc[idx, 'stop_time'] = rw_timestamp.values[row['stop_idx']]
+        df.loc[idx, 'count'] = counts[row['Surface']]
     return df
 
 
@@ -286,11 +319,10 @@ if __name__ == "__main__":
 
     s = Session(session_label)
     s.rotate_imu_data()
+    s.plot_raw_time_series(trial='Aula', gyr=False)
+    s.plot_raw_time_series(trial='Aula', acc=False)
+
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('Accel')].plot(subplots=True,
-                                                             marker='.')
-    static.loc[:, static.columns.str.contains('Gyro')].plot(subplots=True,
-                                                            marker='.')
     static.loc[:, static.columns.str.contains('acc')].plot(subplots=True,
                                                            marker='.')
     #static.interpolate(method='time').plot(subplots=True)
