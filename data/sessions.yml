@@ -238,7 +238,7 @@ session014:
   vehicle_type: None
   vehicle: None
   baby_age: None
-  trial_bounds_file: Interval_indexes_p1_500Hz.csv
+  trial_bounds_file: None
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: x
