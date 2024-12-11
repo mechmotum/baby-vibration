@@ -31,6 +31,17 @@ Install conda then::
    conda env create -f baby-vibration-env.yml
    conda activate baby-vibration
 
+Usage
+=====
+
+Run a sample data load and processing with::
+
+   python src/data.py
+
+Process all sessions with::
+
+   python src/process.py
+
 Data Description
 ================
 
@@ -109,7 +120,7 @@ Final data table should have these columns:
 - Vehicle Type [stroller|bicycle]
 - Baby Age [0|3|9] (implies seat configuration for vehicles with multiple seat
   setups)
-- Surface [stoeptegels|asphalt|klinkers]
+- Surface [stoeptegels|tarmac|klinkers]
 - Mean Speed [m/s]
 - Speed Category [slow|medium|fast]
 - SENSOR_N lateral acceleration RMS [m/s/s]
