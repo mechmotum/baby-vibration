@@ -153,6 +153,19 @@ class Session():
                                            self.imu_data[gyr_cols].values.T).T
         return self.imu_data
 
+    def calculate_travel_speed(self):
+        with open(os.path.join(PATH_TO_REPO, 'data', 'vehicles.yml')) as f:
+            vehicle_meta_data = yaml.safe_load(f)
+        dia = vehicle_meta_data[self.meta_data['vehicle']]['wheel_diameter']
+        wheel_axis = self.meta_data['imu_lateral_axis']['RearWheel']
+        if wheel_axis.startswith('-'):
+            sign = 1.0
+        else:
+            sign = -1.0
+        tmpl = 'S_RearWheel_Gyro_{}_CAL'
+        ang_rate = self.imu_data[tmpl.format(wheel_axis[-1].upper())]
+        self.imu_data['Speed'] = sign*np.deg2rad(ang_rate)*dia/2.0
+
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
         if trial is not None:
@@ -335,15 +348,16 @@ if __name__ == "__main__":
 
     s = Session(session_label)
     s.rotate_imu_data()
-    s.plot_raw_time_series(trial='Aula', gyr=False)
-    s.plot_raw_time_series(trial='Aula', acc=False)
+    s.calculate_travel_speed()
+    #s.plot_raw_time_series(trial='Aula', gyr=False)
+    #s.plot_raw_time_series(trial='Aula', acc=False)
 
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('acc')].plot(subplots=True,
-                                                           marker='.')
+    #static.loc[:, static.columns.str.contains('acc')].plot(subplots=True,
+                                                           #marker='.')
     #static.interpolate(method='time').plot(subplots=True)
 
     # convert time to float with s / pd.offsets.Second(1) or s =
     # pd.to_timedelta(pd.to_datetime(s)) or to_numeric
 
-    plt.show()
+    #plt.show()
