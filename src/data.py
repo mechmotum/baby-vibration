@@ -132,7 +132,9 @@ class Session():
                 # TODO : Change to taking the mean of the magnitude instead of
                 # magnitude of the mean. Not sure if there would be a different
                 # though.
-                grav_acc = np.sqrt(np.sum(df[acc_cols].mean().values**2,
+                mag_cols = ['S_{}_Accel_WR_{}_CAL'.format(sensor, ver_lab),
+                            'S_{}_Accel_WR_{}_CAL'.format(sensor, hor_lab)]
+                grav_acc = np.sqrt(np.sum(df[mag_cols].mean().values**2,
                                           axis=0))
                 vert_col = '{}acc_ver'.format(sensor)
                 self.imu_data[vert_col] += grav_acc

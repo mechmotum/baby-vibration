@@ -88,6 +88,9 @@ Data Processing
    frame. These can be 700 Mb in size. NaNs are used to represent mismatches in
    the sample times.
 3. Extract the trial start/stop times from the CSV files for the session.
+4. Use a period of no motion, "static", in the session to find the direction of
+   gravity in all sensors assuming that one axis of each sensor is aligned with
+   the lateral axis of the vehicle.
 
 Resources
 =========
