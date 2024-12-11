@@ -1,0 +1,22 @@
+# wheel diameter is in meters
+bugaboo:
+  type: stroller
+  wheel_diameter: 0.300
+trike: 
+  type: bicycle
+  wheel_diameter: 0.760
+maxicosi: 
+  type: stroller
+  wheel_diameter: 0.280
+oldrusty:
+  type: stroller
+  wheel_diameter: 0.230
+urbanarrow:
+  type: bicycle
+  wheel_diameter: 0.760
+greenmachine:
+  type: stroller
+  wheel_diameter: 0.340
+yoyo:
+  type: stroller
+  wheel_diameter: 0.130
