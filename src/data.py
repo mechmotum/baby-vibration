@@ -45,8 +45,8 @@ class Session():
         self.bounds_data_frame = load_trial_bounds(
             path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
         self.trial_bounds = {}
-        for trial_name in s.bounds_data_frame['Surface'].unique():
-            selector = s.bounds_data_frame['Surface'].str.contains(trial_name)
+        for trial_name in self.bounds_data_frame['Surface'].unique():
+            selector = self.bounds_data_frame['Surface'].str.contains(trial_name)
             counts = list(self.bounds_data_frame['count'][selector])
             self.trial_bounds[trial_name] = counts
 
@@ -200,13 +200,29 @@ def load_shimmer_file(path):
     The first and third lines should be ignored. There will be an extra column
     of null data because of the trailing comma.
 
+    In later files the first three lines can look like this::
+
+        S_BotTrike_Timestamp_Unix_CAL,S_BotTrike_Accel_WR_X_CAL,S_BotTrike_Accel_WR_Y_CAL,S_BotTrike_Accel_WR_Z_CAL,S_BotTrike_Gyro_X_CAL,S_BotTrike_Gyro_Y_CAL,S_BotTrike_Gyro_Z_CAL
+        ms,m/(s^2),m/(s^2),m/(s^2),deg/s,deg/s,deg/s
+        S_BotTrike_Timestamp_Unix_CAL,S_BotTrike_Accel_WR_X_CAL,S_BotTrike_Accel_WR_Y_CAL,S_BotTrike_Accel_WR_Z_CAL,S_BotTrike_Gyro_X_CAL,S_BotTrike_Gyro_Y_CAL,S_BotTrike_Gyro_Z_CAL
+
     """
-    df = pd.read_csv(
-        path,
-        header=1,
-        skiprows=[2],
-        index_col=0,
-        usecols=lambda x: x.startswith('S_'))  # skips dangling last column
+    with open(path, 'r') as f:
+        first_line = f.readline()
+    if first_line.startswith('"sep='):
+        df = pd.read_csv(
+            path,
+            header=1,
+            skiprows=[2],
+            index_col=0,
+            usecols=lambda x: x.startswith('S_'))  # skips dangling last column
+    else:
+        df = pd.read_csv(
+            path,
+            header=0,
+            skiprows=[1, 2],
+            index_col=0,
+            usecols=lambda x: x.startswith('S_'))  # skips dangling last column
     df.index = pd.to_datetime(df.index, unit='ms')
     df.index.name = 'Timestamp'
     return df
