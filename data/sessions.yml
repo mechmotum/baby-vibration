@@ -30,7 +30,7 @@ session002:
     trike_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.18.35_YOYO_2_BT_SD_Session1/YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
@@ -48,7 +48,7 @@ session003:
     trike_bottom: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.40_YOYO_LR3_BT_SD_Session1/YOYO_LR3_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
@@ -66,7 +66,7 @@ session004:
     trike_bottom: 2024-11-28_Maxicos_3_0months/2024-11-28_15.42.14_Maxicos_3_BT_SD_Session1/Maxicos_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
@@ -84,7 +84,7 @@ session005:
     trike_bottom: 2024-11-29_Maxicos_6_9months/2024-11-29_17.07.03_Maxicos_6_BT_SD_Session1/Maxicos_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
@@ -102,7 +102,7 @@ session006:
     trike_bottom: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: y
@@ -120,7 +120,7 @@ session007:
     seat_head: 2024-11-29_Maxicos_5_9months/Maxicos_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
@@ -138,7 +138,7 @@ session008:
     seat_head: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.42.00_Bugaboo_3_SH_SD_Session1/Bugaboo_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
