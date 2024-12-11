@@ -14,14 +14,14 @@ PATH_TO_REPO = os.path.realpath(
 
 
 class Session():
-    """Represents a continous period of data collection from multiple IMUs,
-    called a "session".
+    """Represents a continous period of data collection from multiple Shimmer
+    IMUs, called a "session".
 
     Parameters
     ==========
     session_label : string
         ``sessionXXX`` where ``XXX`` is a three digit number ``000``, ``001``,
-        etc.
+        etc. These labels are defined in ``data/session.yml``.
 
     """
 
@@ -36,8 +36,7 @@ class Session():
 
     def load_data(self):
         """Loads the IMU CSV files for this session into ``imu_data_frames``
-        and the trial bound data into ``bounds_data_frame``.
-        """
+        and the trial bound data into ``bounds_data_frame``."""
 
         path_to_bounds_file = os.path.join(PATH_TO_DATA, 'Interval_indexes',
                                            self.meta_data['trial_bounds_file'])
@@ -47,6 +46,8 @@ class Session():
             path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
 
     def merge_imu_data(self):
+        """Creates a single data frame, ``imu_data``, for all IMU data with NaN
+        values at non-shared time stamps."""
 
         try:
             self.imu_data_frames
@@ -56,7 +57,23 @@ class Session():
         self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
 
     def extract_trial(self, trial_name, trial_number=0):
+        """Selects a trial from ``imu_data`` based on the manually defined
+        bounds stored in ``bounds_data_frame``.
 
+        Parameters
+        ==========
+        trial_name : string
+            Examples are ``static``, ``Aula``, ``pave``, ``klinkers``, etc.
+        trial_number : integer
+            More than one trial with the same name may be present. Use this
+            value to select the first, second, third, instance of that trial.
+
+        Returns
+        =======
+        DataFrame
+            Slice of ``imu_data``.
+
+        """
         try:
             self.imu_data
         except AttributeError:
@@ -76,12 +93,14 @@ class Session():
     def rotate_imu_data(self, subtract_gravity=True):
         """Adds new columns to the ``imu_data`` data frame in which the
         accelerometer and rate gyro axes are rotated about the vehicle's
-        lateral axis aligning one axis with the vertical and one with
-        longitudinal.
+        lateral axis aligning one axis with the vertical (direction of gravity)
+        and one with longitudinal.
 
         Notes
         =====
         """
+        # TODO : Should I subtract the mean from the lateral axes? From the
+        # rate gyro?
         df = self.extract_trial('static')
         mean_df = df.mean()
         rot_axis_labels = self.meta_data['imu_lateral_axis']
@@ -92,7 +111,6 @@ class Session():
                 xyz = ('lat', 'ver', 'lon')
             elif rot_axis_label.endswith('y'):
                 ver_lab, hor_lab = 'Z', 'X'
-                ver_lat_lon = 'yxz'
                 xyz = ('lon', 'lat', 'ver')
             elif rot_axis_label.endswith('z'):
                 ver_lab, hor_lab = 'X', 'Y'
@@ -112,7 +130,8 @@ class Session():
                                            self.imu_data[acc_cols].values.T).T
             if subtract_gravity:
                 # TODO : Change to taking the mean of the magnitude instead of
-                # magnitude of the mean.
+                # magnitude of the mean. Not sure if there would be a different
+                # though.
                 grav_acc = np.sqrt(np.sum(df[acc_cols].mean().values**2,
                                           axis=0))
                 vert_col = '{}acc_ver'.format(sensor)
@@ -202,7 +221,7 @@ def merge_imu_data_frames(*data_frames):
     return merged
 
 
-def load_trial_bounds(path, rear_wheel_timestamp):
+def load_trial_bounds(path, rw_timestamp):
     """Returns a data frame that has a row for each trial in a session along
     with its start and stop indices.
 
@@ -224,12 +243,12 @@ Aula,"[65784, 83246]",,,,
     df['start_idx'] = df['start_idx'].str.replace('[', '').astype(int)
     df['stop_idx'] = df['stop_idx'].str.replace(']', '').astype(int)
 
-    df['start_time'] = rear_wheel_timestamp[:len(df)]
-    df['stop_time'] = rear_wheel_timestamp[:len(df)]
+    df['start_time'] = rw_timestamp[:len(df)]
+    df['stop_time'] = rw_timestamp[:len(df)]
 
     for idx, row in df.iterrows():
-        df.loc[idx, 'start_time'] = rear_wheel_timestamp.values[row['start_idx']]
-        df.loc[idx, 'stop_time'] = rear_wheel_timestamp.values[row['stop_idx']]
+        df.loc[idx, 'start_time'] = rw_timestamp.values[row['start_idx']]
+        df.loc[idx, 'stop_time'] = rw_timestamp.values[row['stop_idx']]
     return df
 
 
@@ -247,25 +266,13 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
         normal to gravity (horizontal).
 
     """
-    if lateral_axis.endswith('x'):
-        vertical = 'y'
-        horizontal = 'z'
-        rot = x_rot
-    elif lateral_axis.endswith('y'):
-        vertical = 'z'
-        horizontal = 'x'
-        rot = y_rot
-    elif lateral_axis.endswith('z'):
-        vertical = 'x'
-        horizontal = 'y'
-        rot = z_rot
-
+    rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
     theta = np.arctan(horizontal_value/vertical_value)
     if lateral_axis.startswith('-'):
         theta = -theta
-        rot_mat = rot(theta + np.pi/2)
+        rot_mat = rot_func[lateral_axis[-1]](theta + np.pi/2)
     else:
-        rot_mat = rot(theta)
+        rot_mat = rot_func[lateral_axis[-1]](theta)
     print('Angle:', np.rad2deg(theta))
     return rot_mat
 
@@ -306,11 +313,17 @@ if __name__ == "__main__":
     #static.plot(subplots=True, marker='.')
 
     s = Session(session_label)
-    static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('Accel')].plot(subplots=True, marker='.')
     s.rotate_imu_data()
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('acc')].plot(subplots=True, marker='.')
+    static.loc[:, static.columns.str.contains('Accel')].plot(subplots=True,
+                                                             marker='.')
+    static.loc[:, static.columns.str.contains('Gyro')].plot(subplots=True,
+                                                            marker='.')
+    static.loc[:, static.columns.str.contains('acc')].plot(subplots=True,
+                                                           marker='.')
     #static.interpolate(method='time').plot(subplots=True)
+
+    # convert time to float with s / pd.offsets.Second(1) or s =
+    # pd.to_timedelta(pd.to_datetime(s)) or to_numeric
 
     plt.show()
