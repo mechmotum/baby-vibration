@@ -11,10 +11,20 @@ with open('config.yml') as f:
 PATH_TO_DATA = config_data['data-directory']
 PATH_TO_REPO = os.path.realpath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-ACC_DUE_TO_GRAV = 9.81
 
 
 class Session():
+    """Represents a continous period of data collection from multiple IMUs,
+    called a "session".
+
+    Parameters
+    ==========
+    session_label : string
+        ``sessionXXX`` where ``XXX`` is a three digit number ``000``, ``001``,
+        etc.
+
+    """
+
     def __init__(self, session_label):
 
         self.session_label = session_label
@@ -25,6 +35,9 @@ class Session():
         self.meta_data = sessions[session_label]
 
     def load_data(self):
+        """Loads the IMU CSV files for this session into ``imu_data_frames``
+        and the trial bound data into ``bounds_data_frame``.
+        """
 
         path_to_bounds_file = os.path.join(PATH_TO_DATA, 'Interval_indexes',
                                            self.meta_data['trial_bounds_file'])
@@ -33,21 +46,21 @@ class Session():
         self.bounds_data_frame = load_trial_bounds(
             path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
 
-    def merge_data(self):
+    def merge_imu_data(self):
 
         try:
             self.imu_data_frames
         except AttributeError:
             self.load_data()
 
-        self.raw_data = merge_imu_data_frames(*self.imu_data_frames.values())
+        self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
 
     def extract_trial(self, trial_name, trial_number=0):
 
         try:
-            self.raw_data
+            self.imu_data
         except AttributeError:
-            self.merge_data()
+            self.merge_imu_data()
 
         count = 0
         for idx, row in self.bounds_data_frame.iterrows():
@@ -58,25 +71,34 @@ class Session():
                     break
                 count += 1
 
-        return self.raw_data[start_idx:stop_idx]
+        return self.imu_data[start_idx:stop_idx]
 
     def rotate_imu_data(self, subtract_gravity=True):
+        """Adds new columns to the ``imu_data`` data frame in which the
+        accelerometer and rate gyro axes are rotated about the vehicle's
+        lateral axis aligning one axis with the vertical and one with
+        longitudinal.
+
+        Notes
+        =====
+        """
         df = self.extract_trial('static')
-        mean_df = df[:1000].mean()
-        print(mean_df)
+        mean_df = df.mean()
         rot_axis_labels = self.meta_data['imu_lateral_axis']
         for sensor, rot_axis_label in rot_axis_labels.items():
-            print(sensor, rot_axis_label)
             template = 'S_{}_Accel_WR_{}_CAL'
-            if rot_axis_label == 'x':
+            if rot_axis_label.endswith('x'):
                 ver_lab, hor_lab = 'Y', 'Z'
-            elif rot_axis_label == 'y':
+                xyz = ('lat', 'ver', 'lon')
+            elif rot_axis_label.endswith('y'):
                 ver_lab, hor_lab = 'Z', 'X'
-            elif rot_axis_label == 'z':
+                ver_lat_lon = 'yxz'
+                xyz = ('lon', 'lat', 'ver')
+            elif rot_axis_label.endswith('z'):
                 ver_lab, hor_lab = 'X', 'Y'
+                xyz = ('ver', 'lon', 'lat')
             ver_mean = mean_df[template.format(sensor, ver_lab)]
             hor_mean = mean_df[template.format(sensor, hor_lab)]
-            print(ver_mean, hor_mean)
             rot_mat = compute_gravity_rotation_matrix(rot_axis_label,
                                                       ver_mean,
                                                       hor_mean)
@@ -84,21 +106,26 @@ class Session():
                         ['S_{}_Accel_WR_X_CAL',
                          'S_{}_Accel_WR_Y_CAL',
                          'S_{}_Accel_WR_Z_CAL']]
-            new_acc_cols = [col.format(sensor) for col in
-                            ['{}accx', '{}accy', '{}accz']]
-            self.raw_data[new_acc_cols] = (rot_mat @ self.raw_data[acc_cols].values.T).T
+            new_acc_cols = [col.format(sensor, d) for col, d in
+                            zip(['{}acc_{}', '{}acc_{}', '{}acc_{}'], xyz)]
+            self.imu_data[new_acc_cols] = (rot_mat @
+                                           self.imu_data[acc_cols].values.T).T
             if subtract_gravity:
-                vert_col = '{}acc{}'.format(sensor, ver_lab.lower())
-                self.raw_data[vert_col] += ACC_DUE_TO_GRAV
-
+                # TODO : Change to taking the mean of the magnitude instead of
+                # magnitude of the mean.
+                grav_acc = np.sqrt(np.sum(df[acc_cols].mean().values**2,
+                                          axis=0))
+                vert_col = '{}acc_ver'.format(sensor)
+                self.imu_data[vert_col] += grav_acc
             gyr_cols = [col.format(sensor) for col in
                         ['S_{}_Gyro_X_CAL',
                          'S_{}_Gyro_Y_CAL',
                          'S_{}_Gyro_Z_CAL']]
-            new_gyr_cols = [col.format(sensor) for col in
-                            ['{}gyrx', '{}gyry', '{}gyrz']]
-            self.raw_data[new_gyr_cols] = (rot_mat @ self.raw_data[gyr_cols].values.T).T
-        return self.raw_data
+            new_gyr_cols = [col.format(sensor, d) for col, d in
+                            zip(['{}gyr_{}', '{}gyr_{}', '{}gyr_{}'], xyz)]
+            self.imu_data[new_gyr_cols] = (rot_mat @
+                                           self.imu_data[gyr_cols].values.T).T
+        return self.imu_data
 
 
 def load_shimmer_file(path):
@@ -220,25 +247,27 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
         normal to gravity (horizontal).
 
     """
-
-    if lateral_axis == 'x':
+    if lateral_axis.endswith('x'):
         vertical = 'y'
         horizontal = 'z'
         rot = x_rot
-    elif lateral_axis == 'y':
+    elif lateral_axis.endswith('y'):
         vertical = 'z'
         horizontal = 'x'
         rot = y_rot
-    elif lateral_axis == 'z':
+    elif lateral_axis.endswith('z'):
         vertical = 'x'
         horizontal = 'y'
         rot = z_rot
 
     theta = np.arctan(horizontal_value/vertical_value)
+    if lateral_axis.startswith('-'):
+        theta = -theta
+        rot_mat = rot(theta + np.pi/2)
+    else:
+        rot_mat = rot(theta)
     print('Angle:', np.rad2deg(theta))
-    # adding pi makes sure the vertical is in the opposite direction as the
-    # gravitational acceleration
-    return rot(theta) # + np.pi)
+    return rot_mat
 
 
 if __name__ == "__main__":
@@ -278,10 +307,10 @@ if __name__ == "__main__":
 
     s = Session(session_label)
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('FrontWheel_Ac')].plot(subplots=True, marker='.')
-    s.rotate_imu_data() #subtract_gravity=False)
+    static.loc[:, static.columns.str.contains('Accel')].plot(subplots=True, marker='.')
+    s.rotate_imu_data()
     static = s.extract_trial('static')
-    static.loc[:, static.columns.str.contains('FrontWheelacc')].plot(subplots=True, marker='.')
+    static.loc[:, static.columns.str.contains('acc')].plot(subplots=True, marker='.')
     #static.interpolate(method='time').plot(subplots=True)
 
     plt.show()

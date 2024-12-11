@@ -12,7 +12,7 @@ session001:
     trike_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1/Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
   imu_lateral_axis:
     FrontWheel: z
-    RearWheel: z
+    RearWheel: -z
     SeatBot: x
     SeatHead: x
     BotTrike: x
