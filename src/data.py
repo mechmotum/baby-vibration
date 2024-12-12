@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import yaml
 from dtk.inertia import x_rot, y_rot, z_rot
+from dtk.process import freq_spectrum
 
 with open('config.yml') as f:
     config_data = yaml.safe_load(f)
@@ -38,17 +39,21 @@ class Session():
         """Loads the IMU CSV files for this session into ``imu_data_frames``
         and the trial bound data into ``bounds_data_frame``."""
 
-        path_to_bounds_file = os.path.join(PATH_TO_DATA, 'Interval_indexes',
-                                           self.meta_data['trial_bounds_file'])
-
         self.imu_data_frames = load_session_files(self.session_label)
-        self.bounds_data_frame = load_trial_bounds(
-            path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
+
         self.trial_bounds = {}
-        for trial_name in self.bounds_data_frame['Surface'].unique():
-            selector = self.bounds_data_frame['Surface'].str.contains(trial_name)
-            counts = list(self.bounds_data_frame['count'][selector])
-            self.trial_bounds[trial_name] = counts
+        if self.meta_data['trial_bounds_file'] is None:
+            self.bounds_data_frame = None
+        else:
+            path_to_bounds_file = os.path.join(
+                PATH_TO_DATA, 'Interval_indexes',
+                self.meta_data['trial_bounds_file'])
+            self.bounds_data_frame = load_trial_bounds(
+                path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
+            for trial_name in self.bounds_data_frame['Surface'].unique():
+                selector = self.bounds_data_frame['Surface'].str.contains(trial_name)
+                counts = list(self.bounds_data_frame['count'][selector])
+                self.trial_bounds[trial_name] = counts
 
     def merge_imu_data(self):
         """Creates a single data frame, ``imu_data``, for all IMU data with NaN
@@ -165,6 +170,57 @@ class Session():
         tmpl = 'S_RearWheel_Gyro_{}_CAL'
         ang_rate = self.imu_data[tmpl.format(wheel_axis[-1].upper())]
         self.imu_data['Speed'] = sign*np.deg2rad(ang_rate)*dia/2.0
+
+    def calculate_vector_magnitudes(self):
+        for sensor in self.meta_data['imu_lateral_axis'].keys():
+            # Use the gravity subtracted acceleration values.
+            acc_cols = [col.format(sensor) for col in
+                        ['{}acc_ver',
+                         '{}acc_lon',
+                         '{}acc_lat']]
+            # Use raw data for the gyro instead of rotated.
+            gyr_cols = [col.format(sensor) for col in
+                        ['S_{}_Gyro_X_CAL',
+                         'S_{}_Gyro_Y_CAL',
+                         'S_{}_Gyro_Z_CAL']]
+
+            def magnitude(vector):
+                """
+                vector : array_like, shape(n, 3)
+                Returns
+                =======
+                scalar : ndarray, shape(n,)
+                """
+                # return np.sqrt(np.sum(vector**2, axis=1))
+                return np.linalg.norm(vector, axis=1)
+
+            # .values should return an array shape(n, 3)
+            acc_mag = magnitude(self.imu_data[acc_cols].values)
+            self.imu_data['{}acc_mag'.format(sensor)] = acc_mag
+
+            gyr_mag = magnitude(self.imu_data[gyr_cols].values)
+            self.imu_data['{}gyr_mag'.format(sensor)] = gyr_mag
+
+    def differentiate_angular_rate(self):
+        """Calculate the angular acceleration by filtering and numerical
+        time differentiation.
+        """
+        pass
+
+    def calculate_frequency_spectrum(self):
+        series = self.imu_data['SeatBotacc_mag'].dropna()
+        time = (series.index.values -
+                series.index.values.astype('datetime64[D]'))/np.timedelta64(1, 's')
+        time = time - time[0]
+        signal = series.values
+        sample_rate = 200
+        deltat = 1.0/sample_rate
+        new_time = np.arange(time[0], time[-1], deltat)
+        new_signal = np.interp(new_time, time, signal)
+        freq, amp = freq_spectrum(new_signal, sample_rate)
+        return freq, amp
+
+
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
@@ -347,12 +403,21 @@ if __name__ == "__main__":
     session_label = 'session001'
 
     s = Session(session_label)
+    s.merge_imu_data()
     s.rotate_imu_data()
     s.calculate_travel_speed()
+    s.calculate_vector_magnitudes()
+    freq, amp = s.calculate_frequency_spectrum()
+    rms = np.sqrt(np.mean(amp**2))
+    fig, ax = plt.subplots(layout='constrained')
+    ax.plot(freq, amp)
+    ax.axhline(rms, color='black')
+    ax.set_xlim((0.0, 100.0))
+    ax.set_xlabel('Frequency [Hz]')
+    ax.set_ylabel('Amplitude [m/s/s]')
     #s.plot_raw_time_series(trial='Aula', gyr=False)
     #s.plot_raw_time_series(trial='Aula', acc=False)
-
-    static = s.extract_trial('static')
+    #static = s.extract_trial('Aula')
     #static.loc[:, static.columns.str.contains('acc')].plot(subplots=True,
                                                            #marker='.')
     #static.interpolate(method='time').plot(subplots=True)
@@ -360,4 +425,8 @@ if __name__ == "__main__":
     # convert time to float with s / pd.offsets.Second(1) or s =
     # pd.to_timedelta(pd.to_datetime(s)) or to_numeric
 
-    #plt.show()
+    #s.plot_raw_time_series(trial='stoeptegels', gyr=False)
+    #s.plot_raw_time_series(trial='stoeptegels', acc=False)
+    #s.plot_raw_time_series(gyr=False)
+
+    plt.show()

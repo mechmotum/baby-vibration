@@ -27,14 +27,16 @@ for session_label in session_labels:
     for mot_trial in motion_trials:
         if mot_trial in s.trial_bounds:
             for trial_num in s.trial_bounds[mot_trial]:
-                trial_df = s.extract_trial(mot_trial, trial_number=trial_num)
+                df = s.extract_trial(mot_trial, trial_number=trial_num)
+                dur = (df.index[-1] - df.index[0])/pd.offsets.Second(1)
+                stats_data['duration'] = dur
                 stats_data['surface'].append(mot_trial)
                 stats_data['vehicle'].append(s.meta_data['vehicle'])
                 stats_data['vehicle_type'].append(s.meta_data['vehicle_type'])
                 stats_data['baby_age'].append(s.meta_data['baby_age'])
-                stats_data['speed_avg'].append(trial_df['Speed'].mean())
-                stats_data['speed_std'].append(trial_df['Speed'].std())
-                del trial_df  # critical as this seems to be a copy!
+                stats_data['speed_avg'].append(df['Speed'].mean())
+                stats_data['speed_std'].append(df['Speed'].std())
+                del df  # critical as this seems to be a copy!
     del s
 
 print(pd.DataFrame(stats_data))
