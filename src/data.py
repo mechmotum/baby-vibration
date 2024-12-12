@@ -16,6 +16,18 @@ PATH_TO_REPO = os.path.realpath(
 
 
 def datetime2seconds(index):
+    """Converts a DateTimeIndex to seconds starting from zero.
+
+    Parameters
+    ==========
+    index : DateTimeIndex, len(n)
+
+    Returns
+    =======
+    time : ndarray, shape(n,)
+        Time in seconds.
+    """
+
     time = (index.values -
             index.values.astype('datetime64[D]'))/np.timedelta64(1, 's')
     return time - time[0]
@@ -72,6 +84,10 @@ class Session():
             self.load_data()
 
         self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
+
+        # save memory by deleting this
+        del self.imu_data_frames
+        self.imu_data_frames = {}
 
     def extract_trial(self, trial_name, trial_number=0):
         """Selects a trial from ``imu_data`` based on the manually defined
@@ -166,6 +182,8 @@ class Session():
         return self.imu_data
 
     def calculate_travel_speed(self):
+        """Adds a column for the forward travel speed based on the angular rate
+        gyro attached to the rotating wheel."""
         with open(os.path.join(PATH_TO_REPO, 'data', 'vehicles.yml')) as f:
             vehicle_meta_data = yaml.safe_load(f)
         dia = vehicle_meta_data[self.meta_data['vehicle']]['wheel_diameter']
@@ -179,6 +197,8 @@ class Session():
         self.imu_data['Speed'] = sign*np.deg2rad(ang_rate)*dia/2.0
 
     def calculate_vector_magnitudes(self):
+        """Calculates the magnitudes of the acceleration and angular rate
+        vectors for each IMU and adds a new column with the data."""
         for sensor in self.meta_data['imu_lateral_axis'].keys():
             # Use the gravity subtracted acceleration values.
             acc_cols = [col.format(sensor) for col in
@@ -226,6 +246,19 @@ class Session():
         new_signal = np.interp(new_time, time, signal)
         freq, amp = freq_spectrum(new_signal, sample_rate)
         return freq, amp
+
+    def plot_speed_with_trial_bounds(self):
+        """Createas a plot of forward spee versus time for the whole session
+        with shaded labeled areas for each trial."""
+        fig, ax = plt.subplots(figsize=(16, 2), layout='constrained')
+        ax = self.imu_data['Speed'].plot(ax=ax, linestyle='', marker='.')
+        for idx, row in self.bounds_data_frame.iterrows():
+            ax.axvspan(row['start_time'], row['stop_time'],
+                       alpha=0.5, color='gray')
+            ax.text(row['start_time'], 0.0, row['Surface'], rotation='vertical')
+        ax.set_ylabel('Speed [m/s]')
+        ax.set_title(self.meta_data['imu_files']['rear_wheel'])
+        return ax
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
@@ -426,7 +459,7 @@ if __name__ == "__main__":
     s.calculate_vector_magnitudes()
     freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', trial='Aula')
     rms = np.sqrt(np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms)
+    #plot_frequency_spectrum(freq, amp, rms)
     #s.plot_raw_time_series(trial='Aula', gyr=False)
     #s.plot_raw_time_series(trial='Aula', acc=False)
     #static = s.extract_trial('Aula')
@@ -440,5 +473,7 @@ if __name__ == "__main__":
     #s.plot_raw_time_series(trial='stoeptegels', gyr=False)
     #s.plot_raw_time_series(trial='stoeptegels', acc=False)
     #s.plot_raw_time_series(gyr=False)
+
+    s.plot_speed_with_trial_bounds()
 
     plt.show()
