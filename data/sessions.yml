@@ -235,10 +235,10 @@ session013:
     trike_bottom: 2024_12_10_YOYO_5_0months/2024-12-10_15.57.53_YOYO_5_BT_SD_Session1/YOYO_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session014:
   date: 2024-12-11
-  vehicle_type: None
-  vehicle: None
-  baby_age: None
-  trial_bounds_file: None
+  vehicle_type: null
+  vehicle: null
+  baby_age: null
+  trial_bounds_file: null
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: x
