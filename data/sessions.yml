@@ -148,7 +148,7 @@ session009:
   vehicle_type: stroller
   vehicle: bugaboo
   baby_age: 0
-  trial_bounds_file: Interval_indexes_Bugaboo_4_0months.csv
+  trial_bounds_file: null  # Interval_indexes_Bugaboo_4_0months.csv
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: z
@@ -166,7 +166,7 @@ session010:
   vehicle_type: stroller
   vehicle: bugaboo
   baby_age: 9
-  trial_bounds_file: Interval_indexes_Bugaboo_7_9months.csv
+  trial_bounds_file: null  # Interval_indexes_Bugaboo_7_9months.csv
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: z
@@ -184,7 +184,7 @@ session011:
   vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 0
-  trial_bounds_file: Interval_indexes_Maxicos_4_0months.csv
+  trial_bounds_file: null # Interval_indexes_Maxicos_4_0months.csv
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: z
@@ -202,7 +202,7 @@ session012:
   vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 9
-  trial_bounds_file: Interval_indexes_Maxicos_7_9months.csv
+  trial_bounds_file: null  # Interval_indexes_Maxicos_7_9months.csv
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: z
@@ -220,7 +220,7 @@ session013:
   vehicle_type: stroller
   vehicle: yoyo
   baby_age: 0
-  trial_bounds_file: Interval_indexes_YOYO_5_0months.csv
+  trial_bounds_file: null  # Interval_indexes_YOYO_5_0months.csv
   imu_lateral_axis:
     BotTrike: x
     FrontWheel: z

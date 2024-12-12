@@ -1,10 +1,11 @@
 import os
 
+from dtk.inertia import x_rot, y_rot, z_rot
+from dtk.process import freq_spectrum
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yaml
-from dtk.inertia import x_rot, y_rot, z_rot
-from dtk.process import freq_spectrum
 
 with open('config.yml') as f:
     config_data = yaml.safe_load(f)
@@ -12,6 +13,12 @@ with open('config.yml') as f:
 PATH_TO_DATA = config_data['data-directory']
 PATH_TO_REPO = os.path.realpath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+
+
+def datetime2seconds(index):
+    time = (index.values -
+            index.values.astype('datetime64[D]'))/np.timedelta64(1, 's')
+    return time - time[0]
 
 
 class Session():
@@ -207,11 +214,11 @@ class Session():
         """
         pass
 
-    def calculate_frequency_spectrum(self):
-        series = self.imu_data['SeatBotacc_mag'].dropna()
-        time = (series.index.values -
-                series.index.values.astype('datetime64[D]'))/np.timedelta64(1, 's')
-        time = time - time[0]
+    def calculate_frequency_spectrum(self, signal, trial, trial_number=0):
+        """Down samples to 200 Hz and calculates the frequency spectrum."""
+        data = self.extract_trial(trial, trial_number=trial_number)
+        series = data[signal].dropna()
+        time = datetime2seconds(series.index)
         signal = series.values
         sample_rate = 200
         deltat = 1.0/sample_rate
@@ -219,8 +226,6 @@ class Session():
         new_signal = np.interp(new_time, time, signal)
         freq, amp = freq_spectrum(new_signal, sample_rate)
         return freq, amp
-
-
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
@@ -241,6 +246,18 @@ class Session():
         subset = data.loc[:, cols]
 
         return subset.plot(subplots=True, marker='.')
+
+
+def plot_frequency_spectrum(freq, amp, rms):
+    fig, ax = plt.subplots(layout='constrained')
+    ax.plot(freq, amp)
+    ax.axhline(rms, color='black')
+    ax.set_xlim((0.0, 100.0))
+    ax.set_ylim((0.0, 2.0))
+    ax.set_xlabel('Frequency [Hz]')
+    ax.set_ylabel('Amplitude [m/s/s]')
+    ax.grid()
+    return ax
 
 
 def load_shimmer_file(path):
@@ -407,14 +424,9 @@ if __name__ == "__main__":
     s.rotate_imu_data()
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
-    freq, amp = s.calculate_frequency_spectrum()
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', trial='Aula')
     rms = np.sqrt(np.mean(amp**2))
-    fig, ax = plt.subplots(layout='constrained')
-    ax.plot(freq, amp)
-    ax.axhline(rms, color='black')
-    ax.set_xlim((0.0, 100.0))
-    ax.set_xlabel('Frequency [Hz]')
-    ax.set_ylabel('Amplitude [m/s/s]')
+    plot_frequency_spectrum(freq, amp, rms)
     #s.plot_raw_time_series(trial='Aula', gyr=False)
     #s.plot_raw_time_series(trial='Aula', acc=False)
     #static = s.extract_trial('Aula')
