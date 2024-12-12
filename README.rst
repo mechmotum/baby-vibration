@@ -121,7 +121,9 @@ Final data table should have these columns:
 - Baby Age [0|3|9] (implies seat configuration for vehicles with multiple seat
   setups)
 - Surface [stoeptegels|tarmac|klinkers]
-- Mean Speed [m/s]
+- Duration [s]
+- Mean of Speed [m/s]
+- Standard Deviation of Speed [m/s]
 - Speed Category [slow|medium|fast]
 - SENSOR_N lateral acceleration RMS [m/s/s]
 - SENSOR_N longitudinal acceleration RMS [m/s/s]
