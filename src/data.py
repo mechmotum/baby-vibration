@@ -18,11 +18,18 @@ PATH_TO_FIG_DIR = os.path.join(PATH_TO_REPO, 'fig')
 
 
 def magnitude(vector):
-    """
+    """Calculates the magnitude of each vector in an array of vectors.
+
+    Parameters
+    ==========
     vector : array_like, shape(n, 3)
+        n 3D vectors.
+
     Returns
     =======
     scalar : ndarray, shape(n,)
+        Magnitude of n vectors.
+
     """
     # return np.sqrt(np.sum(vector**2, axis=1))
     return np.linalg.norm(vector, axis=1)

@@ -7,12 +7,11 @@ import pandas as pd
 import yaml
 
 from data import Session, plot_frequency_spectrum, datetime2seconds
+from data import PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 
-PATH_TO_REPO = os.path.realpath(
-    os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-PATH_TO_FIG_DIR = os.path.join(PATH_TO_REPO, 'fig')
-PATH_TO_DATA_DIR = os.path.join(PATH_TO_REPO, 'data')
-bounds_dir = os.path.join(PATH_TO_FIG_DIR, 'bounds')
+PATH_TO_BOUNDS_DIR = os.path.join(PATH_TO_FIG_DIR, 'bounds')
+
+SAMPLE_RATE = 200  # down sample data to this rate
 
 if not os.path.exists(PATH_TO_FIG_DIR):
     os.mkdir(PATH_TO_FIG_DIR)
@@ -44,10 +43,11 @@ for session_label in session_labels:
         s.rotate_imu_data()
         s.calculate_travel_speed()
         s.calculate_vector_magnitudes()
-        if not os.path.exists(bounds_dir):
-            os.mkdir(bounds_dir)
+        if not os.path.exists(PATH_TO_BOUNDS_DIR):
+            os.mkdir(PATH_TO_BOUNDS_DIR)
         ax = s.plot_speed_with_trial_bounds()
-        ax.figure.savefig(os.path.join(bounds_dir, session_label + '.png'))
+        ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR,
+                                       session_label + '.png'))
         plt.close('all')
         for mot_trial in motion_trials:
             if mot_trial in s.trial_bounds:
@@ -66,11 +66,11 @@ for session_label in session_labels:
                     stats_data['speed_std'].append(df['Speed'].std())
 
                     signal = 'SeatBotacc_mag'
-                    freq, amp = s.calculate_frequency_spectrum(signal, 200,
-                                                               trial=mot_trial)
+                    freq, amp = s.calculate_frequency_spectrum(
+                        signal, SAMPLE_RATE, trial=mot_trial)
                     rms = np.sqrt(np.mean(amp**2))
                     stats_data['SeatBot_acc_mag_rms'].append(rms)
-                    ax = plot_frequency_spectrum(freq, amp, rms, 200)
+                    ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
                     file_name = '-'.join([
                         str(count),
                         stats_data['surface'][-1],

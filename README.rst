@@ -23,10 +23,14 @@ Create a ``config.yml`` file in the repository directory with these contents::
 
    data-directory: /path/to/Trillingen-Project_Dec2024
 
+or on Windows::
+
+   data-directory: C:\path\to\Trillingen-Project_Dec2024
+
 The ``Trillingen-Project_Dec2024`` is a mountable directory share on TU Delft
 currently.
 
-Install conda then::
+Install conda then create and activate the environment::
 
    conda env create -f baby-vibration-env.yml
    conda activate baby-vibration
@@ -34,7 +38,7 @@ Install conda then::
 Usage
 =====
 
-Run a sample data load and processing with::
+Run a sample processing of a single session::
 
    python src/data.py
 
@@ -71,9 +75,9 @@ Shimmer IMU names:
 
 Vehicle name:
 
-- ``Maxicos``: Maxicosi stroller
-- ``YOYO``: Yoyo stroller
-- ``Bugaboo``: Bugaboo stroller
+- ``maxicosi``: Maxicosi stroller
+- ``yoyo``: Yoyo stroller
+- ``bugaboo``: Bugaboo stroller
 
 The shimmers are set to +/- 16 g and +/- 2000 deg/s. The values are recorded to
 16 bit floating point precision other than the time stamp which is a 16 bit
