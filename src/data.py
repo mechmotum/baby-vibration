@@ -10,9 +10,11 @@ import yaml
 with open('config.yml') as f:
     config_data = yaml.safe_load(f)
 
-PATH_TO_DATA = config_data['data-directory']
+PATH_TO_SESSION_DATA = config_data['data-directory']
 PATH_TO_REPO = os.path.realpath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+PATH_TO_DATA_DIR = os.path.join(PATH_TO_REPO, 'data')
+PATH_TO_FIG_DIR = os.path.join(PATH_TO_REPO, 'fig')
 
 
 def datetime2seconds(index):
@@ -49,10 +51,14 @@ class Session():
 
         self.session_label = session_label
 
-        with open(os.path.join(PATH_TO_REPO, 'data', 'sessions.yml')) as f:
-            sessions = yaml.safe_load(f)
+        with open(os.path.join(PATH_TO_DATA_DIR, 'sessions.yml')) as f:
+            session_meta_data = yaml.safe_load(f)
 
-        self.meta_data = sessions[session_label]
+        with open(os.path.join(PATH_TO_DATA_DIR, 'vehicles.yml')) as f:
+            vehicle_meta_data = yaml.safe_load(f)
+
+        self.meta_data = session_meta_data[session_label]
+        self.meta_data.update(vehicle_meta_data[self.meta_data['vehicle']])
 
     def load_data(self):
         """Loads the IMU CSV files for this session into ``imu_data_frames``
@@ -65,7 +71,7 @@ class Session():
             self.bounds_data_frame = None
         else:
             path_to_bounds_file = os.path.join(
-                PATH_TO_DATA, 'Interval_indexes',
+                PATH_TO_SESSION_DATA, 'Interval_indexes',
                 self.meta_data['trial_bounds_file'])
             self.bounds_data_frame = load_trial_bounds(
                 path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
@@ -184,9 +190,7 @@ class Session():
     def calculate_travel_speed(self):
         """Adds a column for the forward travel speed based on the angular rate
         gyro attached to the rotating wheel."""
-        with open(os.path.join(PATH_TO_REPO, 'data', 'vehicles.yml')) as f:
-            vehicle_meta_data = yaml.safe_load(f)
-        dia = vehicle_meta_data[self.meta_data['vehicle']]['wheel_diameter']
+        dia = self.meta_data['wheel_diameter']
         wheel_axis = self.meta_data['imu_lateral_axis']['RearWheel']
         if wheel_axis.startswith('-'):
             sign = 1.0
@@ -366,7 +370,7 @@ def load_session_files(session_label):
     file_names = sessions[session_label]['imu_files']
     data_frames = {}
     for label, filename in file_names.items():
-        path_to_file = os.path.join(PATH_TO_DATA, 'Raw_data_csv', filename)
+        path_to_file = os.path.join(PATH_TO_SESSION_DATA, 'Raw_data_csv', filename)
         data_frames[label] = load_shimmer_file(path_to_file)
     return data_frames
 

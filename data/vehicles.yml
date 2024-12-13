@@ -1,22 +1,49 @@
 # wheel diameter is in meters
 bugaboo:
-  type: stroller
+  vehicle_type: stroller
   wheel_diameter: 0.300
-trike: 
-  type: bicycle
-  wheel_diameter: 0.760
-maxicosi: 
-  type: stroller
-  wheel_diameter: 0.280
-oldrusty:
-  type: stroller
-  wheel_diameter: 0.230
-urbanarrow:
-  type: bicycle
-  wheel_diameter: 0.760
+  imu_lateral_axis:
+    BotTrike: y
+    FrontWheel: z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
 greenmachine:
-  type: stroller
+  vehicle_type: stroller
   wheel_diameter: 0.340
+maxicosi:
+  vehicle_type: stroller
+  wheel_diameter: 0.280
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
+oldrusty:
+  vehicle_type: stroller
+  wheel_diameter: 0.230
+trike:
+  vehicle_type: bicycle
+  wheel_diameter: 0.760
+urbanarrow:
+  vehicle_type: bicycle
+  wheel_diameter: 0.760
 yoyo:
-  type: stroller
+  vehicle_type: stroller
   wheel_diameter: 0.130
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
+none:
+  vehicle_type: null
+  wheel_diameter: null
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: x
+    RearWheel: x
+    SeatBot: x
+    SeatHead: x

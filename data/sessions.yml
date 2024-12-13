@@ -1,7 +1,6 @@
 # use tree -fi to get a flattened full path for copying file paths
 session001:
   date: 2024-11-28
-  vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 0
   trial_bounds_file: Interval_indexes_Maxicosi_1_0months.csv
@@ -11,15 +10,8 @@ session001:
     seat_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.45.57_Maxicos_1_SB_SD_Session1/Maxicos_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-28_Maxicos_1_0months/2024-11-28_10.43.58_Maxicos_1_SH_SD_Session1/Maxicos_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1/Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session002:
   date: 2024-11-28
-  vehicle_type: stroller
   vehicle: yoyo
   baby_age: 0
   trial_bounds_file: Interval_indexes_YOYO_2_0months.csv
@@ -29,15 +21,8 @@ session002:
     seat_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.11_YOYO_2_SB_SD_Session1/YOYO_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-28_YOYO_2_0months/2024-11-28_12.14.31_YOYO_2_SH_SD_Session1/YOYO_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.18.35_YOYO_2_BT_SD_Session1/YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session003:
   date: 2024-11-28
-  vehicle_type: stroller
   vehicle: yoyo
   baby_age: 0
   trial_bounds_file: Interval_indexes_YOYO_LR3_0months.csv
@@ -47,15 +32,8 @@ session003:
     seat_bottom: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.21_YOYO_LR3_SB_SD_Session1/YOYO_LR3_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.14.47_YOYO_LR3_SH_SD_Session1/YOYO_LR3_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.40_YOYO_LR3_BT_SD_Session1/YOYO_LR3_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session004:
   date: 2024-11-28
-  vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 0
   trial_bounds_file: Interval_indexes_Maxicosi_3_0months.csv
@@ -65,15 +43,8 @@ session004:
     seat_bottom: 2024-11-28_Maxicos_3_0months/2024-11-28_15.40.51_Maxicos_3_SB_SD_Session1/Maxicos_3_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-28_Maxicos_3_0months/2024-11-28_15.38.52_Maxicos_3_SH_SD_Session1/Maxicos_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-28_Maxicos_3_0months/2024-11-28_15.42.14_Maxicos_3_BT_SD_Session1/Maxicos_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session005:
   date: 2024-11-29
-  vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 9
   trial_bounds_file: Interval_indexes_Maxicosi_6_9months.csv
@@ -83,15 +54,8 @@ session005:
     seat_bottom: 2024-11-29_Maxicos_6_9months/2024-11-29_17.04.45_Maxicos_6_SB_SD_Session1/Maxicos_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-29_Maxicos_6_9months/2024-11-29_17.05.53_Maxicos_6_SH_SD_Session1/Maxicos_6_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-29_Maxicos_6_9months/2024-11-29_17.07.03_Maxicos_6_BT_SD_Session1/Maxicos_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session006:
   date: 2024-11-29
-  vehicle_type: stroller
   vehicle: bugaboo
   baby_age: 9
   trial_bounds_file: Interval_indexes_Bugaboo_5_9months.csv
@@ -101,15 +65,8 @@ session006:
     seat_bottom: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: y
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session007:
   date: 2024-11-29
-  vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 9
   trial_bounds_file: Interval_indexes_Maxicosi_5_9months.csv
@@ -119,24 +76,11 @@ session007:
     seat_bottom: 2024-11-29_Maxicos_5_9months/Maxicos_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-11-29_Maxicos_5_9months/Maxicos_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-11-29_Maxicos_5_9months/Maxicos_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 session008:
   date: 2024-12-09
-  vehicle_type: stroller
   vehicle: bugaboo
   baby_age: 0
   trial_bounds_file: Interval_indexes_Bugaboo_3_0months.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.43.11_Bugaboo_3_FW_SD_Session1/Bugaboo_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.40.33_Bugaboo_3_RW_SD_Session1/Bugaboo_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -145,16 +89,9 @@ session008:
     trike_bottom: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.40.57_Bugaboo_3_BT_SD_Session1/Bugaboo_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session009:
   date: 2024-12-10
-  vehicle_type: stroller
   vehicle: bugaboo
   baby_age: 0
   trial_bounds_file: null  # Interval_indexes_Bugaboo_4_0months.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.22_Bugaboo_4_FW_SD_Session1/Bugaboo_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.43_Bugaboo_4_RW_SD_Session1/Bugaboo_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -163,16 +100,9 @@ session009:
     trike_bottom: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.02_Bugaboo_4_BT_SD_Session1/Bugaboo_4_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session010:
   date: 2024-12-10
-  vehicle_type: stroller
   vehicle: bugaboo
   baby_age: 9
   trial_bounds_file: null  # Interval_indexes_Bugaboo_7_9months.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_7_9months/2024-12-10_15.18.47_Bugaboo_7_FW_SD_Session1/Bugaboo_7_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Bugaboo_7_9months/2024-12-10_15.18.25_Bugaboo_7_RW_SD_Session1/Bugaboo_7_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -181,16 +111,9 @@ session010:
     trike_bottom: 2024-12-10_Bugaboo_7_9months/2024-12-10_15.17.39_Bugaboo_7_BT_SD_Session1/Bugaboo_7_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session011:
   date: 2024-12-10
-  vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 0
   trial_bounds_file: null # Interval_indexes_Maxicos_4_0months.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.28.38_Maxicos_4_FW_SD_Session1/Maxicos_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.27.40_Maxicos_4_RW_SD_Session1/Maxicos_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -199,16 +122,9 @@ session011:
     trike_bottom: 2024-12-10_Maxicos_4_0months/2024-12-10_12.28.15_Maxicos_4_BT_SD_Session1/Maxicos_4_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session012:
   date: 2024-12-10
-  vehicle_type: stroller
   vehicle: maxicosi
   baby_age: 9
   trial_bounds_file: null  # Interval_indexes_Maxicos_7_9months.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.26.51_Maxicos_7_FW_SD_Session1/Maxicos_7_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.26.28_Maxicos_7_RW_SD_Session1/Maxicos_7_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -217,16 +133,9 @@ session012:
     trike_bottom: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.25.31_Maxicos_7_BT_SD_Session1/Maxicos_7_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session013:
   date: 2024-12-10
-  vehicle_type: stroller
   vehicle: yoyo
   baby_age: 0
   trial_bounds_file: null  # Interval_indexes_YOYO_5_0months.csv
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024_12_10_YOYO_5_0months/2024-12-10_16.04.08_YOYO_5_FW_SD_Session1/YOYO_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024_12_10_YOYO_5_0months/2024-12-10_16.04.32_YOYO_5_RW_SD_Session1/YOYO_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -235,16 +144,9 @@ session013:
     trike_bottom: 2024_12_10_YOYO_5_0months/2024-12-10_15.57.53_YOYO_5_BT_SD_Session1/YOYO_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session014:
   date: 2024-12-11
-  vehicle_type: null
-  vehicle: null
+  vehicle: none
   baby_age: null
   trial_bounds_file: null
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: x
-    RearWheel: x
-    SeatBot: x
-    SeatHead: x
   imu_files:
     front_wheel: 2024-12-11_p1_500Hz/2024-12-11_11.29.03_p1_500Hz_FW_SD_Session1/p1_500Hz_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-11_p1_500Hz/2024-12-11_11.26.24_p1_500Hz_RW_SD_Session1/p1_500Hz_RW_Session1_S_RearWheel_Calibrated_SD.csv
