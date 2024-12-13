@@ -151,3 +151,4 @@ Resources
 
 - Partial implementation of vibration comfort filters:
   https://github.com/tobias-bettinger/comfpy
+- NFFT implementations: https://github.com/jakevdp/nfft & https://github.com/pyNFFT/pyNFFT
