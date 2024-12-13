@@ -17,6 +17,17 @@ PATH_TO_DATA_DIR = os.path.join(PATH_TO_REPO, 'data')
 PATH_TO_FIG_DIR = os.path.join(PATH_TO_REPO, 'fig')
 
 
+def magnitude(vector):
+    """
+    vector : array_like, shape(n, 3)
+    Returns
+    =======
+    scalar : ndarray, shape(n,)
+    """
+    # return np.sqrt(np.sum(vector**2, axis=1))
+    return np.linalg.norm(vector, axis=1)
+
+
 def datetime2seconds(index):
     """Converts a DateTimeIndex to seconds starting from zero.
 
@@ -27,7 +38,8 @@ def datetime2seconds(index):
     Returns
     =======
     time : ndarray, shape(n,)
-        Time in seconds.
+        Time in seconds starting at 0 seconds.
+
     """
 
     time = (index.values -
@@ -76,13 +88,15 @@ class Session():
             self.bounds_data_frame = load_trial_bounds(
                 path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
             for trial_name in self.bounds_data_frame['Surface'].unique():
-                selector = self.bounds_data_frame['Surface'].str.contains(trial_name)
+                selector = self.bounds_data_frame['Surface'].str.contains(
+                    trial_name)
                 counts = list(self.bounds_data_frame['count'][selector])
                 self.trial_bounds[trial_name] = counts
 
-    def merge_imu_data(self):
+    def merge_imu_data(self, minimize_memory=True):
         """Creates a single data frame, ``imu_data``, for all IMU data with NaN
-        values at non-shared time stamps."""
+        values at non-shared time stamps. Removes the individual data frames
+        for each IMU in ``imu_data_frames`` unles ``minimize_memory=False``."""
 
         try:
             self.imu_data_frames
@@ -91,9 +105,10 @@ class Session():
 
         self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
 
-        # save memory by deleting this
-        del self.imu_data_frames
-        self.imu_data_frames = {}
+        if minimize_memory:
+            # save memory by deleting this
+            del self.imu_data_frames
+            self.imu_data_frames = {}
 
     def extract_trial(self, trial_name, trial_number=0):
         """Selects a trial from ``imu_data`` based on the manually defined
@@ -117,6 +132,9 @@ class Session():
             self.imu_data
         except AttributeError:
             self.merge_imu_data()
+
+        if trial_number not in self.trial_bounds[trial_name]:
+            raise ValueError('Invalid trial number.')
 
         count = 0
         for idx, row in self.bounds_data_frame.iterrows():
@@ -215,16 +233,6 @@ class Session():
                          'S_{}_Gyro_Y_CAL',
                          'S_{}_Gyro_Z_CAL']]
 
-            def magnitude(vector):
-                """
-                vector : array_like, shape(n, 3)
-                Returns
-                =======
-                scalar : ndarray, shape(n,)
-                """
-                # return np.sqrt(np.sum(vector**2, axis=1))
-                return np.linalg.norm(vector, axis=1)
-
             # .values should return an array shape(n, 3)
             acc_mag = magnitude(self.imu_data[acc_cols].values)
             self.imu_data['{}acc_mag'.format(sensor)] = acc_mag
@@ -236,15 +244,16 @@ class Session():
         """Calculate the angular acceleration by filtering and numerical
         time differentiation.
         """
+        # TODO
         pass
 
-    def calculate_frequency_spectrum(self, signal, trial, trial_number=0):
-        """Down samples to 200 Hz and calculates the frequency spectrum."""
+    def calculate_frequency_spectrum(self, signal, sample_rate, trial,
+                                     trial_number=0):
+        """Down samples and calculates the frequency spectrum."""
         data = self.extract_trial(trial, trial_number=trial_number)
         series = data[signal].dropna()
         time = datetime2seconds(series.index)
         signal = series.values
-        sample_rate = 200
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
@@ -259,19 +268,33 @@ class Session():
         for idx, row in self.bounds_data_frame.iterrows():
             ax.axvspan(row['start_time'], row['stop_time'],
                        alpha=0.5, color='gray')
-            ax.text(row['start_time'], 0.0, row['Surface'], rotation='vertical')
+            ax.text(row['start_time'], 0.0, row['Surface'],
+                    rotation='vertical')
         ax.set_ylabel('Speed [m/s]')
         ax.set_title(self.meta_data['imu_files']['rear_wheel'])
         return ax
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
+        """Returns a plot of the raw acelerometer and gyroscope time series.
+
+        Parameters
+        ==========
+        trial : string
+        trial_number : integer
+        acc : boolean
+            If true, plot includes accelerometer data.
+        gyr : boolean
+            If true, plot includes gyroscope data.
+
+        """
         if trial is not None:
             data = self.extract_trial(trial, trial_number=trial_number)
         else:
             data = self.imu_data
 
         if acc and gyr:
+            # all raw data acc & gyr data begins with S_
             cols = data.columns.str.startswith('S_')
         elif acc:
             cols = data.columns.str.contains('Accel')
@@ -285,11 +308,13 @@ class Session():
         return subset.plot(subplots=True, marker='.')
 
 
-def plot_frequency_spectrum(freq, amp, rms):
+def plot_frequency_spectrum(freq, amp, rms, sample_rate):
+    """Returns plot of the amplitude versus frequency for the freqeuncy range
+    of the sample rate / 2."""
     fig, ax = plt.subplots(layout='constrained')
     ax.plot(freq, amp)
     ax.axhline(rms, color='black')
-    ax.set_xlim((0.0, 100.0))
+    ax.set_xlim((0.0, sample_rate/2.0))
     ax.set_ylim((0.0, 2.0))
     ax.set_xlabel('Frequency [Hz]')
     ax.set_ylabel('Amplitude [m/s/s]')
@@ -370,7 +395,8 @@ def load_session_files(session_label):
     file_names = sessions[session_label]['imu_files']
     data_frames = {}
     for label, filename in file_names.items():
-        path_to_file = os.path.join(PATH_TO_SESSION_DATA, 'Raw_data_csv', filename)
+        path_to_file = os.path.join(PATH_TO_SESSION_DATA, 'Raw_data_csv',
+                                    filename)
         data_frames[label] = load_shimmer_file(path_to_file)
     return data_frames
 
@@ -452,7 +478,6 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
 
     session_label = 'session001'
 
@@ -461,22 +486,23 @@ if __name__ == "__main__":
     s.rotate_imu_data()
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', trial='Aula')
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+                                               trial='Aula')
     rms = np.sqrt(np.mean(amp**2))
-    #plot_frequency_spectrum(freq, amp, rms)
-    #s.plot_raw_time_series(trial='Aula', gyr=False)
-    #s.plot_raw_time_series(trial='Aula', acc=False)
-    #static = s.extract_trial('Aula')
-    #static.loc[:, static.columns.str.contains('acc')].plot(subplots=True,
-                                                           #marker='.')
-    #static.interpolate(method='time').plot(subplots=True)
+    # static = s.extract_trial('Aula')
+    # plot_frequency_spectrum(freq, amp, rms, 200)
+    # s.plot_raw_time_series(trial='Aula', gyr=False)
+    # s.plot_raw_time_series(trial='Aula', acc=False)
+    # static.loc[:, static.columns.str.contains('acc')].plot(
+    #     subplots=True, marker='.')
+    # static.interpolate(method='time').plot(subplots=True)
 
     # convert time to float with s / pd.offsets.Second(1) or s =
     # pd.to_timedelta(pd.to_datetime(s)) or to_numeric
 
-    #s.plot_raw_time_series(trial='stoeptegels', gyr=False)
-    #s.plot_raw_time_series(trial='stoeptegels', acc=False)
-    #s.plot_raw_time_series(gyr=False)
+    # s.plot_raw_time_series(trial='stoeptegels', gyr=False)
+    # s.plot_raw_time_series(trial='stoeptegels', acc=False)
+    # s.plot_raw_time_series(gyr=False)
 
     s.plot_speed_with_trial_bounds()
 

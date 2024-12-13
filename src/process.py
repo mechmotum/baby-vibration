@@ -55,7 +55,8 @@ for session_label in session_labels:
                 for trial_num in s.trial_bounds[mot_trial]:
                     stats_data['surface'].append(mot_trial.lower())
                     stats_data['vehicle'].append(s.meta_data['vehicle'])
-                    stats_data['vehicle_type'].append(s.meta_data['vehicle_type'])
+                    stats_data['vehicle_type'].append(
+                        s.meta_data['vehicle_type'])
                     stats_data['baby_age'].append(s.meta_data['baby_age'])
 
                     df = s.extract_trial(mot_trial, trial_number=trial_num)
@@ -65,11 +66,11 @@ for session_label in session_labels:
                     stats_data['speed_std'].append(df['Speed'].std())
 
                     signal = 'SeatBotacc_mag'
-                    freq, amp = s.calculate_frequency_spectrum(signal,
+                    freq, amp = s.calculate_frequency_spectrum(signal, 200,
                                                                trial=mot_trial)
                     rms = np.sqrt(np.mean(amp**2))
                     stats_data['SeatBot_acc_mag_rms'].append(rms)
-                    ax = plot_frequency_spectrum(freq, amp, rms)
+                    ax = plot_frequency_spectrum(freq, amp, rms, 200)
                     file_name = '-'.join([
                         str(count),
                         stats_data['surface'][-1],
@@ -91,4 +92,5 @@ for session_label in session_labels:
 
 stats_df = pd.DataFrame(stats_data)
 print(stats_df)
-print(stats_df.groupby(['vehicle', 'baby_age', 'surface'])['SeatBot_acc_mag_rms'].mean())
+groups = ['vehicle', 'baby_age', 'surface']
+print(stats_df.groupby(groups)['SeatBot_acc_mag_rms'].mean())
