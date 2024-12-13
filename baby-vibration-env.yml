@@ -10,3 +10,4 @@ dependencies:
   - python
   - pyyaml
   - scipy
+  - statsmodels
