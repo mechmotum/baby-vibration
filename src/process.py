@@ -68,7 +68,9 @@ for session_label in session_labels:
                     signal = 'SeatBotacc_mag'
                     freq, amp = s.calculate_frequency_spectrum(
                         signal, SAMPLE_RATE, trial=mot_trial)
-                    rms = np.sqrt(np.mean(amp**2))
+                    # TODO : the factor 2 is because it is a two-sided FFT,
+                    # double check that 2 is needed.
+                    rms = 2.0*np.sqrt(np.mean(amp**2))
                     stats_data['SeatBot_acc_mag_rms'].append(rms)
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
                     file_name = '-'.join([

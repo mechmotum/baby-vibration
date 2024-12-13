@@ -65,6 +65,9 @@ class Session():
         etc. These labels are defined in ``data/session.yml``.
 
     """
+    raw_gyr_tmpl = ['S_{}_Gyro_X_CAL', 'S_{}_Gyro_Y_CAL', 'S_{}_Gyro_Z_CAL']
+    raw_acc_tmpl = ['S_{}_Accel_WR_X_CAL', 'S_{}_Accel_WR_Y_CAL',
+                    'S_{}_Accel_WR_Z_CAL']
 
     def __init__(self, session_label):
 
@@ -184,10 +187,7 @@ class Session():
             rot_mat = compute_gravity_rotation_matrix(rot_axis_label,
                                                       ver_mean,
                                                       hor_mean)
-            acc_cols = [col.format(sensor) for col in
-                        ['S_{}_Accel_WR_X_CAL',
-                         'S_{}_Accel_WR_Y_CAL',
-                         'S_{}_Accel_WR_Z_CAL']]
+            acc_cols = [col.format(sensor) for col in self.raw_acc_tmpl]
             new_acc_cols = [col.format(sensor, d) for col, d in
                             zip(['{}acc_{}', '{}acc_{}', '{}acc_{}'], xyz)]
             self.imu_data[new_acc_cols] = (rot_mat @
@@ -202,10 +202,7 @@ class Session():
                                           axis=0))
                 vert_col = '{}acc_ver'.format(sensor)
                 self.imu_data[vert_col] += grav_acc
-            gyr_cols = [col.format(sensor) for col in
-                        ['S_{}_Gyro_X_CAL',
-                         'S_{}_Gyro_Y_CAL',
-                         'S_{}_Gyro_Z_CAL']]
+            gyr_cols = [col.format(sensor) for col in self.raw_gyr_tmpl]
             new_gyr_cols = [col.format(sensor, d) for col, d in
                             zip(['{}gyr_{}', '{}gyr_{}', '{}gyr_{}'], xyz)]
             self.imu_data[new_gyr_cols] = (rot_mat @
@@ -235,10 +232,7 @@ class Session():
                          '{}acc_lon',
                          '{}acc_lat']]
             # Use raw data for the gyro instead of rotated.
-            gyr_cols = [col.format(sensor) for col in
-                        ['S_{}_Gyro_X_CAL',
-                         'S_{}_Gyro_Y_CAL',
-                         'S_{}_Gyro_Z_CAL']]
+            gyr_cols = [col.format(sensor) for col in self.raw_gyr_tmpl]
 
             # .values should return an array shape(n, 3)
             acc_mag = magnitude(self.imu_data[acc_cols].values)
@@ -495,7 +489,7 @@ if __name__ == "__main__":
     s.calculate_vector_magnitudes()
     freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
                                                trial='Aula')
-    rms = np.sqrt(np.mean(amp**2))
+    rms = 2.0*np.sqrt(np.mean(amp**2))
     # static = s.extract_trial('Aula')
     # plot_frequency_spectrum(freq, amp, rms, 200)
     # s.plot_raw_time_series(trial='Aula', gyr=False)
