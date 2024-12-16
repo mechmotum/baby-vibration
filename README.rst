@@ -146,6 +146,20 @@ Final data table should have these columns:
 - SENSOR_N ISO filtered roll angular rate RMS [deg/s]
 - SENSOR_N ISO filtered angular rate magnitude RMS [deg/s]
 
+ISO 2631 Filters
+----------------
+
+Code to covert Georgios's CSV filse of the ISO filter tables into CSV files:
+
+.. code:: python
+
+   import numpy as np
+   from scipy.io import loadmat
+   d = loadmat('filter_ISO_01.mat')
+   np.savetxt('data/iso-2631-filter-01.csv', d['filter_ISO_01'], fmt='%1.12f', delimiter=',')
+   d = loadmat('ISO_Filters/filter_ISO_02.mat')
+   np.savetxt('data/iso-2631-filter-02.csv', d['filter_ISO_02'], fmt='%1.12f', delimiter=',')
+
 Resources
 =========
 
