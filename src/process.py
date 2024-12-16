@@ -48,6 +48,12 @@ for session_label in session_labels:
         ax = s.plot_speed_with_trial_bounds()
         ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR,
                                        session_label + '.png'))
+        # TODO : No need to plot this same thing for every session.
+        ax1, ax2 = s.plot_iso_weights()
+        ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
+                                           'iso-filter-weights-01.png'))
+        ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
+                                           'iso-filter-weights-02.png'))
         plt.close('all')
         for mot_trial in motion_trials:
             if mot_trial in s.trial_bounds:
@@ -65,13 +71,14 @@ for session_label in session_labels:
                     stats_data['speed_avg'].append(df['Speed'].mean())
                     stats_data['speed_std'].append(df['Speed'].std())
 
-                    signal = 'SeatBotacc_mag'
+                    signal = 'SeatBotacc_ver'
                     freq, amp = s.calculate_frequency_spectrum(
-                        signal, SAMPLE_RATE, trial=mot_trial)
+                        signal, SAMPLE_RATE, trial=mot_trial,
+                        iso_weighted=True)
                     # TODO : the factor 2 is because it is a two-sided FFT,
                     # double check that 2 is needed.
                     rms = 2.0*np.sqrt(np.mean(amp**2))
-                    stats_data['SeatBot_acc_mag_rms'].append(rms)
+                    stats_data['SeatBot_acc_ver_rms'].append(rms)
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
                     file_name = '-'.join([
                         str(count),
@@ -95,4 +102,6 @@ for session_label in session_labels:
 stats_df = pd.DataFrame(stats_data)
 print(stats_df)
 groups = ['vehicle', 'baby_age', 'surface']
-print(stats_df.groupby(groups)['SeatBot_acc_mag_rms'].mean())
+print(stats_df.groupby(groups)['SeatBot_acc_ver_rms'].mean())
+# way to may box plot comparisons
+#stats_df.groupby('surface').boxplot(subplots=False, column='SeatBot_acc_ver_rms')

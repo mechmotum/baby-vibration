@@ -82,6 +82,15 @@ class Session():
         self.meta_data = session_meta_data[session_label]
         self.meta_data.update(vehicle_meta_data[self.meta_data['vehicle']])
 
+        filter_data_01 = os.path.join(PATH_TO_DATA_DIR,
+                                      'iso-2631-filter-01.csv')
+        self.iso_filter_df_01 = pd.read_csv(filter_data_01,
+                                            index_col='frequency_hz')
+        filter_data_02 = os.path.join(PATH_TO_DATA_DIR,
+                                      'iso-2631-filter-02.csv')
+        self.iso_filter_df_02 = pd.read_csv(filter_data_02,
+                                            index_col='frequency_hz')
+
     def load_data(self):
         """Loads the IMU CSV files for this session into ``imu_data_frames``
         and the trial bound data into ``bounds_data_frame``."""
@@ -248,17 +257,33 @@ class Session():
         # TODO
         pass
 
-    def calculate_frequency_spectrum(self, signal, sample_rate, trial,
-                                     trial_number=0):
+    def calculate_frequency_spectrum(self, sig_name, sample_rate, trial,
+                                     trial_number=0, iso_weighted=False):
         """Down samples and calculates the frequency spectrum."""
         data = self.extract_trial(trial, trial_number=trial_number)
-        series = data[signal].dropna()
+        series = data[sig_name].dropna()
         time = datetime2seconds(series.index)
         signal = series.values
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
         freq, amp = freq_spectrum(new_signal, sample_rate)
+
+        if iso_weighted:
+            table_freq = self.iso_filter_df_01.index.values
+            if 'acc' in sig_name:
+                if 'acc_ver' in sig_name:
+                    col = 'vertical_acceleration_z'
+                else:
+                    col = 'translational_acceleration_xy'
+            elif 'gyr' in signal:
+                col = 'rotation_speed_xyz'
+            else:
+                raise ValueError('no weights!')
+            table_weights = self.iso_filter_df_01[col].values/1000.0
+            weights = np.interp(freq, table_freq, table_weights)
+            amp = weights*amp
+
         return freq, amp
 
     def plot_speed_with_trial_bounds(self):
@@ -307,6 +332,13 @@ class Session():
         subset = data.loc[:, cols]
 
         return subset.plot(subplots=True, marker='.')
+
+    def plot_iso_weights(self):
+        ax1 = self.iso_filter_df_01.plot(subplots=True)
+        ax1[0].set_title('iso_filter_01')
+        ax2 = self.iso_filter_df_02.plot(subplots=True)
+        ax2[0].set_title('iso_filter_02')
+        return ax1, ax2
 
 
 def plot_frequency_spectrum(freq, amp, rms, sample_rate):

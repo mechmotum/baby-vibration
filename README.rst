@@ -160,6 +160,33 @@ Code to covert Georgios's CSV filse of the ISO filter tables into CSV files:
    d = loadmat('ISO_Filters/filter_ISO_02.mat')
    np.savetxt('data/iso-2631-filter-02.csv', d['filter_ISO_02'], fmt='%1.12f', delimiter=',')
 
+The two filter files have amplitude weightings versus frequency from 0 to 400
+Hz. The weights must be divided by 1000 to have multiplicative factors from 0
+to 1. Different k values are mutiplied to the weightings depending on if you
+are seated, standing, supine, etc.
+
+filter_ISO_01::
+
+   frequency_hz,
+   vertical_acceleration_z,
+   col3,
+   translational_acceleration_xy,
+   col5,
+   motion_sickness_z,
+   col7,
+   motion_sickness_x,
+   motion_sickness_y,
+   rotational_speed_xyz,
+   col11
+
+filter_ISO_02::
+
+   frequency_hz,
+   col2,
+   col3,
+   rotation_acceleration_xyz,
+   col5,col6,col7
+
 Resources
 =========
 
