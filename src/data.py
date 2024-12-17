@@ -348,7 +348,7 @@ def plot_frequency_spectrum(freq, amp, rms, sample_rate):
     ax.plot(freq, amp)
     ax.axhline(rms, color='black')
     ax.set_xlim((0.0, sample_rate/2.0))
-    ax.set_ylim((0.0, 2.0))
+    ax.set_ylim((0.0, 1.0))
     ax.set_xlabel('Frequency [Hz]')
     ax.set_ylabel('Amplitude [m/s/s]')
     ax.grid()
@@ -521,7 +521,7 @@ if __name__ == "__main__":
     s.calculate_vector_magnitudes()
     freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
                                                trial='Aula')
-    rms = 2.0*np.sqrt(np.mean(amp**2))
+    rms = np.sqrt(2.0*np.mean(amp**2))
     # static = s.extract_trial('Aula')
     # plot_frequency_spectrum(freq, amp, rms, 200)
     # s.plot_raw_time_series(trial='Aula', gyr=False)

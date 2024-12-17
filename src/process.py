@@ -77,7 +77,7 @@ for session_label in session_labels:
                         iso_weighted=True)
                     # TODO : the factor 2 is because it is a two-sided FFT,
                     # double check that 2 is needed.
-                    rms = 2.0*np.sqrt(np.mean(amp**2))
+                    rms = np.sqrt(2.0*np.mean(amp**2))
                     stats_data['SeatBot_acc_ver_rms'].append(rms)
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
                     file_name = '-'.join([
