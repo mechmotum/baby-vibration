@@ -225,3 +225,71 @@ session014:
     seat_bottom: 2024-12-11_p1_500Hz/2024-12-11_11.27.04_p1_500Hz_SB_SD_Session1/p1_500Hz_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-11_p1_500Hz/2024-12-11_11.30.06_p1_500Hz_SH_SD_Session1/p1_500Hz_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-11_p1_500Hz/2024-12-11_11.27.30_p1_500Hz_BT_SD_Session1/p1_500Hz_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session015:
+  date: 2024-12-12
+  vehicle: trike
+  baby_age: 0
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: -x
+    SeatHead: -x
+  imu_files:
+    front_wheel: 2024-12-12_Trike_1_0months/2024-12-12_10.47.47_Trike_1_FW_SD_Session1/Trike_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-12_Trike_1_0months/2024-12-12_10.48.16_Trike_1_RW_SD_Session1/Trike_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-12_Trike_1_0months/2024-12-12_10.47.19_Trike_1_SB_SD_Session1/Trike_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-12_Trike_1_0months/2024-12-12_10.49.48_Trike_1_SH_SD_Session1/Trike_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-12_Trike_1_0months/2024-12-12_10.46.51_Trike_1_BT_SD_Session1/Trike_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session016:
+  date: 2024-12-13
+  vehicle: trike
+  baby_age: 0
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: -x
+    SeatHead: -x
+  imu_files:
+    front_wheel: 2024-12-13_Trike_2_0months/2024-12-13_10.12.45_Trike_2_FW_SD_Session1/Trike_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-13_Trike_2_0months/2024-12-13_10.13.07_Trike_2_RW_SD_Session1/Trike_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-13_Trike_2_0months/2024-12-13_10.15.25_Trike_2_SB_SD_Session1/Trike_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-13_Trike_2_0months/2024-12-13_10.14.18_Trike_2_SH_SD_Session1/Trike_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-13_Trike_2_0months/2024-12-13_10.13.29_Trike_2_BT_SD_Session1/Trike_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session017:
+  date: 2024-12-13
+  vehicle: trike
+  baby_age: 3
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-13_Trike_4_3months/2024-12-13_14.27.47_Trike_4_FW_SD_Session1/Trike_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-13_Trike_4_3months/2024-12-13_14.24.38_Trike_4_RW_SD_Session1/Trike_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-13_Trike_4_3months/2024-12-13_14.25.13_Trike_4_SB_SD_Session1/Trike_4_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-13_Trike_4_3months/2024-12-13_14.27.27_Trike_4_SH_SD_Session1/Trike_4_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-13_Trike_4_3months/2024-12-13_14.23.37_Trike_4_BT_SD_Session1/Trike_4_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session018:
+  date: 2024-12-16
+  vehicle: trike
+  baby_age: 3
+  trial_bounds_file: events_Trike_5_3months.csv
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-16_Trike_5_3months/2024-12-16_10.04.07_Trike_5_FW_SD_Session1/Trike_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-16_Trike_5_3months/2024-12-16_10.03.03_Trike_5_RW_SD_Session1/Trike_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-16_Trike_5_3months/2024-12-16_10.02.40_Trike_5_SB_SD_Session1/Trike_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-16_Trike_5_3months/2024-12-16_10.03.32_Trike_5_SH_SD_Session1/Trike_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-16_Trike_5_3months/2024-12-16_10.02.23_Trike_5_BT_SD_Session1/Trike_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
