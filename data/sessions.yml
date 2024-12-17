@@ -3,6 +3,12 @@ session001:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
+  imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: x
   trial_bounds_file: Interval_indexes_Maxicosi_1_0months.csv
   imu_files:
     front_wheel: 2024-11-28_Maxicos_1_0months/2024-11-28_10.44.49_Maxicos_1_FW_SD_Session1/Maxicos_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -14,6 +20,12 @@ session002:
   date: 2024-11-28
   vehicle: yoyo
   baby_age: 0
+  imu_lateral_axis:
+    BotTrike: -x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: -x
   trial_bounds_file: Interval_indexes_YOYO_2_0months.csv
   imu_files:
     front_wheel: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.32_YOYO_2_FW_SD_Session1/YOYO_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -26,6 +38,12 @@ session003:
   vehicle: yoyo
   baby_age: 0
   trial_bounds_file: Interval_indexes_YOYO_LR3_0months.csv
+  imu_lateral_axis:
+    BotTrike: -x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: -x
   imu_files:
     front_wheel: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.14.20_YOYO_LR3_FW_SD_Session1/YOYO_LR3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-11-28_YOYO_LR3_0months/2024-11-28_13.13.59_YOYO_LR3_RW_SD_Session1/YOYO_LR3_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -36,6 +54,12 @@ session004:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: x
   trial_bounds_file: Interval_indexes_Maxicosi_3_0months.csv
   imu_files:
     front_wheel: 2024-11-28_Maxicos_3_0months/2024-11-28_15.39.20_Maxicos_3_FW_SD_Session1/Maxicos_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -47,6 +71,12 @@ session005:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
+  imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: x
   trial_bounds_file: Interval_indexes_Maxicosi_6_9months.csv
   imu_files:
     front_wheel: 2024-11-29_Maxicos_6_9months/2024-11-29_17.05.14_Maxicos_6_FW_SD_Session1/Maxicos_6_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -58,6 +88,12 @@ session006:
   date: 2024-11-29
   vehicle: bugaboo
   baby_age: 9
+  imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
+    BotTrike: -y  # TODO : Unsure, needs check from data.
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
   trial_bounds_file: Interval_indexes_Bugaboo_5_9months.csv
   imu_files:
     front_wheel: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -69,6 +105,12 @@ session007:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
   trial_bounds_file: Interval_indexes_Maxicosi_5_9months.csv
   imu_files:
     front_wheel: 2024-11-29_Maxicos_5_9months/Maxicos_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -80,6 +122,12 @@ session008:
   date: 2024-12-09
   vehicle: bugaboo
   baby_age: 0
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: x
   trial_bounds_file: Interval_indexes_Bugaboo_3_0months.csv
   imu_files:
     front_wheel: 2024-12-09_Bugaboo_3_0months/2024-12-09_10.43.11_Bugaboo_3_FW_SD_Session1/Bugaboo_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -91,6 +139,12 @@ session009:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 0
+  imu_lateral_axis:
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x  # TODO : Unsure, needs check from data.
+    SeatHead: x  # TODO : Unsure, needs check from data.
   trial_bounds_file: null  # Interval_indexes_Bugaboo_4_0months.csv
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.22_Bugaboo_4_FW_SD_Session1/Bugaboo_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -102,6 +156,12 @@ session010:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 9
+  imu_lateral_axis:
+    BotTrike: -y  # TODO : Unsure, needs check from data.
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
   trial_bounds_file: null  # Interval_indexes_Bugaboo_7_9months.csv
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_7_9months/2024-12-10_15.18.47_Bugaboo_7_FW_SD_Session1/Bugaboo_7_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -113,6 +173,12 @@ session011:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 0
+  imu_lateral_axis:
+    BotTrike: -x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
   trial_bounds_file: null # Interval_indexes_Maxicos_4_0months.csv
   imu_files:
     front_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.28.38_Maxicos_4_FW_SD_Session1/Maxicos_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -135,13 +201,19 @@ session013:
   date: 2024-12-10
   vehicle: yoyo
   baby_age: 0
+  imu_lateral_axis:
+    BotTrike: -x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: -x
   trial_bounds_file: null  # Interval_indexes_YOYO_5_0months.csv
   imu_files:
-    front_wheel: 2024_12_10_YOYO_5_0months/2024-12-10_16.04.08_YOYO_5_FW_SD_Session1/YOYO_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
-    rear_wheel: 2024_12_10_YOYO_5_0months/2024-12-10_16.04.32_YOYO_5_RW_SD_Session1/YOYO_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
-    seat_bottom: 2024_12_10_YOYO_5_0months/2024-12-10_16.05.24_YOYO_5_SB_SD_Session1/YOYO_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
-    seat_head: 2024_12_10_YOYO_5_0months/2024-12-10_15.57.29_YOYO_5_SH_SD_Session1/YOYO_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
-    trike_bottom: 2024_12_10_YOYO_5_0months/2024-12-10_15.57.53_YOYO_5_BT_SD_Session1/YOYO_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
+    front_wheel: 2024-12-10_YOYO_5_0months/2024-12-10_16.04.08_YOYO_5_FW_SD_Session1/YOYO_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-10_YOYO_5_0months/2024-12-10_16.04.32_YOYO_5_RW_SD_Session1/YOYO_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-10_YOYO_5_0months/2024-12-10_16.05.24_YOYO_5_SB_SD_Session1/YOYO_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-10_YOYO_5_0months/2024-12-10_15.57.29_YOYO_5_SH_SD_Session1/YOYO_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-10_YOYO_5_0months/2024-12-10_15.57.53_YOYO_5_BT_SD_Session1/YOYO_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session014:
   date: 2024-12-11
   vehicle: none

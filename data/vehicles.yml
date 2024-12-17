@@ -2,24 +2,12 @@
 bugaboo:
   vehicle_type: stroller
   wheel_diameter: 0.300
-  imu_lateral_axis:
-    BotTrike: y
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 greenmachine:
   vehicle_type: stroller
   wheel_diameter: 0.340
 maxicosi:
   vehicle_type: stroller
   wheel_diameter: 0.280
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 oldrusty:
   vehicle_type: stroller
   wheel_diameter: 0.230
@@ -32,18 +20,6 @@ urbanarrow:
 yoyo:
   vehicle_type: stroller
   wheel_diameter: 0.130
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: z
-    RearWheel: -z
-    SeatBot: x
-    SeatHead: x
 none:
   vehicle_type: null
   wheel_diameter: null
-  imu_lateral_axis:
-    BotTrike: x
-    FrontWheel: x
-    RearWheel: x
-    SeatBot: x
-    SeatHead: x
