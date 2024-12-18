@@ -167,7 +167,7 @@ print(mean_df)
 boxp_html = []
 
 boxp_html.append('<h2>Speed</h2>')
-fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 8))
+fig, ax = plt.subplots(5, layout='constrained', figsize=(12, 8))
 fig.suptitle('Speed Distributions')
 stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'],
                                     column='speed_avg', ax=ax)
@@ -186,7 +186,7 @@ for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
 
 boxp_html.append('<h2>SeatBot_acc_ver</h2>')
 
-fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 8))
+fig, ax = plt.subplots(5, layout='constrained', figsize=(12, 8))
 fig.suptitle('Seat Pan RMS Acceleration Distributions')
 stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'],
                                     column='SeatBot_acc_ver_rms', ax=ax)
