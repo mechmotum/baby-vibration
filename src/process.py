@@ -13,6 +13,7 @@ PATH_TO_BOUNDS_DIR = os.path.join(PATH_TO_FIG_DIR, 'bounds')
 PATH_TO_TIME_HIST_DIR = os.path.join(PATH_TO_FIG_DIR, 'time_hist')
 PATH_TO_SPECT_DIR = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
 
+NUM_SESSIONS = -1  # -1 for all
 SAMPLE_RATE = 200  # down sample data to this rate
 
 for dr in [PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR, PATH_TO_TIME_HIST_DIR,
@@ -30,6 +31,8 @@ html_tmpl= """
   <body>
   <h1>Mean RMS</h1>
 {mean_table}
+  <h1>Box Plots</h1>
+{boxp_html}
   <h1>Sessions Segmented into Trials</h1>
 {sess_html}
   <h1>ISO 2631-1 Weights</h1>
@@ -64,8 +67,7 @@ sess_html = []
 trial_html = []
 spect_html = []
 
-#for sess_count, session_label in enumerate(session_labels):
-for sess_count, session_label in enumerate(session_labels[:3]):
+for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
     print('Loading: ', session_label)
     s = Session(session_label)
     s.load_data()
@@ -161,15 +163,55 @@ print(stats_df)
 groups = ['vehicle', 'baby_age', 'surface']
 mean_df = stats_df.groupby(groups)['SeatBot_acc_ver_rms'].mean()
 print(mean_df)
-# way to may box plot comparisons
-#stats_df.groupby('surface').boxplot(subplots=False, column='SeatBot_acc_ver_rms')
+
+boxp_html = []
+
+boxp_html.append('<h2>Speed</h2>')
+fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 8))
+fig.suptitle('Speed Distributions')
+stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'],
+                                    column='speed_avg', ax=ax)
+fname = 'speed-dist-boxplot.png'
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
+
+for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
+    fig, ax = plt.subplots(layout='constrained')
+    ax.set_title('Speed Distribution Grouped By: {}'.format(grp))
+    ax = stats_df.groupby(grp).boxplot(column='speed_avg', subplots=False,
+                                       rot=45, ax=ax)
+    fname = 'speed-by-{}-boxplot.png'.format(grp)
+    fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+    boxp_html.append('<img src="fig/{}"></img>'.format(fname))
+
+boxp_html.append('<h2>SeatBot_acc_ver</h2>')
+
+fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 8))
+fig.suptitle('Seat Pan RMS Acceleration Distributions')
+stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'],
+                                    column='SeatBot_acc_ver_rms', ax=ax)
+fname = 'SeatBot_acc_ver-dist-boxplot.png'
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
+
+for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
+    fig, ax = plt.subplots(layout='constrained')
+    ax.set_title('Seat Pan Acceleration Distribution Grouped By: {}'.format(grp))
+    ax = stats_df.groupby(grp).boxplot(column='SeatBot_acc_ver_rms',
+                                       subplots=False, rot=45, ax=ax)
+    fname = 'SeatBot_acc_ver-by-{}-boxplot.png'.format(grp)
+    fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+    boxp_html.append('<img src="fig/{}"></img>'.format(fname))
 
 html_source = html_tmpl.format(
-    sess_html='\n  '.join(sess_html),
-    trial_html='\n  '.join(trial_html),
-    spect_html='\n  '.join(spect_html),
+    boxp_html='\n  '.join(boxp_html),
     mean_table=mean_df.to_frame().to_html(),
+    sess_html='\n  '.join(sess_html),
+    spect_html='\n  '.join(spect_html),
+    trial_html='\n  '.join(trial_html),
     trial_table=stats_df.to_html(),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
+
+plt.close('all')
