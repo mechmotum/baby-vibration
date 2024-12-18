@@ -280,7 +280,7 @@ session018:
   date: 2024-12-16
   vehicle: trike
   baby_age: 3
-  trial_bounds_file: events_Trike_5_3months.csv
+  trial_bounds_file: events_Trike_5_3months_corrected.csv
   imu_lateral_axis:
     BotTrike: -y
     FrontWheel: -x

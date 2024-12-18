@@ -104,10 +104,20 @@ class Session():
             path_to_bounds_file = os.path.join(
                 PATH_TO_SESSION_DATA, 'Interval_indexes',
                 self.meta_data['trial_bounds_file'])
-            self.bounds_data_frame = load_trial_bounds(
-                path_to_bounds_file, self.imu_data_frames['rear_wheel'].index)
-            for trial_name in self.bounds_data_frame['Surface'].unique():
-                selector = self.bounds_data_frame['Surface'].str.contains(
+            if self.meta_data['trial_bounds_file'].startswith('events'):
+                df = pd.read_csv(path_to_bounds_file,
+                                 index_col='segment_number')
+                time_cols = ['start_time', 'end_time']
+                df[time_cols] = df[time_cols].apply(
+                    lambda x: pd.to_datetime(x, unit='ms'))
+                self.bounds_data_frame = df
+            else:
+                self.bounds_data_frame = load_trial_bounds(
+                    path_to_bounds_file,
+                    self.imu_data_frames['rear_wheel'].index)
+
+            for trial_name in self.bounds_data_frame['surface'].unique():
+                selector = self.bounds_data_frame['surface'].str.contains(
                     trial_name)
                 counts = list(self.bounds_data_frame['count'][selector])
                 self.trial_bounds[trial_name] = counts
@@ -157,10 +167,10 @@ class Session():
 
         count = 0
         for idx, row in self.bounds_data_frame.iterrows():
-            if row['Surface'] == trial_name:
+            if row['surface'] == trial_name:
                 if trial_number == count:
                     start_idx = row['start_time']
-                    stop_idx = row['stop_time']
+                    stop_idx = row['end_time']
                     break
                 count += 1
 
@@ -287,14 +297,14 @@ class Session():
         return freq, amp
 
     def plot_speed_with_trial_bounds(self):
-        """Createas a plot of forward spee versus time for the whole session
+        """Createas a plot of forward speed versus time for the whole session
         with shaded labeled areas for each trial."""
         fig, ax = plt.subplots(figsize=(16, 2), layout='constrained')
         ax = self.imu_data['Speed'].plot(ax=ax, linestyle='', marker='.')
         for idx, row in self.bounds_data_frame.iterrows():
-            ax.axvspan(row['start_time'], row['stop_time'],
+            ax.axvspan(row['start_time'], row['end_time'],
                        alpha=0.5, color='gray')
-            ax.text(row['start_time'], 0.0, row['Surface'],
+            ax.text(row['start_time'], 0.0, row['surface'],
                     rotation='vertical')
         ax.set_ylabel('Speed [m/s]')
         ax.set_title(self.meta_data['imu_files']['rear_wheel'])
@@ -347,7 +357,7 @@ def plot_frequency_spectrum(freq, amp, rms, sample_rate):
     fig, ax = plt.subplots(layout='constrained')
     ax.plot(freq, amp)
     ax.axhline(rms, color='black')
-    ax.set_xlim((0.0, sample_rate/2.0))
+    #ax.set_xlim((0.0, sample_rate/2.0))
     ax.set_ylim((0.0, 1.0))
     ax.set_xlabel('Frequency [Hz]')
     ax.set_ylabel('Amplitude [m/s/s]')
@@ -464,12 +474,12 @@ Aula,"[65784, 83246]",,,,
     # Index,Surface,RearWheel
     # 0,static,"[119249, 122815]"
     df.index = range(len(df))
-    df[['start_idx', 'stop_idx']] = df['RearWheel'].str.split(',', expand=True)
+    df[['start_idx', 'end_idx']] = df['RearWheel'].str.split(',', expand=True)
     df['start_idx'] = df['start_idx'].str.replace('[', '').astype(int)
-    df['stop_idx'] = df['stop_idx'].str.replace(']', '').astype(int)
+    df['end_idx'] = df['end_idx'].str.replace(']', '').astype(int)
 
     df['start_time'] = rw_timestamp[:len(df)]
-    df['stop_time'] = rw_timestamp[:len(df)]
+    df['end_time'] = rw_timestamp[:len(df)]
 
     df['count'] = [0]*len(df)
 
@@ -480,8 +490,10 @@ Aula,"[65784, 83246]",,,,
         else:
             counts[row['Surface']] = 0
         df.loc[idx, 'start_time'] = rw_timestamp.values[row['start_idx']]
-        df.loc[idx, 'stop_time'] = rw_timestamp.values[row['stop_idx']]
+        df.loc[idx, 'end_time'] = rw_timestamp.values[row['end_idx']]
         df.loc[idx, 'count'] = counts[row['Surface']]
+
+    df.rename(columns={'Surface': 'surface'}, inplace=True)
     return df
 
 
@@ -513,30 +525,28 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 if __name__ == "__main__":
 
     session_label = 'session001'
+    trial_label = 'static'
 
     s = Session(session_label)
+    s.load_data()
     s.merge_imu_data()
     s.rotate_imu_data()
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
-                                               trial='Aula')
-    rms = np.sqrt(2.0*np.mean(amp**2))
-    # static = s.extract_trial('Aula')
-    # plot_frequency_spectrum(freq, amp, rms, 200)
-    # s.plot_raw_time_series(trial='Aula', gyr=False)
-    # s.plot_raw_time_series(trial='Aula', acc=False)
-    # static.loc[:, static.columns.str.contains('acc')].plot(
-    #     subplots=True, marker='.')
-    # static.interpolate(method='time').plot(subplots=True)
-
-    # convert time to float with s / pd.offsets.Second(1) or s =
-    # pd.to_timedelta(pd.to_datetime(s)) or to_numeric
-
-    # s.plot_raw_time_series(trial='stoeptegels', gyr=False)
-    # s.plot_raw_time_series(trial='stoeptegels', acc=False)
-    # s.plot_raw_time_series(gyr=False)
 
     s.plot_speed_with_trial_bounds()
+    s.plot_raw_time_series(trial=trial_label, gyr=False)
+    s.plot_raw_time_series(trial=trial_label, acc=False)
+    s.plot_iso_weights()
+
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+                                               trial_label)
+    rms = np.sqrt(2.0*np.mean(amp**2))
+    plot_frequency_spectrum(freq, amp, rms, 200)
+
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+                                               trial_label, iso_weighted=True)
+    rms = np.sqrt(2.0*np.mean(amp**2))
+    plot_frequency_spectrum(freq, amp, rms, 200)
 
     plt.show()
