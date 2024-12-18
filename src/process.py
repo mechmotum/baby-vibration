@@ -13,8 +13,10 @@ PATH_TO_BOUNDS_DIR = os.path.join(PATH_TO_FIG_DIR, 'bounds')
 PATH_TO_TIME_HIST_DIR = os.path.join(PATH_TO_FIG_DIR, 'time_hist')
 PATH_TO_SPECT_DIR = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
 
-NUM_SESSIONS = -1  # -1 for all
-SAMPLE_RATE = 200  # down sample data to this rate
+NUM_SESSIONS = None  # None for all
+SAMPLE_RATE = 400  # down sample data to this rate
+SIGNAL = 'SeatBotacc_ver'  # script currently only processes a single signal
+SIGNAL_RMS = SIGNAL + '_rms'
 
 for dr in [PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR, PATH_TO_TIME_HIST_DIR,
            PATH_TO_SPECT_DIR]:
@@ -29,6 +31,11 @@ html_tmpl= """
     <title>Baby Vehicle Vibration Results</title>
   </head>
   <body>
+  <h1>Baby Vehicle Vibration Results</h1>
+  <p>
+    <strong>Warning: These results are preliminary, do not rely on them until a
+    supporting paper is published.</strong>
+  </p>
   <h1>Mean RMS</h1>
 {mean_table}
   <h1>Box Plots</h1>
@@ -101,7 +108,7 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                 trial_html.append('<h3>{}</h3>'.format(mot_trial))
                 spect_html.append('<h3>{}</h3>'.format(mot_trial))
                 for trial_num in s.trial_bounds[mot_trial]:
-                    print('Trial #: ', trial_num)
+                    print('Trial Surface and Number: ', mot_trial, trial_num)
                     stats_data['surface'].append(mot_trial.lower())
                     stats_data['vehicle'].append(s.meta_data['vehicle'])
                     stats_data['vehicle_type'].append(
@@ -110,7 +117,6 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
 
                     df = s.extract_trial(mot_trial, trial_number=trial_num)
 
-                    signal = 'SeatBotacc_ver'
 
                     file_name = '-'.join([
                         session_label,
@@ -120,12 +126,12 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                         stats_data['vehicle'][-1],
                         stats_data['vehicle_type'][-1],
                         str(stats_data['baby_age'][-1]),
-                        signal,
+                        SIGNAL,
                     ])
 
                     fig, ax = plt.subplots(layout='constrained',
                                            figsize=(8, 2))
-                    ax = df[signal].interpolate(method='time').plot(ax=ax)
+                    ax = df[SIGNAL].interpolate(method='time').plot(ax=ax)
                     ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
                                                    file_name + '.png'))
                     trial_html.append('<img src="fig/time_hist/' + file_name +
@@ -137,18 +143,20 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                     stats_data['speed_std'].append(df['Speed'].std())
 
                     freq, amp = s.calculate_frequency_spectrum(
-                        signal, SAMPLE_RATE, mot_trial, trial_number=trial_num)
+                        SIGNAL, SAMPLE_RATE, mot_trial, trial_number=trial_num)
                     rms = np.sqrt(2.0*np.mean(amp**2))
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
 
                     freq, amp = s.calculate_frequency_spectrum(
-                        signal, SAMPLE_RATE, mot_trial, trial_number=trial_num,
+                        SIGNAL, SAMPLE_RATE, mot_trial, trial_number=trial_num,
                         iso_weighted=True)
                     rms = np.sqrt(2.0*np.mean(amp**2))
-                    stats_data['SeatBot_acc_ver_rms'].append(rms)
+                    stats_data[SIGNAL_RMS].append(rms)
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE,
                                                  ax=ax)
                     ax.set_title(file_name)
+                    ax.legend(['Unweighted', 'Unweighted RMS',
+                               'Weighted', 'Weighted RMS'])
                     ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                    file_name + '.png'))
                     spect_html.append('<img src="fig/spectrums/' + file_name +
@@ -159,15 +167,19 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
     del s
 
 stats_df = pd.DataFrame(stats_data)
+stats_df['duration_weight'] = stats_df['duration']/stats_df['duration'].max()
 print(stats_df)
 groups = ['vehicle', 'baby_age', 'surface']
-mean_df = stats_df.groupby(groups)['SeatBot_acc_ver_rms'].mean()
+# weight means by duration
+wm = lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"])
+mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(wm)
+#mean_df = stats_df.groupby(groups)[SIGNAL_RMS].mean()
 print(mean_df)
 
 boxp_html = []
 
 boxp_html.append('<h2>Speed</h2>')
-fig, ax = plt.subplots(5, layout='constrained', figsize=(12, 8))
+fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 16))
 fig.suptitle('Speed Distributions')
 stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'],
                                     column='speed_avg', ax=ax)
@@ -186,10 +198,10 @@ for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
 
 boxp_html.append('<h2>SeatBot_acc_ver</h2>')
 
-fig, ax = plt.subplots(5, layout='constrained', figsize=(12, 8))
+fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 16))
 fig.suptitle('Seat Pan RMS Acceleration Distributions')
 stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'],
-                                    column='SeatBot_acc_ver_rms', ax=ax)
+                                    column=SIGNAL_RMS, ax=ax)
 fname = 'SeatBot_acc_ver-dist-boxplot.png'
 fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
@@ -197,7 +209,7 @@ boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
 for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
     fig, ax = plt.subplots(layout='constrained')
     ax.set_title('Seat Pan Acceleration Distribution Grouped By: {}'.format(grp))
-    ax = stats_df.groupby(grp).boxplot(column='SeatBot_acc_ver_rms',
+    ax = stats_df.groupby(grp).boxplot(column=SIGNAL_RMS,
                                        subplots=False, rot=45, ax=ax)
     fname = 'SeatBot_acc_ver-by-{}-boxplot.png'.format(grp)
     fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))

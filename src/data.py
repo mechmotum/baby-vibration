@@ -168,11 +168,9 @@ class Session():
         surf_crit = self.bounds_data_frame['surface'] == trial_name
         count_crit = self.bounds_data_frame['count'] == trial_number
         row = self.bounds_data_frame[surf_crit & count_crit]
-        print(row)
 
         start_idx = row['start_time'].values[0]
         stop_idx = row['end_time'].values[0]
-        print(trial_number, start_idx, stop_idx)
 
         return self.imu_data[start_idx:stop_idx]
 
