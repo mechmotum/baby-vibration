@@ -31,10 +31,12 @@ html_tmpl= """
   <h1>Mean RMS</h1>
 {mean_table}
   <h1>Sessions Segmented into Trials</h1>
-{ses_html}
+{sess_html}
   <h1>ISO 2631-1 Weights</h1>
   <img src='fig/iso-filter-weights-01.png'</img>
   <img src='fig/iso-filter-weights-02.png'</img>
+  <h1>Trials</h1>
+{trial_table}
   <h1>Seat Pan Vertical Acceleration Spectrums</h1>
 {spect_html}
   <h1>Seat Pan Vertical Acceleration Time Histories</h1>
@@ -58,13 +60,12 @@ motion_trials = [
 
 stats_data = defaultdict(list)
 
-ses_html = []
+sess_html = []
 trial_html = []
 spect_html = []
 
-count = 0
-#for session_label in session_labels:
-for session_label in session_labels[:3]:
+#for sess_count, session_label in enumerate(session_labels):
+for sess_count, session_label in enumerate(session_labels[:3]):
     print('Loading: ', session_label)
     s = Session(session_label)
     s.load_data()
@@ -75,27 +76,30 @@ for session_label in session_labels[:3]:
         s.rotate_imu_data()
         s.calculate_travel_speed()
         s.calculate_vector_magnitudes()
-        if not os.path.exists(PATH_TO_BOUNDS_DIR):
-            os.mkdir(PATH_TO_BOUNDS_DIR)
+
         ax = s.plot_speed_with_trial_bounds()
         ses_img_fn = session_label + '.png'
         ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR, ses_img_fn))
-        ses_html.append('<img src="fig/bounds/' + ses_img_fn + '"</img>')
-        # TODO : No need to plot this same thing for every session.
+        sess_html.append('<img src="fig/bounds/' + ses_img_fn + '"</img>')
+
+        # TODO : No need to plot this same thing for every session, but need to
+        # load a session for the data. Maybe disconnect this data from a
+        # session.
         ax1, ax2 = s.plot_iso_weights()
         ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                            'iso-filter-weights-01.png'))
         ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                            'iso-filter-weights-02.png'))
         plt.close('all')
+
         trial_html.append('<h2>{}</h2>'.format(session_label))
         spect_html.append('<h2>{}</h2>'.format(session_label))
         for mot_trial in motion_trials:
             if mot_trial in s.trial_bounds:
                 trial_html.append('<h3>{}</h3>'.format(mot_trial))
                 spect_html.append('<h3>{}</h3>'.format(mot_trial))
-                count += 1
                 for trial_num in s.trial_bounds[mot_trial]:
+                    print('Trial #: ', trial_num)
                     stats_data['surface'].append(mot_trial.lower())
                     stats_data['vehicle'].append(s.meta_data['vehicle'])
                     stats_data['vehicle_type'].append(
@@ -103,10 +107,13 @@ for session_label in session_labels[:3]:
                     stats_data['baby_age'].append(s.meta_data['baby_age'])
 
                     df = s.extract_trial(mot_trial, trial_number=trial_num)
+
                     signal = 'SeatBotacc_ver'
 
                     file_name = '-'.join([
-                        str(count),
+                        session_label,
+                        's' + str(sess_count),
+                        't' + str(trial_num),
                         stats_data['surface'][-1],
                         stats_data['vehicle'][-1],
                         stats_data['vehicle_type'][-1],
@@ -128,14 +135,13 @@ for session_label in session_labels[:3]:
                     stats_data['speed_std'].append(df['Speed'].std())
 
                     freq, amp = s.calculate_frequency_spectrum(
-                        signal, SAMPLE_RATE, trial=mot_trial,
-                        trial_number=trial_num)
+                        signal, SAMPLE_RATE, mot_trial, trial_number=trial_num)
                     rms = np.sqrt(2.0*np.mean(amp**2))
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
 
                     freq, amp = s.calculate_frequency_spectrum(
-                        signal, SAMPLE_RATE, trial=mot_trial,
-                        trial_number=trial_num, iso_weighted=True)
+                        signal, SAMPLE_RATE, mot_trial, trial_number=trial_num,
+                        iso_weighted=True)
                     rms = np.sqrt(2.0*np.mean(amp**2))
                     stats_data['SeatBot_acc_ver_rms'].append(rms)
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE,
@@ -159,10 +165,11 @@ print(mean_df)
 #stats_df.groupby('surface').boxplot(subplots=False, column='SeatBot_acc_ver_rms')
 
 html_source = html_tmpl.format(
-    ses_html='\n  '.join(ses_html),
+    sess_html='\n  '.join(sess_html),
     trial_html='\n  '.join(trial_html),
     spect_html='\n  '.join(spect_html),
     mean_table=mean_df.to_frame().to_html(),
+    trial_table=stats_df.to_html(),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
