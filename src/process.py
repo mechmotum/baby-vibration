@@ -45,10 +45,10 @@ html_tmpl= """
   <p>This section shows how the sessions are segmented into trials.</p>
 {sess_html}
   <h1>ISO 2631-1 Weights</h1>
-  <h1>Sensor Rotations</h1>
-{srot_html}
   <img src='fig/iso-filter-weights-01.png'</img>
   <img src='fig/iso-filter-weights-02.png'</img>
+  <h1>Sensor Rotations</h1>
+{srot_html}
   <h1>Trials</h1>
 {trial_table}
   <h1>Seat Pan Vertical Acceleration Spectrums</h1>
