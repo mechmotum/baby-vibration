@@ -311,7 +311,7 @@ class Session():
     def plot_accelerometer_rotation(self):
         data = self.extract_trial('static')
         fig, axes = plt.subplots(15, 2, layout='constrained', sharex=True,
-                                 figsize=(10, 30))
+                                 figsize=(10, 15))
         raw_acc_labels = []
         rot_acc_labels = []
         selector = {'x': 0, 'y': 1, 'z': 2}

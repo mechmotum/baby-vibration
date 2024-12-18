@@ -12,6 +12,7 @@ from data import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 PATH_TO_BOUNDS_DIR = os.path.join(PATH_TO_FIG_DIR, 'bounds')
 PATH_TO_TIME_HIST_DIR = os.path.join(PATH_TO_FIG_DIR, 'time_hist')
 PATH_TO_SPECT_DIR = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
+PATH_TO_ACCROT_DIR = os.path.join(PATH_TO_FIG_DIR, 'accrot')
 
 NUM_SESSIONS = None  # None for all
 SAMPLE_RATE = 400  # down sample data to this rate
@@ -19,7 +20,7 @@ SIGNAL = 'SeatBotacc_ver'  # script currently only processes a single signal
 SIGNAL_RMS = SIGNAL + '_rms'
 
 for dr in [PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR, PATH_TO_TIME_HIST_DIR,
-           PATH_TO_SPECT_DIR]:
+           PATH_TO_SPECT_DIR, PATH_TO_ACCROT_DIR]:
     if not os.path.exists(dr):
         os.mkdir(dr)
 
@@ -41,8 +42,11 @@ html_tmpl= """
   <h1>Box Plots</h1>
 {boxp_html}
   <h1>Sessions Segmented into Trials</h1>
+  <p>This section shows how the sessions are segmented into trials.</p>
 {sess_html}
   <h1>ISO 2631-1 Weights</h1>
+  <h1>Sensor Rotations</h1>
+{srot_html}
   <img src='fig/iso-filter-weights-01.png'</img>
   <img src='fig/iso-filter-weights-02.png'</img>
   <h1>Trials</h1>
@@ -73,6 +77,7 @@ stats_data = defaultdict(list)
 sess_html = []
 trial_html = []
 spect_html = []
+srot_html = []
 
 for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
     print('Loading: ', session_label)
@@ -82,6 +87,13 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
         print('Missing files, skipping:', session_label)
     else:
         print(s.trial_bounds)
+        s.rotate_imu_data(subtract_gravity=False)
+        axes = s.plot_accelerometer_rotation()
+        axes[0, 0].figure.savefig(os.path.join(PATH_TO_ACCROT_DIR,
+                                               session_label + '.png'))
+        srot_html.append('<h2>' + session_label + '</h2>')
+        srot_html.append('<img src="fig/accrot/' +
+                         session_label + '.png"></img>')
         s.rotate_imu_data()
         s.calculate_travel_speed()
         s.calculate_vector_magnitudes()
@@ -221,6 +233,7 @@ html_source = html_tmpl.format(
     sess_html='\n  '.join(sess_html),
     spect_html='\n  '.join(spect_html),
     trial_html='\n  '.join(trial_html),
+    srot_html='\n  '.join(srot_html),
     trial_table=stats_df.to_html(),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
