@@ -105,12 +105,8 @@ class Session():
                 PATH_TO_SESSION_DATA, 'Interval_indexes',
                 self.meta_data['trial_bounds_file'])
             if self.meta_data['trial_bounds_file'].startswith('events'):
-                df = pd.read_csv(path_to_bounds_file,
-                                 index_col='segment_number')
-                time_cols = ['start_time', 'end_time']
-                df[time_cols] = df[time_cols].apply(
-                    lambda x: pd.to_datetime(x, unit='ms'))
-                self.bounds_data_frame = df
+                self.bounds_data_frame = load_trial_bounds2(
+                    path_to_bounds_file)
             else:
                 self.bounds_data_frame = load_trial_bounds(
                     path_to_bounds_file,
@@ -538,6 +534,21 @@ Aula,"[65784, 83246]",,,,
     return df
 
 
+def load_trial_bounds2(path):
+    df = pd.read_csv(path, index_col='segment_number')
+    time_cols = ['start_time', 'end_time']
+    df[time_cols] = df[time_cols].apply(
+        lambda x: pd.to_datetime(x, unit='ms'))
+    counts = {}
+    for idx, row in df.iterrows():
+        if row['surface'] in counts:
+            counts[row['surface']] += 1
+        else:
+            counts[row['surface']] = 0
+        df.loc[idx, 'count'] = counts[row['surface']]
+    return df
+
+
 def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
                                     horizontal_value):
     """
@@ -561,7 +572,7 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session006'
+    session_label = 'session002'
     trial_label = 'static'
 
     s = Session(session_label)
