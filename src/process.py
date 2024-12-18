@@ -7,14 +7,41 @@ import pandas as pd
 import yaml
 
 from data import Session, plot_frequency_spectrum, datetime2seconds
-from data import PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
+from data import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 
 PATH_TO_BOUNDS_DIR = os.path.join(PATH_TO_FIG_DIR, 'bounds')
+PATH_TO_TIME_HIST_DIR = os.path.join(PATH_TO_FIG_DIR, 'time_hist')
+PATH_TO_SPECT_DIR = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
 
 SAMPLE_RATE = 200  # down sample data to this rate
 
-if not os.path.exists(PATH_TO_FIG_DIR):
-    os.mkdir(PATH_TO_FIG_DIR)
+for dr in [PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR, PATH_TO_TIME_HIST_DIR,
+           PATH_TO_SPECT_DIR]:
+    if not os.path.exists(dr):
+        os.mkdir(dr)
+
+html_tmpl= """
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Baby Vehicle Vibration Results</title>
+  </head>
+  <body>
+  <h1>Mean RMS</h1>
+{mean_table}
+  <h1>Sessions Segmented into Trials</h1>
+{ses_html}
+  <h1>ISO 2631-1 Weights</h1>
+  <img src='fig/iso-filter-weights-01.png'</img>
+  <img src='fig/iso-filter-weights-02.png'</img>
+  <h1>Seat Pan Vertical Acceleration Spectrums</h1>
+{spect_html}
+  <h1>Seat Pan Vertical Acceleration Time Histories</h1>
+{trial_html}
+  </body>
+</html>
+"""
 
 with open(os.path.join(PATH_TO_DATA_DIR, 'sessions.yml')) as f:
     session_meta_data = yaml.safe_load(f)
@@ -31,8 +58,13 @@ motion_trials = [
 
 stats_data = defaultdict(list)
 
+ses_html = []
+trial_html = []
+spect_html = []
+
 count = 0
-for session_label in session_labels:
+#for session_label in session_labels:
+for session_label in session_labels[:3]:
     print('Loading: ', session_label)
     s = Session(session_label)
     s.load_data()
@@ -46,8 +78,9 @@ for session_label in session_labels:
         if not os.path.exists(PATH_TO_BOUNDS_DIR):
             os.mkdir(PATH_TO_BOUNDS_DIR)
         ax = s.plot_speed_with_trial_bounds()
-        ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR,
-                                       session_label + '.png'))
+        ses_img_fn = session_label + '.png'
+        ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR, ses_img_fn))
+        ses_html.append('<img src="fig/bounds/' + ses_img_fn + '"</img>')
         # TODO : No need to plot this same thing for every session.
         ax1, ax2 = s.plot_iso_weights()
         ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
@@ -55,8 +88,12 @@ for session_label in session_labels:
         ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                            'iso-filter-weights-02.png'))
         plt.close('all')
+        trial_html.append('<h2>{}</h2>'.format(session_label))
+        spect_html.append('<h2>{}</h2>'.format(session_label))
         for mot_trial in motion_trials:
             if mot_trial in s.trial_bounds:
+                trial_html.append('<h3>{}</h3>'.format(mot_trial))
+                spect_html.append('<h3>{}</h3>'.format(mot_trial))
                 count += 1
                 for trial_num in s.trial_bounds[mot_trial]:
                     stats_data['surface'].append(mot_trial.lower())
@@ -66,20 +103,8 @@ for session_label in session_labels:
                     stats_data['baby_age'].append(s.meta_data['baby_age'])
 
                     df = s.extract_trial(mot_trial, trial_number=trial_num)
-                    dur = datetime2seconds(df.index)[-1]
-                    stats_data['duration'].append(dur)
-                    stats_data['speed_avg'].append(df['Speed'].mean())
-                    stats_data['speed_std'].append(df['Speed'].std())
-
                     signal = 'SeatBotacc_ver'
-                    freq, amp = s.calculate_frequency_spectrum(
-                        signal, SAMPLE_RATE, trial=mot_trial,
-                        iso_weighted=True)
-                    # TODO : the factor 2 is because it is a two-sided FFT,
-                    # double check that 2 is needed.
-                    rms = np.sqrt(2.0*np.mean(amp**2))
-                    stats_data['SeatBot_acc_ver_rms'].append(rms)
-                    ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
+
                     file_name = '-'.join([
                         str(count),
                         stats_data['surface'][-1],
@@ -88,12 +113,38 @@ for session_label in session_labels:
                         str(stats_data['baby_age'][-1]),
                         signal,
                     ])
-                    ax.set_title(file_name)
-                    spectrum_dir = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
-                    if not os.path.exists(spectrum_dir):
-                        os.mkdir(spectrum_dir)
-                    ax.figure.savefig(os.path.join(spectrum_dir,
+
+                    fig, ax = plt.subplots(layout='constrained',
+                                           figsize=(8, 2))
+                    ax = df[signal].interpolate(method='time').plot(ax=ax)
+                    ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
                                                    file_name + '.png'))
+                    trial_html.append('<img src="fig/time_hist/' + file_name +
+                                      '.png"</img>')
+
+                    dur = datetime2seconds(df.index)[-1]
+                    stats_data['duration'].append(dur)
+                    stats_data['speed_avg'].append(df['Speed'].mean())
+                    stats_data['speed_std'].append(df['Speed'].std())
+
+                    freq, amp = s.calculate_frequency_spectrum(
+                        signal, SAMPLE_RATE, trial=mot_trial,
+                        trial_number=trial_num)
+                    rms = np.sqrt(2.0*np.mean(amp**2))
+                    ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
+
+                    freq, amp = s.calculate_frequency_spectrum(
+                        signal, SAMPLE_RATE, trial=mot_trial,
+                        trial_number=trial_num, iso_weighted=True)
+                    rms = np.sqrt(2.0*np.mean(amp**2))
+                    stats_data['SeatBot_acc_ver_rms'].append(rms)
+                    ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE,
+                                                 ax=ax)
+                    ax.set_title(file_name)
+                    ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
+                                                   file_name + '.png'))
+                    spect_html.append('<img src="fig/spectrums/' + file_name +
+                                      '.png"</img>')
 
                     plt.close('all')
                     del df  # critical as this seems to be a copy!
@@ -102,6 +153,16 @@ for session_label in session_labels:
 stats_df = pd.DataFrame(stats_data)
 print(stats_df)
 groups = ['vehicle', 'baby_age', 'surface']
-print(stats_df.groupby(groups)['SeatBot_acc_ver_rms'].mean())
+mean_df = stats_df.groupby(groups)['SeatBot_acc_ver_rms'].mean()
+print(mean_df)
 # way to may box plot comparisons
 #stats_df.groupby('surface').boxplot(subplots=False, column='SeatBot_acc_ver_rms')
+
+html_source = html_tmpl.format(
+    ses_html='\n  '.join(ses_html),
+    trial_html='\n  '.join(trial_html),
+    spect_html='\n  '.join(spect_html),
+    mean_table=mean_df.to_frame().to_html(),
+)
+with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
+    f.write(html_source)

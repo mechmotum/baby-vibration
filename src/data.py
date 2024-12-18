@@ -351,10 +351,11 @@ class Session():
         return ax1, ax2
 
 
-def plot_frequency_spectrum(freq, amp, rms, sample_rate):
+def plot_frequency_spectrum(freq, amp, rms, sample_rate, ax=None):
     """Returns plot of the amplitude versus frequency for the freqeuncy range
     of the sample rate / 2."""
-    fig, ax = plt.subplots(layout='constrained')
+    if ax is None:
+        fig, ax = plt.subplots(layout='constrained')
     ax.plot(freq, amp)
     ax.axhline(rms, color='black')
     #ax.set_xlim((0.0, sample_rate/2.0))
