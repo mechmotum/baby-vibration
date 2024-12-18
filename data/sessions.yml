@@ -293,3 +293,71 @@ session018:
     seat_bottom: 2024-12-16_Trike_5_3months/2024-12-16_10.02.40_Trike_5_SB_SD_Session1/Trike_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-16_Trike_5_3months/2024-12-16_10.03.32_Trike_5_SH_SD_Session1/Trike_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-16_Trike_5_3months/2024-12-16_10.02.23_Trike_5_BT_SD_Session1/Trike_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session019:
+  date: 2024-12-17
+  vehicle: urbanarrow
+  baby_age: 0
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-17_UrbanA_1_0months/2024-12-17_09.01.04_UrbanA_1_FW_SD_Session1/UrbanA_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-17_UrbanA_1_0months/2024-12-17_09.01.49_UrbanA_1_RW_SD_Session1/UrbanA_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-17_UrbanA_1_0months/2024-12-17_09.01.26_UrbanA_1_SB_SD_Session1/UrbanA_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-17_UrbanA_1_0months/2024-12-17_09.02.12_UrbanA_1_SH_SD_Session1/UrbanA_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-17_UrbanA_1_0months/2024-12-17_08.59.40_UrbanA_1_BT_SD_Session1/UrbanA_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session020:
+  date: 2024-12-18
+  vehicle: urbanarrow
+  baby_age: 3
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-18_UrbanA_2_3months/2024-12-17_17.47.14_UrbanA_2_FW_SD_Session1/UrbanA_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-18_UrbanA_2_3months/2024-12-17_17.46.42_UrbanA_2_RW_SD_Session1/UrbanA_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-18_UrbanA_2_3months/2024-12-17_17.48.04_UrbanA_2_SB_SD_Session1/UrbanA_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-18_UrbanA_2_3months/2024-12-17_17.47.33_UrbanA_2_SH_SD_Session1/UrbanA_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-18_UrbanA_2_3months/2024-12-17_17.48.21_UrbanA_2_BT_SD_Session1/UrbanA_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session021:
+  date: 2024-12-18
+  vehicle: urbanarrow
+  baby_age: 0
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-18_UrbanA_3_0months/2024-12-18_10.57.44_UrbanA_3_FW_SD_Session1/UrbanA_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-18_UrbanA_3_0months/2024-12-18_10.58.07_UrbanA_3_RW_SD_Session1/UrbanA_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-18_UrbanA_3_0months/2024-12-18_10.58.48_UrbanA_3_SB_SD_Session1/UrbanA_3_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-18_UrbanA_3_0months/2024-12-18_10.58.27_UrbanA_3_SH_SD_Session1/UrbanA_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-18_UrbanA_3_0months/2024-12-18_10.57.24_UrbanA_3_BT_SD_Session1/UrbanA_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session022:
+  date: 2024-12-18
+  vehicle: urbanarrow
+  baby_age: 3
+  trial_bounds_file: null
+  imu_lateral_axis:
+    BotTrike: -y
+    FrontWheel: -x
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-18_UrbanA_4_3months/2024-12-18_12.21.28_UrbanA_4_FW_SD_Session1/UrbanA_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-18_UrbanA_4_3months/2024-12-18_12.21.45_UrbanA_4_RW_SD_Session1/UrbanA_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-18_UrbanA_4_3months/2024-12-18_12.21.10_UrbanA_4_SB_SD_Session1/UrbanA_4_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-18_UrbanA_4_3months/2024-12-18_12.20.22_UrbanA_4_SH_SD_Session1/UrbanA_4_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-18_UrbanA_4_3months/2024-12-18_12.22.03_UrbanA_4_BT_SD_Session1/UrbanA_4_BT_Session1_S_BotTrike_Calibrated_SD.csv
