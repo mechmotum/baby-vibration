@@ -8,9 +8,9 @@ import pandas as pd
 from data import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from run import SIGNAL, SIGNAL_RMS
 
-with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'r') as f:
+with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
     html_data = pickle.load(f)
-with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'r') as f:
+with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
     stats_data = pickle.load(f)
 
 stats_df = pd.DataFrame(stats_data)
@@ -123,9 +123,6 @@ html_tmpl= """
   </body>
 </html>
 """
-
-with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'r') as f:
-    html_data = pickle.load(f)
 
 html_source = html_tmpl.format(
     signal=SIGNAL,
