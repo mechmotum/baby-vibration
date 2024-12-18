@@ -165,14 +165,12 @@ class Session():
         if trial_number not in self.trial_bounds[trial_name]:
             raise ValueError('Invalid trial number.')
 
-        count = 0
-        for idx, row in self.bounds_data_frame.iterrows():
-            if row['surface'] == trial_name:
-                if trial_number == count:
-                    start_idx = row['start_time']
-                    stop_idx = row['end_time']
-                    break
-                count += 1
+        surf_crit = self.bounds_data_frame['surface'] == trial_name
+        count_crit = self.bounds_data_frame['count'] == trial_number
+        row = self.bounds_data_frame[surf_crit & count_crit]
+
+        start_idx = row['start_time'].values[0]
+        stop_idx = row['end_time'].values[0]
 
         return self.imu_data[start_idx:stop_idx]
 
