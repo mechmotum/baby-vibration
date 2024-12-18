@@ -183,13 +183,15 @@ class Session():
         Notes
         =====
         """
+        raw_acc_tmpl = 'S_{}_Accel_WR_{}_CAL'
+
         # TODO : Should I subtract the mean from the lateral axes? From the
         # rate gyro?
         df = self.extract_trial('static')
         mean_df = df.mean()
+
         rot_axis_labels = self.meta_data['imu_lateral_axis']
         for sensor, rot_axis_label in rot_axis_labels.items():
-            template = 'S_{}_Accel_WR_{}_CAL'
             if rot_axis_label.endswith('x'):
                 ver_lab, hor_lab = 'Y', 'Z'
                 xyz = ('lat', 'ver', 'lon')
@@ -199,31 +201,47 @@ class Session():
             elif rot_axis_label.endswith('z'):
                 ver_lab, hor_lab = 'X', 'Y'
                 xyz = ('ver', 'lon', 'lat')
-            ver_mean = mean_df[template.format(sensor, ver_lab)]
-            hor_mean = mean_df[template.format(sensor, hor_lab)]
+            hor_mean = mean_df[raw_acc_tmpl.format(sensor, hor_lab)]
+            ver_mean = mean_df[raw_acc_tmpl.format(sensor, ver_lab)]
+            print('Sensor', sensor)
+            print(hor_mean, ver_mean)
             rot_mat = compute_gravity_rotation_matrix(rot_axis_label,
                                                       ver_mean,
                                                       hor_mean)
             acc_cols = [col.format(sensor) for col in self.raw_acc_tmpl]
             new_acc_cols = [col.format(sensor, d) for col, d in
                             zip(['{}acc_{}', '{}acc_{}', '{}acc_{}'], xyz)]
-            self.imu_data[new_acc_cols] = (rot_mat @
-                                           self.imu_data[acc_cols].values.T).T
+            self.imu_data[new_acc_cols] = (
+                rot_mat @ self.imu_data[acc_cols].values.T).T
+
+            gyr_cols = [col.format(sensor) for col in self.raw_gyr_tmpl]
+            new_gyr_cols = [col.format(sensor, d) for col, d in
+                            zip(['{}gyr_{}', '{}gyr_{}', '{}gyr_{}'], xyz)]
+            self.imu_data[new_gyr_cols] = (
+                rot_mat @ self.imu_data[gyr_cols].values.T).T
+            # NOTE : This is a bit shameful that I can't figure out the correct
+            # rotation to apply and just apply a brute force check and 180
+            # rotation.
+            print('Mean of vert', self.imu_data['{}acc_ver'.format(sensor)].mean())
+            if self.imu_data['{}acc_ver'.format(sensor)].mean() < 0.0:
+                rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
+                rot_mat = rot_func[rot_axis_label[-1]](np.pi)
+                self.imu_data[new_acc_cols] = (
+                    rot_mat @ self.imu_data[new_acc_cols].values.T).T
+                self.imu_data[new_gyr_cols] = (
+                    rot_mat @ self.imu_data[new_gyr_cols].values.T).T
+
             if subtract_gravity:
                 # TODO : Change to taking the mean of the magnitude instead of
                 # magnitude of the mean. Not sure if there would be a different
                 # though.
-                mag_cols = ['S_{}_Accel_WR_{}_CAL'.format(sensor, ver_lab),
-                            'S_{}_Accel_WR_{}_CAL'.format(sensor, hor_lab)]
+                mag_cols = [raw_acc_tmpl.format(sensor, ver_lab),
+                            raw_acc_tmpl.format(sensor, hor_lab)]
                 grav_acc = np.sqrt(np.sum(df[mag_cols].mean().values**2,
                                           axis=0))
                 vert_col = '{}acc_ver'.format(sensor)
-                self.imu_data[vert_col] += grav_acc
-            gyr_cols = [col.format(sensor) for col in self.raw_gyr_tmpl]
-            new_gyr_cols = [col.format(sensor, d) for col, d in
-                            zip(['{}gyr_{}', '{}gyr_{}', '{}gyr_{}'], xyz)]
-            self.imu_data[new_gyr_cols] = (rot_mat @
-                                           self.imu_data[gyr_cols].values.T).T
+                self.imu_data[vert_col] -= grav_acc
+
         return self.imu_data
 
     def calculate_travel_speed(self):
@@ -328,6 +346,8 @@ class Session():
         data = data.interpolate(method='time')
         data[raw_acc_labels].plot(subplots=True, ax=axes[:, 0])
         data[rot_acc_labels].plot(subplots=True, ax=axes[:, 1])
+        for ax in axes.flatten():
+            ax.set_ylim((-12, 12))
         return axes
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
@@ -534,18 +554,14 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
     """
     rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
     theta = np.arctan(horizontal_value/vertical_value)
-    if lateral_axis.startswith('-'):
-        theta = -theta
-        rot_mat = rot_func[lateral_axis[-1]](theta + np.pi/2)
-    else:
-        rot_mat = rot_func[lateral_axis[-1]](theta)
+    rot_mat = rot_func[lateral_axis[-1]](theta)
     print('Angle:', np.rad2deg(theta))
     return rot_mat
 
 
 if __name__ == "__main__":
 
-    session_label = 'session001'
+    session_label = 'session006'
     trial_label = 'static'
 
     s = Session(session_label)
@@ -556,6 +572,8 @@ if __name__ == "__main__":
     s.calculate_vector_magnitudes()
 
     s.plot_accelerometer_rotation()
+
+    s.rotate_imu_data()
     s.plot_speed_with_trial_bounds()
     s.plot_raw_time_series(trial=trial_label, gyr=False)
     s.plot_raw_time_series(trial=trial_label, acc=False)
