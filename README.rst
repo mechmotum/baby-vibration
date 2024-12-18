@@ -6,6 +6,10 @@ This repository houses the analysis and paper that investigates the vibrations
 experienced by babies (0-9 months old) when carried in cargo bicycles and
 strollers.
 
+Preliminary results can be viewed at:
+
+https://mechmotum.github.io/baby-vibration/
+
 License
 =======
 
