@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+import gc
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,15 +15,15 @@ PATH_TO_TIME_HIST_DIR = os.path.join(PATH_TO_FIG_DIR, 'time_hist')
 PATH_TO_SPECT_DIR = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
 PATH_TO_ACCROT_DIR = os.path.join(PATH_TO_FIG_DIR, 'accrot')
 
-NUM_SESSIONS = None  # None for all
-SAMPLE_RATE = 400  # down sample data to this rate
-SIGNAL = 'SeatBotacc_ver'  # script currently only processes a single signal
-SIGNAL_RMS = SIGNAL + '_rms'
-
 for dr in [PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR, PATH_TO_TIME_HIST_DIR,
            PATH_TO_SPECT_DIR, PATH_TO_ACCROT_DIR]:
     if not os.path.exists(dr):
         os.mkdir(dr)
+
+NUM_SESSIONS = None  # None for all
+SAMPLE_RATE = 400  # down sample data to this rate
+SIGNAL = 'SeatBotacc_ver'  # script currently only processes a single signal
+SIGNAL_RMS = SIGNAL + '_rms'
 
 html_tmpl= """
 <!DOCTYPE html>
@@ -109,6 +110,8 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
     s.load_data()
     if not s.trial_bounds:
         print('Missing files, skipping:', session_label)
+        del s
+        gc.collect()
     else:
         print(s.trial_bounds)
         s.rotate_imu_data(subtract_gravity=False)
@@ -135,7 +138,10 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                                            'iso-filter-weights-01.png'))
         ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                            'iso-filter-weights-02.png'))
+        plt.clf()
         plt.close('all')
+        del axes, ax, ax1, ax2
+        gc.collect()
 
         trial_html.append('<h2>{}</h2>'.format(session_label))
         spect_html.append('<h2>{}</h2>'.format(session_label))
@@ -152,7 +158,6 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                     stats_data['baby_age'].append(s.meta_data['baby_age'])
 
                     df = s.extract_trial(mot_trial, trial_number=trial_num)
-
 
                     file_name = '-'.join([
                         session_label,
@@ -178,6 +183,12 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                     stats_data['speed_avg'].append(df['Speed'].mean())
                     stats_data['speed_std'].append(df['Speed'].std())
 
+                    plt.clf()
+                    plt.close('all')
+                    del fig, ax
+                    del df  # critical as this seems to be a copy!
+                    gc.collect()
+
                     freq, amp = s.calculate_frequency_spectrum(
                         SIGNAL, SAMPLE_RATE, mot_trial, trial_number=trial_num)
                     rms = np.sqrt(2.0*np.mean(amp**2))
@@ -198,9 +209,12 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
                     spect_html.append('<img src="fig/spectrums/' + file_name +
                                       '.png"</img>')
 
+                    plt.clf()
                     plt.close('all')
-                    del df  # critical as this seems to be a copy!
-    del s
+                    del freq, amp, rms, ax
+                    gc.collect()
+        del s
+        gc.collect()
 
 stats_df = pd.DataFrame(stats_data)
 stats_df['duration_weight'] = stats_df['duration']/stats_df['duration'].max()
@@ -264,4 +278,5 @@ html_source = html_tmpl.format(
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
 
+plt.clf()
 plt.close('all')

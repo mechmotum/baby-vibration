@@ -1,4 +1,5 @@
 import os
+import gc
 
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum
@@ -133,6 +134,7 @@ class Session():
         if minimize_memory:
             # save memory by deleting this
             del self.imu_data_frames
+            gc.collect()
             self.imu_data_frames = {}
 
     def extract_trial(self, trial_name, trial_number=0):
@@ -238,6 +240,9 @@ class Session():
                 vert_col = '{}acc_ver'.format(sensor)
                 self.imu_data[vert_col] -= grav_acc
 
+        del df
+        gc.collect()
+
         return self.imu_data
 
     def calculate_travel_speed(self):
@@ -306,6 +311,9 @@ class Session():
             weights = np.interp(freq, table_freq, table_weights)
             amp = weights*amp
 
+        del data
+        gc.collect()
+
         return freq, amp
 
     def plot_speed_with_trial_bounds(self):
@@ -344,6 +352,9 @@ class Session():
         data[rot_acc_labels].plot(subplots=True, ax=axes[:, 1])
         for ax in axes.flatten():
             ax.set_ylim((-12, 12))
+
+        del data
+        gc.collect()
         return axes
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
@@ -539,6 +550,13 @@ def load_trial_bounds2(path):
     time_cols = ['start_time', 'end_time']
     df[time_cols] = df[time_cols].apply(
         lambda x: pd.to_datetime(x, unit='ms'))
+
+    # NOTE : _12kph is appended to many surface names and needs to be removed
+    df['surface'] = df['surface'].str.split('_', expand=True)[0]
+    # NOTE : the shocks are numbered shock1, shock2 so remove
+    df.loc[df['surface'].str.contains('shock'), 'surface'] = 'shock'
+
+    df['count'] = [0]*len(df)
     counts = {}
     for idx, row in df.iterrows():
         if row['surface'] in counts:
@@ -546,6 +564,7 @@ def load_trial_bounds2(path):
         else:
             counts[row['surface']] = 0
         df.loc[idx, 'count'] = counts[row['surface']]
+
     return df
 
 
@@ -572,7 +591,7 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session002'
+    session_label = 'session015'
     trial_label = 'static'
 
     s = Session(session_label)
