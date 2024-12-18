@@ -308,6 +308,28 @@ class Session():
         ax.set_title(self.meta_data['imu_files']['rear_wheel'])
         return ax
 
+    def plot_accelerometer_rotation(self):
+        data = self.extract_trial('static')
+        fig, axes = plt.subplots(15, 2, layout='constrained', sharex=True,
+                                 figsize=(10, 30))
+        raw_acc_labels = []
+        rot_acc_labels = []
+        selector = {'x': 0, 'y': 1, 'z': 2}
+        for snum, (sensor, axis) in enumerate(
+            self.meta_data['imu_lateral_axis'].items()):
+            raw_acc_labels += [tmpl.format(sensor) for tmpl in
+                               self.raw_acc_tmpl]
+
+            idx = 3*snum + selector[axis[-1]]
+            axes[idx, 0].set_facecolor('gray')
+            axes[idx, 0].set_title(axis)
+            rot_acc_labels += [tmpl.format(sensor) for tmpl in
+                               ['{}acc_ver', '{}acc_lat', '{}acc_lon']]
+        data = data.interpolate(method='time')
+        data[raw_acc_labels].plot(subplots=True, ax=axes[:, 0])
+        data[rot_acc_labels].plot(subplots=True, ax=axes[:, 1])
+        return axes
+
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
         """Returns a plot of the raw acelerometer and gyroscope time series.
@@ -529,10 +551,11 @@ if __name__ == "__main__":
     s = Session(session_label)
     s.load_data()
     s.merge_imu_data()
-    s.rotate_imu_data()
+    s.rotate_imu_data(subtract_gravity=False)
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
 
+    s.plot_accelerometer_rotation()
     s.plot_speed_with_trial_bounds()
     s.plot_raw_time_series(trial=trial_label, gyr=False)
     s.plot_raw_time_series(trial=trial_label, acc=False)
