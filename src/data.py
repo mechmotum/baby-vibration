@@ -409,7 +409,7 @@ def plot_frequency_spectrum(freq, amp, rms, sample_rate, ax=None):
     if ax is None:
         fig, ax = plt.subplots(layout='constrained')
     ax.plot(freq, amp)
-    ax.axhline(rms, color='black')
+    ax.axhline(rms, color=ax.get_lines()[0].get_color())
     #ax.set_xlim((0.0, sample_rate/2.0))
     ax.set_ylim((0.0, 1.0))
     ax.set_xlabel('Frequency [Hz]')
