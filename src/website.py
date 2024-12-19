@@ -28,7 +28,7 @@ stats_df['target_speed'][stats_df['speed_avg'] > 6.3] = 20
 stats_df['vehicle_baby'] = stats_df['vehicle'] + stats_df['baby_age'].astype(str)
 
 print(stats_df)
-groups = ['vehicle', 'baby_age', 'surface']
+groups = ['vehicle', 'baby_age', 'surface', 'target_speed']
 # weight means by duration
 wm = lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"])
 mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(wm)

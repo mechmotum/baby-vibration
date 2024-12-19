@@ -294,6 +294,11 @@ class Session():
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
+        fig, ax = plt.subplots()
+        ax.plot(new_time, new_signal)
+        ax.set_xlabel('Time [s]')
+        ax.set_ylabel('Acceleration [m/s/s]')
+
         freq, amp = freq_spectrum(new_signal, sample_rate)
 
         if iso_weighted:
@@ -591,8 +596,9 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session015'
-    trial_label = 'static'
+    session_label = 'session020'
+    trial_label = 'tarmac'
+    sample_rate = 400
 
     s = Session(session_label)
     s.load_data()
@@ -609,14 +615,14 @@ if __name__ == "__main__":
     s.plot_raw_time_series(trial=trial_label, acc=False)
     s.plot_iso_weights()
 
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_ver', sample_rate,
                                                trial_label)
     rms = np.sqrt(2.0*np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms, 200)
+    plot_frequency_spectrum(freq, amp, rms, sample_rate)
 
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_ver', sample_rate,
                                                trial_label, iso_weighted=True)
     rms = np.sqrt(2.0*np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms, 200)
+    plot_frequency_spectrum(freq, amp, rms, sample_rate)
 
     plt.show()
