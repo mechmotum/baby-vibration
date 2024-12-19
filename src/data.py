@@ -1,4 +1,5 @@
 import os
+import gc
 
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum
@@ -105,12 +106,8 @@ class Session():
                 PATH_TO_SESSION_DATA, 'Interval_indexes',
                 self.meta_data['trial_bounds_file'])
             if self.meta_data['trial_bounds_file'].startswith('events'):
-                df = pd.read_csv(path_to_bounds_file,
-                                 index_col='segment_number')
-                time_cols = ['start_time', 'end_time']
-                df[time_cols] = df[time_cols].apply(
-                    lambda x: pd.to_datetime(x, unit='ms'))
-                self.bounds_data_frame = df
+                self.bounds_data_frame = load_trial_bounds2(
+                    path_to_bounds_file)
             else:
                 self.bounds_data_frame = load_trial_bounds(
                     path_to_bounds_file,
@@ -137,6 +134,7 @@ class Session():
         if minimize_memory:
             # save memory by deleting this
             del self.imu_data_frames
+            gc.collect()
             self.imu_data_frames = {}
 
     def extract_trial(self, trial_name, trial_number=0):
@@ -183,13 +181,15 @@ class Session():
         Notes
         =====
         """
+        raw_acc_tmpl = 'S_{}_Accel_WR_{}_CAL'
+
         # TODO : Should I subtract the mean from the lateral axes? From the
         # rate gyro?
         df = self.extract_trial('static')
         mean_df = df.mean()
+
         rot_axis_labels = self.meta_data['imu_lateral_axis']
         for sensor, rot_axis_label in rot_axis_labels.items():
-            template = 'S_{}_Accel_WR_{}_CAL'
             if rot_axis_label.endswith('x'):
                 ver_lab, hor_lab = 'Y', 'Z'
                 xyz = ('lat', 'ver', 'lon')
@@ -199,31 +199,50 @@ class Session():
             elif rot_axis_label.endswith('z'):
                 ver_lab, hor_lab = 'X', 'Y'
                 xyz = ('ver', 'lon', 'lat')
-            ver_mean = mean_df[template.format(sensor, ver_lab)]
-            hor_mean = mean_df[template.format(sensor, hor_lab)]
+            hor_mean = mean_df[raw_acc_tmpl.format(sensor, hor_lab)]
+            ver_mean = mean_df[raw_acc_tmpl.format(sensor, ver_lab)]
+            print('Sensor', sensor)
+            print(hor_mean, ver_mean)
             rot_mat = compute_gravity_rotation_matrix(rot_axis_label,
                                                       ver_mean,
                                                       hor_mean)
             acc_cols = [col.format(sensor) for col in self.raw_acc_tmpl]
             new_acc_cols = [col.format(sensor, d) for col, d in
                             zip(['{}acc_{}', '{}acc_{}', '{}acc_{}'], xyz)]
-            self.imu_data[new_acc_cols] = (rot_mat @
-                                           self.imu_data[acc_cols].values.T).T
+            self.imu_data[new_acc_cols] = (
+                rot_mat @ self.imu_data[acc_cols].values.T).T
+
+            gyr_cols = [col.format(sensor) for col in self.raw_gyr_tmpl]
+            new_gyr_cols = [col.format(sensor, d) for col, d in
+                            zip(['{}gyr_{}', '{}gyr_{}', '{}gyr_{}'], xyz)]
+            self.imu_data[new_gyr_cols] = (
+                rot_mat @ self.imu_data[gyr_cols].values.T).T
+            # NOTE : This is a bit shameful that I can't figure out the correct
+            # rotation to apply and just apply a brute force check and 180
+            # rotation.
+            print('Mean of vert', self.imu_data['{}acc_ver'.format(sensor)].mean())
+            if self.imu_data['{}acc_ver'.format(sensor)].mean() < 0.0:
+                rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
+                rot_mat = rot_func[rot_axis_label[-1]](np.pi)
+                self.imu_data[new_acc_cols] = (
+                    rot_mat @ self.imu_data[new_acc_cols].values.T).T
+                self.imu_data[new_gyr_cols] = (
+                    rot_mat @ self.imu_data[new_gyr_cols].values.T).T
+
             if subtract_gravity:
                 # TODO : Change to taking the mean of the magnitude instead of
                 # magnitude of the mean. Not sure if there would be a different
                 # though.
-                mag_cols = ['S_{}_Accel_WR_{}_CAL'.format(sensor, ver_lab),
-                            'S_{}_Accel_WR_{}_CAL'.format(sensor, hor_lab)]
+                mag_cols = [raw_acc_tmpl.format(sensor, ver_lab),
+                            raw_acc_tmpl.format(sensor, hor_lab)]
                 grav_acc = np.sqrt(np.sum(df[mag_cols].mean().values**2,
                                           axis=0))
                 vert_col = '{}acc_ver'.format(sensor)
-                self.imu_data[vert_col] += grav_acc
-            gyr_cols = [col.format(sensor) for col in self.raw_gyr_tmpl]
-            new_gyr_cols = [col.format(sensor, d) for col, d in
-                            zip(['{}gyr_{}', '{}gyr_{}', '{}gyr_{}'], xyz)]
-            self.imu_data[new_gyr_cols] = (rot_mat @
-                                           self.imu_data[gyr_cols].values.T).T
+                self.imu_data[vert_col] -= grav_acc
+
+        del df
+        gc.collect()
+
         return self.imu_data
 
     def calculate_travel_speed(self, smooth=False):
@@ -278,6 +297,11 @@ class Session():
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
+        fig, ax = plt.subplots()
+        ax.plot(new_time, new_signal)
+        ax.set_xlabel('Time [s]')
+        ax.set_ylabel('Acceleration [m/s/s]')
+
         freq, amp = freq_spectrum(new_signal, sample_rate)
 
         if iso_weighted:
@@ -295,6 +319,9 @@ class Session():
             weights = np.interp(freq, table_freq, table_weights)
             amp = weights*amp
 
+        del data
+        gc.collect()
+
         return freq, amp
 
     def plot_speed_with_trial_bounds(self):
@@ -310,6 +337,33 @@ class Session():
         ax.set_ylabel('Speed [m/s]')
         ax.set_title(self.meta_data['imu_files']['rear_wheel'])
         return ax
+
+    def plot_accelerometer_rotation(self):
+        data = self.extract_trial('static')
+        fig, axes = plt.subplots(15, 2, layout='constrained', sharex=True,
+                                 figsize=(10, 15))
+        raw_acc_labels = []
+        rot_acc_labels = []
+        selector = {'x': 0, 'y': 1, 'z': 2}
+        for snum, (sensor, axis) in enumerate(
+            self.meta_data['imu_lateral_axis'].items()):
+            raw_acc_labels += [tmpl.format(sensor) for tmpl in
+                               self.raw_acc_tmpl]
+
+            idx = 3*snum + selector[axis[-1]]
+            axes[idx, 0].set_facecolor('gray')
+            axes[idx, 0].set_title(axis)
+            rot_acc_labels += [tmpl.format(sensor) for tmpl in
+                               ['{}acc_ver', '{}acc_lat', '{}acc_lon']]
+        data = data.interpolate(method='time')
+        data[raw_acc_labels].plot(subplots=True, ax=axes[:, 0])
+        data[rot_acc_labels].plot(subplots=True, ax=axes[:, 1])
+        for ax in axes.flatten():
+            ax.set_ylim((-12, 12))
+
+        del data
+        gc.collect()
+        return axes
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
@@ -499,6 +553,29 @@ Aula,"[65784, 83246]",,,,
     return df
 
 
+def load_trial_bounds2(path):
+    df = pd.read_csv(path, index_col='segment_number')
+    time_cols = ['start_time', 'end_time']
+    df[time_cols] = df[time_cols].apply(
+        lambda x: pd.to_datetime(x, unit='ms'))
+
+    # NOTE : _12kph is appended to many surface names and needs to be removed
+    df['surface'] = df['surface'].str.split('_', expand=True)[0]
+    # NOTE : the shocks are numbered shock1, shock2 so remove
+    df.loc[df['surface'].str.contains('shock'), 'surface'] = 'shock'
+
+    df['count'] = [0]*len(df)
+    counts = {}
+    for idx, row in df.iterrows():
+        if row['surface'] in counts:
+            counts[row['surface']] += 1
+        else:
+            counts[row['surface']] = 0
+        df.loc[idx, 'count'] = counts[row['surface']]
+
+    return df
+
+
 def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
                                     horizontal_value):
     """
@@ -515,40 +592,40 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
     """
     rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
     theta = np.arctan(horizontal_value/vertical_value)
-    if lateral_axis.startswith('-'):
-        theta = -theta
-        rot_mat = rot_func[lateral_axis[-1]](theta + np.pi/2)
-    else:
-        rot_mat = rot_func[lateral_axis[-1]](theta)
+    rot_mat = rot_func[lateral_axis[-1]](theta)
     print('Angle:', np.rad2deg(theta))
     return rot_mat
 
 
 if __name__ == "__main__":
 
-    session_label = 'session001'
-    trial_label = 'static'
+    session_label = 'session020'
+    trial_label = 'tarmac'
+    sample_rate = 400
 
     s = Session(session_label)
     s.load_data()
     s.merge_imu_data()
-    s.rotate_imu_data()
+    s.rotate_imu_data(subtract_gravity=False)
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
 
+    s.plot_accelerometer_rotation()
+
+    s.rotate_imu_data()
     s.plot_speed_with_trial_bounds()
     s.plot_raw_time_series(trial=trial_label, gyr=False)
     s.plot_raw_time_series(trial=trial_label, acc=False)
     s.plot_iso_weights()
 
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_ver', sample_rate,
                                                trial_label)
     rms = np.sqrt(2.0*np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms, 200)
+    plot_frequency_spectrum(freq, amp, rms, sample_rate)
 
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_mag', 200,
+    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_ver', sample_rate,
                                                trial_label, iso_weighted=True)
     rms = np.sqrt(2.0*np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms, 200)
+    plot_frequency_spectrum(freq, amp, rms, sample_rate)
 
     plt.show()

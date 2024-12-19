@@ -20,13 +20,13 @@ session002:
   date: 2024-11-28
   vehicle: yoyo
   baby_age: 0
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
     SeatBot: -x
     SeatHead: -x
-  trial_bounds_file: Interval_indexes_YOYO_2_0months.csv
+  trial_bounds_file: events_YOYO_2_0months.csv
   imu_files:
     front_wheel: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.32_YOYO_2_FW_SD_Session1/YOYO_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-11-28_YOYO_2_0months/2024-11-28_12.15.52_YOYO_2_RW_SD_Session1/YOYO_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -38,7 +38,7 @@ session003:
   vehicle: yoyo
   baby_age: 0
   trial_bounds_file: Interval_indexes_YOYO_LR3_0months.csv
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -54,7 +54,7 @@ session004:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -105,12 +105,12 @@ session007:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
-    SeatBot: x
-    SeatHead: x
+    SeatBot: x  # TODO : unsure
+    SeatHead: x  # TODO : unsure
   trial_bounds_file: Interval_indexes_Maxicosi_5_9months.csv
   imu_files:
     front_wheel: 2024-11-29_Maxicos_5_9months/Maxicos_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -122,7 +122,7 @@ session008:
   date: 2024-12-09
   vehicle: bugaboo
   baby_age: 0
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -139,7 +139,7 @@ session009:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 0
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -156,7 +156,7 @@ session010:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 9
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -y  # TODO : Unsure, needs check from data.
     FrontWheel: -z
     RearWheel: -z
@@ -173,13 +173,13 @@ session011:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 0
-  imu_lateral_axis:
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
     SeatBot: x
     SeatHead: x
-  trial_bounds_file: null # Interval_indexes_Maxicos_4_0months.csv
+  trial_bounds_file: null # TODO : no file provided yet
   imu_files:
     front_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.28.38_Maxicos_4_FW_SD_Session1/Maxicos_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.27.40_Maxicos_4_RW_SD_Session1/Maxicos_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -190,7 +190,7 @@ session012:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 9
-  trial_bounds_file: null  # Interval_indexes_Maxicos_7_9months.csv
+  trial_bounds_file: null  # TODO : no file provided yet
   imu_files:
     front_wheel: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.26.51_Maxicos_7_FW_SD_Session1/Maxicos_7_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.26.28_Maxicos_7_RW_SD_Session1/Maxicos_7_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -207,14 +207,14 @@ session013:
     RearWheel: -z
     SeatBot: -x
     SeatHead: -x
-  trial_bounds_file: null  # Interval_indexes_YOYO_5_0months.csv
+  trial_bounds_file: null  # TODO : no file provided yet
   imu_files:
     front_wheel: 2024-12-10_YOYO_5_0months/2024-12-10_16.04.08_YOYO_5_FW_SD_Session1/YOYO_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_YOYO_5_0months/2024-12-10_16.04.32_YOYO_5_RW_SD_Session1/YOYO_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
     seat_bottom: 2024-12-10_YOYO_5_0months/2024-12-10_16.05.24_YOYO_5_SB_SD_Session1/YOYO_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-10_YOYO_5_0months/2024-12-10_15.57.29_YOYO_5_SH_SD_Session1/YOYO_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-10_YOYO_5_0months/2024-12-10_15.57.53_YOYO_5_BT_SD_Session1/YOYO_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
-session014:
+session014:  # test of taping IMUs together and shaking
   date: 2024-12-11
   vehicle: none
   baby_age: null
@@ -229,8 +229,8 @@ session015:
   date: 2024-12-12
   vehicle: trike
   baby_age: 0
-  trial_bounds_file: null
-  imu_lateral_axis:
+  trial_bounds_file: events_Trike_1_0months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -246,8 +246,8 @@ session016:
   date: 2024-12-13
   vehicle: trike
   baby_age: 0
-  trial_bounds_file: null
-  imu_lateral_axis:
+  trial_bounds_file: events_Trike_2_0months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -259,7 +259,7 @@ session016:
     seat_bottom: 2024-12-13_Trike_2_0months/2024-12-13_10.15.25_Trike_2_SB_SD_Session1/Trike_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-13_Trike_2_0months/2024-12-13_10.14.18_Trike_2_SH_SD_Session1/Trike_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-13_Trike_2_0months/2024-12-13_10.13.29_Trike_2_BT_SD_Session1/Trike_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
-session017:
+session017:  # missing rear wheel data, see note at https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
   date: 2024-12-13
   vehicle: trike
   baby_age: 3
@@ -280,8 +280,8 @@ session018:
   date: 2024-12-16
   vehicle: trike
   baby_age: 3
-  trial_bounds_file: events_Trike_5_3months_corrected.csv
-  imu_lateral_axis:
+  trial_bounds_file: events_Trike_5_3months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -293,3 +293,71 @@ session018:
     seat_bottom: 2024-12-16_Trike_5_3months/2024-12-16_10.02.40_Trike_5_SB_SD_Session1/Trike_5_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-16_Trike_5_3months/2024-12-16_10.03.32_Trike_5_SH_SD_Session1/Trike_5_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-16_Trike_5_3months/2024-12-16_10.02.23_Trike_5_BT_SD_Session1/Trike_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session019:
+  date: 2024-12-17
+  vehicle: urbanarrow
+  baby_age: 0
+  trial_bounds_file: events_UrbanA_1_0months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+    BotTrike: y
+    FrontWheel: z
+    RearWheel: -x
+    SeatBot: -x
+    SeatHead: -x
+  imu_files:
+    front_wheel: 2024-12-17_UrbanA_1_0months/2024-12-17_09.01.04_UrbanA_1_FW_SD_Session1/UrbanA_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-17_UrbanA_1_0months/2024-12-17_09.01.49_UrbanA_1_RW_SD_Session1/UrbanA_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-17_UrbanA_1_0months/2024-12-17_09.01.26_UrbanA_1_SB_SD_Session1/UrbanA_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-17_UrbanA_1_0months/2024-12-17_09.02.12_UrbanA_1_SH_SD_Session1/UrbanA_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-17_UrbanA_1_0months/2024-12-17_08.59.40_UrbanA_1_BT_SD_Session1/UrbanA_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session020:
+  date: 2024-12-18
+  vehicle: urbanarrow
+  baby_age: 3
+  trial_bounds_file: events_UrbanA_2_3months.csv
+  imu_lateral_axis:  # TODO : check, no data provided by Gabriele
+    BotTrike: y
+    FrontWheel: z
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-18_UrbanA_2_3months/2024-12-17_17.47.14_UrbanA_2_FW_SD_Session1/UrbanA_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-18_UrbanA_2_3months/2024-12-17_17.46.42_UrbanA_2_RW_SD_Session1/UrbanA_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-18_UrbanA_2_3months/2024-12-17_17.48.04_UrbanA_2_SB_SD_Session1/UrbanA_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-18_UrbanA_2_3months/2024-12-17_17.47.33_UrbanA_2_SH_SD_Session1/UrbanA_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-18_UrbanA_2_3months/2024-12-17_17.48.21_UrbanA_2_BT_SD_Session1/UrbanA_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session021:
+  date: 2024-12-18
+  vehicle: urbanarrow
+  baby_age: 0
+  trial_bounds_file: events_UrbanA_3_0months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+    BotTrike: y
+    FrontWheel: z
+    RearWheel: -x
+    SeatBot: -x
+    SeatHead: -x
+  imu_files:
+    front_wheel: 2024-12-18_UrbanA_3_0months/2024-12-18_10.57.44_UrbanA_3_FW_SD_Session1/UrbanA_3_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-18_UrbanA_3_0months/2024-12-18_10.58.07_UrbanA_3_RW_SD_Session1/UrbanA_3_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-18_UrbanA_3_0months/2024-12-18_10.58.48_UrbanA_3_SB_SD_Session1/UrbanA_3_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-18_UrbanA_3_0months/2024-12-18_10.58.27_UrbanA_3_SH_SD_Session1/UrbanA_3_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-18_UrbanA_3_0months/2024-12-18_10.57.24_UrbanA_3_BT_SD_Session1/UrbanA_3_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session022:
+  date: 2024-12-18
+  vehicle: urbanarrow
+  baby_age: 3
+  trial_bounds_file: events_UrbanA_4_3months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+    BotTrike: y
+    FrontWheel: z
+    RearWheel: -x
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-18_UrbanA_4_3months/2024-12-18_12.21.28_UrbanA_4_FW_SD_Session1/UrbanA_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-18_UrbanA_4_3months/2024-12-18_12.21.45_UrbanA_4_RW_SD_Session1/UrbanA_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-18_UrbanA_4_3months/2024-12-18_12.21.10_UrbanA_4_SB_SD_Session1/UrbanA_4_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-18_UrbanA_4_3months/2024-12-18_12.20.22_UrbanA_4_SH_SD_Session1/UrbanA_4_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-18_UrbanA_4_3months/2024-12-18_12.22.03_UrbanA_4_BT_SD_Session1/UrbanA_4_BT_Session1_S_BotTrike_Calibrated_SD.csv
