@@ -297,10 +297,7 @@ class Session():
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
-        fig, ax = plt.subplots()
-        ax.plot(new_time, new_signal)
-        ax.set_xlabel('Time [s]')
-        ax.set_ylabel('Acceleration [m/s/s]')
+        new_signal -= np.mean(new_signal)
 
         freq, amp = freq_spectrum(new_signal, sample_rate)
 
@@ -322,7 +319,7 @@ class Session():
         del data
         gc.collect()
 
-        return freq, amp
+        return freq, amp, time, new_signal
 
     def plot_speed_with_trial_bounds(self):
         """Createas a plot of forward speed versus time for the whole session
@@ -599,8 +596,8 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session020'
-    trial_label = 'tarmac'
+    session_label = 'session001'
+    trial_label = 'Aula'
     sample_rate = 400
 
     s = Session(session_label)
@@ -618,14 +615,23 @@ if __name__ == "__main__":
     s.plot_raw_time_series(trial=trial_label, acc=False)
     s.plot_iso_weights()
 
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_ver', sample_rate,
-                                               trial_label)
-    rms = np.sqrt(2.0*np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms, sample_rate)
+    freq, amp, tim, sig = s.calculate_frequency_spectrum(
+        'SeatBotacc_ver', sample_rate, trial_label)
+    # TODO : I think this rms must be wrong for our scaling approach.
+    rms_spec = np.sqrt(2.0*np.mean(amp**2))
+    print('Unweighted RMS from frequency spectrum: ', rms_spec)
+    rms_time = np.sqrt(np.mean(sig**2))
+    print('Unweighted RMS from time domain: ', rms_time)
 
-    freq, amp = s.calculate_frequency_spectrum('SeatBotacc_ver', sample_rate,
-                                               trial_label, iso_weighted=True)
-    rms = np.sqrt(2.0*np.mean(amp**2))
-    plot_frequency_spectrum(freq, amp, rms, sample_rate)
+    plot_frequency_spectrum(freq, amp, rms_spec, sample_rate)
+
+    freq, amp, _, _ = s.calculate_frequency_spectrum(
+        'SeatBotacc_ver', sample_rate, trial_label, iso_weighted=True)
+    rms_spec = np.sqrt(2.0*np.mean(amp**2))
+    print('Weighted RMS from frequency spectrum: ', rms_spec)
+    rms_time = np.sqrt(np.mean(sig**2))
+    # TODO : Make this weighted by doing an inverse FFT.
+    print('Unweighted RMS from time domain: ', rms_time)
+    plot_frequency_spectrum(freq, amp, rms_spec, sample_rate)
 
     plt.show()
