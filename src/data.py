@@ -226,7 +226,7 @@ class Session():
                                            self.imu_data[gyr_cols].values.T).T
         return self.imu_data
 
-    def calculate_travel_speed(self):
+    def calculate_travel_speed(self, smooth=False):
         """Adds a column for the forward travel speed based on the angular rate
         gyro attached to the rotating wheel."""
         dia = self.meta_data['wheel_diameter']
@@ -238,6 +238,9 @@ class Session():
         tmpl = 'S_RearWheel_Gyro_{}_CAL'
         ang_rate = self.imu_data[tmpl.format(wheel_axis[-1].upper())]
         self.imu_data['Speed'] = sign*np.deg2rad(ang_rate)*dia/2.0
+        if smooth:
+            smoothed = self.imu_data['Speed'].rolling('1s').mean()
+            self.imu_data['Speed'] = smoothed
 
     def calculate_vector_magnitudes(self):
         """Calculates the magnitudes of the acceleration and angular rate

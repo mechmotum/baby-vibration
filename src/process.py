@@ -83,7 +83,7 @@ for sess_count, session_label in enumerate(session_labels[:NUM_SESSIONS]):
     else:
         print(s.trial_bounds)
         s.rotate_imu_data()
-        s.calculate_travel_speed()
+        s.calculate_travel_speed(smooth=True)
         s.calculate_vector_magnitudes()
 
         ax = s.plot_speed_with_trial_bounds()
