@@ -15,6 +15,8 @@ with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
     stats_data = pickle.load(f)
 
 stats_df = pd.DataFrame(stats_data)
+stats_df.drop_duplicates(inplace=True)  # in case I ran things double
+
 stats_df['duration_weight'] = stats_df['duration']/stats_df['duration'].max()
 
 # target speeds were 5, 12, 20, 25
@@ -41,7 +43,7 @@ boxp_html.append('<h2>SeatBot_acc_ver</h2>')
 
 p = sns.catplot(data=stats_df, hue="vehicle", y="SeatBotacc_ver_rms",
                 x="surface", col='target_speed', kind='box')
-p.set(ylim=(0.0, 0.2))
+#p.set(ylim=(0.0, 0.2))
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                     'acc-vehicle-compare.png'))
 boxp_html.append('<img src="fig/acc-vehicle-compare.png"></img>\n</br>')

@@ -131,21 +131,21 @@ for sess_count, session_label in enumerate(sessions_to_process):
                     del df  # critical as this seems to be a copy!
                     gc.collect()
 
-                    freq, amp = s.calculate_frequency_spectrum(
+                    freq, amp, _, sig = s.calculate_frequency_spectrum(
                         SIGNAL, SAMPLE_RATE, mot_trial, trial_number=trial_num)
-                    rms = np.sqrt(2.0*np.mean(amp**2))
+                    rms = np.sqrt(np.mean(sig**2))
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE)
 
-                    freq, amp = s.calculate_frequency_spectrum(
+                    freq, amp, _, sig = s.calculate_frequency_spectrum(
                         SIGNAL, SAMPLE_RATE, mot_trial, trial_number=trial_num,
                         iso_weighted=True)
-                    rms = np.sqrt(2.0*np.mean(amp**2))
+                    # TODO : this stores the unweighted RMS!
+                    rms = np.sqrt(np.mean(sig**2))
                     stats_data[SIGNAL_RMS].append(rms)
                     ax = plot_frequency_spectrum(freq, amp, rms, SAMPLE_RATE,
                                                  ax=ax)
                     ax.set_title(file_name)
-                    ax.legend(['Unweighted', 'Unweighted RMS',
-                               'Weighted', 'Weighted RMS'])
+                    ax.legend(['Unweighted', 'RMS', 'Weighted', 'RMS'])
                     ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                    file_name + '.png'))
                     html_data['spect_html'].append('<img src="fig/spectrums/' +
