@@ -13,10 +13,10 @@ oldrusty:
   wheel_diameter: 0.230
 trike:
   vehicle_type: bicycle
-  wheel_diameter: 0.760
+  wheel_diameter: 0.650
 urbanarrow:
   vehicle_type: bicycle
-  wheel_diameter: 0.760
+  wheel_diameter: 0.670
 yoyo:
   vehicle_type: stroller
   wheel_diameter: 0.130
