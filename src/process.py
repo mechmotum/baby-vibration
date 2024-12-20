@@ -55,6 +55,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         'tarmac',
     ]
 
+    if end_num == 99:
+        end_num = None
     sessions_to_process = session_labels[start_num:end_num]
 
     for sess_count, session_label in enumerate(sessions_to_process):
