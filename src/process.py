@@ -11,13 +11,8 @@ import yaml
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_TIME_HIST_DIR, PATH_TO_SPECT_DIR,
                    PATH_TO_ACCROT_DIR)
+from html_templates import IMG, H2, H3
 from data import Session, plot_frequency_spectrum, datetime2seconds
-
-IMG = '<img src="fig/{}/{}"></img>'
-H1 = '<h1>{}</h1>'
-H2 = '<h2>{}</h2>'
-H3 = '<h3>{}</h3>'
-HR = '<hr>'
 
 
 def process_sessions(start_num, end_num, signal, sample_rate):
