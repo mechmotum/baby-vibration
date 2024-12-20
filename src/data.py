@@ -346,6 +346,9 @@ class Session():
             axes[idx, 0].set_title(axis)
             rot_acc_labels += [tmpl.format(sensor) for tmpl in
                                ['{}acc_ver', '{}acc_lat', '{}acc_lon']]
+            if data['{}acc_ver'.format(sensor)].mean() < 0.0:
+                axes[3*snum, 1].set_facecolor('cornsilk')
+
         data = data.interpolate(method='time')
         data[raw_acc_labels].plot(subplots=True, ax=axes[:, 0])
         data[rot_acc_labels].plot(subplots=True, ax=axes[:, 1])
@@ -589,8 +592,8 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session001'
-    trial_label = 'Aula'
+    session_label = 'session010'
+    trial_label = 'static'
     sample_rate = 400
 
     s = Session(session_label)
