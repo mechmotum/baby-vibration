@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from data import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
+from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from run import SIGNAL, SIGNAL_RMS
 
 with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:

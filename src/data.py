@@ -8,14 +8,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-with open('config.yml') as f:
-    config_data = yaml.safe_load(f)
-
-PATH_TO_SESSION_DATA = config_data['data-directory']
-PATH_TO_REPO = os.path.realpath(
-    os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-PATH_TO_DATA_DIR = os.path.join(PATH_TO_REPO, 'data')
-PATH_TO_FIG_DIR = os.path.join(PATH_TO_REPO, 'fig')
+from paths import PATH_TO_SESSION_DATA, PATH_TO_REPO, PATH_TO_DATA_DIR
 
 
 def magnitude(vector):
@@ -220,7 +213,8 @@ class Session():
             # NOTE : This is a bit shameful that I can't figure out the correct
             # rotation to apply and just apply a brute force check and 180
             # rotation.
-            print('Mean of vert', self.imu_data['{}acc_ver'.format(sensor)].mean())
+            print('Mean of vert',
+                  self.imu_data['{}acc_ver'.format(sensor)].mean())
             if self.imu_data['{}acc_ver'.format(sensor)].mean() < 0.0:
                 rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
                 rot_mat = rot_func[rot_axis_label[-1]](np.pi)
@@ -342,8 +336,8 @@ class Session():
         raw_acc_labels = []
         rot_acc_labels = []
         selector = {'x': 0, 'y': 1, 'z': 2}
-        for snum, (sensor, axis) in enumerate(
-            self.meta_data['imu_lateral_axis'].items()):
+        imus = self.meta_data['imu_lateral_axis'].items()
+        for snum, (sensor, axis) in enumerate(imus):
             raw_acc_labels += [tmpl.format(sensor) for tmpl in
                                self.raw_acc_tmpl]
 
@@ -410,7 +404,6 @@ def plot_frequency_spectrum(freq, amp, rms, sample_rate, ax=None):
         fig, ax = plt.subplots(layout='constrained')
     ax.plot(freq, amp)
     ax.axhline(rms, color=ax.get_lines()[0].get_color())
-    #ax.set_xlim((0.0, sample_rate/2.0))
     ax.set_ylim((0.0, 1.0))
     ax.set_xlabel('Frequency [Hz]')
     ax.set_ylabel('Amplitude [m/s/s]')

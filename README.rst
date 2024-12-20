@@ -46,9 +46,13 @@ Run a sample processing of a single session::
 
    python src/data.py
 
-Process all sessions with::
+Process sessions 0 through 3 for specific signal at sample rate 200::
 
-   python src/process.py
+   python src/process 0 3 SeatBotacc_ver 200
+
+Process all sessions in ``data/sessions.yml`` with::
+
+   python src/run.py
 
 Data Description
 ================
