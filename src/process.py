@@ -19,9 +19,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
     if start_num > 0:
         print('Loading existing pickle files')
-        for pkl_file in ['html-data.pkl', 'stats-data.pkl']:
-            with open(os.path.join(PATH_TO_DATA_DIR, pkl_file), 'rb') as f:
-                html_data = pickle.load(f)
+        with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
+            html_data = pickle.load(f)
+        with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
+            stats_data = pickle.load(f)
     else:
         print('Creating new pickle files')
         stats_data = defaultdict(list)
