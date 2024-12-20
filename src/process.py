@@ -42,7 +42,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     session_labels = list(session_meta_data.keys())
 
     motion_trials = [
-        'Aula',
+        'aula',
         'klinkers',
         'pave',
         'stoeptegels',
@@ -65,10 +65,14 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         html_data['trial_html'].append(H2.format(session_label))
         if s.meta_data['trial_bounds_file'] is None:
             print('Missing files, skipping:', session_label)
-            html_data['sess_html'].append(P.format('skipped:' + session_label))
-            html_data['spec_html'].append(P.format('skipped:' + session_label))
-            html_data['srot_html'].append(P.format('skipped:' + session_label))
-            html_data['trial_html'].append(P.format('skipped:' + session_label))
+            html_data['sess_html'].append(P.format('skipped: ' +
+                                                   session_label))
+            html_data['spec_html'].append(P.format('skipped: ' +
+                                                   session_label))
+            html_data['srot_html'].append(P.format('skipped: ' +
+                                                   session_label))
+            html_data['trial_html'].append(P.format('skipped: ' +
+                                                    session_label))
             del s
         else:
             s.load_data()

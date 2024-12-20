@@ -137,7 +137,7 @@ class Session():
         Parameters
         ==========
         trial_name : string
-            Examples are ``static``, ``Aula``, ``pave``, ``klinkers``, etc.
+            Examples are ``static``, ``aula``, ``pave``, ``klinkers``, etc.
         trial_number : integer
             More than one trial with the same name may be present. Use this
             value to select the first, second, third, instance of that trial.
@@ -543,6 +543,8 @@ Aula,"[65784, 83246]",,,,
         df.loc[idx, 'count'] = counts[row['Surface']]
 
     df.rename(columns={'Surface': 'surface'}, inplace=True)
+
+    df['surface'] = df['surface'].str.lower()
     return df
 
 
@@ -566,6 +568,7 @@ def load_trial_bounds2(path):
             counts[row['surface']] = 0
         df.loc[idx, 'count'] = counts[row['surface']]
 
+    df['surface'] = df['surface'].str.lower()
     return df
 
 
@@ -593,7 +596,7 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 if __name__ == "__main__":
 
     session_label = 'session001'
-    trial_label = 'Aula'
+    trial_label = 'aula'
     sample_rate = 400
 
     s = Session(session_label)
