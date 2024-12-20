@@ -7,7 +7,7 @@ import pandas as pd
 import seaborn as sns
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
-from html_templates import INDEX
+from html_templates import INDEX, H2, H3, HR, P, IMG
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
@@ -38,6 +38,8 @@ stats_df['target_speed'][stats_df['speed_avg'] > 6.3] = 25
 stats_df['vehicle_baby'] = (stats_df['vehicle'] + '_' +
                             stats_df['baby_age'].astype(str))
 
+stats_df['speed_avg_kph'] = stats_df['speed_avg']*3.6
+
 print(stats_df)
 groups = ['vehicle', 'baby_age', 'surface', 'target_speed']
 # weight means by duration
@@ -47,59 +49,80 @@ print(mean_df)
 
 boxp_html = []
 
-boxp_html.append('<h2>SeatBot_acc_ver</h2>')
-
-p = sns.catplot(data=stats_df, hue="vehicle", y="SeatBotacc_ver_rms",
-                x="surface", col='target_speed', kind='box')
-p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, 'acc-vehicle-compare.png'))
-plt.clf()
-boxp_html.append('<img src="fig/acc-vehicle-compare.png"></img>\n</br>')
-
-p = sns.catplot(data=stats_df, hue='vehicle_baby', y="SeatBotacc_ver_rms",
-                col='vehicle_type', row='surface', kind='box', sharey=False)
-fname = 'acc-surface-compare.png'
+boxp_html.append(H2.format('Speed Comparison'))
+boxp_html.append(P.format('How does vibration vary across speed?'))
+p = sns.scatterplot(
+    data=stats_df,
+    x="speed_avg_kph",
+    y="SeatBotacc_ver_rms",
+    hue="vehicle_baby",
+)
+fname = '{}-speed-compare.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
-boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
+boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 16))
-fig.suptitle('Seat Pan RMS Acceleration Distributions')
-stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'], rot=30,
-                                    column=SIGNAL_RMS, ax=ax)
-fname = 'SeatBot_acc_ver-dist-boxplot.png'
-fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+boxp_html.append(H2.format('Vehicle Comparison'))
+boxp_html.append(P.format('Do vehicles-baby combinations differ in each '
+                          'surface-speed scenario?'))
+p = sns.catplot(
+    data=stats_df,
+    x="surface",
+    y="SeatBotacc_ver_rms",
+    hue="vehicle",
+    col='target_speed',
+    col_wrap=2,
+    kind='box',
+)
+fname = '{}-vehicle-compare.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
-boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
+boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
-    fig, ax = plt.subplots(layout='constrained')
-    ax.set_title('Seat Pan Accel Distribution Grouped By: {}'.format(grp))
-    ax = stats_df.groupby(grp).boxplot(column=SIGNAL_RMS,
-                                       subplots=False, rot=45, ax=ax)
-    fname = 'SeatBot_acc_ver-by-{}-boxplot.png'.format(grp)
-    fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
-    plt.clf()
-    boxp_html.append('<img src="fig/{}"></img>'.format(fname))
-
-boxp_html.append('<h2>Speed</h2>')
-fig, ax = plt.subplots(5, layout='constrained', figsize=(8, 16))
-fig.suptitle('Speed Distributions')
-stats_df.groupby('surface').boxplot(by=['vehicle', 'baby_age'], rot=30,
-                                    column='speed_avg', ax=ax)
-fname = 'speed-dist-boxplot.png'
-fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+boxp_html.append(H2.format('Stroller Comparison'))
+boxp_html.append(P.format('Do strollers differ in each '
+                          'surface scenario?'))
+p = sns.catplot(
+    data=stats_df[stats_df['vehicle_type'] == 'stroller'],
+    x="vehicle",
+    y="SeatBotacc_ver_rms",
+    hue="baby_age",
+    col='surface',
+    col_wrap=3,
+    kind='strip',
+    palette='deep',
+    sharex=False,
+    sharey=False,
+    size=10,
+    linewidth=1,
+    marker="D",
+)
+fname = '{}-stroller-compare.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
-boxp_html.append('<img src="fig/{}"></img>\n</br>'.format(fname))
+boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-for grp in ['surface', 'vehicle', 'vehicle_type', 'baby_age']:
-    fig, ax = plt.subplots(layout='constrained')
-    ax.set_title('Speed Distribution Grouped By: {}'.format(grp))
-    ax = stats_df.groupby(grp).boxplot(column='speed_avg', subplots=False,
-                                       rot=45, ax=ax)
-    fname = 'speed-by-{}-boxplot.png'.format(grp)
-    fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
-    plt.clf()
-    boxp_html.append('<img src="fig/{}"></img>'.format(fname))
+boxp_html.append(H2.format('Bike/Trike Comparison'))
+boxp_html.append(P.format('Do cargo bikes differ in each '
+                          'surface scenario?'))
+p = sns.catplot(
+    data=stats_df[stats_df['vehicle_type'] == 'bicycle'],
+    x="vehicle",
+    y="SeatBotacc_ver_rms",
+    hue="baby_age",
+    col='surface',
+    kind='strip',
+    palette='deep',
+    sharex=False,
+    sharey=False,
+    size=10,
+    linewidth=1,
+    marker="D",
+)
+fname = '{}-bicycle-compare.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
 
 plt.close('all')
 

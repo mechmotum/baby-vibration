@@ -3,6 +3,7 @@ H1 = '<h1>{}</h1>'
 H2 = '<h2>{}</h2>'
 H3 = '<h3>{}</h3>'
 HR = '<hr>'
+P = '<p>{}</p>'
 
 INDEX = """
 <!DOCTYPE html>
@@ -46,6 +47,7 @@ INDEX = """
     Plots of the filter weights versus frequency we apply to the data.
   </p>
   <img src='fig/iso-filter-weights-01.png'</img>
+  <br>
   <img src='fig/iso-filter-weights-02.png'</img>
 
   <h1>Seat Pan Vertical Acceleration Spectrums</h1>

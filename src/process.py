@@ -87,7 +87,6 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             ax1, ax2 = s.plot_iso_weights()
             ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                                'iso-filter-weights-01.png'))
-            plt.clf()
             ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
                                                'iso-filter-weights-02.png'))
             plt.clf()
