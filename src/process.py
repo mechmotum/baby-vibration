@@ -19,23 +19,21 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
     if start_num > 0:
         print('Loading existing pickle files')
-        with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
-            html_data = pickle.load(f)
-        with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
-            stats_data = pickle.load(f)
+        for pkl_file in ['html-data.pkl', 'stats-data.pkl']:
+            with open(os.path.join(PATH_TO_DATA_DIR, pkl_file), 'rb') as f:
+                html_data = pickle.load(f)
     else:
         print('Creating new pickle files')
         stats_data = defaultdict(list)
         html_data = {
             'sess_html': [],
-            'trial_html': [],
-            'spect_html': [],
+            'spec_html': [],
             'srot_html': [],
+            'trial_html': [],
         }
-        if os.path.exists(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl')):
-            os.remove(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'))
-        if os.path.exists(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl')):
-            os.remove(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'))
+        for pkl_file in ['html-data.pkl', 'stats-data.pkl']:
+            if os.path.exists(os.path.join(PATH_TO_DATA_DIR, pkl_file)):
+                os.remove(os.path.join(PATH_TO_DATA_DIR, pkl_file))
 
     with open(os.path.join(PATH_TO_DATA_DIR, 'sessions.yml')) as f:
         session_meta_data = yaml.safe_load(f)
@@ -57,6 +55,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     for sess_count, session_label in enumerate(sessions_to_process):
         print('Loading: ', session_label)
         s = Session(session_label)
+        html_data['sess_html'].append(H2.format(session_label))
+        html_data['spec_html'].append(H2.format(session_label))
+        html_data['srot_html'].append(H2.format(session_label))
+        html_data['trial_html'].append(H2.format(session_label))
         if s.meta_data['trial_bounds_file'] is None:
             print('Missing files, skipping:', session_label)
             del s
@@ -68,9 +70,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             axes[0, 0].figure.savefig(os.path.join(PATH_TO_ACCROT_DIR,
                                                    session_label + '.png'))
             plt.clf()
-            html_data['srot_html'].append('<h2>' + session_label + '</h2>')
-            html_data['srot_html'].append(IMG.format('accrot',
-                                                     session_label + '.png'))
+            html_data['srot_html'].append(
+                IMG.format('accrot', session_label + '.png'))
             s.rotate_imu_data()
             s.calculate_travel_speed(smooth=True)
             s.calculate_vector_magnitudes()
@@ -93,12 +94,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
             plt.close('all')
 
-            html_data['trial_html'].append(H2.format(session_label))
-            html_data['spect_html'].append(H2.format(session_label))
             for mot_trial in motion_trials:
                 if mot_trial in s.trial_bounds:
                     html_data['trial_html'].append(H3.format(mot_trial))
-                    html_data['spect_html'].append(H3.format(mot_trial))
+                    html_data['spec_html'].append(H3.format(mot_trial))
                     for trial_num in s.trial_bounds[mot_trial]:
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
@@ -163,7 +162,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                                        file_name + '.png'))
 
                         plt.clf()
-                        html_data['spect_html'].append(
+                        html_data['spec_html'].append(
                             IMG.format('spectrums', file_name + '.png'))
 
                         plt.clf()

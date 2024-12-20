@@ -46,6 +46,12 @@ groups = ['vehicle', 'baby_age', 'surface', 'target_speed']
 mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"]))
 print(mean_df)
+summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
+    count='size',
+    weighted_mean=lambda x: np.average(
+        x, weights=stats_df.loc[x.index, "duration_weight"]),
+    std='std')  # TODO : weighted std https://stackoverflow.com/a/2415343
+print(summary_df)
 
 boxp_html = []
 
@@ -59,7 +65,7 @@ p = sns.scatterplot(
     style='surface',
 )
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-plt.gcf().set_size_inches((8, 8))
+plt.gcf().set_size_inches((12, 8))
 plt.tight_layout()
 fname = '{}-speed-compare.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
@@ -137,7 +143,7 @@ html_source = INDEX.format(
     boxp_html='\n  '.join(boxp_html),
     mean_table=mean_df.to_frame().to_html(),
     sess_html='\n  '.join(html_data['sess_html']),
-    spect_html='\n  '.join(html_data['spect_html']),
+    spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
     srot_html='\n  '.join(html_data['srot_html']),
     trial_table=stats_df.to_html(),
