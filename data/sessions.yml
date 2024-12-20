@@ -145,7 +145,7 @@ session009:
     RearWheel: -z
     SeatBot: x  # TODO : Unsure, needs check from data.
     SeatHead: x  # TODO : Unsure, needs check from data.
-  trial_bounds_file: null  # Interval_indexes_Bugaboo_4_0months.csv
+  trial_bounds_file: events_Bugaboo_4_0months.csv
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.22_Bugaboo_4_FW_SD_Session1/Bugaboo_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.43_Bugaboo_4_RW_SD_Session1/Bugaboo_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -162,7 +162,7 @@ session010:
     RearWheel: -z
     SeatBot: x
     SeatHead: x
-  trial_bounds_file: null  # Interval_indexes_Bugaboo_7_9months.csv
+  trial_bounds_file: events_Bugaboo_7_9months.csv
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_7_9months/2024-12-10_15.18.47_Bugaboo_7_FW_SD_Session1/Bugaboo_7_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Bugaboo_7_9months/2024-12-10_15.18.25_Bugaboo_7_RW_SD_Session1/Bugaboo_7_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -179,7 +179,7 @@ session011:
     RearWheel: -z
     SeatBot: x
     SeatHead: x
-  trial_bounds_file: null # TODO : no file provided yet
+  trial_bounds_file: events_Maxicosi_4_0months.csv
   imu_files:
     front_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.28.38_Maxicos_4_FW_SD_Session1/Maxicos_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Maxicos_4_0months/2024-12-10_12.27.40_Maxicos_4_RW_SD_Session1/Maxicos_4_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -190,7 +190,13 @@ session012:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 9
-  trial_bounds_file: null  # TODO : no file provided yet
+  imu_lateral_axis:  # TODO : no data provided
+    BotTrike: -x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
+  trial_bounds_file: events_Maxicosi_7_9months.csv
   imu_files:
     front_wheel: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.26.51_Maxicos_7_FW_SD_Session1/Maxicos_7_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.26.28_Maxicos_7_RW_SD_Session1/Maxicos_7_RW_Session1_S_RearWheel_Calibrated_SD.csv
@@ -207,7 +213,7 @@ session013:
     RearWheel: -z
     SeatBot: -x
     SeatHead: -x
-  trial_bounds_file: null  # TODO : no file provided yet
+  trial_bounds_file: events_YOYO_5_0months.csv
   imu_files:
     front_wheel: 2024-12-10_YOYO_5_0months/2024-12-10_16.04.08_YOYO_5_FW_SD_Session1/YOYO_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-12-10_YOYO_5_0months/2024-12-10_16.04.32_YOYO_5_RW_SD_Session1/YOYO_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
