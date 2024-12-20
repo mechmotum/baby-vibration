@@ -252,7 +252,7 @@ class Session():
         ang_rate = self.imu_data[tmpl.format(wheel_axis[-1].upper())]
         self.imu_data['Speed'] = sign*np.deg2rad(ang_rate)*dia/2.0
         if smooth:
-            smoothed = self.imu_data['Speed'].rolling('1s').mean()
+            smoothed = self.imu_data['Speed'].rolling('100ms').mean()
             self.imu_data['Speed'] = smoothed
 
     def calculate_vector_magnitudes(self):
@@ -592,8 +592,8 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session010'
-    trial_label = 'static'
+    session_label = 'session001'
+    trial_label = 'Aula'
     sample_rate = 400
 
     s = Session(session_label)
