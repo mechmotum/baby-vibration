@@ -28,12 +28,12 @@ stats_df['duration_weight'] = stats_df['duration']/stats_df['duration'].max()
 # 16 km/hr = 4.4 m/s
 # 22.5 km/hr = 6.3 m/s
 stats_df['target_speed'] = [0]*len(stats_df)
-stats_df['target_speed'][stats_df['speed_avg'] <= 2.4] = 5
-stats_df['target_speed'][(stats_df['speed_avg'] > 2.4) &
-                         (stats_df['speed_avg'] <= 4.4)] = 12
-stats_df['target_speed'][(stats_df['speed_avg'] > 4.4) &
-                         (stats_df['speed_avg'] <= 6.3)] = 20
-stats_df['target_speed'][stats_df['speed_avg'] > 6.3] = 25
+stats_df.loc[stats_df['speed_avg'] <= 2.4, 'target_speed'] = 5
+stats_df.loc[(stats_df['speed_avg'] > 2.4) &
+             (stats_df['speed_avg'] <= 4.4), 'target_speed'] = 12
+stats_df.loc[(stats_df['speed_avg'] > 4.4) &
+             (stats_df['speed_avg'] <= 6.3), 'target_speed'] = 20
+stats_df.loc[stats_df['speed_avg'] > 6.3, 'target_speed'] = 25
 
 stats_df['vehicle_baby'] = (stats_df['vehicle'] + '_' +
                             stats_df['baby_age'].astype(str))
