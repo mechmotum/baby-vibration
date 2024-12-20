@@ -56,7 +56,11 @@ p = sns.scatterplot(
     x="speed_avg_kph",
     y="SeatBotacc_ver_rms",
     hue="vehicle_baby",
+    style='surface',
 )
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+plt.gcf().set_size_inches((8, 8))
+plt.tight_layout()
 fname = '{}-speed-compare.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
@@ -73,6 +77,8 @@ p = sns.catplot(
     col='target_speed',
     col_wrap=2,
     kind='box',
+    sharex=False,
+    sharey=False,
 )
 fname = '{}-vehicle-compare.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
