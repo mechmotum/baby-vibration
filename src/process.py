@@ -11,7 +11,7 @@ import yaml
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_TIME_HIST_DIR, PATH_TO_SPECT_DIR,
                    PATH_TO_ACCROT_DIR)
-from html_templates import IMG, H2, H3
+from html_templates import IMG, H2, H3, P
 from data import Session, plot_frequency_spectrum, datetime2seconds
 
 
@@ -54,7 +54,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     sessions_to_process = session_labels[start_num:end_num]
 
     for sess_count, session_label in enumerate(sessions_to_process):
-        print('Loading: ', session_label)
+        msg = 'Loading: {}'.format(session_label)
+        print('='*len(msg))
+        print(msg)
+        print('='*len(msg))
         s = Session(session_label)
         html_data['sess_html'].append(H2.format(session_label))
         html_data['spec_html'].append(H2.format(session_label))
@@ -62,6 +65,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         html_data['trial_html'].append(H2.format(session_label))
         if s.meta_data['trial_bounds_file'] is None:
             print('Missing files, skipping:', session_label)
+            html_data['sess_html'].append(P.format('skipped:' + session_label))
+            html_data['spec_html'].append(P.format('skipped:' + session_label))
+            html_data['srot_html'].append(P.format('skipped:' + session_label))
+            html_data['trial_html'].append(P.format('skipped:' + session_label))
             del s
         else:
             s.load_data()
