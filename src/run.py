@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # run each chunk of sessions in a seperate process that must exit so all
     # memory is freed, running all sessions in the same process has a memory
     # leak
-    for start_num, end_num in ((0, 5), (5, 10), (10, 15), (15, 99)):
+    for start_num, end_num in ((0, 5), (5, 10), (10, 15), (15, 20), (20, 99)):
         subprocess.call(['python', path_to_process, str(start_num),
                          str(end_num), SIGNAL, str(SAMPLE_RATE)])
 
