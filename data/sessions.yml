@@ -321,7 +321,7 @@ session020:
   vehicle: urbanarrow
   baby_age: 3
   trial_bounds_file: events_UrbanA_2_3months.csv
-  imu_lateral_axis: 
+  imu_lateral_axis:
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -371,7 +371,7 @@ session023:
   date: 2024-12-20
   vehicle: urbanarrow
   baby_age: 3
-  seat: Melia
+  seat: melia
   trial_bounds_file: events_UrbanA_5_3months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
@@ -389,7 +389,7 @@ session024:
   date: 2024-12-20
   vehicle: trike
   baby_age: 3
-  seat: Maxicosi_Joolz
+  seat: maxicosi_joolz
   trial_bounds_file: events_Trike_6_3months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
