@@ -194,8 +194,8 @@ class Session():
                 xyz = ('ver', 'lon', 'lat')
             hor_mean = mean_df[raw_acc_tmpl.format(sensor, hor_lab)]
             ver_mean = mean_df[raw_acc_tmpl.format(sensor, ver_lab)]
-            print('Sensor', sensor)
-            print(hor_mean, ver_mean)
+            #print('Sensor', sensor)
+            #print(hor_mean, ver_mean)
             rot_mat = compute_gravity_rotation_matrix(rot_axis_label,
                                                       ver_mean,
                                                       hor_mean)
@@ -213,8 +213,8 @@ class Session():
             # NOTE : This is a bit shameful that I can't figure out the correct
             # rotation to apply and just apply a brute force check and 180
             # rotation.
-            print('Mean of vert',
-                  self.imu_data['{}acc_ver'.format(sensor)].mean())
+            #print('Mean of vert',
+                  #self.imu_data['{}acc_ver'.format(sensor)].mean())
             if self.imu_data['{}acc_ver'.format(sensor)].mean() < 0.0:
                 rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
                 rot_mat = rot_func[rot_axis_label[-1]](np.pi)
@@ -254,6 +254,7 @@ class Session():
         if smooth:
             smoothed = self.imu_data['Speed'].rolling('100ms').mean()
             self.imu_data['Speed'] = smoothed
+        self.imu_data['Speed_kph'] = 3.6*self.imu_data['Speed']
 
     def calculate_vector_magnitudes(self):
         """Calculates the magnitudes of the acceleration and angular rate
@@ -318,15 +319,24 @@ class Session():
     def plot_speed_with_trial_bounds(self):
         """Createas a plot of forward speed versus time for the whole session
         with shaded labeled areas for each trial."""
-        fig, ax = plt.subplots(figsize=(16, 2), layout='constrained')
-        ax = self.imu_data['Speed'].plot(ax=ax, linestyle='', marker='.')
+        fig, ax = plt.subplots(figsize=(16, 3), layout='constrained')
+        ax = self.imu_data['Speed_kph'].plot(ax=ax, linestyle='', marker='.')
         for idx, row in self.bounds_data_frame.iterrows():
-            ax.axvspan(row['start_time'], row['end_time'],
-                       alpha=0.5, color='gray')
-            ax.text(row['start_time'], 0.0, row['surface'],
-                    rotation='vertical')
-        ax.set_ylabel('Speed [m/s]')
+            start, end = row['start_time'], row['end_time']
+
+            chunk = self.imu_data.loc[start:end, 'Speed_kph']
+            mean, std = chunk.mean(), chunk.std()
+            ax.plot([start, end], [mean, mean], color='gold')
+            ax.plot([start, end], [mean + std, mean + std], color='khaki')
+            ax.plot([start, end], [mean - std, mean - std], color='khaki')
+            del chunk
+
+            ax.axvspan(start, row['end_time'], alpha=0.5, color='gray')
+            ax.text(start, 0.0, row['surface'], rotation='vertical')
+
+        ax.set_ylabel('Speed [km/h]')
         ax.set_title(self.meta_data['imu_files']['rear_wheel'])
+        ax.grid()
         return ax
 
     def plot_accelerometer_rotation(self):
@@ -589,7 +599,7 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
     rot_func = {'x': x_rot, 'y': y_rot, 'z': z_rot}
     theta = np.arctan(horizontal_value/vertical_value)
     rot_mat = rot_func[lateral_axis[-1]](theta)
-    print('Angle:', np.rad2deg(theta))
+    #print('Angle:', np.rad2deg(theta))
     return rot_mat
 
 
