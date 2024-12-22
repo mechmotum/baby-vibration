@@ -8,11 +8,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import yaml
 
+from data import Session
+from functions import datetime2seconds
+from html_templates import IMG, H2, H3, P
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_TIME_HIST_DIR, PATH_TO_SPECT_DIR,
                    PATH_TO_ACCROT_DIR, PATH_TO_SYNC_DIR)
-from html_templates import IMG, H2, H3, P
-from data import Session, plot_frequency_spectrum, datetime2seconds
+from plots import plot_frequency_spectrum
 
 
 def process_sessions(start_num, end_num, signal, sample_rate):
