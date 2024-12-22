@@ -59,6 +59,8 @@ class Session():
         etc. These labels are defined in ``data/session.yml``.
 
     """
+    sensor_labels = ['BotTrike', 'FrontWheel', 'RearWheel', 'SeatBot',
+                     'SeatHead']
     raw_gyr_tmpl = ['S_{}_Gyro_X_CAL', 'S_{}_Gyro_Y_CAL', 'S_{}_Gyro_Z_CAL']
     raw_acc_tmpl = ['S_{}_Accel_WR_X_CAL', 'S_{}_Accel_WR_Y_CAL',
                     'S_{}_Accel_WR_Z_CAL']
@@ -379,6 +381,16 @@ class Session():
         gc.collect()
         return axes
 
+    def plot_time_sync(self):
+        # The longitudinal acceleration of each sensor except the rotating rear
+        # wheel sensor should output the same thing during the time
+        # synchronization motion.
+        data = self.extract_trial('synchro')
+        cols = ['{}acc_lon'.format(sensor)
+                for sensor in self.sensor_labels if sensor != 'RearWheel']
+        lon_acc = data[cols].interpolate(method='time')
+        return lon_acc.plot()
+
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
         """Returns a plot of the raw acelerometer and gyroscope time series.
@@ -615,8 +627,8 @@ def compute_gravity_rotation_matrix(lateral_axis, vertical_value,
 
 if __name__ == "__main__":
 
-    session_label = 'session001'
-    trial_label = 'aula'
+    session_label = 'session015'
+    trial_label = 'synchro'
     sample_rate = 400
 
     s = Session(session_label)
@@ -629,6 +641,8 @@ if __name__ == "__main__":
     s.plot_accelerometer_rotation()
 
     s.rotate_imu_data()
+    if 'synchro' in s.trial_bounds:
+        s.plot_time_sync()
     s.plot_speed_with_trial_bounds()
     s.plot_raw_time_series(trial=trial_label, gyr=False)
     s.plot_raw_time_series(trial=trial_label, acc=False)

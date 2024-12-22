@@ -146,6 +146,7 @@ html_source = INDEX.format(
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
     srot_html='\n  '.join(html_data['srot_html']),
+    sync_html='\n  '.join(html_data['sync_html']),
     trial_table=stats_df.to_html(),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:

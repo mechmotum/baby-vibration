@@ -10,7 +10,7 @@ import yaml
 
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_TIME_HIST_DIR, PATH_TO_SPECT_DIR,
-                   PATH_TO_ACCROT_DIR)
+                   PATH_TO_ACCROT_DIR, PATH_TO_SYNC_DIR)
 from html_templates import IMG, H2, H3, P
 from data import Session, plot_frequency_spectrum, datetime2seconds
 
@@ -26,12 +26,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     else:
         print('Creating new pickle files')
         stats_data = defaultdict(list)
-        html_data = {
-            'sess_html': [],
-            'spec_html': [],
-            'srot_html': [],
-            'trial_html': [],
-        }
+        html_data = defaultdict(list)
         for pkl_file in ['html-data.pkl', 'stats-data.pkl']:
             if os.path.exists(os.path.join(PATH_TO_DATA_DIR, pkl_file)):
                 os.remove(os.path.join(PATH_TO_DATA_DIR, pkl_file))
@@ -63,6 +58,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         html_data['spec_html'].append(H2.format(session_label))
         html_data['srot_html'].append(H2.format(session_label))
         html_data['trial_html'].append(H2.format(session_label))
+        html_data['sync_html'].append(H2.format(session_label))
         if s.meta_data['trial_bounds_file'] is None:
             print('Missing files, skipping:', session_label)
             html_data['sess_html'].append(P.format('skipped: ' +
@@ -93,6 +89,16 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR, ses_img_fn))
             plt.clf()
             html_data['sess_html'].append(IMG.format('bounds', ses_img_fn))
+
+            if 'synchro' in s.trial_bounds:
+                ax = s.plot_time_sync()
+                sync_img_fn = session_label + '.png'
+                ax.figure.savefig(os.path.join(PATH_TO_SYNC_DIR, sync_img_fn))
+                plt.clf()
+                html_data['sync_html'].append(IMG.format('sync', ses_img_fn))
+            else:
+                html_data['sync_html'].append(P.format('skipped: ' +
+                                                       session_label))
 
             # TODO : No need to plot this same thing for every session, but
             # need to load a session for the data. Maybe disconnect this data

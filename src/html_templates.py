@@ -1,11 +1,11 @@
-IMG = '<img src="fig/{}/{}"></img>'
 H1 = '<h1>{}</h1>'
 H2 = '<h2>{}</h2>'
 H3 = '<h3>{}</h3>'
 HR = '<hr>'
+IMG = '<img src="fig/{}/{}"></img>'
 P = '<p>{}</p>'
 
-INDEX = """
+INDEX = """\
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,24 +24,37 @@ INDEX = """
     This results page examines the signal: <strong>{signal}</strong>.
   </p>
 
-  <h1>Duration Weighted Mean of the RMS of {signal}</h1>
+  <h1>Table of Contents</h1>
+  <ol>
+    <li><a href="#mean_table">Mean Table</a></li>
+    <li><a href="#boxp">Comparison Plots</a></li>
+    <li><a href="#sess">Sessions Segmented into Trials</a></li>
+    <li><a href="#trial_table">Table of All Trials</a></li>
+    <li><a href="#iso">ISO 2631-1 Weights</a></li>
+    <li><a href="#trial">Seat Pan Vertical Acceleration Time Histories</a></li>
+    <li><a href="#spec">Seat Pan Vertical Acceleration Spectrums</a></li>
+    <li><a href="#srot">Sensor Rotation Checks</a></li>
+    <li><a href="#sync">Sensor Time Synchronization Checks</a></li>
+  </ol>
+
+  <h1 id="mean_table">Duration Weighted Mean of the RMS of {signal}</h1>
   <hr>
 {mean_table}
 
-  <h1>Comparison Plots: RMS of {signal} </h1>
+  <h1 id="boxp">Comparison Plots: RMS of {signal} </h1>
   <hr>
 {boxp_html}
 
-  <h1>Sessions Segmented into Trials</h1>
+  <h1 id="sess">Sessions Segmented into Trials</h1>
   <p>This section shows how the sessions are segmented into trials.</p>
 {sess_html}
 
-  <h1>Trials</h1>
+  <h1 id="trial_table">Trials</h1>
   <hr>
   <p>This lists all of the trials in long form data forma (tidy data).</p>
 {trial_table}
 
-  <h1>ISO 2631-1 Weights</h1>
+  <h1 id="iso">ISO 2631-1 Weights</h1>
   <hr>
   <p>
     Plots of the filter weights versus frequency we apply to the data.
@@ -50,11 +63,17 @@ INDEX = """
   <br>
   <img src='fig/iso-filter-weights-02.png'</img>
 
-  <h1>Seat Pan Vertical Acceleration Spectrums</h1>
+  <h1 id="trial">Seat Pan Vertical Acceleration Time Histories</h1>
+  <hr>
+  <p>
+  </p>
+{trial_html}
+
+  <h1 id="spec">Seat Pan Vertical Acceleration Spectrums</h1>
   <hr>
 {spec_html}
 
-  <h1>Sensor Rotation Check</h1>
+  <h1 id="srot">Sensor Rotation Check</h1>
   <hr>
   <p>
     These plots give the information necessary to determine if the sensor
@@ -73,12 +92,9 @@ INDEX = """
   </p>
 {srot_html}
 
-  <h1>Seat Pan Vertical Acceleration Time Histories</h1>
+  <h1 id="sync">Time Synchronization Check</h1>
   <hr>
-  <p>
-  </p>
-{trial_html}
+{sync_html}
 
   </body>
-</html>
-"""
+</html>"""
