@@ -112,6 +112,11 @@ class Session():
                 counts = list(self.bounds_data_frame['count'][selector])
                 self.trial_bounds[trial_name] = counts
 
+    def memory_usage(self):
+        msg = 'imu_data data frame : {:0.2f} bytes'.format(
+            self.imu_data.memory_usage().sum())
+        print(msg)
+
     def merge_imu_data(self, minimize_memory=True):
         """Creates a single data frame, ``imu_data``, for all IMU data with NaN
         values at non-shared time stamps. Removes the individual data frames
@@ -121,6 +126,11 @@ class Session():
             self.imu_data_frames
         except AttributeError:
             self.load_data()
+
+        # TODO : Could store this as a sparse data type, but there are
+        # failures, such as .interpolate() not being available.
+        # https://pandas.pydata.org/pandas-docs/stable/user_guide/sparse.html
+        # .astype(pd.SparseDtype("float", np.nan))
 
         self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
 
