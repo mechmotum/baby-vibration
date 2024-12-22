@@ -31,8 +31,9 @@ or on Windows::
 
    data-directory: C:\path\to\Trillingen-Project_Dec2024
 
-The ``Trillingen-Project_Dec2024`` is a mountable directory share on TU Delft
-currently.
+The ``Trillingen-Project_Dec2024`` is currently a private mountable directory
+share on TU Delft netowrk. The data will be shared in a public repository in
+the future.
 
 Install conda then create and activate the environment::
 
@@ -57,8 +58,10 @@ Process all sessions in ``data/sessions.yml`` with::
 Data Description
 ================
 
-We mount five Shimmer IMUs on the vehicle. Each Shimmer produces a single CSV
-file for collection time period.
+We mount five Shimmer_ IMUs on the vehicle that collect data simultaneously
+during different trials.
+
+.. _Shimmer: https://www.shimmersensing.com/
 
 Session
    A "session" is a continuous collection of data from a set of Shimmer IMUs.
@@ -83,9 +86,11 @@ Shimmer IMU names:
 
 Vehicle name:
 
-- ``maxicosi``: Maxicosi stroller
-- ``yoyo``: Yoyo stroller
 - ``bugaboo``: Bugaboo stroller
+- ``maxicosi``: Maxicosi stroller
+- ``trike``: Keiler tadpole cargo tricycle
+- ``urbanarrow``: Urban Arrow cargo bicycle
+- ``yoyo``: Yoyo stroller
 
 The shimmers are set to +/- 16 g and +/- 2000 deg/s. The values are recorded to
 16 bit floating point precision other than the time stamp which is a 16 bit
