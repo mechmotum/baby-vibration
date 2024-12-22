@@ -3,6 +3,7 @@ session001:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
+  seat: cot
   imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
     BotTrike: x
     FrontWheel: -z
@@ -20,6 +21,7 @@ session002:
   date: 2024-11-28
   vehicle: yoyo
   baby_age: 0
+  seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
@@ -37,6 +39,7 @@ session003:
   date: 2024-11-28
   vehicle: yoyo
   baby_age: 0
+  seat: cot
   trial_bounds_file: Interval_indexes_YOYO_LR3_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
@@ -54,6 +57,7 @@ session004:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
+  seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
@@ -71,6 +75,7 @@ session005:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
+  seat: seat
   imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
     BotTrike: x
     FrontWheel: -z
@@ -88,6 +93,7 @@ session006:
   date: 2024-11-29
   vehicle: bugaboo
   baby_age: 9
+  seat: seat
   imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
     BotTrike: -y  # TODO : Unsure, needs check from data.
     FrontWheel: -z
@@ -105,6 +111,7 @@ session007:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
+  seat: seat
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
@@ -122,6 +129,7 @@ session008:
   date: 2024-12-09
   vehicle: bugaboo
   baby_age: 0
+  seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
@@ -139,6 +147,7 @@ session009:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 0
+  seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
@@ -156,6 +165,7 @@ session010:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 9
+  seat: seat
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -y  # TODO : Unsure, needs check from data.
     FrontWheel: -z
@@ -173,6 +183,7 @@ session011:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 0
+  seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
@@ -190,6 +201,7 @@ session012:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 9
+  seat: seat
   imu_lateral_axis:  # TODO : no data provided
     BotTrike: -x
     FrontWheel: -z
@@ -207,6 +219,7 @@ session013:
   date: 2024-12-10
   vehicle: yoyo
   baby_age: 0
+  seat: cot
   imu_lateral_axis:
     BotTrike: -x
     FrontWheel: -z
@@ -224,6 +237,7 @@ session014:  # test of taping IMUs together and shaking
   date: 2024-12-11
   vehicle: none
   baby_age: null
+  seat: null
   trial_bounds_file: null
   imu_files:
     front_wheel: 2024-12-11_p1_500Hz/2024-12-11_11.29.03_p1_500Hz_FW_SD_Session1/p1_500Hz_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -235,6 +249,7 @@ session015:
   date: 2024-12-12
   vehicle: trike
   baby_age: 0
+  seat: maxicosi_joolz
   trial_bounds_file: events_Trike_1_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -252,6 +267,7 @@ session016:
   date: 2024-12-13
   vehicle: trike
   baby_age: 0
+  seat: maxicosi_joolz
   trial_bounds_file: events_Trike_2_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -269,6 +285,7 @@ session017:  # missing rear wheel data, see note at https://github.com/mechmotum
   date: 2024-12-13
   vehicle: trike
   baby_age: 3
+  seat: melia
   trial_bounds_file: null
   imu_lateral_axis:
     BotTrike: -y
@@ -286,6 +303,7 @@ session018:
   date: 2024-12-16
   vehicle: trike
   baby_age: 3
+  seat: melia
   trial_bounds_file: events_Trike_5_3months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -303,6 +321,7 @@ session019:
   date: 2024-12-17
   vehicle: urbanarrow
   baby_age: 0
+  seat: maxicosi_joolz
   trial_bounds_file: events_UrbanA_1_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
@@ -320,6 +339,7 @@ session020:
   date: 2024-12-18
   vehicle: urbanarrow
   baby_age: 3
+  seat: maxicosi_joolz
   trial_bounds_file: events_UrbanA_2_3months.csv
   imu_lateral_axis:
     BotTrike: y
@@ -337,6 +357,7 @@ session021:
   date: 2024-12-18
   vehicle: urbanarrow
   baby_age: 0
+  seat: maxicosi_joolz
   trial_bounds_file: events_UrbanA_3_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
@@ -354,6 +375,7 @@ session022:
   date: 2024-12-18
   vehicle: urbanarrow
   baby_age: 3
+  seat: melia
   trial_bounds_file: events_UrbanA_4_3months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
