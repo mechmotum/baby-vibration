@@ -121,13 +121,14 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                     for trial_num in s.trial_bounds[mot_trial]:
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
+                        stats_data['baby_age'].append(s.meta_data['baby_age'])
+                        stats_data['seat'].append(s.meta_data['seat'])
                         stats_data['session'].append(session_label[-3:])
                         stats_data['surface'].append(mot_trial.lower())
                         stats_data['surface_count'].append(trial_num)
                         stats_data['vehicle'].append(s.meta_data['vehicle'])
                         stats_data['vehicle_type'].append(
                             s.meta_data['vehicle_type'])
-                        stats_data['baby_age'].append(s.meta_data['baby_age'])
 
                         file_name = '-'.join([
                             session_label,
@@ -135,6 +136,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             't' + str(trial_num),
                             stats_data['surface'][-1],
                             stats_data['vehicle'][-1],
+                            stats_data['seat'][-1],
                             stats_data['vehicle_type'][-1],
                             str(stats_data['baby_age'][-1]),
                             signal,
