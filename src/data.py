@@ -1,8 +1,9 @@
 import os
 import gc
+import itertools
 
 from dtk.inertia import x_rot, y_rot, z_rot
-from dtk.process import freq_spectrum
+from dtk.process import freq_spectrum, find_timeshift
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -389,7 +390,30 @@ class Session():
         cols = ['{}acc_lon'.format(sensor)
                 for sensor in self.sensor_labels if sensor != 'RearWheel']
         lon_acc = data[cols].interpolate(method='time')
-        return lon_acc.plot()
+
+        text = ''
+        for pair in itertools.combinations(cols, 2):
+            deltat = 1.0/800
+
+            sig1 = lon_acc[pair[0]].dropna()
+            tim1 = datetime2seconds(sig1.index)
+
+            sig2 = lon_acc[pair[1]].dropna()
+            tim2 = datetime2seconds(sig2.index)
+
+            new_tim1 = np.arange(0.0, 10.0, deltat)
+            new_sig1 = np.interp(new_tim1, tim1, sig1)
+
+            new_tim2 = np.arange(0.0, 10.0, deltat)
+            new_sig2 = np.interp(new_tim2, tim2, sig2)
+
+            shift = find_timeshift(new_sig1, new_sig2, 800)
+
+            text += '{}-{}: {:0.4} s\n'.format(pair[0], pair[1], shift)
+
+        ax = lon_acc.plot()
+        plt.figtext(0.3, 0.2, text)
+        return ax
 
     def plot_raw_time_series(self, trial=None, trial_number=0, acc=True,
                              gyr=True):
