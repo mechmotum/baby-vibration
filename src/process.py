@@ -38,13 +38,13 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
     session_labels = list(session_meta_data.keys())
 
-    motion_trials = [
-        'aula',
-        'klinkers',
-        'pave',
-        'stoeptegels',
-        'tarmac',
-    ]
+    motion_trials = {
+        'aula': 'Sidewalk Large Spacing',
+        'klinkers': 'Paver Bricks',
+        'pave': 'Cobblestones',
+        'stoeptegels': 'Sidewalk Small Spacing',
+        'tarmac': 'Asphalt',
+    }
 
     if end_num == 99:
         end_num = None
@@ -114,31 +114,33 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
             plt.close('all')
 
-            for mot_trial in motion_trials:
+            for mot_trial in motion_trials.keys():
                 if mot_trial in s.trial_bounds:
                     html_data['trial_html'].append(H3.format(mot_trial))
                     html_data['spec_html'].append(H3.format(mot_trial))
                     for trial_num in s.trial_bounds[mot_trial]:
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
-                        stats_data['baby_age'].append(s.meta_data['baby_age'])
+                        stats_data['Baby Age [month]'].append(
+                            s.meta_data['baby_age'])
                         stats_data['seat'].append(s.meta_data['seat'])
                         stats_data['session'].append(session_label[-3:])
-                        stats_data['surface'].append(mot_trial.lower())
+                        stats_data['Road Surface'].append(
+                            motion_trials[mot_trial])
                         stats_data['surface_count'].append(trial_num)
                         stats_data['vehicle'].append(s.meta_data['vehicle'])
-                        stats_data['vehicle_type'].append(
+                        stats_data['Vehicle Type'].append(
                             s.meta_data['vehicle_type'])
 
                         file_name = '-'.join([
                             session_label,
                             's' + str(sess_count),
                             't' + str(trial_num),
-                            stats_data['surface'][-1],
+                            stats_data['Road Surface'][-1],
                             stats_data['vehicle'][-1],
                             stats_data['seat'][-1],
-                            stats_data['vehicle_type'][-1],
-                            str(stats_data['baby_age'][-1]),
+                            stats_data['Vehicle Type'][-1],
+                            str(stats_data['Baby Age [month]'][-1]),
                             signal,
                         ])
 
@@ -155,9 +157,9 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             IMG.format('time_hist', file_name + '.png'))
 
                         duration = datetime2seconds(df.index)[-1]
-                        stats_data['duration'].append(duration)
-                        stats_data['speed_avg'].append(df['Speed'].mean())
-                        stats_data['speed_std'].append(df['Speed'].std())
+                        stats_data['Duration [s]'].append(duration)
+                        stats_data['Mean Speed [m/s]'].append(df['Speed'].mean())
+                        stats_data['Standard Deviation of Speed [m/s]'].append(df['Speed'].std())
 
                         plt.close('all')
                         del df  # critical as this seems to be a copy!
