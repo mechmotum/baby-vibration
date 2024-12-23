@@ -39,6 +39,10 @@ stats_df['vehicle_baby'] = (stats_df['vehicle'] + '_' +
                             stats_df['seat'] + '_' +
                             stats_df['baby_age'].astype(str) + 'm')
 
+stats_df['seat_baby'] = (stats_df['seat'] + '_' +
+                         stats_df['baby_age'].astype(str) + 'm')
+
+
 stats_df['speed_avg_kph'] = stats_df['speed_avg']*3.6
 
 print(stats_df)
@@ -122,7 +126,7 @@ p = sns.catplot(
     data=stats_df[stats_df['vehicle_type'] == 'bicycle'],
     x="vehicle",
     y="SeatBotacc_ver_rms",
-    hue="baby_age",
+    hue="seat_baby",
     col='surface',
     kind='strip',
     palette='deep',
