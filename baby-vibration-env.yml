@@ -2,14 +2,14 @@ name: baby-vibration
 channels:
   - conda-forge
 dependencies:
-  - dynamicisttoolkit
+  - dynamicisttoolkit =0.7.0
   - ghp-import
   - ipython
-  - matplotlib
-  - numpy
-  - pandas
-  - python
-  - pyyaml
-  - scipy
-  - seaborn
-  - statsmodels
+  - matplotlib =3.9.3
+  - numpy =2.2.0
+  - pandas =2.23
+  - python =3.13.1
+  - pyyaml =6.02
+  - scipy =1.14.1
+  - seaborn =0.13.2
+  - statsmodels =0.14.4
