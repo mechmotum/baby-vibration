@@ -36,7 +36,8 @@ stats_df.loc[(stats_df['speed_avg'] > 4.4) &
 stats_df.loc[stats_df['speed_avg'] > 6.3, 'target_speed'] = 25
 
 stats_df['vehicle_baby'] = (stats_df['vehicle'] + '_' +
-                            stats_df['baby_age'].astype(str))
+                            stats_df['seat'] + '_' +
+                            stats_df['baby_age'].astype(str) + 'm')
 
 stats_df['speed_avg_kph'] = stats_df['speed_avg']*3.6
 
