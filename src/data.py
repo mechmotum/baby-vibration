@@ -133,8 +133,14 @@ class Session():
         except AttributeError:
             self.merge_imu_data()
 
+        if trial_name not in self.trial_bounds:
+            msg = 'Trial type {} not present in this session'
+            raise ValueError(msg.format(trial_name))
+
         if trial_number not in self.trial_bounds[trial_name]:
-            raise ValueError('Invalid trial number.')
+            msg = 'Trial number {} not present in available repititions: {}'
+            raise ValueError(msg.format(trial_number,
+                                        self.trial_bounds[trial_name]))
 
         surf_crit = self.bounds_data_frame['surface'] == trial_name
         count_crit = self.bounds_data_frame['count'] == trial_number

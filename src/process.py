@@ -121,7 +121,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                     for trial_num in s.trial_bounds[mot_trial]:
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
-                        stats_data['Baby Age [month]'].append(
+                        stats_data['Baby Age [mo]'].append(
                             s.meta_data['baby_age'])
                         stats_data['seat'].append(s.meta_data['seat'])
                         stats_data['session'].append(session_label[-3:])
@@ -136,11 +136,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             session_label,
                             's' + str(sess_count),
                             't' + str(trial_num),
-                            stats_data['Road Surface'][-1],
+                            mot_trial,
                             stats_data['vehicle'][-1],
                             stats_data['seat'][-1],
                             stats_data['Vehicle Type'][-1],
-                            str(stats_data['Baby Age [month]'][-1]),
+                            str(stats_data['Baby Age [mo]'][-1]),
                             signal,
                         ])
 
@@ -149,6 +149,12 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         fig, ax = plt.subplots(layout='constrained',
                                                figsize=(8, 2))
                         ax = df[signal].interpolate(method='time').plot(ax=ax)
+                        ax.axhline(np.sqrt(np.mean(df[signal]**2)),
+                                   color='black')
+                        ax.axhline(-np.sqrt(np.mean(df[signal]**2)),
+                                   color='black')
+                        ax.set_ylabel('Acceleration [m/s/s]')
+                        ax.set_xlabel('Time [HH:MM:SS]')
                         ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
                                                        file_name + '.png'))
 
@@ -158,8 +164,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
                         duration = datetime2seconds(df.index)[-1]
                         stats_data['Duration [s]'].append(duration)
-                        stats_data['Mean Speed [m/s]'].append(df['Speed'].mean())
-                        stats_data['Standard Deviation of Speed [m/s]'].append(df['Speed'].std())
+                        stats_data['Mean Speed [m/s]'].append(
+                            df['Speed'].mean())
+                        stats_data['Standard Deviation of Speed [m/s]'].append(
+                            df['Speed'].std())
 
                         plt.close('all')
                         del df  # critical as this seems to be a copy!
