@@ -39,11 +39,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     session_labels = list(session_meta_data.keys())
 
     motion_trials = {
-        'aula': 'Sidewalk Large Spacing',
+        'aula': 'Sidewalk Slabs',
         'klinkers': 'Paver Bricks',
         'pave': 'Cobblestones',
-        'stoeptegels': 'Sidewalk Small Spacing',
-        'tarmac': 'Asphalt',
+        'stoeptegels': 'Sidewalk Pavers',
+        'tarmac': 'Tarmac',
     }
 
     if end_num == 99:
