@@ -11,6 +11,7 @@ from html_templates import INDEX, H2, P, IMG
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
+KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 
 with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
     html_data = pickle.load(f)
@@ -28,16 +29,16 @@ stats_df['duration_weight'] = stats_df['duration']/stats_df['duration'].max()
 # 16 km/hr = 4.4 m/s
 # 22.5 km/hr = 6.3 m/s
 stats_df['target_speed'] = [0]*len(stats_df)
-stats_df.loc[stats_df['speed_avg'] <= 2.4, 'target_speed'] = 5
-stats_df.loc[(stats_df['speed_avg'] > 2.4) &
-             (stats_df['speed_avg'] <= 4.4), 'target_speed'] = 12
-stats_df.loc[(stats_df['speed_avg'] > 4.4) &
-             (stats_df['speed_avg'] <= 6.3), 'target_speed'] = 20
-stats_df.loc[stats_df['speed_avg'] > 6.3, 'target_speed'] = 25
+stats_df.loc[stats_df['speed_avg'] <= 8.5*KPH2MPS, 'target_speed'] = 5
+stats_df.loc[(stats_df['speed_avg'] > 8.5*KPH2MPS) &
+             (stats_df['speed_avg'] <= 16.0*KPH2MPS), 'target_speed'] = 12
+stats_df.loc[(stats_df['speed_avg'] > 16.0*KPH2MPS) &
+             (stats_df['speed_avg'] <= 22.5*KPH2MPS), 'target_speed'] = 20
+stats_df.loc[stats_df['speed_avg'] > 22.5*KPH2MPS, 'target_speed'] = 25
 
-stats_df['vehicle_baby'] = (stats_df['vehicle'] + '_' +
-                            stats_df['seat'] + '_' +
-                            stats_df['baby_age'].astype(str) + 'm')
+stats_df['vehicle_seat_baby'] = (stats_df['vehicle'] + '_' +
+                                 stats_df['seat'] + '_' +
+                                 stats_df['baby_age'].astype(str) + 'm')
 
 stats_df['seat_baby'] = (stats_df['seat'] + '_' +
                          stats_df['baby_age'].astype(str) + 'm')
@@ -55,7 +56,7 @@ summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     count='size',
     weighted_mean=lambda x: np.average(
         x, weights=stats_df.loc[x.index, "duration_weight"]),
-    std='std')  # TODO : weighted std https://stackoverflow.com/a/2415343
+    std='std')  # TODO : do a weighted std https://stackoverflow.com/a/2415343
 print(summary_df)
 
 boxp_html = []
@@ -66,7 +67,7 @@ p = sns.scatterplot(
     data=stats_df,
     x="speed_avg_kph",
     y="SeatBotacc_ver_rms",
-    hue="vehicle_baby",
+    hue="vehicle_seat_baby",
     style='surface',
 )
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
