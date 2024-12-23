@@ -183,7 +183,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
                         freq, amp, _, sig = s.calculate_frequency_spectrum(
                             signal, sample_rate, mot_trial,
-                            trial_number=trial_num, iso_weighted=True)
+                            trial_number=trial_num, smooth=True)
                         # TODO : this stores the unweighted RMS!
                         rms = np.sqrt(np.mean(sig**2))
                         stats_data[signal + '_rms'].append(rms)

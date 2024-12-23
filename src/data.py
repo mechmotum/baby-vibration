@@ -2,7 +2,7 @@ import os
 import gc
 
 from dtk.inertia import x_rot, y_rot, z_rot
-from dtk.process import freq_spectrum
+from dtk.process import freq_spectrum, butterworth
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -269,7 +269,8 @@ class Session():
         pass
 
     def calculate_frequency_spectrum(self, sig_name, sample_rate, trial,
-                                     trial_number=0, iso_weighted=False):
+                                     trial_number=0, iso_weighted=False,
+                                     smooth=False):
         """Down samples and calculates the frequency spectrum."""
         data = self.extract_trial(trial, trial_number=trial_number)
         series = data[sig_name].dropna()
@@ -281,6 +282,10 @@ class Session():
         new_signal -= np.mean(new_signal)
 
         freq, amp = freq_spectrum(new_signal, sample_rate)
+
+        if smooth:
+            f = 1/(freq[1] - freq[0])
+            amp = butterworth(amp, f/50, f)
 
         if iso_weighted:
             table_freq = self.iso_filter_df_01.index.values
@@ -409,7 +414,7 @@ class Session():
 if __name__ == "__main__":
 
     session_label = 'session015'
-    trial_label = 'synchro'
+    trial_label = 'tarmac'
     sample_rate = 400
 
     s = Session(session_label)
@@ -419,15 +424,15 @@ if __name__ == "__main__":
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
 
-    s.plot_accelerometer_rotation()
+    #s.plot_accelerometer_rotation()
 
     s.rotate_imu_data()
-    if 'synchro' in s.trial_bounds:
-        s.plot_time_sync()
-    s.plot_speed_with_trial_bounds()
-    s.plot_raw_time_series(trial=trial_label, gyr=False)
-    s.plot_raw_time_series(trial=trial_label, acc=False)
-    s.plot_iso_weights()
+    #if 'synchro' in s.trial_bounds:
+        #s.plot_time_sync()
+    #s.plot_speed_with_trial_bounds()
+    #s.plot_raw_time_series(trial=trial_label, gyr=False)
+    #s.plot_raw_time_series(trial=trial_label, acc=False)
+    #s.plot_iso_weights()
 
     freq, amp, tim, sig = s.calculate_frequency_spectrum(
         'SeatBotacc_ver', sample_rate, trial_label)
@@ -437,15 +442,15 @@ if __name__ == "__main__":
     rms_time = np.sqrt(np.mean(sig**2))
     print('Unweighted RMS from time domain: ', rms_time)
 
-    plot_frequency_spectrum(freq, amp, rms_spec, sample_rate)
+    ax = plot_frequency_spectrum(freq, amp, rms_spec, sample_rate)
 
     freq, amp, _, _ = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label, iso_weighted=True)
+        'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
     rms_spec = np.sqrt(2.0*np.mean(amp**2))
     print('Weighted RMS from frequency spectrum: ', rms_spec)
     rms_time = np.sqrt(np.mean(sig**2))
     # TODO : Make this weighted by doing an inverse FFT.
     print('Unweighted RMS from time domain: ', rms_time)
-    plot_frequency_spectrum(freq, amp, rms_spec, sample_rate)
+    plot_frequency_spectrum(freq, amp, rms_spec, sample_rate, ax=ax)
 
     plt.show()
