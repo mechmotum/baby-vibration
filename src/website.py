@@ -7,7 +7,7 @@ import pandas as pd
 import seaborn as sns
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
-from html_templates import INDEX, H2, H3, HR, P, IMG
+from html_templates import INDEX, H2, P, IMG
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
