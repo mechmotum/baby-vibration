@@ -123,12 +123,12 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                               trial_num)
                         stats_data['Baby Age [mo]'].append(
                             s.meta_data['baby_age'])
-                        stats_data['seat'].append(s.meta_data['seat'])
-                        stats_data['session'].append(session_label[-3:])
+                        stats_data['Seat'].append(s.meta_data['seat'])
+                        stats_data['Session'].append(session_label[-3:])
                         stats_data['Road Surface'].append(
                             motion_trials[mot_trial])
-                        stats_data['surface_count'].append(trial_num)
-                        stats_data['vehicle'].append(s.meta_data['vehicle'])
+                        stats_data['Trial Repetition'].append(trial_num)
+                        stats_data['Vehicle'].append(s.meta_data['vehicle'])
                         stats_data['Vehicle Type'].append(
                             s.meta_data['vehicle_type'])
 
@@ -137,10 +137,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             's' + str(sess_count),
                             't' + str(trial_num),
                             mot_trial,
-                            stats_data['vehicle'][-1],
-                            stats_data['seat'][-1],
-                            stats_data['Vehicle Type'][-1],
-                            str(stats_data['Baby Age [mo]'][-1]),
+                            s.meta_data['vehicle'],
+                            s.meta_data['seat'],
+                            s.meta_data['vehicle'],
+                            s.meta_data['vehicle_type'],
+                            str(s.meta_data['baby_age']),
                             signal,
                         ])
 

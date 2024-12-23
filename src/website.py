@@ -42,20 +42,20 @@ crit = stats_df['Mean Speed [m/s]'] > 22.5*KPH2MPS
 stats_df.loc[crit, 'Target Speed [km/h]'] = 25
 
 stats_df['Vehicle, Seat, Baby Age'] = (
-    stats_df['vehicle'] + ', ' +
-    stats_df['seat'] + ', ' +
+    stats_df['Vehicle'] + ', ' +
+    stats_df['Seat'] + ', ' +
     stats_df['Baby Age [mo]'].astype(str) + ' mo'
 )
 
 stats_df['seat_baby'] = (
-    stats_df['seat'] + ', ' +
+    stats_df['Seat'] + ', ' +
     stats_df['Baby Age [mo]'].astype(str) + ' mo'
 )
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
 print(stats_df)
-groups = ['vehicle', 'Baby Age [mo]', 'Road Surface', 'Target Speed [km/h]']
+groups = ['Vehicle', 'Baby Age [mo]', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
 mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"]))
@@ -125,7 +125,7 @@ p = sns.catplot(
     data=stats_df,
     x="Road Surface",
     y="SeatBotacc_ver_rms",
-    hue="vehicle",
+    hue="Vehicle",
     col='Target Speed [km/h]',
     col_wrap=2,
     kind='box',
@@ -144,7 +144,7 @@ msg = """Compare baby age for each stroller on each tested surface."""
 boxp_html.append(P.format(msg))
 p = sns.catplot(
     data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
-    x="vehicle",
+    x="Vehicle",
     y="SeatBotacc_ver_rms",
     hue="Baby Age [mo]",
     col='Road Surface',
@@ -168,7 +168,7 @@ road surface type."""
 boxp_html.append(P.format(msg))
 p = sns.catplot(
     data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
-    x="vehicle",
+    x="Vehicle",
     y="SeatBotacc_ver_rms",
     hue="seat_baby",
     col='Road Surface',
@@ -230,7 +230,7 @@ p = sns.pointplot(
     data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
     x='Road Surface',
     y="SeatBotacc_ver_rms",
-    hue='vehicle',
+    hue='Vehicle',
     dodge=True,
     order=sorted(stats_df['Road Surface'].unique()),
 )
@@ -249,7 +249,7 @@ p = sns.lmplot(
     data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
     x='Mean Speed [km/h]',
     y="SeatBotacc_ver_rms",
-    hue="vehicle",
+    hue="Vehicle",
     col='Road Surface',
     x_bins=3,
     facet_kws={'sharey': False},
