@@ -98,6 +98,28 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+boxp_html.append(H2.format('Peak Frequency'))
+msg = """Scatter plot of the peak frequency of all trials broken down by
+vehicle setup (brand, seat configuration, baby age), trial duration, road
+surface, and plotted versus speed."""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df,
+    x="Mean Speed [km/h]",
+    y="Peak Frequency [Hz]",
+    hue="Vehicle, Seat, Baby Age",
+    style='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-peak-freq-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
 boxp_html.append(H2.format('Cargo Bicycle Speed Comparison'))
 msg = """How does vibration vary across speed for the cargo bicycles? This plot
 shows a linear regression of vertical acceleration versus speed for both

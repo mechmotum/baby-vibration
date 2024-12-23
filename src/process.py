@@ -50,7 +50,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         end_num = None
     sessions_to_process = session_labels[start_num:end_num]
 
-    for sess_count, session_label in enumerate(sessions_to_process):
+    for session_label in sessions_to_process:
         msg = 'Loading: {}'.format(session_label)
         print('='*len(msg))
         print(msg)
@@ -134,13 +134,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
                         file_name = '-'.join([
                             session_label,
-                            's' + str(sess_count),
                             't' + str(trial_num),
                             mot_trial,
+                            s.meta_data['vehicle_type'],
                             s.meta_data['vehicle'],
                             s.meta_data['seat'],
-                            s.meta_data['vehicle'],
-                            s.meta_data['vehicle_type'],
                             str(s.meta_data['baby_age']),
                             signal,
                         ])
@@ -186,8 +184,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         stats_data[signal + '_rms'].append(rms)
                         ax = plot_frequency_spectrum(freq, amp, ax=ax,
                                                      plot_kw={'linewidth': 4})
+                        peak_freq = freq[np.argmax(amp)]
+                        stats_data['Peak Frequency [Hz]'].append(peak_freq)
+                        ax.axvline(peak_freq, color='black')
                         ax.set_title(file_name)
-                        ax.legend(['Unweighted', 'RMS', 'Weighted', 'RMS'])
+                        ax.legend(['Unfiltered', 'Filtered', 'Peak Frequency'])
                         ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                        file_name + '.png'))
 
