@@ -15,6 +15,8 @@ KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 MM2INCH = 1.0/25.4
 MAXWIDTH = 160  # mm (max width suitable for an A4 with 25 mm margins)
 
+sns.set_theme(style='white')
+
 with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
     html_data = pickle.load(f)
 with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
@@ -23,8 +25,8 @@ with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
 stats_df = pd.DataFrame(stats_data)
 # NOTE : it is possible to add duplicate rows when running process.py, so drop
 # duplicates
-stats_df.drop_duplicates(inplace=True)
-
+#stats_df.drop_duplicates(inplace=True)
+stats_df['Threshold Frequency [Hz]'] = stats_df['Threshold Frequency [Hz]'].astype(float)
 stats_df['duration_weight'] = (stats_df['Duration [s]'] /
                                stats_df['Duration [s]'].max())
 
@@ -120,6 +122,37 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+boxp_html.append(H2.format('Peak Frequency'))
+msg = """TODO"""
+boxp_html.append(P.format(msg))
+p = sns.boxplot(
+    data=stats_df,
+    x="Target Speed [km/h]",
+    y="Peak Frequency [Hz]",
+    hue="Road Surface",
+)
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-peak-freq-dist.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+boxp_html.append(H2.format('Bandwidth'))
+msg = """TODO"""
+boxp_html.append(P.format(msg))
+p = sns.boxplot(
+    data=stats_df,
+    x="Target Speed [km/h]",
+    y="Threshold Frequency [Hz]",
+)
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH/2*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-thresh-freq-dist.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
 boxp_html.append(H2.format('Cargo Bicycle Speed Comparison'))
 msg = """How does vibration vary across speed for the cargo bicycles? This plot
 shows a linear regression of vertical acceleration versus speed for both
@@ -131,6 +164,7 @@ p = sns.lmplot(
     x="Mean Speed [km/h]",
     y="SeatBotacc_ver_rms",
     hue="Road Surface",
+    n_boot=200,  # increase to ensure consistent shaded bounds
 )
 p.set_ylabels(r'Vertical Acceleration RMS [m/s$^2$]')
 fname = '{}-bicycle-speed-compare.png'.format(SIGNAL)

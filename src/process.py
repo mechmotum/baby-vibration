@@ -193,7 +193,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             idx = np.argwhere(amp > 0.05)[-1]
                         except IndexError:  # none are below threshold
                             idx = -1
-                        thresh_freq = freq[idx]
+                        thresh_freq = float(freq[idx])
                         stats_data['Peak Frequency [Hz]'].append(peak_freq)
                         stats_data['Threshold Frequency [Hz]'].append(
                             thresh_freq)
