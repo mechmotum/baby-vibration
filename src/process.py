@@ -189,10 +189,15 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                                      plot_kw={'color': 'C0',
                                                               'linewidth': 3})
                         peak_freq = freq[np.argmax(amp)]
+                        thresh_freq = freq[np.argwhere(amp > 0.05)[-1]]
                         stats_data['Peak Frequency [Hz]'].append(peak_freq)
-                        ax.axvline(peak_freq, color='C1', linewidth=2)
+                        stats_data['Threshold Frequency [Hz]'].append(
+                            thresh_freq)
+                        ax.axvline(peak_freq, color='C1', linewidth=3)
+                        ax.axvline(thresh_freq, color='C2', linewidth=3)
                         ax.set_title(file_name)
-                        ax.legend(['Unfiltered', 'Filtered', 'Peak Frequency'])
+                        ax.legend(['Unfiltered', 'Filtered', 'Peak Frequency',
+                                   'Threshold Frequency'])
                         ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                        file_name + '.png'))
 
