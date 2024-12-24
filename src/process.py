@@ -154,6 +154,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                    color='black')
                         ax.set_ylabel('Acceleration [m/s$^2$]')
                         ax.set_xlabel('Time [HH:MM:SS]')
+                        ax.figure.set_layout_engine('constrained')  # twice?
                         ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
                                                        file_name + '.png'))
 
@@ -176,17 +177,20 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             signal, sample_rate, mot_trial,
                             trial_number=trial_num)
                         rms = np.sqrt(np.mean(sig**2))
-                        ax = plot_frequency_spectrum(freq, amp)
+                        ax = plot_frequency_spectrum(freq, amp,
+                                                     plot_kw={'color': 'gray',
+                                                              'alpha': 0.8})
 
                         freq, amp, _, sig = s.calculate_frequency_spectrum(
                             signal, sample_rate, mot_trial,
                             trial_number=trial_num, smooth=True)
                         stats_data[signal + '_rms'].append(rms)
                         ax = plot_frequency_spectrum(freq, amp, ax=ax,
-                                                     plot_kw={'linewidth': 4})
+                                                     plot_kw={'color': 'C0',
+                                                              'linewidth': 3})
                         peak_freq = freq[np.argmax(amp)]
                         stats_data['Peak Frequency [Hz]'].append(peak_freq)
-                        ax.axvline(peak_freq, color='black')
+                        ax.axvline(peak_freq, color='C1', linewidth=2)
                         ax.set_title(file_name)
                         ax.legend(['Unfiltered', 'Filtered', 'Peak Frequency'])
                         ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
