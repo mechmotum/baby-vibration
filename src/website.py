@@ -56,28 +56,34 @@ stats_df['Seat, Baby'] = (
 )
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
-
 print(stats_df)
+
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
-mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
+weighted_mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"]))
-print(mean_df)
+
 summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     **{'Trial Count': 'size',
        'Mean RMS Acceleration [m/s/s]': 'mean'}
 )
-summary_df['Mean Duration [s]']= stats_df.groupby(groups)['Duration [s]'].mean()
-summary_df['Mean Peak Frequency [Hz]'] = stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_df['Mean Threshold Frequency [Hz]'] = stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
+summary_df['Mean Duration [s]'] = \
+    stats_df.groupby(groups)['Duration [s]'].mean()
+summary_df['Mean Peak Frequency [Hz]'] = \
+    stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
+summary_df['Mean Threshold Frequency [Hz]'] = \
+    stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
 print(summary_df)
 print(summary_df.to_latex(float_format="%0.1f"))
 
 # Table that shows how many trials and the mean duration
-g = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
-print(stats_df.groupby(g)['Duration [s]'].agg(Count='count',
-                                              MeanDuration='mean',
-                                              StdDuration='std'))
+groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
+trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
+    **{'Count': 'count',
+       'Mean': 'mean',
+       'STD': 'std'})
+print(trial_count_df)
+print(trial_count_df.to_latex(float_format="%0.1f"))
 
 boxp_html = []
 
@@ -306,7 +312,7 @@ html_source = INDEX.format(
     date=datetime.datetime.today(),
     signal=SIGNAL,
     boxp_html='\n  '.join(boxp_html),
-    mean_table=mean_df.to_frame().to_html(),
+    mean_table=summary_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
