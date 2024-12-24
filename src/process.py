@@ -190,10 +190,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                                               'linewidth': 3})
                         peak_freq = freq[np.argmax(amp)]
                         try:
-                            idx = np.argwhere(amp > 0.05)[-1]
+                            idx = np.argwhere(amp > 0.05)[-1, 0]
                         except IndexError:  # none are below threshold
                             idx = -1
-                        thresh_freq = float(freq[idx])
+                        thresh_freq = freq[idx]
                         stats_data['Peak Frequency [Hz]'].append(peak_freq)
                         stats_data['Threshold Frequency [Hz]'].append(
                             thresh_freq)
