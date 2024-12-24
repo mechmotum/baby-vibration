@@ -131,7 +131,7 @@ p = sns.boxplot(
     y="Peak Frequency [Hz]",
     hue="Road Surface",
 )
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*3/4*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-peak-freq-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
