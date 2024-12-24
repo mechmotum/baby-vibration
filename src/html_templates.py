@@ -17,6 +17,8 @@ INDEX = """\
   <h1>Baby Vehicle Vibration Results</h1>
   <hr>
   <p>
+    Last updated: {date}
+    <br>
     <strong>Warning: These results are preliminary, do not rely on them until a
     supporting paper is published.</strong>
   </p>

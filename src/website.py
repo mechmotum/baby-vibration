@@ -1,5 +1,6 @@
 import os
 import pickle
+import datetime
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -299,6 +300,7 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 plt.close('all')
 
 html_source = INDEX.format(
+    date=datetime.datetime.today(),
     signal=SIGNAL,
     boxp_html='\n  '.join(boxp_html),
     mean_table=mean_df.to_frame().to_html(),
