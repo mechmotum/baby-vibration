@@ -26,8 +26,8 @@ with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
 stats_df = pd.DataFrame(stats_data)
 # NOTE : it is possible to add duplicate rows when running process.py, so drop
 # duplicates
-#stats_df.drop_duplicates(inplace=True)
-stats_df['Threshold Frequency [Hz]'] = stats_df['Threshold Frequency [Hz]'].astype(float)
+stats_df.drop_duplicates(inplace=True)
+
 stats_df['duration_weight'] = (stats_df['Duration [s]'] /
                                stats_df['Duration [s]'].max())
 
@@ -50,7 +50,7 @@ stats_df['Vehicle, Seat, Baby Age'] = (
     stats_df['Baby Age [mo]'].astype(str) + ' mo'
 )
 
-stats_df['seat_baby'] = (
+stats_df['Seat, Baby'] = (
     stats_df['Seat'] + ', ' +
     stats_df['Baby Age [mo]'].astype(str) + ' mo'
 )
@@ -58,17 +58,20 @@ stats_df['seat_baby'] = (
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
 print(stats_df)
-groups = ['Vehicle', 'Baby Age [mo]', 'Road Surface', 'Target Speed [km/h]']
+groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
 mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"]))
 print(mean_df)
 summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
-    count='size',
-    weighted_mean=lambda x: np.average(
-        x, weights=stats_df.loc[x.index, "duration_weight"]),
-    std='std')  # TODO : do a weighted std https://stackoverflow.com/a/2415343
+    **{'Trial Count': 'size',
+       'Mean RMS Acceleration [m/s/s]': 'mean'}
+)
+summary_df['Mean Duration [s]']= stats_df.groupby(groups)['Duration [s]'].mean()
+summary_df['Mean Peak Frequency [Hz]'] = stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
+summary_df['Mean Threshold Frequency [Hz]'] = stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
 print(summary_df)
+print(summary_df.to_latex(float_format="%0.1f"))
 
 # Table that shows how many trials and the mean duration
 g = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
@@ -205,7 +208,7 @@ p = sns.catplot(
     data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
     x="Vehicle",
     y="SeatBotacc_ver_rms",
-    hue="seat_baby",
+    hue="Seat, Baby",
     col='Road Surface',
     kind='strip',
     palette='deep',
