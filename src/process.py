@@ -177,6 +177,9 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             signal, sample_rate, mot_trial,
                             trial_number=trial_num)
                         rms = np.sqrt(np.mean(sig**2))
+                        stats_data[signal + '_rms'].append(rms)
+                        vdv = np.mean(sig**4)^(0.25)
+                        stats_data[signal + '_vdv'].append(vdv)
                         ax = plot_frequency_spectrum(freq, amp,
                                                      plot_kw={'color': 'gray',
                                                               'alpha': 0.8})
@@ -184,7 +187,6 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         freq, amp, _, sig = s.calculate_frequency_spectrum(
                             signal, sample_rate, mot_trial,
                             trial_number=trial_num, smooth=True)
-                        stats_data[signal + '_rms'].append(rms)
                         ax = plot_frequency_spectrum(freq, amp, ax=ax,
                                                      plot_kw={'color': 'C0',
                                                               'linewidth': 3})
