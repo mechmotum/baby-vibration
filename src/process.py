@@ -152,7 +152,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                    color='black')
                         ax.axhline(-np.sqrt(np.mean(df[signal]**2)),
                                    color='black')
-                        ax.set_ylabel('Acceleration [m/s/s]')
+                        ax.set_ylabel('Acceleration [m/s$^2$]')
                         ax.set_xlabel('Time [HH:MM:SS]')
                         ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
                                                        file_name + '.png'))
