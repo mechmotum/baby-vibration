@@ -7,6 +7,7 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import yaml
+from scipy.integrate import cumulative_trapezoid
 
 from data import Session
 from functions import datetime2seconds
@@ -178,7 +179,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             trial_number=trial_num)
                         rms = np.sqrt(np.mean(sig**2))
                         stats_data[signal + '_rms'].append(rms)
-                        vdv = np.mean(sig**4)^(0.25)
+                        vdv = np.mean(sig**4)**(0.25)
                         stats_data[signal + '_vdv'].append(vdv)
                         ax = plot_frequency_spectrum(freq, amp,
                                                      plot_kw={'color': 'gray',
@@ -191,10 +192,9 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                                      plot_kw={'color': 'C0',
                                                               'linewidth': 3})
                         peak_freq = freq[np.argmax(amp)]
-                        try:
-                            idx = np.argwhere(amp > 0.05)[-1, 0]
-                        except IndexError:  # none are below threshold
-                            idx = -1
+                        area = cumulative_trapezoid(amp, freq)
+                        threshold = 0.8*area[-1]
+                        idx = np.argwhere(area < threshold)[-1, 0]
                         thresh_freq = freq[idx]
                         stats_data['Peak Frequency [Hz]'].append(peak_freq)
                         stats_data['Threshold Frequency [Hz]'].append(
