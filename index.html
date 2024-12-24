@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Baby Vehicle Vibration Results</title>
+  </head>
+  <body>
+
+  <h1>Baby Vehicle Vibration Results</h1>
+  <hr>
+  <p>
+    Last updated: 2024-12-24 14:30:33.306182
+    <br>
+    <strong>Warning: These results are preliminary, do not rely on them until a
+    supporting paper is published.</strong>
+  </p>
+  <p>
+    This results page examines the signal: <strong>SeatBotacc_ver</strong>.
+  </p>
+
+  <h1>Table of Contents</h1>
+  <ol>
+    <li><a href="#mean_table">Mean Table</a></li>
+    <li><a href="#boxp">Comparison Plots</a></li>
+    <li><a href="#sess">Sessions Segmented into Trials</a></li>
+    <li><a href="#trial_table">Table of All Trials</a></li>
+    <li><a href="#iso">ISO 2631-1 Weights</a></li>
+    <li><a href="#trial">Seat Pan Vertical Acceleration Time Histories</a></li>
+    <li><a href="#spec">Seat Pan Vertical Acceleration Spectrums</a></li>
+    <li><a href="#srot">Sensor Rotation Checks</a></li>
+    <li><a href="#sync">Sensor Time Synchronization Checks</a></li>
+  </ol>
+
+  <h1 id="mean_table">Duration Weighted Mean of the RMS of SeatBotacc_ver</h1>
+  <hr>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>SeatBotacc_ver_rms</th>
+    </tr>
+    <tr>
+      <th>Vehicle</th>
+      <th>Baby Age [mo]</th>
+      <th>Road Surface</th>
+      <th>Target Speed [km/h]</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="10" valign="top">bugaboo</th>
+      <th rowspan="5" valign="top">0</th>
+      <th>Cobblestones</th>
+      <th>5</th>
+      <td>4.443726</td>
+    </tr>
+    <tr>
+      <th>Paver Bricks</th>
+      <th>5</th>
+      <td>2.646601</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Pavers</th>
+      <th>5</th>
+      <td>2.866799</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Slabs</th>
+      <th>5</th>
+      <td>4.784337</td>
+    </tr>
+    <tr>
+      <th>Tarmac</th>
+      <th>5</th>
+      <td>0.677319</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">9</th>
+      <th>Cobblestones</th>
+      <th>5</th>
+      <td>2.505239</td>
+    </tr>
+    <tr>
+      <th>Paver Bricks</th>
+      <th>5</th>
+      <td>2.266409</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Pavers</th>
+      <th>5</th>
+      <td>1.712484</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Slabs</th>
+      <th>5</th>
+      <td>2.419638</td>
+    </tr>
+    <tr>
+      <th>Tarmac</th>
+      <th>5</th>
+      <td>0.557920</td>
+    </tr>
+    <tr>
+      <th rowspan="10" valign="top">maxicosi</th>
+      <th rowspan="5" valign="top">0</th>
+      <th>Cobblestones</th>
+      <th>5</th>
+      <td>4.614349</td>
+    </tr>
+    <tr>
+      <th>Paver Bricks</th>
+      <th>5</th>
+      <td>3.212633</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Pavers</th>
+      <th>5</th>
+      <td>3.001622</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Slabs</th>
+      <th>5</th>
+      <td>4.585683</td>
+    </tr>
+    <tr>
+      <th>Tarmac</th>
+      <th>5</th>
+      <td>0.870448</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">9</th>
+      <th>Cobblestones</th>
+      <th>5</th>
+      <td>4.143432</td>
+    </tr>
+    <tr>
+      <th>Paver Bricks</th>
+      <th>5</th>
+      <td>3.030913</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Pavers</th>
+      <th>5</th>
+      <td>2.563959</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Slabs</th>
+      <th>5</th>
+      <td>3.157119</td>
+    </tr>
+    <tr>
+      <th>Tarmac</th>
+      <th>5</th>
+      <td>0.986256</td>
+    </tr>
+    <tr>
+      <th rowspan="8" valign="top">trike</th>
+      <th rowspan="4" valign="top">0</th>
+      <th rowspan="2" valign="top">Paver Bricks</th>
+      <th>12</th>
+      <td>7.156535</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>11.059378</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Tarmac</th>
+      <th>12</th>
+      <td>1.853090</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2.669363</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">3</th>
+      <th rowspan="2" valign="top">Paver Bricks</th>
+      <th>12</th>
+      <td>6.328730</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>9.987603</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Tarmac</th>
+      <th>12</th>
+      <td>1.371660</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>1.823076</td>
+    </tr>
+    <tr>
+      <th rowspan="10" valign="top">urbanarrow</th>
+      <th rowspan="5" valign="top">0</th>
+      <th rowspan="3" valign="top">Paver Bricks</th>
+      <th>12</th>
+      <td>6.622055</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>9.196784</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>11.353710</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Tarmac</th>
+      <th>12</th>
+      <td>1.399682</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2.093919</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">3</th>
+      <th rowspan="3" valign="top">Paver Bricks</th>
+      <th>12</th>
+      <td>4.962879</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>8.587685</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>8.962481</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Tarmac</th>
+      <th>12</th>
+      <td>1.018156</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1.508039</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">yoyo</th>
+      <th rowspan="5" valign="top">0</th>
+      <th>Cobblestones</th>
+      <th>5</th>
+      <td>4.089450</td>
+    </tr>
+    <tr>
+      <th>Paver Bricks</th>
+      <th>5</th>
+      <td>2.813259</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Pavers</th>
+      <th>5</th>
+      <td>2.655622</td>
+    </tr>
+    <tr>
+      <th>Sidewalk Slabs</th>
+      <th>5</th>
+      <td>4.010035</td>
+    </tr>
+    <tr>
+      <th>Tarmac</th>
+      <th>5</th>
+      <td>0.838265</td>
+    </tr>
+  </tbody>
+</table>
+
+  <h1 id="boxp">Comparison Plots: RMS of SeatBotacc_ver </h1>
+  <hr>
+<h2>Overall Comparison</h2>
+  <p>Scatter plot of the RMS acceleration of all trials broken down by
+vehicle setup (brand, seat configuration, baby age), trial duration, road
+surface, and plotted versus speed.</p>
+  <img src="fig//SeatBotacc_ver-compare-all.png"></img>
+</br>
+  <h2>Peak Frequency</h2>
+  <p>TODO</p>
+  <img src="fig//SeatBotacc_ver-peak-freq-dist.png"></img>
+</br>
+  <h2>Bandwidth</h2>
+  <p>TODO</p>
+  <img src="fig//SeatBotacc_ver-thresh-freq-dist.png"></img>
+</br>
+  <h2>Cargo Bicycle Speed Comparison</h2>
+  <p>How does vibration vary across speed for the cargo bicycles? This plot
+shows a linear regression of vertical acceleration versus speed for both
+asphalt and paver bricks. The shaded regions represent the 95% confidence
+intervals.</p>
+  <img src="fig//SeatBotacc_ver-bicycle-speed-compare.png"></img>
+</br>
+  <h2>Vehicle Comparison</h2>
+  <p>Do vehicles differ in each surface-speed scenario?</p>
+  <img src="fig//SeatBotacc_ver-vehicle-compare.png"></img>
+</br>
+  <h2>Stroller Comparison</h2>
+  <p>Compare baby age for each stroller on each tested surface.</p>
+  <img src="fig//SeatBotacc_ver-stroller-compare.png"></img>
+</br>
+  <h2>Cargo Bicycle Seat Comparison</h2>
+  <p>Compare the baby seats used in the cargo bicycles for each bicycle and
+road surface type.</p>
+  <img src="fig//SeatBotacc_ver-bicycle-compare.png"></img>
+</br>
+  <h2>Baby Mass Comparison</h2>
+  <p>Compare accelerations across baby mass (age) and speed.</p>
+  <img src="fig//SeatBotacc_ver-baby-mass-compare.png"></img>
+</br>
+  <h2>Road Surface Comparison</h2>
+  <p></p>
+  <img src="fig//SeatBotacc_ver-road-surface-compare.png"></img>
+</br>
+  <h2>Stroller Type Comparison</h2>
+  <p></p>
+  <img src="fig//SeatBotacc_ver-stroller-type-compare.png"></img>
+</br>
+  <h2>Bicycle Comparison</h2>
+  <p></p>
+  <img src="fig//SeatBotacc_ver-bicycle-type-compare.png"></img>
+</br>
+
+  <h1 id="sess">Sessions Segmented into Trials</h1>
+  <p>This section shows how the sessions are segmented into trials.</p>
+<h2>session001</h2>
+  <img src="fig/bounds/session001.png"></img>
+  <h2>session002</h2>
+  <img src="fig/bounds/session002.png"></img>
+  <h2>session003</h2>
+  <img src="fig/bounds/session003.png"></img>
+  <h2>session004</h2>
+  <img src="fig/bounds/session004.png"></img>
+  <h2>session005</h2>
+  <img src="fig/bounds/session005.png"></img>
+  <h2>session006</h2>
+  <img src="fig/bounds/session006.png"></img>
+  <h2>session007</h2>
+  <img src="fig/bounds/session007.png"></img>
+  <h2>session008</h2>
+  <img src="fig/bounds/session008.png"></img>
+  <h2>session009</h2>
+  <img src="fig/bounds/session009.png"></img>
+  <h2>session010</h2>
+  <img src="fig/bounds/session010.png"></img>
+  <h2>session011</h2>
+  <img src="fig/bounds/session011.png"></img>
+  <h2>session012</h2>
+  <img src="fig/bounds/session012.png"></img>
+  <h2>session013</h2>
+  <img src="fig/bounds/session013.png"></img>
+  <h2>session014</h2>
+  <p>skipped: session014</p>
+  <h2>session015</h2>
+  <img src="fig/bounds/session015.png"></img>
+  <h2>session016</h2>
+  <img src="fig/bounds/session016.png"></img>
+  <h2>session017</h2>
+  <p>skipped: session017</p>
+  <h2>session018</h2>
+  <img src="fig/bounds/session018.png"></img>
+  <h2>session019</h2>
+  <img src="fig/bounds/session019.png"></img>
+  <h2>session020</h2>
+  <img src="fig/bounds/session020.png"></img>
+  <h2>session021</h2>
+  <img src="fig/bounds/session021.png"></img>
+  <h2>session022</h2>
+  <img src="fig/bounds/session022.png"></img>
+  <h2>session023</h2>
+  <img src="fig/bounds/session023.png"></img>
+  <h2>session024</h2>
+  <img src="fig/bounds/session024.png"></img>
+
+  <h1 id="trial_table">Trials</h1>
+  <hr>
+  <p>This lists all of the trials in long form data forma (tidy data).</p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Baby Age [mo]</th>
+      <th>Seat</th>
+      <th>Session</th>
+      <th>Road Surface</th>
+      <th>Trial Repetition</th>
+      <th>Vehicle</th>
+      <th>Vehicle Type</th>
+      <th>Duration [s]</th>
+      <th>Mean Speed [m/s]</th>
+      <th>Standard Deviation of Speed [m/s]</th>
+      <th>SeatBotacc_ver_rms</th>
+      <th>Peak Frequency [Hz]</th>
+      <th>Threshold Frequency [Hz]</th>
+      <th>duration_weight</th>
+      <th>Target Speed [km/h]</th>
+      <th>Vehicle, Seat, Baby Age</th>
+      <th>seat_baby</th>
+      <th>Mean Speed [km/h]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>001</td>
+      <td>Sidewalk Slabs</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>21.899048</td>
+      <td>1.503126</td>
+      <td>0.138540</td>
+      <td>4.725627</td>
+      <td>5.224609</td>
+      <td>21.752930</td>
+      <td>0.267927</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.411255</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>001</td>
+      <td>Sidewalk Slabs</td>
+      <td>1</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>15.998291</td>
+      <td>1.513355</td>
+      <td>0.092070</td>
+      <td>4.800521</td>
+      <td>5.175781</td>
+      <td>44.238281</td>
+      <td>0.195734</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.448076</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>001</td>
+      <td>Sidewalk Slabs</td>
+      <td>2</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>8.998901</td>
+      <td>1.452377</td>
+      <td>0.075462</td>
+      <td>2.960981</td>
+      <td>7.031250</td>
+      <td>28.027344</td>
+      <td>0.110099</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.228557</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>001</td>
+      <td>Sidewalk Slabs</td>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>11.998169</td>
+      <td>1.464725</td>
+      <td>0.115783</td>
+      <td>5.262790</td>
+      <td>4.980469</td>
+      <td>69.775391</td>
+      <td>0.146794</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.273011</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>001</td>
+      <td>Sidewalk Slabs</td>
+      <td>4</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>2.499390</td>
+      <td>1.135202</td>
+      <td>0.130987</td>
+      <td>4.583595</td>
+      <td>6.250000</td>
+      <td>106.250000</td>
+      <td>0.030579</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>4.086728</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>002</td>
+      <td>Sidewalk Slabs</td>
+      <td>0</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>25.307007</td>
+      <td>1.422519</td>
+      <td>0.173129</td>
+      <td>4.102564</td>
+      <td>5.126953</td>
+      <td>17.358398</td>
+      <td>0.309623</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.121069</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>002</td>
+      <td>Sidewalk Slabs</td>
+      <td>1</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>26.133178</td>
+      <td>1.398715</td>
+      <td>0.136864</td>
+      <td>3.920431</td>
+      <td>5.126953</td>
+      <td>16.625977</td>
+      <td>0.319731</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.035374</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>57.812256</td>
+      <td>1.377886</td>
+      <td>0.077218</td>
+      <td>2.813259</td>
+      <td>9.680176</td>
+      <td>19.787598</td>
+      <td>0.707313</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>4.960391</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Cobblestones</td>
+      <td>0</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>14.819458</td>
+      <td>1.201146</td>
+      <td>0.098014</td>
+      <td>4.020978</td>
+      <td>6.542969</td>
+      <td>20.800781</td>
+      <td>0.181311</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>4.324124</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Cobblestones</td>
+      <td>1</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>28.530396</td>
+      <td>1.274300</td>
+      <td>0.152879</td>
+      <td>4.063143</td>
+      <td>6.469727</td>
+      <td>21.240234</td>
+      <td>0.349060</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>4.587480</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Cobblestones</td>
+      <td>2</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>10.955566</td>
+      <td>1.423047</td>
+      <td>0.070935</td>
+      <td>4.250578</td>
+      <td>6.787109</td>
+      <td>21.337891</td>
+      <td>0.134038</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.122970</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Sidewalk Pavers</td>
+      <td>0</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>53.079346</td>
+      <td>1.464626</td>
+      <td>0.129209</td>
+      <td>2.681725</td>
+      <td>5.541992</td>
+      <td>10.302734</td>
+      <td>0.649408</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.272655</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Sidewalk Pavers</td>
+      <td>1</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>11.830078</td>
+      <td>1.397528</td>
+      <td>0.091097</td>
+      <td>2.538504</td>
+      <td>7.421875</td>
+      <td>20.312500</td>
+      <td>0.144737</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.031102</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>25.379516</td>
+      <td>1.507222</td>
+      <td>0.039496</td>
+      <td>0.889350</td>
+      <td>7.617188</td>
+      <td>8.544922</td>
+      <td>0.310510</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.425999</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>003</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>yoyo</td>
+      <td>stroller</td>
+      <td>10.878662</td>
+      <td>1.461152</td>
+      <td>0.042533</td>
+      <td>0.719087</td>
+      <td>7.275391</td>
+      <td>199.951172</td>
+      <td>0.133097</td>
+      <td>5</td>
+      <td>yoyo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.260146</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>004</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>61.531128</td>
+      <td>1.519470</td>
+      <td>0.079213</td>
+      <td>3.212633</td>
+      <td>10.607910</td>
+      <td>21.960449</td>
+      <td>0.752813</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.470093</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>004</td>
+      <td>Cobblestones</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>81.734985</td>
+      <td>1.322352</td>
+      <td>0.175815</td>
+      <td>4.614349</td>
+      <td>6.555176</td>
+      <td>23.266602</td>
+      <td>1.000000</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>4.760469</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>004</td>
+      <td>Sidewalk Pavers</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>50.957886</td>
+      <td>1.524248</td>
+      <td>0.092289</td>
+      <td>3.001622</td>
+      <td>7.763672</td>
+      <td>16.979980</td>
+      <td>0.623453</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.487294</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>004</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>29.398315</td>
+      <td>1.588932</td>
+      <td>0.034611</td>
+      <td>0.887099</td>
+      <td>10.644531</td>
+      <td>16.479492</td>
+      <td>0.359678</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.720156</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>004</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>29.453247</td>
+      <td>1.534419</td>
+      <td>0.028409</td>
+      <td>0.853828</td>
+      <td>10.302734</td>
+      <td>15.795898</td>
+      <td>0.360351</td>
+      <td>5</td>
+      <td>maxicosi, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.523907</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>005</td>
+      <td>Sidewalk Slabs</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>23.715088</td>
+      <td>1.405082</td>
+      <td>0.079190</td>
+      <td>3.164443</td>
+      <td>7.202148</td>
+      <td>21.020508</td>
+      <td>0.290146</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.058294</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>005</td>
+      <td>Sidewalk Slabs</td>
+      <td>1</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>22.328613</td>
+      <td>1.326183</td>
+      <td>0.086295</td>
+      <td>3.202708</td>
+      <td>6.469727</td>
+      <td>19.262695</td>
+      <td>0.273183</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.774258</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>005</td>
+      <td>Sidewalk Slabs</td>
+      <td>2</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>22.852661</td>
+      <td>1.365536</td>
+      <td>0.066257</td>
+      <td>3.104974</td>
+      <td>6.933594</td>
+      <td>22.900391</td>
+      <td>0.279595</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.915929</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Sidewalk Slabs</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>25.038940</td>
+      <td>1.408314</td>
+      <td>0.092523</td>
+      <td>2.445930</td>
+      <td>6.176758</td>
+      <td>22.778320</td>
+      <td>0.306343</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.069930</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Sidewalk Slabs</td>
+      <td>1</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>24.318230</td>
+      <td>1.361847</td>
+      <td>0.097907</td>
+      <td>2.397533</td>
+      <td>5.810547</td>
+      <td>18.432617</td>
+      <td>0.297525</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.902650</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Sidewalk Slabs</td>
+      <td>2</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>22.289060</td>
+      <td>1.429334</td>
+      <td>0.090076</td>
+      <td>2.414220</td>
+      <td>6.030273</td>
+      <td>18.115234</td>
+      <td>0.272699</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.145601</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>66.939700</td>
+      <td>1.448521</td>
+      <td>0.059999</td>
+      <td>2.266409</td>
+      <td>9.692383</td>
+      <td>29.309082</td>
+      <td>0.818985</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.214677</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Cobblestones</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>71.981320</td>
+      <td>1.229235</td>
+      <td>0.183728</td>
+      <td>2.522680</td>
+      <td>6.384277</td>
+      <td>21.337891</td>
+      <td>0.880667</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.425245</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Cobblestones</td>
+      <td>1</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>12.059690</td>
+      <td>1.318594</td>
+      <td>0.092800</td>
+      <td>2.401139</td>
+      <td>7.275391</td>
+      <td>27.392578</td>
+      <td>0.147546</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.746938</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Sidewalk Pavers</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>71.348510</td>
+      <td>1.481844</td>
+      <td>0.105458</td>
+      <td>1.712484</td>
+      <td>7.641602</td>
+      <td>9.777832</td>
+      <td>0.872925</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.334640</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>34.398190</td>
+      <td>1.523569</td>
+      <td>0.028531</td>
+      <td>0.520522</td>
+      <td>8.813477</td>
+      <td>199.975586</td>
+      <td>0.420850</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.484849</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>006</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>32.078980</td>
+      <td>1.530345</td>
+      <td>0.036844</td>
+      <td>0.598022</td>
+      <td>7.983398</td>
+      <td>199.975586</td>
+      <td>0.392476</td>
+      <td>5</td>
+      <td>bugaboo, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.509243</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>38.271980</td>
+      <td>1.386783</td>
+      <td>0.088210</td>
+      <td>3.057832</td>
+      <td>9.619141</td>
+      <td>30.834961</td>
+      <td>0.468245</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.992418</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>13.777950</td>
+      <td>1.459565</td>
+      <td>0.055512</td>
+      <td>2.956137</td>
+      <td>10.058594</td>
+      <td>31.494141</td>
+      <td>0.168569</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.254434</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Cobblestones</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>4.532960</td>
+      <td>1.493070</td>
+      <td>0.112601</td>
+      <td>4.663170</td>
+      <td>8.398438</td>
+      <td>73.828125</td>
+      <td>0.055459</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.375051</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Cobblestones</td>
+      <td>1</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>5.154790</td>
+      <td>1.407888</td>
+      <td>0.094993</td>
+      <td>4.185018</td>
+      <td>9.667969</td>
+      <td>55.371094</td>
+      <td>0.063067</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.068395</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Cobblestones</td>
+      <td>2</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>18.731690</td>
+      <td>1.398708</td>
+      <td>0.117339</td>
+      <td>4.128079</td>
+      <td>6.201172</td>
+      <td>36.132812</td>
+      <td>0.229176</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.035348</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Cobblestones</td>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>9.159300</td>
+      <td>1.282471</td>
+      <td>0.109106</td>
+      <td>4.001703</td>
+      <td>6.738281</td>
+      <td>54.882812</td>
+      <td>0.112061</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.616894</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Cobblestones</td>
+      <td>4</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>25.436650</td>
+      <td>1.327038</td>
+      <td>0.152789</td>
+      <td>4.104725</td>
+      <td>8.032227</td>
+      <td>26.025391</td>
+      <td>0.311209</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>4.777336</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Sidewalk Pavers</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>54.777830</td>
+      <td>1.490931</td>
+      <td>0.101845</td>
+      <td>2.563959</td>
+      <td>6.799316</td>
+      <td>21.472168</td>
+      <td>0.670188</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.367352</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>30.757330</td>
+      <td>1.547778</td>
+      <td>0.048308</td>
+      <td>1.021070</td>
+      <td>10.131836</td>
+      <td>10.864258</td>
+      <td>0.376306</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.572002</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>9</td>
+      <td>seat</td>
+      <td>007</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>maxicosi</td>
+      <td>stroller</td>
+      <td>36.504270</td>
+      <td>1.544256</td>
+      <td>0.050221</td>
+      <td>0.956923</td>
+      <td>10.205078</td>
+      <td>15.942383</td>
+      <td>0.446617</td>
+      <td>5</td>
+      <td>maxicosi, seat, 9 mo</td>
+      <td>seat, 9 mo</td>
+      <td>5.559322</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Sidewalk Slabs</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>19.744629</td>
+      <td>1.709386</td>
+      <td>0.090666</td>
+      <td>4.705323</td>
+      <td>5.761719</td>
+      <td>27.783203</td>
+      <td>0.241569</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>6.153791</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Sidewalk Slabs</td>
+      <td>1</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>19.918213</td>
+      <td>1.717892</td>
+      <td>0.071697</td>
+      <td>4.962092</td>
+      <td>5.908203</td>
+      <td>24.121094</td>
+      <td>0.243693</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>6.184411</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Sidewalk Slabs</td>
+      <td>2</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>20.478516</td>
+      <td>1.692400</td>
+      <td>0.073857</td>
+      <td>4.687629</td>
+      <td>5.712891</td>
+      <td>23.339844</td>
+      <td>0.250548</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>6.092641</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>70.465210</td>
+      <td>1.656719</td>
+      <td>0.071998</td>
+      <td>2.646601</td>
+      <td>10.681152</td>
+      <td>22.839355</td>
+      <td>0.862118</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.964188</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Cobblestones</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>41.327271</td>
+      <td>1.493342</td>
+      <td>0.126256</td>
+      <td>4.436193</td>
+      <td>5.834961</td>
+      <td>17.346191</td>
+      <td>0.505625</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.376031</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Cobblestones</td>
+      <td>1</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>38.321411</td>
+      <td>1.544742</td>
+      <td>0.172874</td>
+      <td>4.451850</td>
+      <td>7.373047</td>
+      <td>22.460938</td>
+      <td>0.468850</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.561073</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Sidewalk Pavers</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>51.631348</td>
+      <td>1.600410</td>
+      <td>0.153635</td>
+      <td>2.866799</td>
+      <td>8.178711</td>
+      <td>15.148926</td>
+      <td>0.631692</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.761476</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>39.953979</td>
+      <td>1.641238</td>
+      <td>0.039428</td>
+      <td>0.666750</td>
+      <td>10.351562</td>
+      <td>14.184570</td>
+      <td>0.488823</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.908458</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>0</td>
+      <td>cot</td>
+      <td>008</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>bugaboo</td>
+      <td>stroller</td>
+      <td>9.872314</td>
+      <td>1.621205</td>
+      <td>0.030193</td>
+      <td>0.720094</td>
+      <td>9.472656</td>
+      <td>15.039062</td>
+      <td>0.120784</td>
+      <td>5</td>
+      <td>bugaboo, cot, 0 mo</td>
+      <td>cot, 0 mo</td>
+      <td>5.836338</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>015</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>73.656647</td>
+      <td>3.879902</td>
+      <td>0.156000</td>
+      <td>1.853090</td>
+      <td>8.117676</td>
+      <td>12.243652</td>
+      <td>0.901164</td>
+      <td>12</td>
+      <td>trike, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>13.967648</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>015</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>58.430481</td>
+      <td>5.988762</td>
+      <td>0.141759</td>
+      <td>2.669363</td>
+      <td>6.494141</td>
+      <td>16.149902</td>
+      <td>0.714877</td>
+      <td>20</td>
+      <td>trike, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>21.559544</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>016</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>47.556396</td>
+      <td>3.639994</td>
+      <td>0.261474</td>
+      <td>7.156535</td>
+      <td>7.995605</td>
+      <td>33.972168</td>
+      <td>0.581836</td>
+      <td>12</td>
+      <td>trike, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>13.103979</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>016</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>35.296143</td>
+      <td>5.535931</td>
+      <td>0.416609</td>
+      <td>11.059378</td>
+      <td>6.396484</td>
+      <td>135.571289</td>
+      <td>0.431836</td>
+      <td>20</td>
+      <td>trike, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>19.929352</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>018</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>52.572601</td>
+      <td>3.662989</td>
+      <td>0.252919</td>
+      <td>5.788357</td>
+      <td>8.898926</td>
+      <td>43.029785</td>
+      <td>0.643208</td>
+      <td>12</td>
+      <td>trike, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>13.186760</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>018</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>46.003021</td>
+      <td>5.041590</td>
+      <td>0.663513</td>
+      <td>10.170496</td>
+      <td>6.933594</td>
+      <td>136.340332</td>
+      <td>0.562831</td>
+      <td>20</td>
+      <td>trike, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>18.149723</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>018</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>50.771942</td>
+      <td>3.704591</td>
+      <td>0.064066</td>
+      <td>1.218999</td>
+      <td>7.861328</td>
+      <td>10.156250</td>
+      <td>0.621178</td>
+      <td>12</td>
+      <td>trike, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>13.336528</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>018</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>45.240356</td>
+      <td>5.817980</td>
+      <td>0.173428</td>
+      <td>1.564421</td>
+      <td>8.105469</td>
+      <td>9.545898</td>
+      <td>0.553501</td>
+      <td>20</td>
+      <td>trike, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>20.944728</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>019</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>62.312805</td>
+      <td>3.472637</td>
+      <td>0.326903</td>
+      <td>6.622055</td>
+      <td>7.592773</td>
+      <td>63.806152</td>
+      <td>0.762376</td>
+      <td>12</td>
+      <td>urbanarrow, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>12.501494</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>019</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>38.274109</td>
+      <td>6.606343</td>
+      <td>0.806257</td>
+      <td>11.353710</td>
+      <td>7.080078</td>
+      <td>199.877930</td>
+      <td>0.468271</td>
+      <td>25</td>
+      <td>urbanarrow, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>23.782836</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>019</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>58.100098</td>
+      <td>3.432181</td>
+      <td>0.193050</td>
+      <td>1.399682</td>
+      <td>8.679199</td>
+      <td>11.828613</td>
+      <td>0.710835</td>
+      <td>12</td>
+      <td>urbanarrow, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>12.355853</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>019</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>43.061951</td>
+      <td>6.869750</td>
+      <td>0.345175</td>
+      <td>2.093919</td>
+      <td>9.960938</td>
+      <td>18.273926</td>
+      <td>0.526848</td>
+      <td>25</td>
+      <td>urbanarrow, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>24.731101</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>020</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>58.230835</td>
+      <td>3.447948</td>
+      <td>0.144791</td>
+      <td>5.240209</td>
+      <td>7.885742</td>
+      <td>36.218262</td>
+      <td>0.712435</td>
+      <td>12</td>
+      <td>urbanarrow, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>12.412614</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>020</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>32.094879</td>
+      <td>5.496136</td>
+      <td>0.301501</td>
+      <td>10.560096</td>
+      <td>4.907227</td>
+      <td>153.637695</td>
+      <td>0.392670</td>
+      <td>20</td>
+      <td>urbanarrow, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>19.786089</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>020</td>
+      <td>Paver Bricks</td>
+      <td>2</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>30.325470</td>
+      <td>6.784766</td>
+      <td>0.234419</td>
+      <td>10.457142</td>
+      <td>6.176758</td>
+      <td>144.604492</td>
+      <td>0.371022</td>
+      <td>25</td>
+      <td>urbanarrow, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>24.425157</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>020</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>50.699707</td>
+      <td>3.656444</td>
+      <td>0.155977</td>
+      <td>1.094809</td>
+      <td>8.752441</td>
+      <td>9.362793</td>
+      <td>0.620294</td>
+      <td>12</td>
+      <td>urbanarrow, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>13.163197</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>020</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>43.243805</td>
+      <td>6.847537</td>
+      <td>0.114941</td>
+      <td>1.631729</td>
+      <td>9.643555</td>
+      <td>15.307617</td>
+      <td>0.529073</td>
+      <td>25</td>
+      <td>urbanarrow, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>24.651132</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>0</td>
+      <td>maxicosi</td>
+      <td>021</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>39.051971</td>
+      <td>5.657211</td>
+      <td>0.251812</td>
+      <td>9.196784</td>
+      <td>7.983398</td>
+      <td>77.661133</td>
+      <td>0.477788</td>
+      <td>20</td>
+      <td>urbanarrow, maxicosi, 0 mo</td>
+      <td>maxicosi, 0 mo</td>
+      <td>20.365958</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>022</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>61.182647</td>
+      <td>3.547715</td>
+      <td>0.100799</td>
+      <td>0.954637</td>
+      <td>8.471680</td>
+      <td>8.642578</td>
+      <td>0.748549</td>
+      <td>12</td>
+      <td>urbanarrow, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>12.771774</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>022</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>45.921722</td>
+      <td>6.771563</td>
+      <td>0.184118</td>
+      <td>1.391562</td>
+      <td>9.741211</td>
+      <td>16.296387</td>
+      <td>0.561837</td>
+      <td>25</td>
+      <td>urbanarrow, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>24.377626</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>023</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>48.258820</td>
+      <td>3.469040</td>
+      <td>0.157262</td>
+      <td>4.628242</td>
+      <td>6.799316</td>
+      <td>25.756836</td>
+      <td>0.590430</td>
+      <td>12</td>
+      <td>urbanarrow, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>12.488543</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>023</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>36.816223</td>
+      <td>5.672535</td>
+      <td>0.144120</td>
+      <td>6.868217</td>
+      <td>7.788086</td>
+      <td>43.432617</td>
+      <td>0.450434</td>
+      <td>20</td>
+      <td>urbanarrow, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>20.421126</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>3</td>
+      <td>melia</td>
+      <td>023</td>
+      <td>Paver Bricks</td>
+      <td>2</td>
+      <td>urbanarrow</td>
+      <td>bicycle</td>
+      <td>31.691162</td>
+      <td>6.911451</td>
+      <td>0.181237</td>
+      <td>7.532230</td>
+      <td>9.179688</td>
+      <td>51.879883</td>
+      <td>0.387731</td>
+      <td>25</td>
+      <td>urbanarrow, melia, 3 mo</td>
+      <td>melia, 3 mo</td>
+      <td>24.881225</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>024</td>
+      <td>Paver Bricks</td>
+      <td>0</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>57.803467</td>
+      <td>3.787090</td>
+      <td>0.267992</td>
+      <td>6.820204</td>
+      <td>7.946777</td>
+      <td>55.627441</td>
+      <td>0.707206</td>
+      <td>12</td>
+      <td>trike, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>13.633524</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>024</td>
+      <td>Paver Bricks</td>
+      <td>1</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>42.795044</td>
+      <td>5.709317</td>
+      <td>0.408642</td>
+      <td>9.790999</td>
+      <td>7.055664</td>
+      <td>80.029297</td>
+      <td>0.523583</td>
+      <td>20</td>
+      <td>trike, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>20.553541</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>024</td>
+      <td>Tarmac</td>
+      <td>0</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>55.590698</td>
+      <td>3.564691</td>
+      <td>0.135802</td>
+      <td>1.511087</td>
+      <td>7.617188</td>
+      <td>9.643555</td>
+      <td>0.680133</td>
+      <td>12</td>
+      <td>trike, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>12.832889</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>3</td>
+      <td>maxicosi</td>
+      <td>024</td>
+      <td>Tarmac</td>
+      <td>1</td>
+      <td>trike</td>
+      <td>bicycle</td>
+      <td>47.592590</td>
+      <td>5.810082</td>
+      <td>0.215123</td>
+      <td>2.068946</td>
+      <td>6.237793</td>
+      <td>12.377930</td>
+      <td>0.582279</td>
+      <td>20</td>
+      <td>trike, maxicosi, 3 mo</td>
+      <td>maxicosi, 3 mo</td>
+      <td>20.916296</td>
+    </tr>
+  </tbody>
+</table>
+
+  <h1 id="iso">ISO 2631-1 Weights</h1>
+  <hr>
+  <p>
+    Plots of the filter weights versus frequency we apply to the data.
+  </p>
+  <img src='fig/iso-filter-weights-01.png'</img>
+  <br>
+  <img src='fig/iso-filter-weights-02.png'</img>
+
+  <h1 id="trial">Seat Pan Vertical Acceleration Time Histories</h1>
+  <hr>
+  <p>
+  </p>
+<h2>session001</h2>
+  <h3>aula</h3>
+  <img src="fig/time_hist/session001-t0-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session001-t1-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session001-t2-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session001-t3-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session001-t4-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session002</h2>
+  <h3>aula</h3>
+  <img src="fig/time_hist/session002-t0-aula-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session002-t1-aula-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session003</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session003-t0-klinkers-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/time_hist/session003-t0-pave-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session003-t1-pave-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session003-t2-pave-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/time_hist/session003-t0-stoeptegels-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session003-t1-stoeptegels-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session003-t0-tarmac-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session003-t1-tarmac-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session004</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session004-t0-klinkers-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/time_hist/session004-t0-pave-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/time_hist/session004-t0-stoeptegels-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session004-t0-tarmac-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session004-t1-tarmac-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session005</h2>
+  <h3>aula</h3>
+  <img src="fig/time_hist/session005-t0-aula-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session005-t1-aula-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session005-t2-aula-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h2>session006</h2>
+  <h3>aula</h3>
+  <img src="fig/time_hist/session006-t0-aula-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session006-t1-aula-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session006-t2-aula-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session006-t0-klinkers-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/time_hist/session006-t0-pave-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session006-t1-pave-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/time_hist/session006-t0-stoeptegels-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session006-t0-tarmac-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session006-t1-tarmac-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h2>session007</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session007-t0-klinkers-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session007-t1-klinkers-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/time_hist/session007-t0-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session007-t1-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session007-t2-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session007-t3-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session007-t4-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/time_hist/session007-t0-stoeptegels-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session007-t0-tarmac-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session007-t1-tarmac-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h2>session008</h2>
+  <h3>aula</h3>
+  <img src="fig/time_hist/session008-t0-aula-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session008-t1-aula-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session008-t2-aula-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session008-t0-klinkers-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/time_hist/session008-t0-pave-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session008-t1-pave-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/time_hist/session008-t0-stoeptegels-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session008-t0-tarmac-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session008-t1-tarmac-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session009</h2>
+  <h2>session010</h2>
+  <h2>session011</h2>
+  <h2>session012</h2>
+  <h2>session013</h2>
+  <h2>session014</h2>
+  <p>skipped: session014</p>
+  <h2>session015</h2>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session015-t0-tarmac-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session015-t1-tarmac-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session016</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session016-t0-klinkers-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session016-t1-klinkers-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session017</h2>
+  <p>skipped: session017</p>
+  <h2>session018</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session018-t0-klinkers-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session018-t1-klinkers-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session018-t0-tarmac-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session018-t1-tarmac-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <h2>session019</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session019-t0-klinkers-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session019-t1-klinkers-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session019-t0-tarmac-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session019-t1-tarmac-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session020</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session020-t0-klinkers-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session020-t1-klinkers-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session020-t2-klinkers-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session020-t0-tarmac-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session020-t1-tarmac-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <h2>session021</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session021-t0-klinkers-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session022</h2>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session022-t0-tarmac-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session022-t1-tarmac-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <h2>session023</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session023-t0-klinkers-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session023-t1-klinkers-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session023-t2-klinkers-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <h2>session024</h2>
+  <h3>klinkers</h3>
+  <img src="fig/time_hist/session024-t0-klinkers-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session024-t1-klinkers-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/time_hist/session024-t0-tarmac-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/time_hist/session024-t1-tarmac-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+
+  <h1 id="spec">Seat Pan Vertical Acceleration Spectrums</h1>
+  <hr>
+<h2>session001</h2>
+  <h3>aula</h3>
+  <img src="fig/spectrums/session001-t0-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session001-t1-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session001-t2-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session001-t3-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session001-t4-aula-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session002</h2>
+  <h3>aula</h3>
+  <img src="fig/spectrums/session002-t0-aula-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session002-t1-aula-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session003</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session003-t0-klinkers-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/spectrums/session003-t0-pave-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session003-t1-pave-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session003-t2-pave-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/spectrums/session003-t0-stoeptegels-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session003-t1-stoeptegels-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session003-t0-tarmac-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session003-t1-tarmac-stroller-yoyo-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session004</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session004-t0-klinkers-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/spectrums/session004-t0-pave-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/spectrums/session004-t0-stoeptegels-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session004-t0-tarmac-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session004-t1-tarmac-stroller-maxicosi-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session005</h2>
+  <h3>aula</h3>
+  <img src="fig/spectrums/session005-t0-aula-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session005-t1-aula-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session005-t2-aula-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h2>session006</h2>
+  <h3>aula</h3>
+  <img src="fig/spectrums/session006-t0-aula-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session006-t1-aula-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session006-t2-aula-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session006-t0-klinkers-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/spectrums/session006-t0-pave-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session006-t1-pave-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/spectrums/session006-t0-stoeptegels-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session006-t0-tarmac-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session006-t1-tarmac-stroller-bugaboo-seat-9-SeatBotacc_ver.png"></img>
+  <h2>session007</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session007-t0-klinkers-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session007-t1-klinkers-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/spectrums/session007-t0-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session007-t1-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session007-t2-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session007-t3-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session007-t4-pave-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/spectrums/session007-t0-stoeptegels-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session007-t0-tarmac-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session007-t1-tarmac-stroller-maxicosi-seat-9-SeatBotacc_ver.png"></img>
+  <h2>session008</h2>
+  <h3>aula</h3>
+  <img src="fig/spectrums/session008-t0-aula-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session008-t1-aula-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session008-t2-aula-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session008-t0-klinkers-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>pave</h3>
+  <img src="fig/spectrums/session008-t0-pave-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session008-t1-pave-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>stoeptegels</h3>
+  <img src="fig/spectrums/session008-t0-stoeptegels-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session008-t0-tarmac-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session008-t1-tarmac-stroller-bugaboo-cot-0-SeatBotacc_ver.png"></img>
+  <h2>session009</h2>
+  <h2>session010</h2>
+  <h2>session011</h2>
+  <h2>session012</h2>
+  <h2>session013</h2>
+  <h2>session014</h2>
+  <p>skipped: session014</p>
+  <h2>session015</h2>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session015-t0-tarmac-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session015-t1-tarmac-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session016</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session016-t0-klinkers-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session016-t1-klinkers-bicycle-trike-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session017</h2>
+  <p>skipped: session017</p>
+  <h2>session018</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session018-t0-klinkers-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session018-t1-klinkers-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session018-t0-tarmac-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session018-t1-tarmac-bicycle-trike-melia-3-SeatBotacc_ver.png"></img>
+  <h2>session019</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session019-t0-klinkers-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session019-t1-klinkers-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session019-t0-tarmac-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session019-t1-tarmac-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session020</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session020-t0-klinkers-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session020-t1-klinkers-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session020-t2-klinkers-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session020-t0-tarmac-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session020-t1-tarmac-bicycle-urbanarrow-maxicosi-3-SeatBotacc_ver.png"></img>
+  <h2>session021</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session021-t0-klinkers-bicycle-urbanarrow-maxicosi-0-SeatBotacc_ver.png"></img>
+  <h2>session022</h2>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session022-t0-tarmac-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session022-t1-tarmac-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <h2>session023</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session023-t0-klinkers-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session023-t1-klinkers-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session023-t2-klinkers-bicycle-urbanarrow-melia-3-SeatBotacc_ver.png"></img>
+  <h2>session024</h2>
+  <h3>klinkers</h3>
+  <img src="fig/spectrums/session024-t0-klinkers-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session024-t1-klinkers-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+  <h3>tarmac</h3>
+  <img src="fig/spectrums/session024-t0-tarmac-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+  <img src="fig/spectrums/session024-t1-tarmac-bicycle-trike-maxicosi-3-SeatBotacc_ver.png"></img>
+
+  <h1 id="srot">Sensor Rotation Check</h1>
+  <hr>
+  <p>
+    These plots give the information necessary to determine if the sensor
+    orientations are working correctly. These are time histories of the
+    "static" event (no motion) in each session. The left column shows the raw
+    accelerometer data for each sensor and each body fixed sensor axis. If the
+    background is shaded grey, that axis is the sensor's axis that aligned with
+    the vehicle's lateral axis (pitch axis) and the title on that subplot gives
+    the axis letter (x, y, or z) and the sign (axis points to the left - or
+    right +). The column on the right shows the accelerometer time histories
+    projected on the vehicle's body fixed axes: longitudinal, lateral, and
+    vertical. The vertical axis should show a positive ~10 m/s/s value and the
+    other two should axes should show approximately 0 m/s/s if the rotations
+    are applied correctly. This indicates that the vertical axes has been
+    aligned with gravity.
+  </p>
+<h2>session001</h2>
+  <img src="fig/accrot/session001.png"></img>
+  <h2>session002</h2>
+  <img src="fig/accrot/session002.png"></img>
+  <h2>session003</h2>
+  <img src="fig/accrot/session003.png"></img>
+  <h2>session004</h2>
+  <img src="fig/accrot/session004.png"></img>
+  <h2>session005</h2>
+  <img src="fig/accrot/session005.png"></img>
+  <h2>session006</h2>
+  <img src="fig/accrot/session006.png"></img>
+  <h2>session007</h2>
+  <img src="fig/accrot/session007.png"></img>
+  <h2>session008</h2>
+  <img src="fig/accrot/session008.png"></img>
+  <h2>session009</h2>
+  <img src="fig/accrot/session009.png"></img>
+  <h2>session010</h2>
+  <img src="fig/accrot/session010.png"></img>
+  <h2>session011</h2>
+  <img src="fig/accrot/session011.png"></img>
+  <h2>session012</h2>
+  <img src="fig/accrot/session012.png"></img>
+  <h2>session013</h2>
+  <img src="fig/accrot/session013.png"></img>
+  <h2>session014</h2>
+  <p>skipped: session014</p>
+  <h2>session015</h2>
+  <img src="fig/accrot/session015.png"></img>
+  <h2>session016</h2>
+  <img src="fig/accrot/session016.png"></img>
+  <h2>session017</h2>
+  <p>skipped: session017</p>
+  <h2>session018</h2>
+  <img src="fig/accrot/session018.png"></img>
+  <h2>session019</h2>
+  <img src="fig/accrot/session019.png"></img>
+  <h2>session020</h2>
+  <img src="fig/accrot/session020.png"></img>
+  <h2>session021</h2>
+  <img src="fig/accrot/session021.png"></img>
+  <h2>session022</h2>
+  <img src="fig/accrot/session022.png"></img>
+  <h2>session023</h2>
+  <img src="fig/accrot/session023.png"></img>
+  <h2>session024</h2>
+  <img src="fig/accrot/session024.png"></img>
+
+  <h1 id="sync">Time Synchronization Check</h1>
+  <hr>
+<h2>session001</h2>
+  <p>skipped: session001</p>
+  <h2>session002</h2>
+  <p>skipped: session002</p>
+  <h2>session003</h2>
+  <p>skipped: session003</p>
+  <h2>session004</h2>
+  <p>skipped: session004</p>
+  <h2>session005</h2>
+  <p>skipped: session005</p>
+  <h2>session006</h2>
+  <p>skipped: session006</p>
+  <h2>session007</h2>
+  <p>skipped: session007</p>
+  <h2>session008</h2>
+  <p>skipped: session008</p>
+  <h2>session009</h2>
+  <img src="fig/sync/session009.png"></img>
+  <h2>session010</h2>
+  <img src="fig/sync/session010.png"></img>
+  <h2>session011</h2>
+  <img src="fig/sync/session011.png"></img>
+  <h2>session012</h2>
+  <img src="fig/sync/session012.png"></img>
+  <h2>session013</h2>
+  <img src="fig/sync/session013.png"></img>
+  <h2>session014</h2>
+  <h2>session015</h2>
+  <img src="fig/sync/session015.png"></img>
+  <h2>session016</h2>
+  <img src="fig/sync/session016.png"></img>
+  <h2>session017</h2>
+  <h2>session018</h2>
+  <img src="fig/sync/session018.png"></img>
+  <h2>session019</h2>
+  <img src="fig/sync/session019.png"></img>
+  <h2>session020</h2>
+  <img src="fig/sync/session020.png"></img>
+  <h2>session021</h2>
+  <img src="fig/sync/session021.png"></img>
+  <h2>session022</h2>
+  <img src="fig/sync/session022.png"></img>
+  <h2>session023</h2>
+  <img src="fig/sync/session023.png"></img>
+  <h2>session024</h2>
+  <img src="fig/sync/session024.png"></img>
+
+  </body>
+</html>
