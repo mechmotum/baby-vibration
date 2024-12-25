@@ -87,6 +87,8 @@ print(trial_count_df.to_latex(float_format="%0.1f"))
 
 boxp_html = []
 
+# TODO : This plot also looks pretty good if you swap the x and hue values.
+# Maybe better.
 boxp_html.append(H2.format('Overall Comparison'))
 msg = """Scatter plot of the RMS acceleration of all trials broken down by
 vehicle setup (brand, seat configuration, baby age), trial duration, road
