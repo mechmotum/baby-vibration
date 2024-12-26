@@ -144,8 +144,11 @@ p = sns.boxplot(
     y="Peak Frequency [Hz]",
     hue="Road Surface",
 )
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*3/4*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
+p.axvline(0.5, color='k')
+p.axvline(1.5, color='k')
+p.axvline(2.5, color='k')
 fname = '{}-peak-freq-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
@@ -179,6 +182,9 @@ p = sns.lmplot(
     hue="Road Surface",
     n_boot=200,  # increase to ensure consistent shaded bounds
 )
+p.legend.draw_frame(True)
+p.legend.get_frame().set_linewidth(1.0)
+p.legend.get_frame().set_edgecolor('k')
 p.set_ylabels(r'Vertical Acceleration RMS [m/s$^2$]')
 fname = '{}-bicycle-speed-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH/2*MM2INCH))

@@ -202,7 +202,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         ax.axvline(peak_freq, color='C1', linewidth=3)
                         ax.axvline(thresh_freq, color='C2', linewidth=3)
                         ax.set_title(file_name)
-                        ax.legend(['Unfiltered', 'Filtered', 'Peak Frequency',
+                        ax.legend(['FFT', 'Smoothed FTT', 'Peak Frequency',
                                    'Threshold Frequency'])
                         ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                        file_name + '.png'))
