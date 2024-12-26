@@ -112,6 +112,29 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+boxp_html.append(H2.format('Overall VDV Comparison'))
+msg = """"""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df,
+    hue="Mean Speed [km/h]",
+    y="SeatBotacc_ver_vdv",
+    x="Vehicle, Seat, Baby Age",
+    style='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+p.set_xticklabels(sorted(stats_df["Vehicle, Seat, Baby Age"].unique()),
+                  rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-vdv-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
 boxp_html.append(H2.format('Peak Frequency'))
 msg = """TODO"""
 boxp_html.append(P.format(msg))
