@@ -11,7 +11,7 @@ greenmachine:
   wheel_diameter: 0.340
 maxicosi:
   brand: Maxi-Cosi
-  model: Street+
+  model: Street Plus
   vehicle_type: stroller
   wheel_diameter: 0.280
 oldrusty:
