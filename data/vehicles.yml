@@ -1,25 +1,41 @@
 # wheel diameter is in meters
 bugaboo:
+  brand: Bugaboo
+  model: "Fox 5"
   vehicle_type: stroller
   wheel_diameter: 0.300
 greenmachine:
+  brand: null
+  model: null
   vehicle_type: stroller
   wheel_diameter: 0.340
 maxicosi:
+  brand: Maxi-Cosi
+  model: Street+
   vehicle_type: stroller
   wheel_diameter: 0.280
 oldrusty:
+  brand: null
+  model: null
   vehicle_type: stroller
   wheel_diameter: 0.230
 trike:
+  brand: Keiler
+  model: null
   vehicle_type: bicycle
   wheel_diameter: 0.650
 urbanarrow:
+  brand: Urban Arrow
+  model: null
   vehicle_type: bicycle
   wheel_diameter: 0.670
 yoyo:
+  brand: Stokke
+  model: BABYZEN YOYO 0+
   vehicle_type: stroller
   wheel_diameter: 0.130
 none:
+  brand: null
+  model: null
   vehicle_type: null
   wheel_diameter: null
