@@ -443,7 +443,7 @@ session025:
     seat_bottom: 2024-12-30_YOYO_6_9months/2024-12-30_09.20.58_YOYO_6_SB_SD_Session1/YOYO_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-30_YOYO_6_9months/2024-12-30_09.14.40_YOYO_6_SH_SD_Session1/YOYO_6_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-30_YOYO_6_9months/2024-12-30_09.15.48_YOYO_6_BT_SD_Session1/YOYO_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
-    session026:
+session026:
   date: 2024-12-30
   vehicle: yoyo
   baby_age: 9
@@ -461,3 +461,21 @@ session025:
     seat_bottom: 2024-12-30_YOYO_7_9months/2024-12-30_12.40.49_YOYO_7_SB_SD_Session1/YOYO_7_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-30_YOYO_7_9months/2024-12-30_12.41.26_YOYO_7_SH_SD_Session1/YOYO_7_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-30_YOYO_7_9months/2024-12-30_12.40.31_YOYO_7_BT_SD_Session1/YOYO_7_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session027:
+  date: 2024-12-30
+  vehicle: GreenMachine
+  baby_age: 0
+  seat: cot
+  trial_bounds_file: events_GreenM_2_0months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+    BotTrike: -x
+    FrontWheel: -y
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: -x
+  imu_files:
+    front_wheel: 2024-12-30_GreenM_2_0months/2024-12-30_16.36.41_GreenM_2_FW_SD_Session1/GreenM_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-30_GreenM_2_0months/2024-12-30_16.40.07_GreenM_2_RW_SD_Session1/GreenM_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-30_GreenM_2_0months/2024-12-30_16.39.38_GreenM_2_SB_SD_Session1/GreenM_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-30_GreenM_2_0months/2024-12-30_16.51.59_GreenM_2_SH_SD_Session1/GreenM_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-30_GreenM_2_0months/2024-12-30_16.37.04_GreenM_2_BT_SD_Session1/GreenM_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
