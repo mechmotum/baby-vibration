@@ -425,3 +425,21 @@ session024:
     seat_bottom: 2024-12-20_Trike_6_3months/2024-12-20_10.55.06_Trike_6_SB_SD_Session1/Trike_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-20_Trike_6_3months/2024-12-20_10.55.24_Trike_6_SH_SD_Session1/Trike_6_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-20_Trike_6_3months/2024-12-20_10.56.01_Trike_6_BT_SD_Session1/Trike_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session025:
+  date: 2024-12-30
+  vehicle: yoyo
+  baby_age: 9
+  seat: seat
+  trial_bounds_file: events_YOYO_6_9months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+    BotTrike: x
+    FrontWheel: -z
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-30_YOYO_6_9months/2024-12-30_09.20.36_YOYO_6_FW_SD_Session1/YOYO_6_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-30_YOYO_6_9months/2024-12-30_09.15.16_YOYO_6_RW_SD_Session1/YOYO_6_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-30_YOYO_6_9months/2024-12-30_09.20.58_YOYO_6_SB_SD_Session1/YOYO_6_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-30_YOYO_6_9months/2024-12-30_09.14.40_YOYO_6_SH_SD_Session1/YOYO_6_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-30_YOYO_6_9months/2024-12-30_09.15.48_YOYO_6_BT_SD_Session1/YOYO_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
