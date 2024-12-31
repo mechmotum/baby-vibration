@@ -10,7 +10,7 @@ session001:
     RearWheel: -z
     SeatBot: -x
     SeatHead: x
-  trial_bounds_file: Interval_indexes_Maxicosi_1_0months.csv
+  trial_bounds_file: events_Maxicosi_1_0months.csv
   imu_files:
     front_wheel: 2024-11-28_Maxicos_1_0months/2024-11-28_10.44.49_Maxicos_1_FW_SD_Session1/Maxicos_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-11-28_Maxicos_1_0months/2024-11-28_10.45.23_Maxicos_1_RW_SD_Session1/Maxicos_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
