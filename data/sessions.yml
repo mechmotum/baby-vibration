@@ -479,3 +479,21 @@ session027:
     seat_bottom: 2024-12-30_GreenM_2_0months/2024-12-30_16.39.38_GreenM_2_SB_SD_Session1/GreenM_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-30_GreenM_2_0months/2024-12-30_16.51.59_GreenM_2_SH_SD_Session1/GreenM_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-30_GreenM_2_0months/2024-12-30_16.37.04_GreenM_2_BT_SD_Session1/GreenM_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session028:
+  date: 2024-12-32
+  vehicle: OldRusty
+  baby_age: 9
+  seat: seat
+  trial_bounds_file: events_OldR_2_9months.csv
+  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+    BotTrike: -z
+    FrontWheel: -y
+    RearWheel: -z
+    SeatBot: x
+    SeatHead: x
+  imu_files:
+    front_wheel: 2024-12-31_OldR_2_9months/2024-12-31_10.41.55_OldR_2_FW_SD_Session1/OldR_2_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2024-12-31_OldR_2_9months/2024-12-31_10.41.34_OldR_2_RW_SD_Session1/OldR_2_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2024-12-31_OldR_2_9months/2024-12-31_10.41.08_OldR_2_SB_SD_Session1/OldR_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2024-12-31_OldR_2_9months/2024-12-31_10.40.21_OldR_2_SH_SD_Session1/OldR_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2024-12-31_OldR_2_9months/2024-12-31_10.42.16_OldR_2_BT_SD_Session1/OldR_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
