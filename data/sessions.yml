@@ -359,7 +359,7 @@ session021:
   baby_age: 0
   seat: maxicosi
   trial_bounds_file: events_UrbanA_3_0months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+  imu_lateral_axis: 
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -377,7 +377,7 @@ session022:
   baby_age: 3
   seat: melia
   trial_bounds_file: events_UrbanA_4_3months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+  imu_lateral_axis: 
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -395,7 +395,7 @@ session023:
   baby_age: 3
   seat: melia
   trial_bounds_file: events_UrbanA_5_3months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+  imu_lateral_axis:  # 100% sure
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -413,7 +413,7 @@ session024:
   baby_age: 3
   seat: maxicosi
   trial_bounds_file: events_Trike_6_3months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+  imu_lateral_axis:  # 100% sure
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -431,7 +431,7 @@ session025:
   baby_age: 9
   seat: seat
   trial_bounds_file: events_YOYO_6_9months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+  imu_lateral_axis:  # 100% sure
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -449,7 +449,7 @@ session026:
   baby_age: 9
   seat: seat
   trial_bounds_file: events_YOYO_7_9months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+  imu_lateral_axis:  # 100% sure
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -467,7 +467,7 @@ session027:
   baby_age: 0
   seat: cot
   trial_bounds_file: events_GreenM_2_0months.csv
-  imu_lateral_axis:
+  imu_lateral_axis:  # 100% sure
     BotTrike: -x
     FrontWheel: -y
     RearWheel: -z
@@ -484,7 +484,7 @@ session028:
   vehicle: oldrusty
   baby_age: 9
   seat: seat
-  trial_bounds_file: events_OlrR_2_9months.csv
+  trial_bounds_file: events_OldR_2_9months.csv
   imu_lateral_axis:
     BotTrike: -z
     FrontWheel: -y
@@ -497,3 +497,21 @@ session028:
     seat_bottom: 2024-12-31_OldR_2_9months/2024-12-31_10.41.08_OldR_2_SB_SD_Session1/OldR_2_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-31_OldR_2_9months/2024-12-31_10.40.21_OldR_2_SH_SD_Session1/OldR_2_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-31_OldR_2_9months/2024-12-31_10.42.16_OldR_2_BT_SD_Session1/OldR_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
+session029:
+  date: 2025-01-02
+  vehicle: greenmachine
+  baby_age: 0
+  seat: cot
+  trial_bounds_file: events_GreenM_1_0months.csv
+  imu_lateral_axis:  # 100% sure
+    BotTrike: -x
+    FrontWheel: -y
+    RearWheel: -z
+    SeatBot: -x
+    SeatHead: -x
+  imu_files:
+    front_wheel: 2025-01-02_GreenM_1_0months/2024-12-31_15.33.36_GreenM_1_FW_SD_Session1/GreenM_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+    rear_wheel: 2025-01-02_GreenM_1_0months/2024-12-31_15.42.11_GreenM_1_RW_SD_Session1/GreenM_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
+    seat_bottom: 2025-01-02_GreenM_1_0months/2024-12-31_15.41.47_GreenM_1_SB_SD_Session1/GreenM_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
+    seat_head: 2025-01-02_GreenM_1_0months/2024-12-31_15.41.14_GreenM_1_SH_SD_Session1/GreenM_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
+    trike_bottom: 2025-01-02_GreenM_1_0months/2024-12-31_15.41.32_GreenM_1_BT_SD_Session1/GreenM_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
