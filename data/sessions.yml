@@ -484,7 +484,7 @@ session028:
   vehicle: oldrusty
   baby_age: 9
   seat: seat
-  trial_bounds_file: events_OldR_2_9months.csv
+  trial_bounds_file: events_OlrR_2_9months.csv
   imu_lateral_axis:
     BotTrike: -z
     FrontWheel: -y
