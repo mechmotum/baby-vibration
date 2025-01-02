@@ -31,6 +31,8 @@ or on Windows::
 
    data-directory: C:\path\to\Trillingen-Project_Dec2024
 
+**Do not commit the configuration file to Git.**
+
 The ``Trillingen-Project_Dec2024`` is currently a private mountable directory
 share on TU Delft netowrk. The data will be shared in a public repository in
 the future.
@@ -86,11 +88,13 @@ Shimmer IMU names:
 
 Vehicle name:
 
-- ``bugaboo``: Bugaboo stroller
-- ``maxicosi``: Maxicosi stroller
-- ``trike``: Keiler tadpole cargo tricycle
-- ``urbanarrow``: Urban Arrow cargo bicycle
-- ``yoyo``: Yoyo stroller
+- ``bugaboo``: Bugaboo Fox 5 stroller
+- ``greenmachine``:
+- ``maxicosi``: Maxi-Cosi Street Plus stroller
+- ``oldrusty``:
+- ``trike``: Keiler cargo tricycle (tadpole wheel arrangement)
+- ``urbanarrow``: Urban Arrow cargo electric bicycle
+- ``yoyo``: Stokke BABYZEN YOYO 0+ stroller
 
 The shimmers are set to +/- 16 g and +/- 2000 deg/s. The values are recorded to
 16 bit floating point precision other than the time stamp which is a 16 bit

@@ -413,8 +413,8 @@ class Session():
 
 if __name__ == "__main__":
 
-    session_label = 'session015'
-    trial_label = 'tarmac'
+    session_label = 'session001'
+    trial_label = 'static'
     sample_rate = 400
 
     s = Session(session_label)
