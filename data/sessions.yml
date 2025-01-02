@@ -100,7 +100,7 @@ session006:
     RearWheel: -z
     SeatBot: x
     SeatHead: x
-  trial_bounds_file: Interval_indexes_Bugaboo_5_9months.csv
+  trial_bounds_file: events_Bugaboo_5_9months.csv
   imu_files:
     front_wheel: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
     rear_wheel: 2024-11-29_Bugaboo_5_9months/Bugaboo_5_RW_Session1_S_RearWheel_Calibrated_SD.csv
