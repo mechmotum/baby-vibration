@@ -40,7 +40,7 @@ session003:
   vehicle: yoyo
   baby_age: 0
   seat: cot
-  trial_bounds_file: Interval_indexes_YOYO_LR3_0months.csv
+  trial_bounds_file: events_YOYO_3_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
