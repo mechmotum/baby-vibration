@@ -96,9 +96,9 @@ Vehicle name:
 - ``urbanarrow``: Urban Arrow cargo electric bicycle
 - ``yoyo``: Stokke BABYZEN YOYO 0+ stroller
 
-The shimmers are set to +/- 16 g and +/- 2000 deg/s. The values are recorded to
-16 bit floating point precision other than the time stamp which is a 16 bit
-integer. The Shimmers are placed in the base station and their clocks are
+The Shimmer IMUs are set to +/- 16 g and +/- 2000 deg/s. The values are
+recorded to 16 bit floating point precision other than the time stamp which is
+a 16 bit integer. The IMUs are placed in the base station and their clocks are
 synchronized with each other. This means we assume that the time stamp values
 represents the same real time value in each shimmer. The following column order
 is consistent among the files.
@@ -137,7 +137,7 @@ Data Processing
 Final data table should have these columns:
 
 - Trial ID
-- Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|keiler]
+- Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|keiler|greenmachine|oldrusty]
 - Vehicle Type [stroller|bicycle]
 - Baby Age [0|3|9] (implies seat configuration for vehicles with multiple seat
   setups)
@@ -145,7 +145,7 @@ Final data table should have these columns:
 - Duration [s]
 - Mean of Speed [m/s]
 - Standard Deviation of Speed [m/s]
-- Speed Category [slow|medium|fast]
+- Speed Category [5 kph|12 kph|20 kph|25 kph]
 - SENSOR_N lateral acceleration RMS [m/s/s]
 - SENSOR_N longitudinal acceleration RMS [m/s/s]
 - SENSOR_N vertical acceleration RMS [m/s/s]
@@ -162,6 +162,14 @@ Final data table should have these columns:
 - SENSOR_N ISO filtered yaw angular rate RMS [deg/s]
 - SENSOR_N ISO filtered roll angular rate RMS [deg/s]
 - SENSOR_N ISO filtered angular rate magnitude RMS [deg/s]
+- SENSOR_N lateral acceleration VDV [m/s/s]
+- SENSOR_N longitudinal acceleration VDV [m/s/s]
+- SENSOR_N vertical acceleration VDV [m/s/s]
+- SENSOR_N acceleration magnitude VDV [m/s/s]
+- SENSOR_N pitch angular rate VDV [deg/s]
+- SENSOR_N yaw angular rate VDV [deg/s]
+- SENSOR_N roll angular rate VDV [deg/s]
+- SENSOR_N angular rate magnitude VDV [deg/s]
 
 ISO 2631 Filters
 ----------------
@@ -181,28 +189,6 @@ The two filter files have amplitude weightings versus frequency from 0 to 400
 Hz. The weights must be divided by 1000 to have multiplicative factors from 0
 to 1. Different k values are mutiplied to the weightings depending on if you
 are seated, standing, supine, etc.
-
-filter_ISO_01::
-
-   frequency_hz,
-   vertical_acceleration_z,
-   col3,
-   translational_acceleration_xy,
-   col5,
-   motion_sickness_z,
-   col7,
-   motion_sickness_x,
-   motion_sickness_y,
-   rotational_speed_xyz,
-   col11
-
-filter_ISO_02::
-
-   frequency_hz,
-   col2,
-   col3,
-   rotation_acceleration_xyz,
-   col5,col6,col7
 
 Resources
 =========
