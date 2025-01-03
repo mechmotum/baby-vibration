@@ -327,6 +327,7 @@ p = sns.lmplot(
     hue="Vehicle",
     col='Road Surface',
     x_bins=3,
+    seed=924,
     facet_kws={'sharey': False},
 )
 p.set_ylabels(r'Vertical Acceleration RMS [m/s$^2$]')
