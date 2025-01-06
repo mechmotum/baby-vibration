@@ -1,6 +1,7 @@
+import datetime
 import os
 import pickle
-import datetime
+import subprocess
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,6 +18,12 @@ MM2INCH = 1.0/25.4
 MAXWIDTH = 160  # mm (max width suitable for an A4 with 25 mm margins)
 
 sns.set_theme(style='white')
+
+try:
+    githash = subprocess.check_output([
+        'git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+except (FileNotFoundError, subprocess.CalledProcessError):
+    githash = 'none found'
 
 with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
     html_data = pickle.load(f)
@@ -124,8 +131,7 @@ p = sns.scatterplot(
     size='Duration [s]',
     sizes=(40, 140),
 )
-p.set_xticklabels(sorted(stats_df["Vehicle, Seat, Baby Age"].unique()),
-                  rotation=90)
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -342,6 +348,7 @@ plt.close('all')
 
 html_source = INDEX.format(
     date=datetime.datetime.today(),
+    githash=githash,
     signal=SIGNAL,
     boxp_html='\n  '.join(boxp_html),
     mean_table=summary_df.to_html(float_format="%0.2f"),
