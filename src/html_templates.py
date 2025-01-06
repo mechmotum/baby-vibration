@@ -19,6 +19,8 @@ INDEX = """\
   <p>
     Last updated: {date}
     <br>
+    Generated from Git hash: {githash}
+    <br>
     <strong>Warning: These results are preliminary, do not rely on them until a
     supporting paper is published.</strong>
   </p>

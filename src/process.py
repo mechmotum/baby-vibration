@@ -153,6 +153,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                    color='black')
                         ax.axhline(-np.sqrt(np.mean(df[signal]**2)),
                                    color='black')
+                        ax.axhline((np.mean(df[signal]**4)**(0.25)),
+                                   color='grey')
+                        ax.axhline(-(np.mean(df[signal]**4)**(0.25)),
+                                   color='grey')
                         ax.set_ylabel('Acceleration [m/s$^2$]')
                         ax.set_xlabel('Time [HH:MM:SS]')
                         ax.figure.set_layout_engine('constrained')  # twice?
