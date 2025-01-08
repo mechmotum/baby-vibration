@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import statsmodels.formula.api as smf
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from html_templates import INDEX, H2, P, IMG
@@ -91,6 +92,46 @@ trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
        'STD': 'std'})
 print(trial_count_df)
 print(trial_count_df.to_latex(float_format="%0.1f"))
+
+title = "Bicycle OLS Results"
+print("="*len(title))
+print(title)
+print("="*len(title))
+f = ("SeatBotacc_ver_rms ~ "
+     "Q('Mean Speed [m/s]') + "
+     "Q('Baby Mass [kg]') + "
+     "Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
+     "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
+mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
+res = mod.fit()
+print(res.summary())
+print("="*len(title), "\n")
+
+title = "Stroller OLS Results"
+print("="*len(title))
+print(title)
+print("="*len(title))
+f = ("SeatBotacc_ver_rms ~ "
+     "Q('Baby Mass [kg]') + "
+     "Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
+     "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
+mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'stroller'])
+res = mod.fit()
+print(res.summary())
+print("="*len(title), "\n")
+
+title = "Mixed Effects Model Results"
+print("="*len(title))
+print(title)
+print("="*len(title))
+f = ('SeatBotacc_ver_rms ~ '
+     'Q("Baby Mass [kg]") + '
+     'Q("Vehicle") + '
+     'Q("Road Surface") + Q("Mean Speed [m/s]")')
+mod = smf.mixedlm(formula=f, data=stats_df, groups=stats_df["Vehicle Type"])
+res = mod.fit()
+print(res.summary())
+print("="*len(title), "\n")
 
 boxp_html = []
 
