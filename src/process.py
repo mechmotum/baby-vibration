@@ -124,6 +124,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                               trial_num)
                         stats_data['Baby Age [mo]'].append(
                             s.meta_data['baby_age'])
+                        stats_data['Baby Mass [kg]'].append(
+                            s.meta_data['baby_mass'])
                         stats_data['Seat'].append(s.meta_data['seat'])
                         stats_data['Session'].append(session_label[-3:])
                         stats_data['Road Surface'].append(
@@ -149,14 +151,14 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         fig, ax = plt.subplots(layout='constrained',
                                                figsize=(8, 2))
                         ax = df[signal].interpolate(method='time').plot(ax=ax)
-                        ax.axhline(np.sqrt(np.mean(df[signal]**2)),
-                                   color='black')
-                        ax.axhline(-np.sqrt(np.mean(df[signal]**2)),
-                                   color='black')
-                        ax.axhline((np.mean(df[signal]**4)**(0.25)),
-                                   color='grey')
-                        ax.axhline(-(np.mean(df[signal]**4)**(0.25)),
-                                   color='grey')
+                        # TODO : These two are calculated from oversampled
+                        # data, change to calculate from the downsampled data.
+                        rms = np.sqrt(np.mean(df[signal]**2))
+                        vdv = np.mean(df[signal]**4)**(0.25)
+                        ax.axhline(rms, color='black')
+                        ax.axhline(-rms, color='black')
+                        ax.axhline(vdv, color='grey')
+                        ax.axhline(-vdv, color='grey')
                         ax.set_ylabel('Acceleration [m/s$^2$]')
                         ax.set_xlabel('Time [HH:MM:SS]')
                         ax.figure.set_layout_engine('constrained')  # twice?

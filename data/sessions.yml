@@ -3,6 +3,7 @@ session001:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
     BotTrike: x
@@ -21,6 +22,7 @@ session002:
   date: 2024-11-28
   vehicle: yoyo
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
@@ -39,6 +41,7 @@ session003:
   date: 2024-11-28
   vehicle: yoyo
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   trial_bounds_file: events_YOYO_3_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
@@ -57,6 +60,7 @@ session004:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
@@ -75,6 +79,7 @@ session005:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
     BotTrike: x
@@ -93,6 +98,7 @@ session006:
   date: 2024-11-29
   vehicle: bugaboo
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
     BotTrike: -y  # TODO : Unsure, needs check from data.
@@ -111,6 +117,7 @@ session007:
   date: 2024-11-29
   vehicle: maxicosi
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
@@ -129,6 +136,7 @@ session008:
   date: 2024-12-09
   vehicle: bugaboo
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
@@ -147,6 +155,7 @@ session009:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
@@ -165,6 +174,7 @@ session010:
   date: 2024-12-10
   vehicle: bugaboo
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -y  # TODO : Unsure, needs check from data.
@@ -183,6 +193,7 @@ session011:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
@@ -201,6 +212,7 @@ session012:
   date: 2024-12-10
   vehicle: maxicosi
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   imu_lateral_axis:  # TODO : no data provided
     BotTrike: -x
@@ -219,6 +231,7 @@ session013:
   date: 2024-12-10
   vehicle: yoyo
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   imu_lateral_axis:
     BotTrike: -x
@@ -249,6 +262,7 @@ session015:
   date: 2024-12-12
   vehicle: trike
   baby_age: 0
+  baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_Trike_1_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
@@ -267,6 +281,7 @@ session016:    # We miss half of time history on klinkers, 20 km/h, only for the
   date: 2024-12-13
   vehicle: trike
   baby_age: 0
+  baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_Trike_2_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
@@ -285,6 +300,7 @@ session017:  # missing rear wheel data, see note at https://github.com/mechmotum
   date: 2024-12-13
   vehicle: trike
   baby_age: 3
+  baby_mass: 5.9
   seat: melia
   trial_bounds_file: null
   imu_lateral_axis:
@@ -303,6 +319,7 @@ session018:
   date: 2024-12-16
   vehicle: trike
   baby_age: 3
+  baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_Trike_5_3months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
@@ -321,6 +338,7 @@ session019:
   date: 2024-12-17
   vehicle: urbanarrow
   baby_age: 0
+  baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_UrbanA_1_0months.csv
   imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
@@ -339,6 +357,7 @@ session020:
   date: 2024-12-18
   vehicle: urbanarrow
   baby_age: 3
+  baby_mass: 5.9
   seat: maxicosi
   trial_bounds_file: events_UrbanA_2_3months.csv
   imu_lateral_axis:
@@ -357,6 +376,7 @@ session021:
   date: 2024-12-18
   vehicle: urbanarrow
   baby_age: 0
+  baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_UrbanA_3_0months.csv
   imu_lateral_axis: 
@@ -375,6 +395,7 @@ session022:
   date: 2024-12-18
   vehicle: urbanarrow
   baby_age: 3
+  baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_UrbanA_4_3months.csv
   imu_lateral_axis: 
@@ -393,6 +414,7 @@ session023:
   date: 2024-12-20
   vehicle: urbanarrow
   baby_age: 3
+  baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_UrbanA_5_3months.csv
   imu_lateral_axis:  # 100% sure
@@ -411,6 +433,7 @@ session024:
   date: 2024-12-20
   vehicle: trike
   baby_age: 3
+  baby_mass: 5.9
   seat: maxicosi
   trial_bounds_file: events_Trike_6_3months.csv
   imu_lateral_axis:  # 100% sure
@@ -429,6 +452,7 @@ session025:
   date: 2024-12-30
   vehicle: yoyo
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   trial_bounds_file: events_YOYO_6_9months.csv
   imu_lateral_axis:  # 100% sure
@@ -447,6 +471,7 @@ session026:
   date: 2024-12-30
   vehicle: yoyo
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   trial_bounds_file: events_YOYO_7_9months.csv
   imu_lateral_axis:  # 100% sure
@@ -465,6 +490,7 @@ session027:
   date: 2024-12-30
   vehicle: greenmachine
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   trial_bounds_file: events_GreenM_2_0months.csv
   imu_lateral_axis:  # 100% sure
@@ -483,6 +509,7 @@ session028:
   date: 2024-12-31
   vehicle: oldrusty
   baby_age: 9
+  baby_mass: 8.9
   seat: seat
   trial_bounds_file: events_OldR_2_9months.csv
   imu_lateral_axis:
@@ -501,6 +528,7 @@ session029:
   date: 2025-01-02
   vehicle: greenmachine
   baby_age: 0
+  baby_mass: 3.48
   seat: cot
   trial_bounds_file: events_GreenM_1_0months.csv
   imu_lateral_axis:  # 100% sure
@@ -519,6 +547,7 @@ session030:  # Here we repeat the test on klinkers, 20 km/h, missed in session01
   date: 2025-01-03
   vehicle: trike
   baby_age: 0
+  baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_Trike_7_0months.csv
   imu_lateral_axis:  # 100% sure
