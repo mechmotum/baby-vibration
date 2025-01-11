@@ -1,5 +1,6 @@
 import os
 import gc
+import datetime
 
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum, butterworth
@@ -110,7 +111,7 @@ class Session():
             gc.collect()
             self.imu_data_frames = {}
 
-    def extract_trial(self, trial_name, trial_number=0):
+    def extract_trial(self, trial_name, trial_number=0, split=False):
         """Selects a trial from ``imu_data`` based on the manually defined
         bounds stored in ``bounds_data_frame``.
 
@@ -149,7 +150,28 @@ class Session():
         start_idx = row['start_time'].values[0]
         stop_idx = row['end_time'].values[0]
 
-        return self.imu_data[start_idx:stop_idx]
+        trial_df = self.imu_data[start_idx:stop_idx]
+
+        start = trial_df.index[0]
+        stop = trial_df.index[-1]
+
+        if split:
+            duration = (stop - start).total_seconds()
+            split_dur = 20.0
+            minimum = 10.0
+            if duration/split_dur < 1.0:  # don't split
+                return self.imu_data[start:stop]
+            else:
+                splits = []
+                for i in range(int(duration//split_dur)):
+                    t0 = start + datetime.timedelta(seconds=split_dur*i)
+                    tf = start + datetime.timedelta(seconds=split_dur*(i + 1))
+                    splits.append(self.imu_data[t0:tf])
+                if duration % split_dur >= minimum:
+                    splits.append(self.imu_data[tf:stop])
+                return splits
+
+        return trial_df
 
     def rotate_imu_data(self, subtract_gravity=True):
         """Adds new columns to the ``imu_data`` data frame in which the
@@ -424,23 +446,23 @@ if __name__ == "__main__":
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
 
-    s.plot_accelerometer_rotation()
-
-    s.rotate_imu_data()
-    if 'synchro' in s.trial_bounds:
-        s.plot_time_sync()
-    s.plot_speed_with_trial_bounds()
-    s.plot_raw_time_series(trial=trial_label, gyr=False)
-    s.plot_raw_time_series(trial=trial_label, acc=False)
-    s.plot_iso_weights()
-
-    freq, amp, tim, sig = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label)
-    rms_time = np.sqrt(np.mean(sig**2))
-    print('Unweighted RMS from time domain: ', rms_time)
-    ax = plot_frequency_spectrum(freq, amp)
-    freq, amp, _, _ = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
-    plot_frequency_spectrum(freq, amp, ax=ax, plot_kw={'linewidth': 4})
-
-    plt.show()
+    #s.plot_accelerometer_rotation()
+#
+    #s.rotate_imu_data()
+    #if 'synchro' in s.trial_bounds:
+        #s.plot_time_sync()
+    #s.plot_speed_with_trial_bounds()
+    #s.plot_raw_time_series(trial=trial_label, gyr=False)
+    #s.plot_raw_time_series(trial=trial_label, acc=False)
+    #s.plot_iso_weights()
+#
+    #freq, amp, tim, sig = s.calculate_frequency_spectrum(
+        #'SeatBotacc_ver', sample_rate, trial_label)
+    #rms_time = np.sqrt(np.mean(sig**2))
+    #print('Unweighted RMS from time domain: ', rms_time)
+    #ax = plot_frequency_spectrum(freq, amp)
+    #freq, amp, _, _ = s.calculate_frequency_spectrum(
+        #'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
+    #plot_frequency_spectrum(freq, amp, ax=ax, plot_kw={'linewidth': 4})
+#
+    #plt.show()
