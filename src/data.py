@@ -112,6 +112,8 @@ class Trial():
 
     def plot_signal(self, sig_name, show_rms=False, show_vdv=False, ax=None):
         ax = self.imu_data[sig_name].interpolate(method='time').plot(ax=ax)
+        ax.figure.text(0.01, 0.01,
+                       'Duration: {:1.1f}'.format(self.calc_duration()))
         if show_rms or show_vdv:
             mean = self.imu_data[sig_name].mean()
         if show_rms:
