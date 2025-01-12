@@ -194,7 +194,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                 s.meta_data['vehicle'])
                             stats_data['Vehicle Type'].append(
                                 s.meta_data['vehicle_type'])
-                            stats_data['repetition_number'].append('rep_num')
+                            stats_data['repetition_number'].append(rep_num)
 
                             fig, ax = plt.subplots(layout='constrained',
                                                    figsize=(8, 2))
