@@ -24,6 +24,19 @@ from plots import plot_frequency_spectrum
 
 
 class Trial():
+    """Represents a single trial. A trial is time continuous set of IMU data.
+    The data should contain all columns that must be computed when all
+    information from the session is available, i.e. run ``Session``'s
+    processing and then extract trials with ``Session.extract_trial()``.
+
+    Parameters
+    ==========
+    meta_data : dictionary
+    imu_data : DataFrame
+        The index is a ``DatetimeIndex`` and the columns correspond to data
+        collected at those times.
+
+    """
     def __init__(self, meta_data, imu_data):
         self.meta_data = meta_data
         self.imu_data = imu_data
@@ -33,6 +46,26 @@ class Trial():
 
     @functools.cache
     def down_sample(self, sig_name, sample_rate):
+        """Returns the data in the column interpolated at a constant sample
+        rate.
+
+        Parameters
+        ==========
+        sig_name : string
+            Column name to down sample.
+        sample_rate : integer
+            Sample rate in Hertz.
+
+        Returns
+        =======
+        new_time : ndarray, shape(n,)
+            Time array in seconds starting at 0.0 with constant spacing at the
+            sample rate.
+        new_signal : ndarray, shape(n,)
+            Down sampled signal corresponding to the time values in
+            ``new_time``.
+
+        """
         series = self.imu_data[sig_name].dropna()
         time = datetime2seconds(series.index)
         signal = series.values
@@ -44,7 +77,36 @@ class Trial():
     @functools.cache
     def calculate_frequency_spectrum(self, sig_name, sample_rate,
                                      iso_weighted=False, smooth=False):
-        """Down samples and calculates the frequency spectrum."""
+        """Down samples to a constant sample rate and and returns the frequency
+        spectrum using an FFT.
+
+        Parameters
+        ==========
+        sig_name : string
+            Column name to down sample.
+        sample_rate : integer
+            Sample rate in Hertz.
+        iso_weighted : boolean
+            If true, spectrum will be weighted using the filters in ISO 2631-1.
+        smooth : boolean
+            If true, the spectrum will be filtered using a 2nd order zero-lag
+            Butterworth filter.
+
+        Returns
+        =======
+        freq : ndarray, shape(sample_rate,)
+            Frequency in Hertz.
+        amp : ndarray, shape(sample_rate,)
+            Fourier amplitude at each frequency. Units are the same as the
+            processed signal.
+        new_time : ndarray, shape(n,)
+            Time array in seconds starting at 0.0 with constant spacing at the
+            sample rate.
+        new_signal : ndarray, shape(n,)
+            Down sampled and mean subtracted signal corresponding to the time
+            values in ``new_time``.
+
+        """
 
         new_time, new_signal = self.down_sample(sig_name, sample_rate)
 
@@ -56,6 +118,7 @@ class Trial():
             f = 1/(freq[1] - freq[0])
             amp = butterworth(amp, f/50, f)
 
+        # TODO : This will not work, needs to be adopted for the Trial object.
         if iso_weighted:
             table_freq = self.iso_filter_df_01.index.values
             if 'acc' in sig_name:
@@ -76,6 +139,26 @@ class Trial():
     def plot_frequency_spectrum(self, sig_name, sample_rate,
                                 iso_weighted=False, smooth=False, ax=None,
                                 show_features=False):
+        """Down samples to a constant sample rate and and returns a plot of the
+        frequency spectrum using an FFT.
+
+        Parameters
+        ==========
+        sig_name : string
+            Column name to down sample.
+        sample_rate : integer
+            Sample rate in Hertz.
+        iso_weighted : boolean
+            If true, spectrum will be weighted using the filters in ISO 2631-1.
+        smooth : boolean
+            If true, the spectrum will be filtered using a 2nd order zero-lag
+            Butterworth filter.
+        ax : Axis
+            Matplotlib axis to plot on.
+        show_features : boolean
+            If true, shows peak frequency and threshold frequency.
+
+        """
 
         if smooth:
             freq, amp, _, _ = self.calculate_frequency_spectrum(
@@ -111,6 +194,23 @@ class Trial():
         return ax
 
     def plot_signal(self, sig_name, show_rms=False, show_vdv=False, ax=None):
+        """Returns a plot of the signal linearly interpolated at all sampled
+        time values across all sensors.
+
+        Parameters
+        ==========
+        sig_name : string
+            Column name to down sample.
+        show_rms : boolean
+            Plots horizontal lines about the mean representing the root mean
+            square.
+        show_vdv : boolean
+            Plots horizontal lines about the mean representing the vibration
+            dose value.
+        ax : Axis
+            Matplotlib axis to plot on.
+
+        """
         ax = self.imu_data[sig_name].interpolate(method='time').plot(ax=ax)
         ax.figure.text(0.01, 0.01,
                        'Duration: {:1.1f}'.format(self.calc_duration()))
@@ -124,31 +224,59 @@ class Trial():
             vdv = self.calc_vibration_dose_value(sig_name)
             ax.axhline(mean + vdv, color='grey')
             ax.axhline(mean - vdv, color='grey')
+        # TODO : Not the case if gyro signal is selected, e.g.
         ax.set_ylabel('Acceleration [m/s$^2$]')
         ax.set_xlabel('Time [HH:MM:SS]')
         return ax
 
     def calc_root_mean_square(self, sig_name):
-        """Returns the RMS of the raw data."""
+        """Returns the RMS of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
     def calc_vibration_dose_value(self, sig_name):
-        """Returns the VDV of the raw data."""
+        """Returns the VDV of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
                            self.imu_data[sig_name].mean())
         return np.mean(mean_subtracted**4)**(0.25)
 
     def calc_duration(self):
+        """Returns the total duration of the trial in seconds."""
         return datetime2seconds(self.imu_data.index)[-1]
 
     def calc_speed_stats(self):
+        """Returns the mean and standard deviation of the speed during the
+        trial."""
         return self.imu_data['Speed'].mean(), self.imu_data['Speed'].std()
 
     @functools.cache
     def calc_spectrum_features(self, sig_name, sample_rate, iso_weighted=False,
                                smooth=False):
+        """Returns features of the frequency spectrum.
+
+        Parameters
+        ==========
+        sig_name : string
+            Column name to down sample.
+        sample_rate : integer
+            Sample rate in Hertz.
+        iso_weighted : boolean
+            If true, spectrum will be weighted using the filters in ISO 2631-1.
+        smooth : boolean
+            If true, the spectrum will be filtered using a 2nd order zero-lag
+            Butterworth filter.
+
+        Returns
+        =======
+        max_amp : float
+            Maximum amplitude in the spectrum.
+        peak_freq : float
+            Frequency in Hertz at the maximum amplitude in the spectrum.
+        thresh_freq : float
+            Frequency at 80% of the area under the spectrum.
+
+        """
         freq, amp, _, _ = self.calculate_frequency_spectrum(
             sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
         max_amp = np.max(amp)
