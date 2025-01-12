@@ -252,7 +252,7 @@ class Session():
             gc.collect()
             self.imu_data_frames = {}
 
-    def extract_trial(self, trial_name, trial_number=0, split=False):
+    def extract_trial(self, trial_name, trial_number=0, split=None):
         """Selects a trial from ``imu_data`` based on the manually defined
         bounds stored in ``bounds_data_frame``.
 
@@ -263,11 +263,14 @@ class Session():
         trial_number : integer
             More than one trial with the same name may be present. Use this
             value to select the first, second, third, instance of that trial.
+        split : None or float
+            If set to a duration in seconds, the trial will be split up into
+            multiple trials.
 
         Returns
         =======
-        DataFrame
-            Slice of ``imu_data``.
+        DataFrame or list of DataFrame
+            Slice(s) of ``imu_data``.
 
         """
         try:
@@ -296,20 +299,21 @@ class Session():
         start = trial_df.index[0]
         stop = trial_df.index[-1]
 
-        if split:
+        if split is not None:
             duration = (stop - start).total_seconds()
-            split_dur = 20.0
-            minimum = 10.0
-            if duration/split_dur < 1.0:  # don't split
+            if duration/split < 1.0:  # don't split
                 return self.imu_data[start:stop]
             else:
                 splits = []
-                for i in range(int(duration//split_dur)):
-                    t0 = start + datetime.timedelta(seconds=split_dur*i)
-                    tf = start + datetime.timedelta(seconds=split_dur*(i + 1))
+                split_idxs = list(range(int(duration//split)))
+                for i in split_idxs:
+                    t0 = start + datetime.timedelta(seconds=split*i)
+                    if i == split_idxs[-1]:
+                        tf = stop
+                    else:
+                        tf = start + datetime.timedelta(
+                            seconds=split*(i + 1))
                     splits.append(self.imu_data[t0:tf])
-                if duration % split_dur >= minimum:
-                    splits.append(self.imu_data[tf:stop])
                 return splits
 
         return trial_df
@@ -597,9 +601,9 @@ if __name__ == "__main__":
     s.plot_raw_time_series(trial=trial_label, acc=False)
     s.plot_iso_weights()
 
+    tr = Trial(s.meta_data, s.extract_trial(trial_label))
     # TODO : For some reason, this plots on the last axes of the iso_weights
     # plot if the figure creation is not first.
-    tr = Trial(s.meta_data, s.extract_trial(trial_label))
     fig, ax = plt.subplots(layout='constrained', figsize=(8, 2))
     tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True, ax=ax)
 
