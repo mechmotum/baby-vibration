@@ -17,6 +17,83 @@ from functions import (load_session_files, load_trial_bounds,
 from plots import plot_frequency_spectrum
 
 
+class Trial():
+    def __init__(self, meta_data, imu_data):
+        self.meta_data = meta_data
+        self.imu_data = imu_data
+
+    def down_sample(self, sig_name, sample_rate):
+        series = self.imu_data[sig_name].dropna()
+        time = datetime2seconds(series.index)
+        signal = series.values
+        deltat = 1.0/sample_rate
+        new_time = np.arange(time[0], time[-1], deltat)
+        new_signal = np.interp(new_time, time, signal)
+        return new_time, new_signal
+
+    def calculate_frequency_spectrum(self, sig_name, sample_rate,
+                                     iso_weighted=False, smooth=False):
+        """Down samples and calculates the frequency spectrum."""
+
+        new_time, new_signal = self.down_sample(sig_name, sample_rate)
+
+        new_signal -= np.mean(new_signal)
+
+        freq, amp = freq_spectrum(new_signal, sample_rate)
+
+        if smooth:
+            f = 1/(freq[1] - freq[0])
+            amp = butterworth(amp, f/50, f)
+
+        if iso_weighted:
+            table_freq = self.iso_filter_df_01.index.values
+            if 'acc' in sig_name:
+                if 'acc_ver' in sig_name:
+                    col = 'vertical_acceleration_z'
+                else:
+                    col = 'translational_acceleration_xy'
+            elif 'gyr' in sig_name:
+                col = 'rotation_speed_xyz'
+            else:
+                raise ValueError('no weights!')
+            table_weights = self.iso_filter_df_01[col].values/1000.0
+            weights = np.interp(freq, table_freq, table_weights)
+            amp = weights*amp
+
+        return freq, amp, new_time, new_signal
+
+    def plot_signal(self, sig_name, ax=None, show_rms=False, show_vdv=False):
+        ax = self.imu_data[sig_name].interpolate(method='time').plot(ax=ax)
+        if show_rms or show_vdv:
+            mean = self.imu_data[sig_name].mean()
+        if show_rms:
+            rms = self.calc_root_mean_square(sig_name)
+            ax.axhline(mean + rms, color='black')
+            ax.axhline(mean - rms, color='black')
+        if show_vdv:
+            vdv = self.calc_vibration_dose_value(sig_name)
+            ax.axhline(mean + vdv, color='grey')
+            ax.axhline(mean - vdv, color='grey')
+        ax.set_ylabel('Acceleration [m/s$^2$]')
+        ax.set_xlabel('Time [HH:MM:SS]')
+        return ax
+
+    def calc_root_mean_square(self, sig_name):
+        """Returns the RMS of the raw data."""
+        mean_subtracted = (self.imu_data[sig_name] -
+                           self.imu_data[sig_name].mean())
+        return np.sqrt(np.mean(mean_subtracted**2))
+
+    def calc_vibration_dose_value(self, sig_name):
+        """Returns the VDV of the raw data."""
+        mean_subtracted = (self.imu_data[sig_name] -
+                           self.imu_data[sig_name].mean())
+        return np.mean(mean_subtracted**4)**(0.25)
+
+    def calc_duration(self):
+        return datetime2seconds(self.imu_data.index)[-1]
+
+
 class Session():
     """Represents a continous period of data collection from multiple Shimmer
     IMUs, called a "session".
@@ -446,23 +523,26 @@ if __name__ == "__main__":
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
 
-    #s.plot_accelerometer_rotation()
-#
-    #s.rotate_imu_data()
-    #if 'synchro' in s.trial_bounds:
-        #s.plot_time_sync()
-    #s.plot_speed_with_trial_bounds()
-    #s.plot_raw_time_series(trial=trial_label, gyr=False)
-    #s.plot_raw_time_series(trial=trial_label, acc=False)
-    #s.plot_iso_weights()
-#
-    #freq, amp, tim, sig = s.calculate_frequency_spectrum(
-        #'SeatBotacc_ver', sample_rate, trial_label)
-    #rms_time = np.sqrt(np.mean(sig**2))
-    #print('Unweighted RMS from time domain: ', rms_time)
-    #ax = plot_frequency_spectrum(freq, amp)
-    #freq, amp, _, _ = s.calculate_frequency_spectrum(
-        #'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
-    #plot_frequency_spectrum(freq, amp, ax=ax, plot_kw={'linewidth': 4})
-#
-    #plt.show()
+    s.plot_accelerometer_rotation()
+
+    s.rotate_imu_data()
+    if 'synchro' in s.trial_bounds:
+        s.plot_time_sync()
+    s.plot_speed_with_trial_bounds()
+    s.plot_raw_time_series(trial=trial_label, gyr=False)
+    s.plot_raw_time_series(trial=trial_label, acc=False)
+    s.plot_iso_weights()
+
+    tr = Trial(s.meta_data, s.extract_trial(trial_label))
+    tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True)
+
+    freq, amp, tim, sig = s.calculate_frequency_spectrum(
+        'SeatBotacc_ver', sample_rate, trial_label)
+    rms_time = np.sqrt(np.mean(sig**2))
+    print('Unweighted RMS from time domain: ', rms_time)
+    ax = plot_frequency_spectrum(freq, amp)
+    freq, amp, _, _ = s.calculate_frequency_spectrum(
+        'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
+    plot_frequency_spectrum(freq, amp, ax=ax, plot_kw={'linewidth': 4})
+
+    plt.show()
