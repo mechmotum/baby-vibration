@@ -1,19 +1,163 @@
-import os
+# builtin
+import datetime
+import functools
 import gc
+import os
+import pprint
 
+# dependencies
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum, butterworth
+from scipy.integrate import cumulative_trapezoid
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yaml
 
+# local
 from paths import PATH_TO_SESSION_DATA, PATH_TO_DATA_DIR
 from functions import (load_session_files, load_trial_bounds,
                        load_trial_bounds2, merge_imu_data_frames,
                        compute_gravity_rotation_matrix, magnitude,
                        datetime2seconds)
 from plots import plot_frequency_spectrum
+
+
+class Trial():
+    def __init__(self, meta_data, imu_data):
+        self.meta_data = meta_data
+        self.imu_data = imu_data
+
+    def __str__(self):
+        return pprint.pformat(self.meta_data)
+
+    @functools.cache
+    def down_sample(self, sig_name, sample_rate):
+        series = self.imu_data[sig_name].dropna()
+        time = datetime2seconds(series.index)
+        signal = series.values
+        deltat = 1.0/sample_rate
+        new_time = np.arange(time[0], time[-1], deltat)
+        new_signal = np.interp(new_time, time, signal)
+        return new_time, new_signal
+
+    @functools.cache
+    def calculate_frequency_spectrum(self, sig_name, sample_rate,
+                                     iso_weighted=False, smooth=False):
+        """Down samples and calculates the frequency spectrum."""
+
+        new_time, new_signal = self.down_sample(sig_name, sample_rate)
+
+        new_signal -= np.mean(new_signal)
+
+        freq, amp = freq_spectrum(new_signal, sample_rate)
+
+        if smooth:
+            f = 1/(freq[1] - freq[0])
+            amp = butterworth(amp, f/50, f)
+
+        if iso_weighted:
+            table_freq = self.iso_filter_df_01.index.values
+            if 'acc' in sig_name:
+                if 'acc_ver' in sig_name:
+                    col = 'vertical_acceleration_z'
+                else:
+                    col = 'translational_acceleration_xy'
+            elif 'gyr' in sig_name:
+                col = 'rotation_speed_xyz'
+            else:
+                raise ValueError('no weights!')
+            table_weights = self.iso_filter_df_01[col].values/1000.0
+            weights = np.interp(freq, table_freq, table_weights)
+            amp = weights*amp
+
+        return freq, amp, new_time, new_signal
+
+    def plot_frequency_spectrum(self, sig_name, sample_rate,
+                                iso_weighted=False, smooth=False, ax=None,
+                                show_features=False):
+
+        if smooth:
+            freq, amp, _, _ = self.calculate_frequency_spectrum(
+                sig_name, sample_rate, iso_weighted=iso_weighted, smooth=False)
+            ax = plot_frequency_spectrum(freq, amp, ax=ax,
+                                         plot_kw={'color': 'gray',
+                                                  'alpha': 0.8})
+
+        freq, amp, _, _ = self.calculate_frequency_spectrum(
+            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+
+        if smooth:
+            plot_kw = {'color': 'C0', 'linewidth': 3}
+        else:
+            plot_kw = None
+
+        ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
+
+        legend = ['FFT']
+        if smooth:
+            legend += ['Smoothed FFT']
+
+        if show_features:
+            max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
+                sig_name, sample_rate, iso_weighted=iso_weighted,
+                smooth=smooth)
+            ax.axvline(peak_freq, color='C1', linewidth=3)
+            ax.axvline(thresh_freq, color='C2', linewidth=3)
+            legend += ['Peak Frequency', 'Threshold Frequency']
+
+        ax.legend(legend)
+
+        return ax
+
+    def plot_signal(self, sig_name, show_rms=False, show_vdv=False, ax=None):
+        ax = self.imu_data[sig_name].interpolate(method='time').plot(ax=ax)
+        ax.figure.text(0.01, 0.01,
+                       'Duration: {:1.1f}'.format(self.calc_duration()))
+        if show_rms or show_vdv:
+            mean = self.imu_data[sig_name].mean()
+        if show_rms:
+            rms = self.calc_root_mean_square(sig_name)
+            ax.axhline(mean + rms, color='black')
+            ax.axhline(mean - rms, color='black')
+        if show_vdv:
+            vdv = self.calc_vibration_dose_value(sig_name)
+            ax.axhline(mean + vdv, color='grey')
+            ax.axhline(mean - vdv, color='grey')
+        ax.set_ylabel('Acceleration [m/s$^2$]')
+        ax.set_xlabel('Time [HH:MM:SS]')
+        return ax
+
+    def calc_root_mean_square(self, sig_name):
+        """Returns the RMS of the raw data."""
+        mean_subtracted = (self.imu_data[sig_name] -
+                           self.imu_data[sig_name].mean())
+        return np.sqrt(np.mean(mean_subtracted**2))
+
+    def calc_vibration_dose_value(self, sig_name):
+        """Returns the VDV of the raw data."""
+        mean_subtracted = (self.imu_data[sig_name] -
+                           self.imu_data[sig_name].mean())
+        return np.mean(mean_subtracted**4)**(0.25)
+
+    def calc_duration(self):
+        return datetime2seconds(self.imu_data.index)[-1]
+
+    def calc_speed_stats(self):
+        return self.imu_data['Speed'].mean(), self.imu_data['Speed'].std()
+
+    @functools.cache
+    def calc_spectrum_features(self, sig_name, sample_rate, iso_weighted=False,
+                               smooth=False):
+        freq, amp, _, _ = self.calculate_frequency_spectrum(
+            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+        max_amp = np.max(amp)
+        peak_freq = freq[np.argmax(amp)]
+        area = cumulative_trapezoid(amp, freq)
+        threshold = 0.8*area[-1]
+        idx = np.argwhere(area < threshold)[-1, 0]
+        thresh_freq = freq[idx]
+        return max_amp, peak_freq, thresh_freq
 
 
 class Session():
@@ -110,7 +254,7 @@ class Session():
             gc.collect()
             self.imu_data_frames = {}
 
-    def extract_trial(self, trial_name, trial_number=0):
+    def extract_trial(self, trial_name, trial_number=0, split=None):
         """Selects a trial from ``imu_data`` based on the manually defined
         bounds stored in ``bounds_data_frame``.
 
@@ -121,11 +265,14 @@ class Session():
         trial_number : integer
             More than one trial with the same name may be present. Use this
             value to select the first, second, third, instance of that trial.
+        split : None or float
+            If set to a duration in seconds, the trial will be split up into
+            multiple trials.
 
         Returns
         =======
-        DataFrame
-            Slice of ``imu_data``.
+        DataFrame or list of DataFrame
+            Slice(s) of ``imu_data``.
 
         """
         try:
@@ -149,7 +296,29 @@ class Session():
         start_idx = row['start_time'].values[0]
         stop_idx = row['end_time'].values[0]
 
-        return self.imu_data[start_idx:stop_idx]
+        trial_df = self.imu_data[start_idx:stop_idx]
+
+        start = trial_df.index[0]
+        stop = trial_df.index[-1]
+
+        if split is not None:
+            duration = (stop - start).total_seconds()
+            if duration/split < 1.0:  # don't split
+                return self.imu_data[start_idx:stop_idx]
+            else:
+                splits = []
+                split_idxs = list(range(int(duration//split)))
+                for i in split_idxs:
+                    t0 = start + datetime.timedelta(seconds=split*i)
+                    if i == split_idxs[-1]:
+                        tf = stop
+                    else:
+                        tf = start + datetime.timedelta(
+                            seconds=split*(i + 1))
+                    splits.append(self.imu_data[t0:tf])
+                return splits
+
+        return trial_df
 
     def rotate_imu_data(self, subtract_gravity=True):
         """Adds new columns to the ``imu_data`` data frame in which the
@@ -414,7 +583,7 @@ class Session():
 if __name__ == "__main__":
 
     session_label = 'session001'
-    trial_label = 'static'
+    trial_label = 'aula'
     sample_rate = 400
 
     s = Session(session_label)
@@ -434,13 +603,18 @@ if __name__ == "__main__":
     s.plot_raw_time_series(trial=trial_label, acc=False)
     s.plot_iso_weights()
 
-    freq, amp, tim, sig = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label)
+    tr = Trial(s.meta_data, s.extract_trial(trial_label))
+    # TODO : For some reason, this plots on the last axes of the iso_weights
+    # plot if the figure creation is not first.
+    fig, ax = plt.subplots(layout='constrained', figsize=(8, 2))
+    tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True, ax=ax)
+
+    freq, amp, tim, sig = tr.calculate_frequency_spectrum(
+        'SeatBotacc_ver', sample_rate)
     rms_time = np.sqrt(np.mean(sig**2))
     print('Unweighted RMS from time domain: ', rms_time)
-    ax = plot_frequency_spectrum(freq, amp)
-    freq, amp, _, _ = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
-    plot_frequency_spectrum(freq, amp, ax=ax, plot_kw={'linewidth': 4})
+
+    tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
+                               show_features=True)
 
     plt.show()
