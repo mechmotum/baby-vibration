@@ -304,7 +304,7 @@ class Session():
         if split is not None:
             duration = (stop - start).total_seconds()
             if duration/split < 1.0:  # don't split
-                return self.imu_data[start:stop]
+                return self.imu_data[start_idx:stop_idx]
             else:
                 splits = []
                 split_idxs = list(range(int(duration//split)))
