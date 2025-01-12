@@ -5,6 +5,7 @@ import os
 import pickle
 
 import matplotlib.pyplot as plt
+import pandas as pd
 import yaml
 
 from data import Session, Trial
@@ -130,82 +131,95 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
 
-                        file_name = '-'.join([
-                            session_label,
-                            't' + str(trial_num),
-                            mot_trial,
-                            s.meta_data['vehicle_type'],
-                            s.meta_data['vehicle'],
-                            s.meta_data['seat'],
-                            str(s.meta_data['baby_age']),
-                            signal,
-                        ])
-
                         # TODO : Make extract_trial produce a Trial
-                        df = s.extract_trial(mot_trial, trial_number=trial_num)
-                        md = s.meta_data.copy()
-                        md['surface'] = mot_trial
-                        md['trial_number'] = trial_num
-                        trial = Trial(md, df)
+                        dfs = s.extract_trial(mot_trial,
+                                              trial_number=trial_num,
+                                              split=20.0)
+                        if isinstance(dfs, pd.DataFrame):
+                            dfs = [dfs]
 
-                        # TODO : RMS and VDV are calculated from oversampled
-                        # data, should I change to calculate from the
-                        # downsampled data?
-                        rms = trial.calc_root_mean_square(signal)
-                        vdv = trial.calc_vibration_dose_value(signal)
-                        duration = trial.calc_duration()
-                        ms, ss = trial.calc_speed_stats()
-                        max_amp, peak_freq, thresh_freq = \
-                            trial.calc_spectrum_features(
-                                signal, sample_rate, smooth=True)
+                        print('{} repetitions in this trial.'.format(len(dfs)))
 
-                        stats_data[signal + '_rms'].append(rms)
-                        stats_data[signal + '_vdv'].append(vdv)
-                        stats_data['Duration [s]'].append(duration)
-                        stats_data['Mean Speed [m/s]'].append(ms)
-                        stats_data['STD DEV of Speed [m/s]'].append(ss)
-                        stats_data['Max Spectrum Amplitude [m/s/s]'].append(
-                            max_amp)
-                        stats_data['Peak Frequency [Hz]'].append(peak_freq)
-                        stats_data['Threshold Frequency [Hz]'].append(
-                            thresh_freq)
-                        stats_data['Baby Age [mo]'].append(
-                            s.meta_data['baby_age'])
-                        stats_data['Baby Mass [kg]'].append(
-                            s.meta_data['baby_mass'])
-                        stats_data['Seat'].append(s.meta_data['seat'])
-                        stats_data['Session'].append(session_label[-3:])
-                        stats_data['Road Surface'].append(
-                            motion_trials[mot_trial])
-                        stats_data['Trial Repetition'].append(trial_num)
-                        stats_data['Vehicle'].append(s.meta_data['vehicle'])
-                        stats_data['Vehicle Type'].append(
-                            s.meta_data['vehicle_type'])
+                        for rep_num, df in enumerate(dfs):
 
-                        fig, ax = plt.subplots(layout='constrained',
-                                               figsize=(8, 2))
-                        ax = trial.plot_signal(signal, show_rms=True,
-                                               show_vdv=True, ax=ax)
-                        ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
-                                                       file_name + '.png'))
-                        plt.clf()
-                        html_data['trial_html'].append(
-                            IMG.format('time_hist', file_name + '.png'))
+                            file_name = '-'.join([
+                                session_label,
+                                't' + str(trial_num),
+                                mot_trial,
+                                s.meta_data['vehicle_type'],
+                                s.meta_data['vehicle'],
+                                s.meta_data['seat'],
+                                str(s.meta_data['baby_age']),
+                                signal,
+                                'rep' + str(rep_num),
+                            ])
 
-                        ax = trial.plot_frequency_spectrum(signal,
-                                                           sample_rate,
-                                                           smooth=True,
-                                                           show_features=True)
-                        ax.set_title(file_name)
-                        ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
-                                                       file_name + '.png'))
-                        plt.clf()
-                        html_data['spec_html'].append(
-                            IMG.format('spectrums', file_name + '.png'))
+                            md = s.meta_data.copy()
+                            md['surface'] = mot_trial
+                            md['trial_number'] = trial_num
+                            md['repetition_number'] = rep_num
+                            trial = Trial(md, df)
 
-                        del trial
-                        del df  # critical as this seems to be a copy!
-                        plt.close('all')
+                            # TODO : RMS and VDV are calculated from
+                            # oversampled data, should I change to calculate
+                            # from the downsampled data?
+                            rms = trial.calc_root_mean_square(signal)
+                            vdv = trial.calc_vibration_dose_value(signal)
+                            duration = trial.calc_duration()
+                            ms, ss = trial.calc_speed_stats()
+                            max_amp, peak_freq, thresh_freq = \
+                                trial.calc_spectrum_features(
+                                    signal, sample_rate, smooth=True)
+
+                            stats_data[signal + '_rms'].append(rms)
+                            stats_data[signal + '_vdv'].append(vdv)
+                            stats_data['Duration [s]'].append(duration)
+                            stats_data['Mean Speed [m/s]'].append(ms)
+                            stats_data['STD DEV of Speed [m/s]'].append(ss)
+                            stats_data['Max Spectrum Amplitude [m/s/s]'].append(
+                                max_amp)
+                            stats_data['Peak Frequency [Hz]'].append(peak_freq)
+                            stats_data['Threshold Frequency [Hz]'].append(
+                                thresh_freq)
+                            stats_data['Baby Age [mo]'].append(
+                                s.meta_data['baby_age'])
+                            stats_data['Baby Mass [kg]'].append(
+                                s.meta_data['baby_mass'])
+                            stats_data['Seat'].append(s.meta_data['seat'])
+                            stats_data['Session'].append(session_label[-3:])
+                            stats_data['Road Surface'].append(
+                                motion_trials[mot_trial])
+                            stats_data['Trial Repetition'].append(trial_num)
+                            stats_data['Vehicle'].append(
+                                s.meta_data['vehicle'])
+                            stats_data['Vehicle Type'].append(
+                                s.meta_data['vehicle_type'])
+                            stats_data['repetition_number'].append('rep_num')
+
+                            fig, ax = plt.subplots(layout='constrained',
+                                                   figsize=(8, 2))
+                            ax = trial.plot_signal(signal, show_rms=True,
+                                                show_vdv=True, ax=ax)
+                            ax.figure.savefig(os.path.join(
+                                PATH_TO_TIME_HIST_DIR, file_name + '.png'))
+                            plt.clf()
+                            html_data['trial_html'].append(
+                                IMG.format('time_hist', file_name + '.png'))
+
+                            ax = trial.plot_frequency_spectrum(signal,
+                                                            sample_rate,
+                                                            smooth=True,
+                                                            show_features=True)
+                            ax.set_title(file_name)
+                            ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
+                                                        file_name + '.png'))
+                            plt.clf()
+                            html_data['spec_html'].append(
+                                IMG.format('spectrums', file_name + '.png'))
+
+                            del trial
+                            plt.close('all')
+                        del dfs  # critical as this seems to be a copy!
                         gc.collect()
                 else:
                     html_data['trial_html'].append(H3.format(mot_trial))
