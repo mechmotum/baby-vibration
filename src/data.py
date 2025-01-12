@@ -1,14 +1,20 @@
-import os
-import gc
+# builtin
 import datetime
+import functools
+import gc
+import os
+import pprint
 
+# dependencies
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum, butterworth
+from scipy.integrate import cumulative_trapezoid
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yaml
 
+# local
 from paths import PATH_TO_SESSION_DATA, PATH_TO_DATA_DIR
 from functions import (load_session_files, load_trial_bounds,
                        load_trial_bounds2, merge_imu_data_frames,
@@ -22,6 +28,10 @@ class Trial():
         self.meta_data = meta_data
         self.imu_data = imu_data
 
+    def __str__(self):
+        return pprint.pformat(self.meta_data)
+
+    @functools.cache
     def down_sample(self, sig_name, sample_rate):
         series = self.imu_data[sig_name].dropna()
         time = datetime2seconds(series.index)
@@ -31,6 +41,7 @@ class Trial():
         new_signal = np.interp(new_time, time, signal)
         return new_time, new_signal
 
+    @functools.cache
     def calculate_frequency_spectrum(self, sig_name, sample_rate,
                                      iso_weighted=False, smooth=False):
         """Down samples and calculates the frequency spectrum."""
@@ -62,7 +73,44 @@ class Trial():
 
         return freq, amp, new_time, new_signal
 
-    def plot_signal(self, sig_name, ax=None, show_rms=False, show_vdv=False):
+    def plot_frequency_spectrum(self, sig_name, sample_rate,
+                                iso_weighted=False, smooth=False, ax=None,
+                                show_features=False):
+
+        if smooth:
+            freq, amp, _, _ = self.calculate_frequency_spectrum(
+                sig_name, sample_rate, iso_weighted=iso_weighted, smooth=False)
+            ax = plot_frequency_spectrum(freq, amp, ax=ax,
+                                         plot_kw={'color': 'gray',
+                                                  'alpha': 0.8})
+
+        freq, amp, _, _ = self.calculate_frequency_spectrum(
+            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+
+        if smooth:
+            plot_kw = {'color': 'C0', 'linewidth': 3}
+        else:
+            plot_kw = None
+
+        ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
+
+        legend = ['FFT']
+        if smooth:
+            legend += ['Smoothed FFT']
+
+        if show_features:
+            max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
+                sig_name, sample_rate, iso_weighted=iso_weighted,
+                smooth=smooth)
+            ax.axvline(peak_freq, color='C1', linewidth=3)
+            ax.axvline(thresh_freq, color='C2', linewidth=3)
+            legend += ['Peak Frequency', 'Threshold Frequency']
+
+        ax.legend(legend)
+
+        return ax
+
+    def plot_signal(self, sig_name, show_rms=False, show_vdv=False, ax=None):
         ax = self.imu_data[sig_name].interpolate(method='time').plot(ax=ax)
         if show_rms or show_vdv:
             mean = self.imu_data[sig_name].mean()
@@ -92,6 +140,22 @@ class Trial():
 
     def calc_duration(self):
         return datetime2seconds(self.imu_data.index)[-1]
+
+    def calc_speed_stats(self):
+        return self.imu_data['Speed'].mean(), self.imu_data['Speed'].std()
+
+    @functools.cache
+    def calc_spectrum_features(self, sig_name, sample_rate, iso_weighted=False,
+                               smooth=False):
+        freq, amp, _, _ = self.calculate_frequency_spectrum(
+            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+        max_amp = np.max(amp)
+        peak_freq = freq[np.argmax(amp)]
+        area = cumulative_trapezoid(amp, freq)
+        threshold = 0.8*area[-1]
+        idx = np.argwhere(area < threshold)[-1, 0]
+        thresh_freq = freq[idx]
+        return max_amp, peak_freq, thresh_freq
 
 
 class Session():
@@ -513,7 +577,7 @@ class Session():
 if __name__ == "__main__":
 
     session_label = 'session001'
-    trial_label = 'static'
+    trial_label = 'aula'
     sample_rate = 400
 
     s = Session(session_label)
@@ -533,16 +597,18 @@ if __name__ == "__main__":
     s.plot_raw_time_series(trial=trial_label, acc=False)
     s.plot_iso_weights()
 
+    # TODO : For some reason, this plots on the last axes of the iso_weights
+    # plot if the figure creation is not first.
     tr = Trial(s.meta_data, s.extract_trial(trial_label))
-    tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True)
+    fig, ax = plt.subplots(layout='constrained', figsize=(8, 2))
+    tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True, ax=ax)
 
-    freq, amp, tim, sig = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label)
+    freq, amp, tim, sig = tr.calculate_frequency_spectrum(
+        'SeatBotacc_ver', sample_rate)
     rms_time = np.sqrt(np.mean(sig**2))
     print('Unweighted RMS from time domain: ', rms_time)
-    ax = plot_frequency_spectrum(freq, amp)
-    freq, amp, _, _ = s.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate, trial_label, smooth=True)
-    plot_frequency_spectrum(freq, amp, ax=ax, plot_kw={'linewidth': 4})
+
+    tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
+                               show_features=True)
 
     plt.show()

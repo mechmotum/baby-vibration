@@ -5,29 +5,35 @@ import os
 import pickle
 
 import matplotlib.pyplot as plt
-import numpy as np
 import yaml
-from scipy.integrate import cumulative_trapezoid
 
-from data import Session
-from functions import datetime2seconds
+from data import Session, Trial
 from html_templates import IMG, H2, H3, P
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_TIME_HIST_DIR, PATH_TO_SPECT_DIR,
                    PATH_TO_ACCROT_DIR, PATH_TO_SYNC_DIR)
-from plots import plot_frequency_spectrum
 
 
 def process_sessions(start_num, end_num, signal, sample_rate):
 
     if start_num > 0:
-        print('Loading existing pickle files')
+        msg = 'Loading existing pickle files'
+        print('*'*len(msg))
+        print('*'*len(msg))
+        print(msg)
+        print('*'*len(msg))
+        print('*'*len(msg))
         with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
             html_data = pickle.load(f)
         with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
             stats_data = pickle.load(f)
     else:
-        print('Creating new pickle files')
+        msg = 'Creating new pickle files'
+        print('*'*len(msg))
+        print('*'*len(msg))
+        print(msg)
+        print('*'*len(msg))
+        print('*'*len(msg))
         stats_data = defaultdict(list)
         html_data = defaultdict(list)
         for pkl_file in ['html-data.pkl', 'stats-data.pkl']:
@@ -63,16 +69,17 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         html_data['trial_html'].append(H2.format(session_label))
         html_data['sync_html'].append(H2.format(session_label))
         if s.meta_data['trial_bounds_file'] is None:
-            print('Missing files, skipping:', session_label)
-            html_data['sess_html'].append(P.format('skipped: ' +
-                                                   session_label))
-            html_data['spec_html'].append(P.format('skipped: ' +
-                                                   session_label))
-            html_data['srot_html'].append(P.format('skipped: ' +
-                                                   session_label))
-            html_data['trial_html'].append(P.format('skipped: ' +
-                                                    session_label))
-            del s
+            print('Missing bounds file, skipping:', session_label)
+            html_data['sess_html'].append(P.format(
+                'missing bounds, skipped: ' + session_label))
+            html_data['spec_html'].append(P.format(
+                'missing bounds, skipped: ' + session_label))
+            html_data['srot_html'].append(P.format(
+                'missing bounds, skipped: ' + session_label))
+            html_data['trial_html'].append(P.format(
+                'missing bounds, skipped: ' + session_label))
+            html_data['sync_html'].append(P.format(
+                'missing bounds, skipped: ' + session_label))
         else:
             s.load_data()
             print(s.trial_bounds)
@@ -100,8 +107,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                 plt.clf()
                 html_data['sync_html'].append(IMG.format('sync', ses_img_fn))
             else:
-                html_data['sync_html'].append(P.format('skipped: ' +
-                                                       session_label))
+                msg = 'no synchro trial, skipped: ' + session_label
+                html_data['sync_html'].append(P.format(msg))
 
             # TODO : No need to plot this same thing for every session, but
             # need to load a session for the data. Maybe disconnect this data
@@ -122,6 +129,46 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                     for trial_num in s.trial_bounds[mot_trial]:
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
+
+                        file_name = '-'.join([
+                            session_label,
+                            't' + str(trial_num),
+                            mot_trial,
+                            s.meta_data['vehicle_type'],
+                            s.meta_data['vehicle'],
+                            s.meta_data['seat'],
+                            str(s.meta_data['baby_age']),
+                            signal,
+                        ])
+
+                        # TODO : Make extract_trial produce a Trial
+                        df = s.extract_trial(mot_trial, trial_number=trial_num)
+                        md = s.meta_data.copy()
+                        md['surface'] = mot_trial
+                        md['trial_number'] = trial_num
+                        trial = Trial(md, df)
+
+                        # TODO : RMS and VDV are calculated from oversampled
+                        # data, should I change to calculate from the
+                        # downsampled data?
+                        rms = trial.calc_root_mean_square(signal)
+                        vdv = trial.calc_vibration_dose_value(signal)
+                        duration = trial.calc_duration()
+                        ms, ss = trial.calc_speed_stats()
+                        max_amp, peak_freq, thresh_freq = \
+                            trial.calc_spectrum_features(
+                                signal, sample_rate, smooth=True)
+
+                        stats_data[signal + '_rms'].append(rms)
+                        stats_data[signal + '_vdv'].append(vdv)
+                        stats_data['Duration [s]'].append(duration)
+                        stats_data['Mean Speed [m/s]'].append(ms)
+                        stats_data['STD DEV of Speed [m/s]'].append(ss)
+                        stats_data['Max Spectrum Amplitude [m/s/s]'].append(
+                            max_amp)
+                        stats_data['Peak Frequency [Hz]'].append(peak_freq)
+                        stats_data['Threshold Frequency [Hz]'].append(
+                            thresh_freq)
                         stats_data['Baby Age [mo]'].append(
                             s.meta_data['baby_age'])
                         stats_data['Baby Mass [kg]'].append(
@@ -135,91 +182,39 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         stats_data['Vehicle Type'].append(
                             s.meta_data['vehicle_type'])
 
-                        file_name = '-'.join([
-                            session_label,
-                            't' + str(trial_num),
-                            mot_trial,
-                            s.meta_data['vehicle_type'],
-                            s.meta_data['vehicle'],
-                            s.meta_data['seat'],
-                            str(s.meta_data['baby_age']),
-                            signal,
-                        ])
-
-                        df = s.extract_trial(mot_trial, trial_number=trial_num)
-
                         fig, ax = plt.subplots(layout='constrained',
                                                figsize=(8, 2))
-                        ax = df[signal].interpolate(method='time').plot(ax=ax)
-                        # TODO : These two are calculated from oversampled
-                        # data, change to calculate from the downsampled data.
-                        rms = np.sqrt(np.mean(df[signal]**2))
-                        vdv = np.mean(df[signal]**4)**(0.25)
-                        ax.axhline(rms, color='black')
-                        ax.axhline(-rms, color='black')
-                        ax.axhline(vdv, color='grey')
-                        ax.axhline(-vdv, color='grey')
-                        ax.set_ylabel('Acceleration [m/s$^2$]')
-                        ax.set_xlabel('Time [HH:MM:SS]')
-                        ax.figure.set_layout_engine('constrained')  # twice?
+                        ax = trial.plot_signal(signal, show_rms=True,
+                                               show_vdv=True, ax=ax)
                         ax.figure.savefig(os.path.join(PATH_TO_TIME_HIST_DIR,
                                                        file_name + '.png'))
-
                         plt.clf()
                         html_data['trial_html'].append(
                             IMG.format('time_hist', file_name + '.png'))
 
-                        duration = datetime2seconds(df.index)[-1]
-                        stats_data['Duration [s]'].append(duration)
-                        stats_data['Mean Speed [m/s]'].append(
-                            df['Speed'].mean())
-                        stats_data['Standard Deviation of Speed [m/s]'].append(
-                            df['Speed'].std())
-
-                        plt.close('all')
-                        del df  # critical as this seems to be a copy!
-                        gc.collect()
-
-                        freq, amp, _, sig = s.calculate_frequency_spectrum(
-                            signal, sample_rate, mot_trial,
-                            trial_number=trial_num)
-                        rms = np.sqrt(np.mean(sig**2))
-                        stats_data[signal + '_rms'].append(rms)
-                        vdv = np.mean(sig**4)**(0.25)
-                        stats_data[signal + '_vdv'].append(vdv)
-                        ax = plot_frequency_spectrum(freq, amp,
-                                                     plot_kw={'color': 'gray',
-                                                              'alpha': 0.8})
-
-                        freq, amp, _, sig = s.calculate_frequency_spectrum(
-                            signal, sample_rate, mot_trial,
-                            trial_number=trial_num, smooth=True)
-                        ax = plot_frequency_spectrum(freq, amp, ax=ax,
-                                                     plot_kw={'color': 'C0',
-                                                              'linewidth': 3})
-                        peak_freq = freq[np.argmax(amp)]
-                        area = cumulative_trapezoid(amp, freq)
-                        threshold = 0.8*area[-1]
-                        idx = np.argwhere(area < threshold)[-1, 0]
-                        thresh_freq = freq[idx]
-                        stats_data['Peak Frequency [Hz]'].append(peak_freq)
-                        stats_data['Threshold Frequency [Hz]'].append(
-                            thresh_freq)
-                        ax.axvline(peak_freq, color='C1', linewidth=3)
-                        ax.axvline(thresh_freq, color='C2', linewidth=3)
+                        ax = trial.plot_frequency_spectrum(signal,
+                                                           sample_rate,
+                                                           smooth=True,
+                                                           show_features=True)
                         ax.set_title(file_name)
-                        ax.legend(['FFT', 'Smoothed FTT', 'Peak Frequency',
-                                   'Threshold Frequency'])
                         ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                        file_name + '.png'))
-
                         plt.clf()
                         html_data['spec_html'].append(
                             IMG.format('spectrums', file_name + '.png'))
 
-                        plt.clf()
-
+                        del trial
+                        del df  # critical as this seems to be a copy!
                         plt.close('all')
+                        gc.collect()
+                else:
+                    html_data['trial_html'].append(H3.format(mot_trial))
+                    html_data['trial_html'].append(P.format(mot_trial +
+                                                            ' not in session'))
+                    html_data['spec_html'].append(H3.format(mot_trial))
+                    html_data['spec_html'].append(P.format(mot_trial +
+                                                           ' not in session'))
+
             del s
             gc.collect()
 
