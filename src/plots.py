@@ -11,3 +11,11 @@ def plot_frequency_spectrum(freq, amp, ax=None, plot_kw={}):
     ax.set_ylabel('Amplitude [m/s$^2$]')
     ax.grid()
     return ax
+
+
+def plot_iso_weights(iso_filter_df_01, iso_filter_df_02):
+    ax1 = iso_filter_df_01.plot(subplots=True)
+    ax1[0].set_title('iso_filter_01')
+    ax2 = iso_filter_df_02.plot(subplots=True)
+    ax2[0].set_title('iso_filter_02')
+    return ax1, ax2

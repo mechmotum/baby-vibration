@@ -20,7 +20,12 @@ from functions import (load_session_files, load_trial_bounds,
                        load_trial_bounds2, merge_imu_data_frames,
                        compute_gravity_rotation_matrix, magnitude,
                        datetime2seconds)
-from plots import plot_frequency_spectrum
+from plots import plot_frequency_spectrum, plot_iso_weights
+
+filter_data_01 = os.path.join(PATH_TO_DATA_DIR, 'iso-2631-filter-01.csv')
+iso_filter_df_01 = pd.read_csv(filter_data_01, index_col='frequency_hz')
+filter_data_02 = os.path.join(PATH_TO_DATA_DIR, 'iso-2631-filter-02.csv')
+iso_filter_df_02 = pd.read_csv(filter_data_02, index_col='frequency_hz')
 
 
 class Trial():
@@ -120,7 +125,7 @@ class Trial():
 
         # TODO : This will not work, needs to be adopted for the Trial object.
         if iso_weighted:
-            table_freq = self.iso_filter_df_01.index.values
+            table_freq = iso_filter_df_01.index.values
             if 'acc' in sig_name:
                 if 'acc_ver' in sig_name:
                     col = 'vertical_acceleration_z'
@@ -130,7 +135,7 @@ class Trial():
                 col = 'rotation_speed_xyz'
             else:
                 raise ValueError('no weights!')
-            table_weights = self.iso_filter_df_01[col].values/1000.0
+            table_weights = iso_filter_df_01[col].values/1000.0
             weights = np.interp(freq, table_freq, table_weights)
             amp = weights*amp
 
@@ -317,15 +322,6 @@ class Session():
 
         self.meta_data = session_meta_data[session_label]
         self.meta_data.update(vehicle_meta_data[self.meta_data['vehicle']])
-
-        filter_data_01 = os.path.join(PATH_TO_DATA_DIR,
-                                      'iso-2631-filter-01.csv')
-        self.iso_filter_df_01 = pd.read_csv(filter_data_01,
-                                            index_col='frequency_hz')
-        filter_data_02 = os.path.join(PATH_TO_DATA_DIR,
-                                      'iso-2631-filter-02.csv')
-        self.iso_filter_df_02 = pd.read_csv(filter_data_02,
-                                            index_col='frequency_hz')
 
     def load_data(self):
         """Loads the IMU CSV files for this session into ``imu_data_frames``
@@ -585,7 +581,7 @@ class Session():
             amp = butterworth(amp, f/50, f)
 
         if iso_weighted:
-            table_freq = self.iso_filter_df_01.index.values
+            table_freq = iso_filter_df_01.index.values
             if 'acc' in sig_name:
                 if 'acc_ver' in sig_name:
                     col = 'vertical_acceleration_z'
@@ -595,7 +591,7 @@ class Session():
                 col = 'rotation_speed_xyz'
             else:
                 raise ValueError('no weights!')
-            table_weights = self.iso_filter_df_01[col].values/1000.0
+            table_weights = iso_filter_df_01[col].values/1000.0
             weights = np.interp(freq, table_freq, table_weights)
             amp = weights*amp
 
@@ -700,19 +696,14 @@ class Session():
 
         return subset.plot(subplots=True, marker='.')
 
-    def plot_iso_weights(self):
-        ax1 = self.iso_filter_df_01.plot(subplots=True)
-        ax1[0].set_title('iso_filter_01')
-        ax2 = self.iso_filter_df_02.plot(subplots=True)
-        ax2[0].set_title('iso_filter_02')
-        return ax1, ax2
-
 
 if __name__ == "__main__":
 
     session_label = 'session001'
     trial_label = 'aula'
     sample_rate = 400
+
+    plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
 
     s = Session(session_label)
     s.load_data()
@@ -729,7 +720,6 @@ if __name__ == "__main__":
     s.plot_speed_with_trial_bounds()
     s.plot_raw_time_series(trial=trial_label, gyr=False)
     s.plot_raw_time_series(trial=trial_label, acc=False)
-    s.plot_iso_weights()
 
     tr = Trial(s.meta_data, s.extract_trial(trial_label))
     # TODO : For some reason, this plots on the last axes of the iso_weights

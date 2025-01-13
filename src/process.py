@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import yaml
 
-from data import Session, Trial
+from data import Session, Trial, iso_filter_df_01, iso_filter_df_02
+from plots import plot_iso_weights
 from html_templates import IMG, H2, H3, P
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_TIME_HIST_DIR, PATH_TO_SPECT_DIR,
@@ -18,22 +19,18 @@ from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
 def process_sessions(start_num, end_num, signal, sample_rate):
 
     if start_num > 0:
-        msg = 'Loading existing pickle files'
-        print('*'*len(msg))
+        msg = '* Loading existing pickle files *'
         print('*'*len(msg))
         print(msg)
-        print('*'*len(msg))
         print('*'*len(msg))
         with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
             html_data = pickle.load(f)
         with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
             stats_data = pickle.load(f)
     else:
-        msg = 'Creating new pickle files'
-        print('*'*len(msg))
+        msg = '* Creating new pickle files *'
         print('*'*len(msg))
         print(msg)
-        print('*'*len(msg))
         print('*'*len(msg))
         stats_data = defaultdict(list)
         html_data = defaultdict(list)
@@ -110,16 +107,6 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             else:
                 msg = 'no synchro trial, skipped: ' + session_label
                 html_data['sync_html'].append(P.format(msg))
-
-            # TODO : No need to plot this same thing for every session, but
-            # need to load a session for the data. Maybe disconnect this data
-            # from a session.
-            ax1, ax2 = s.plot_iso_weights()
-            ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
-                                               'iso-filter-weights-01.png'))
-            ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
-                                               'iso-filter-weights-02.png'))
-            plt.clf()
 
             plt.close('all')
 
@@ -199,20 +186,19 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             fig, ax = plt.subplots(layout='constrained',
                                                    figsize=(8, 2))
                             ax = trial.plot_signal(signal, show_rms=True,
-                                                show_vdv=True, ax=ax)
+                                                   show_vdv=True, ax=ax)
                             ax.figure.savefig(os.path.join(
                                 PATH_TO_TIME_HIST_DIR, file_name + '.png'))
                             plt.clf()
                             html_data['trial_html'].append(
                                 IMG.format('time_hist', file_name + '.png'))
 
-                            ax = trial.plot_frequency_spectrum(signal,
-                                                            sample_rate,
-                                                            smooth=True,
-                                                            show_features=True)
+                            ax = trial.plot_frequency_spectrum(
+                                signal, sample_rate, smooth=True,
+                                show_features=True)
                             ax.set_title(file_name)
                             ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
-                                                        file_name + '.png'))
+                                                           file_name + '.png'))
                             plt.clf()
                             html_data['spec_html'].append(
                                 IMG.format('spectrums', file_name + '.png'))
@@ -247,6 +233,13 @@ if __name__ == '__main__':
     parser.add_argument('signal', type=str)
     parser.add_argument('sample_rate', type=int)
     a = parser.parse_args()
+
+    ax1, ax2 = plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
+    ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
+                                       'iso-filter-weights-01.png'))
+    ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
+                                       'iso-filter-weights-02.png'))
+    plt.clf()
 
     process_sessions(a.start_num, a.end_num, a.signal,
                      a.sample_rate)
