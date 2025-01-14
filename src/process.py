@@ -80,8 +80,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                 'missing bounds, skipped: ' + session_label))
         else:
             s.load_data()
-            print(s.trial_bounds)
             s.rotate_imu_data(subtract_gravity=False)
+            print(s)
             axes = s.plot_accelerometer_rotation()
             axes[0, 0].figure.savefig(os.path.join(PATH_TO_ACCROT_DIR,
                                                    session_label + '.png'))
