@@ -29,10 +29,11 @@ iso_filter_df_02 = pd.read_csv(filter_data_02, index_col='frequency_hz')
 
 
 class Trial():
-    """Represents a single trial. A trial is time continuous set of IMU data.
-    The data should contain all columns that must be computed when all
-    information from the session is available, i.e. run ``Session``'s
-    processing and then extract trials with ``Session.extract_trial()``.
+    """Represents a single trial. A trial is time continuous set of IMU data
+    taken from a specific scenario that occured in a session. The data should
+    contain all columns that must be computed when all information from the
+    session is available, i.e. run ``Session``'s processing and then extract
+    trials with ``Session.extract_trial()``.
 
     Parameters
     ==========
@@ -123,7 +124,6 @@ class Trial():
             f = 1/(freq[1] - freq[0])
             amp = butterworth(amp, f/50, f)
 
-        # TODO : This will not work, needs to be adopted for the Trial object.
         if iso_weighted:
             table_freq = iso_filter_df_01.index.values
             if 'acc' in sig_name:
@@ -172,27 +172,28 @@ class Trial():
                                          plot_kw={'color': 'gray',
                                                   'alpha': 0.8})
 
-        freq, amp, _, _ = self.calculate_frequency_spectrum(
-            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
-
-        if smooth:
-            plot_kw = {'color': 'C0', 'linewidth': 3}
-        else:
-            plot_kw = None
-
-        ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
-
-        legend = ['FFT']
-        if smooth:
-            legend += ['Smoothed FFT']
-
         if show_features:
             max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
                 sig_name, sample_rate, iso_weighted=iso_weighted,
                 smooth=smooth)
             ax.axvline(peak_freq, color='C1', linewidth=3)
             ax.axvline(thresh_freq, color='C2', linewidth=3)
-            legend += ['Peak Frequency', 'Threshold Frequency']
+            legend = ['Peak Frequency', 'Threshold Frequency']
+        else:
+            legend = []
+
+        freq, amp, _, _ = self.calculate_frequency_spectrum(
+            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+
+        legend += ['FFT']
+
+        if smooth:
+            plot_kw = {'color': 'C0', 'linewidth': 3}
+            legend += ['Smoothed FFT']
+        else:
+            plot_kw = None
+
+        ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
 
         ax.legend(legend)
 
@@ -304,8 +305,13 @@ class Session():
         etc. These labels are defined in ``data/session.yml``.
 
     """
-    sensor_labels = ['BotTrike', 'FrontWheel', 'RearWheel', 'SeatBot',
-                     'SeatHead']
+    sensor_labels = [
+        'BotTrike',
+        'FrontWheel',
+        'RearWheel',
+        'SeatBot',
+        'SeatHead',
+    ]
     raw_gyr_tmpl = ['S_{}_Gyro_X_CAL', 'S_{}_Gyro_Y_CAL', 'S_{}_Gyro_Z_CAL']
     raw_acc_tmpl = ['S_{}_Accel_WR_X_CAL', 'S_{}_Accel_WR_Y_CAL',
                     'S_{}_Accel_WR_Z_CAL']
@@ -373,7 +379,7 @@ class Session():
         self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
 
         if minimize_memory:
-            # save memory by deleting this
+            # save memory by deleting the original data frames
             del self.imu_data_frames
             gc.collect()
             self.imu_data_frames = {}
@@ -385,7 +391,8 @@ class Session():
         Parameters
         ==========
         trial_name : string
-            Examples are ``static``, ``aula``, ``pave``, ``klinkers``, etc.
+            Examples are ``static``, ``aula``, ``pave``, ``klinkers``,
+            ``stoeptegels``, etc.
         trial_number : integer
             More than one trial with the same name may be present. Use this
             value to select the first, second, third, instance of that trial.
@@ -450,8 +457,6 @@ class Session():
         lateral axis aligning one axis with the vertical (direction of gravity)
         and one with longitudinal.
 
-        Notes
-        =====
         """
         raw_acc_tmpl = 'S_{}_Accel_WR_{}_CAL'
 
@@ -560,45 +565,6 @@ class Session():
         """
         # TODO
         pass
-
-    def calculate_frequency_spectrum(self, sig_name, sample_rate, trial,
-                                     trial_number=0, iso_weighted=False,
-                                     smooth=False):
-        """Down samples and calculates the frequency spectrum."""
-        data = self.extract_trial(trial, trial_number=trial_number)
-        series = data[sig_name].dropna()
-        time = datetime2seconds(series.index)
-        signal = series.values
-        deltat = 1.0/sample_rate
-        new_time = np.arange(time[0], time[-1], deltat)
-        new_signal = np.interp(new_time, time, signal)
-        new_signal -= np.mean(new_signal)
-
-        freq, amp = freq_spectrum(new_signal, sample_rate)
-
-        if smooth:
-            f = 1/(freq[1] - freq[0])
-            amp = butterworth(amp, f/50, f)
-
-        if iso_weighted:
-            table_freq = iso_filter_df_01.index.values
-            if 'acc' in sig_name:
-                if 'acc_ver' in sig_name:
-                    col = 'vertical_acceleration_z'
-                else:
-                    col = 'translational_acceleration_xy'
-            elif 'gyr' in signal:
-                col = 'rotation_speed_xyz'
-            else:
-                raise ValueError('no weights!')
-            table_weights = iso_filter_df_01[col].values/1000.0
-            weights = np.interp(freq, table_freq, table_weights)
-            amp = weights*amp
-
-        del data
-        gc.collect()
-
-        return freq, amp, time, new_signal
 
     def plot_speed_with_trial_bounds(self):
         """Createas a plot of forward speed versus time for the whole session
