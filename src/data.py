@@ -122,7 +122,7 @@ class Trial():
 
         if smooth:
             f = 1/(freq[1] - freq[0])
-            amp = butterworth(amp, f/50, f)
+            amp = butterworth(amp, f/80, f)
 
         if iso_weighted:
             table_freq = iso_filter_df_01.index.values
@@ -171,6 +171,9 @@ class Trial():
             ax = plot_frequency_spectrum(freq, amp, ax=ax,
                                          plot_kw={'color': 'gray',
                                                   'alpha': 0.8})
+            legend = ['FFT']
+        else:
+            legend = []
 
         if show_features:
             max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
@@ -178,19 +181,16 @@ class Trial():
                 smooth=smooth)
             ax.axvline(peak_freq, color='C1', linewidth=3)
             ax.axvline(thresh_freq, color='C2', linewidth=3)
-            legend = ['Peak Frequency', 'Threshold Frequency']
-        else:
-            legend = []
+            legend += ['Peak Frequency', 'Threshold Frequency']
 
         freq, amp, _, _ = self.calculate_frequency_spectrum(
             sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
-
-        legend += ['FFT']
 
         if smooth:
             plot_kw = {'color': 'C0', 'linewidth': 3}
             legend += ['Smoothed FFT']
         else:
+            legend += ['FFT']
             plot_kw = None
 
         ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
