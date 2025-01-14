@@ -45,6 +45,12 @@ INDEX = """\
   <hr>
 {mean_table}
 
+  <h1 id="statistics">Regression Results</h1>
+  <h2>Strollers</h2>
+{stroller_stats}
+  <h3>Cargo Bicycles</h2>
+{bicycle_stats}
+
   <h1 id="boxp">Comparison Plots: RMS of {signal} </h1>
   <hr>
 {boxp_html}

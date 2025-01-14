@@ -103,8 +103,8 @@ f = ("SeatBotacc_ver_rms ~ "
      "Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
      "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
-res = mod.fit()
-print(res.summary())
+bicycle_res = mod.fit()
+print(bicycle_res.summary())
 print("="*len(title), "\n")
 
 title = "Stroller OLS Results"
@@ -116,8 +116,8 @@ f = ("SeatBotacc_ver_rms ~ "
      "Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
      "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'stroller'])
-res = mod.fit()
-print(res.summary())
+stroller_res = mod.fit()
+print(stroller_res.summary())
 print("="*len(title), "\n")
 
 title = "Mixed Effects Model Results"
@@ -392,6 +392,8 @@ html_source = INDEX.format(
     githash=githash,
     signal=SIGNAL,
     boxp_html='\n  '.join(boxp_html),
+    bicycle_stats=bicycle_res.summary().as_html(),
+    stroller_stats=stroller_res.summary().as_html(),
     mean_table=summary_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
