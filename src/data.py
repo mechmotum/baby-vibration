@@ -329,6 +329,25 @@ class Session():
         self.meta_data = session_meta_data[session_label]
         self.meta_data.update(vehicle_meta_data[self.meta_data['vehicle']])
 
+    def __str__(self):
+
+        desc = f"""\
+-------------------------------------------------------------------------------
+|                      Session: {self.session_label}                                    |
+-------------------------------------------------------------------------------
+Vehicle: {self.meta_data['vehicle_type']}, {self.meta_data['brand']} {self.meta_data['model']}
+Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.meta_data['baby_mass']} kg baby"""
+
+        if hasattr(self, 'trial_bounds'):
+            desc += f"\nTrials: {self.trial_bounds}"
+        else:
+            desc += "\nTrials: no trials available"
+
+        if hasattr(self, 'imu_data'):
+            desc += f"\nTotal duration: {datetime2seconds(self.imu_data.index)[-1]:0.2f}"
+
+        return desc
+
     def load_data(self):
         """Loads the IMU CSV files for this session into ``imu_data_frames``
         and the trial bound data into ``bounds_data_frame``."""
@@ -665,6 +684,8 @@ class Session():
 
 if __name__ == "__main__":
 
+    plot = True
+
     session_label = 'session001'
     trial_label = 'aula'
     sample_rate = 400
@@ -678,27 +699,32 @@ if __name__ == "__main__":
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
 
-    s.plot_accelerometer_rotation()
+    if plot:
+        s.plot_accelerometer_rotation()
 
     s.rotate_imu_data()
-    if 'synchro' in s.trial_bounds:
+    if 'synchro' in s.trial_bounds and plot:
         s.plot_time_sync()
-    s.plot_speed_with_trial_bounds()
-    s.plot_raw_time_series(trial=trial_label, gyr=False)
-    s.plot_raw_time_series(trial=trial_label, acc=False)
+
+    if plot:
+        s.plot_speed_with_trial_bounds()
+        s.plot_raw_time_series(trial=trial_label, gyr=False)
+        s.plot_raw_time_series(trial=trial_label, acc=False)
 
     tr = Trial(s.meta_data, s.extract_trial(trial_label))
-    # TODO : For some reason, this plots on the last axes of the iso_weights
-    # plot if the figure creation is not first.
-    fig, ax = plt.subplots(layout='constrained', figsize=(8, 2))
-    tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True, ax=ax)
+    if plot:
+        # TODO : For some reason, this plots on the last axes of the
+        # iso_weights plot if the figure creation is not first.
+        fig, ax = plt.subplots(layout='constrained', figsize=(8, 2))
+        tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True, ax=ax)
 
     freq, amp, tim, sig = tr.calculate_frequency_spectrum(
         'SeatBotacc_ver', sample_rate)
     rms_time = np.sqrt(np.mean(sig**2))
     print('Unweighted RMS from time domain: ', rms_time)
 
-    tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
-                               show_features=True)
+    if plot:
+        tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
+                                   show_features=True)
 
-    plt.show()
+        plt.show()
