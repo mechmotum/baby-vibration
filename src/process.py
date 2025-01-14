@@ -18,6 +18,8 @@ from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
 
 def process_sessions(start_num, end_num, signal, sample_rate):
 
+    print('Processing {} to {}'.format(start_num, end_num))
+
     if start_num > 0:
         msg = '* Loading existing pickle files *'
         print('*'*len(msg))
@@ -81,7 +83,6 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         else:
             s.load_data()
             s.rotate_imu_data(subtract_gravity=False)
-            print(s)
             axes = s.plot_accelerometer_rotation()
             axes[0, 0].figure.savefig(os.path.join(PATH_TO_ACCROT_DIR,
                                                    session_label + '.png'))
@@ -89,6 +90,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             html_data['srot_html'].append(
                 IMG.format('accrot', session_label + '.png'))
             s.rotate_imu_data()
+            print(s)
             s.calculate_travel_speed(smooth=True)
             s.calculate_vector_magnitudes()
 
@@ -153,7 +155,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             rms = trial.calc_root_mean_square(signal)
                             vdv = trial.calc_vibration_dose_value(signal)
                             duration = trial.calc_duration()
-                            ms, ss = trial.calc_speed_stats()
+                            avg_speed, std_speed = trial.calc_speed_stats()
                             max_amp, peak_freq, thresh_freq = \
                                 trial.calc_spectrum_features(
                                     signal, sample_rate, smooth=True)
@@ -161,8 +163,9 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data[signal + '_rms'].append(rms)
                             stats_data[signal + '_vdv'].append(vdv)
                             stats_data['Duration [s]'].append(duration)
-                            stats_data['Mean Speed [m/s]'].append(ms)
-                            stats_data['STD DEV of Speed [m/s]'].append(ss)
+                            stats_data['Mean Speed [m/s]'].append(avg_speed)
+                            stats_data['STD DEV of Speed [m/s]'].append(
+                                std_speed)
                             stats_data['Max Spectrum Amplitude [m/s/s]'].append(
                                 max_amp)
                             stats_data['Peak Frequency [Hz]'].append(peak_freq)

@@ -277,7 +277,7 @@ session015:
     seat_bottom: 2024-12-12_Trike_1_0months/2024-12-12_10.47.19_Trike_1_SB_SD_Session1/Trike_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
     seat_head: 2024-12-12_Trike_1_0months/2024-12-12_10.49.48_Trike_1_SH_SD_Session1/Trike_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
     trike_bottom: 2024-12-12_Trike_1_0months/2024-12-12_10.46.51_Trike_1_BT_SD_Session1/Trike_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
-session016:    # We miss half of time history on klinkers, 20 km/h, only for the SeatBot sensor. We repeated the test (only for 20 km/h) in session030 
+session016:  # We miss half of time history on klinkers, 20 km/h, only for the SeatBot sensor. We repeated the test (only for 20 km/h) in session030
   date: 2024-12-13
   vehicle: trike
   baby_age: 0
@@ -379,7 +379,7 @@ session021:
   baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_UrbanA_3_0months.csv
-  imu_lateral_axis: 
+  imu_lateral_axis:
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -398,7 +398,7 @@ session022:
   baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_UrbanA_4_3months.csv
-  imu_lateral_axis: 
+  imu_lateral_axis:
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
