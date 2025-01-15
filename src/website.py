@@ -98,9 +98,9 @@ print("="*len(title))
 print(title)
 print("="*len(title))
 f = ("SeatBotacc_ver_rms ~ "
-     "Q('Mean Speed [m/s]') + "
-     "Q('Baby Mass [kg]') + "
-     "Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
+     "Q('Mean Speed [m/s]')*Q('Road Surface') + "
+     "C(Q('Baby Mass [kg]')) + "
+     #"Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
      "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
 bicycle_res = mod.fit()
