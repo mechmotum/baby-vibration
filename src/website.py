@@ -160,6 +160,50 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+boxp_html.append(H2.format('Stroller Overall RMS Comparison'))
+msg = """"""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
+    hue="Mean Speed [km/h]",
+    y="SeatBotacc_ver_rms",
+    x="Vehicle, Seat, Baby Age",
+    style='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-rms-stroller-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+boxp_html.append(H2.format('Cargo Bicycle Overall RMS Comparison'))
+msg = """"""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    hue="Mean Speed [km/h]",
+    y="SeatBotacc_ver_rms",
+    x="Vehicle, Seat, Baby Age",
+    style='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-rms-bicycle-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
 boxp_html.append(H2.format('Overall VDV Comparison'))
 msg = """"""
 boxp_html.append(P.format(msg))
@@ -178,6 +222,50 @@ p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+boxp_html.append(H2.format('Stroller VDV Comparison'))
+msg = """"""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
+    hue="Mean Speed [km/h]",
+    y="SeatBotacc_ver_vdv",
+    x="Vehicle, Seat, Baby Age",
+    style='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-vdv-stroller-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+boxp_html.append(H2.format('Cargo Bicycle VDV Comparison'))
+msg = """"""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    hue="Mean Speed [km/h]",
+    y="SeatBotacc_ver_vdv",
+    x="Vehicle, Seat, Baby Age",
+    style='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-vdv-bicycle-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
