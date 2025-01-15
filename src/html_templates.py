@@ -31,6 +31,7 @@ INDEX = """\
   <h1>Table of Contents</h1>
   <ol>
     <li><a href="#mean_table">Mean Table</a></li>
+    <li><a href="#statistics">Statistical Regression Results</a></li>
     <li><a href="#boxp">Comparison Plots</a></li>
     <li><a href="#sess">Sessions Segmented into Trials</a></li>
     <li><a href="#trial_table">Table of All Trials</a></li>
