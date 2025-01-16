@@ -254,7 +254,7 @@ class Trial():
         power = X[1:len(X)//2]
         frequency = f[1:len(X)//2]
 
-        return np.sqrt(np.sum(np.abs(X)**2))/np.sqrt(len(X)**2)
+        return np.sqrt(2*np.sum(np.abs(power)**2))/np.sqrt(len(X)**2)
 
     def calc_vibration_dose_value(self, sig_name):
         """Returns the VDV of the raw signal data."""
