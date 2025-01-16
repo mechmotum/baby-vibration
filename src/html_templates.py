@@ -46,6 +46,10 @@ INDEX = """\
   <hr>
 {mean_table}
 
+  <h1 id="mean_table">Mean of the ISO 2631-1 Weighted RMS of {signal}</h1>
+  <hr>
+{mean_iso_table}
+
   <h1 id="statistics">Regression Results</h1>
   <h2>Strollers</h2>
 {stroller_stats}

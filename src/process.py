@@ -154,6 +154,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             # from the downsampled data?
                             rms = trial.calc_root_mean_square(signal)
                             vdv = trial.calc_vibration_dose_value(signal)
+                            rms_iso = trial.calc_spectrum_root_mean_square(
+                                signal, sample_rate, iso_weighted=True)
                             duration = trial.calc_duration()
                             avg_speed, std_speed = trial.calc_speed_stats()
                             max_amp, peak_freq, thresh_freq = \
@@ -161,6 +163,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                     signal, sample_rate, smooth=True)
 
                             stats_data[signal + '_rms'].append(rms)
+                            stats_data[signal + '_rms_iso'].append(rms_iso)
                             stats_data[signal + '_vdv'].append(vdv)
                             stats_data['Duration [s]'].append(duration)
                             stats_data['Mean Speed [m/s]'].append(avg_speed)

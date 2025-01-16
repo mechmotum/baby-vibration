@@ -14,9 +14,17 @@ from html_templates import INDEX, H2, P, IMG
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
+SIGNAL_RMS_ISO = SIGNAL + '_rms_iso'
 KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 MM2INCH = 1.0/25.4
 MAXWIDTH = 160  # mm (max width suitable for an A4 with 25 mm margins)
+
+
+def print_header(msg, sym='*'):
+    print(sym*2*len(msg))
+    print('|' + ' '*(len(msg)//2 - 1) + msg + ' '*(len(msg)//2 - 1) + '|')
+    print(sym*2*len(msg))
+
 
 sns.set_theme(style='white')
 
@@ -64,6 +72,8 @@ stats_df['Seat, Baby'] = (
 )
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
+
+print_header("Grand Statistics Data Frame")
 print(stats_df)
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
@@ -81,8 +91,23 @@ summary_df['Mean Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
 summary_df['Mean Threshold Frequency [Hz]'] = \
     stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
+print_header("Mean Statistics Per Scenario")
 print(summary_df)
-print(summary_df.to_latex(float_format="%0.1f"))
+#print(summary_df.to_latex(float_format="%0.1f"))
+
+summary_iso_df = stats_df.groupby(groups)[SIGNAL_RMS_ISO].agg(
+    **{'Trial Count': 'size',
+       'Mean ISO Weighted RMS Acceleration [m/s/s]': 'mean'}
+)
+summary_iso_df['Mean Duration [s]'] = \
+    stats_df.groupby(groups)['Duration [s]'].mean()
+summary_iso_df['Mean Peak Frequency [Hz]'] = \
+    stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
+summary_iso_df['Mean Threshold Frequency [Hz]'] = \
+    stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
+print_header("Mean Statistics Per Scenario (ISO Weighted)")
+print(summary_iso_df)
+#print(summary_iso_df.to_latex(float_format="%0.1f"))
 
 # Table that shows how many trials and the mean duration
 groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
@@ -90,13 +115,10 @@ trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
     **{'Count': 'count',
        'Mean': 'mean',
        'STD': 'std'})
+print_header("Trial Counts Per Scenario")
 print(trial_count_df)
-print(trial_count_df.to_latex(float_format="%0.1f"))
+#print(trial_count_df.to_latex(float_format="%0.1f"))
 
-title = "Bicycle OLS Results"
-print("="*len(title))
-print(title)
-print("="*len(title))
 f = ("SeatBotacc_ver_rms ~ "
      "Q('Mean Speed [m/s]')*Q('Road Surface') + "
      "C(Q('Baby Mass [kg]')) + "
@@ -104,34 +126,17 @@ f = ("SeatBotacc_ver_rms ~ "
      "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
 bicycle_res = mod.fit()
+print_header("Bicycle OLS Results")
 print(bicycle_res.summary())
-print("="*len(title), "\n")
 
-title = "Stroller OLS Results"
-print("="*len(title))
-print(title)
-print("="*len(title))
 f = ("SeatBotacc_ver_rms ~ "
      "Q('Baby Mass [kg]') + "
      "Q('Vehicle, Seat, Baby Age'):C(Q('Baby Mass [kg]')) + "
      "Q('Vehicle, Seat, Baby Age')*Q('Road Surface')")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'stroller'])
 stroller_res = mod.fit()
+print_header("Stroller OLS Results")
 print(stroller_res.summary())
-print("="*len(title), "\n")
-
-title = "Mixed Effects Model Results"
-print("="*len(title))
-print(title)
-print("="*len(title))
-f = ('SeatBotacc_ver_rms ~ '
-     'Q("Baby Mass [kg]") + '
-     'Q("Vehicle") + '
-     'Q("Road Surface") + Q("Mean Speed [m/s]")')
-mod = smf.mixedlm(formula=f, data=stats_df, groups=stats_df["Vehicle Type"])
-res = mod.fit()
-print(res.summary())
-print("="*len(title), "\n")
 
 boxp_html = []
 
@@ -483,6 +488,7 @@ html_source = INDEX.format(
     bicycle_stats=bicycle_res.summary().as_html(),
     stroller_stats=stroller_res.summary().as_html(),
     mean_table=summary_df.to_html(float_format="%0.2f"),
+    mean_iso_table=summary_iso_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
