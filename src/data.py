@@ -241,6 +241,12 @@ class Trial():
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
+    def calc_spectrum_root_mean_square(self, sig_name, sample_rate):
+        # returns correct result: np.sqrt(np.sum(np.abs(fft(sig, norm='forward')*len(sig))**2))/np.sqrt(len(fft(sig, norm='forward'))**2)
+        x, y = self.down_sample(sig_name, sample_rate)
+        amp = np.fft.fft(y)
+        return np.sqrt(np.sum(np.abs(amp)**2))/np.sqrt(len(amp)**2)
+
     def calc_vibration_dose_value(self, sig_name):
         """Returns the VDV of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
@@ -684,10 +690,10 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
 
 if __name__ == "__main__":
 
-    plot = True
+    plot = False
 
-    session_label = 'session001'
-    trial_label = 'aula'
+    session_label = 'session021'
+    trial_label = 'klinkers'
     sample_rate = 400
 
     plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
@@ -698,7 +704,6 @@ if __name__ == "__main__":
     s.rotate_imu_data(subtract_gravity=False)
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
-
     if plot:
         s.plot_accelerometer_rotation()
 
@@ -718,10 +723,15 @@ if __name__ == "__main__":
         fig, ax = plt.subplots(layout='constrained', figsize=(8, 2))
         tr.plot_signal("SeatBotacc_ver", show_rms=True, show_vdv=True, ax=ax)
 
-    freq, amp, tim, sig = tr.calculate_frequency_spectrum(
-        'SeatBotacc_ver', sample_rate)
+    freq, amp, tim, sig = tr.calculate_frequency_spectrum('SeatBotacc_ver',
+                                                          sample_rate)
     rms_time = np.sqrt(np.mean(sig**2))
-    print('Unweighted RMS from time domain: ', rms_time)
+    rms_spec = np.sqrt(0.5*np.sum(amp**2))
+    print('RMS from all data: ', tr.calc_root_mean_square("SeatBotacc_ver"))
+    print('RMS from down sampled: ', rms_time)
+    print('RMS from spectrum: ', rms_spec)
+    print('', tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate))
+    # np.sqrt(2*np.sum((amp/2*len(sig))**2))/np.sqrt(len(sig)**2)
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
