@@ -42,7 +42,7 @@ INDEX = """\
     <li><a href="#sync">Sensor Time Synchronization Checks</a></li>
   </ol>
 
-  <h1 id="mean_table">Duration Weighted Mean of the RMS of {signal}</h1>
+  <h1 id="mean_table">Mean of the RMS of {signal}</h1>
   <hr>
 {mean_table}
 

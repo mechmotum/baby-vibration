@@ -101,10 +101,6 @@ summary_iso_df = stats_df.groupby(groups)[SIGNAL_RMS_ISO].agg(
 )
 summary_iso_df['Mean Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()
-summary_iso_df['Mean Peak Frequency [Hz]'] = \
-    stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_iso_df['Mean Threshold Frequency [Hz]'] = \
-    stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
 print_header("Mean Statistics Per Scenario (ISO Weighted)")
 print(summary_iso_df)
 #print(summary_iso_df.to_latex(float_format="%0.1f"))
