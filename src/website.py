@@ -85,6 +85,11 @@ stats_df['Seat, Baby'] = (
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
+# Filter out "shock" trials for figure generation
+shock_df = stats_df[stats_df['Road Surface'] == 'Shock']
+stats_df = stats_df[stats_df['Road Surface'] != 'Shock']
+
+print(shock_df)
 print_header("Grand Statistics Data Frame")
 print(stats_df)
 
@@ -499,6 +504,8 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 
 plt.close('all')
 
+complete_stats_df = pd.concat([stats_df, shock_df], ignore_index=True)
+
 html_source = INDEX.format(
     date=datetime.datetime.today(),
     githash=githash,
@@ -513,7 +520,7 @@ html_source = INDEX.format(
     trial_html='\n  '.join(html_data['trial_html']),
     srot_html='\n  '.join(html_data['srot_html']),
     sync_html='\n  '.join(html_data['sync_html']),
-    trial_table=stats_df.to_html(),
+    trial_table=complete_stats_df.to_html(),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
