@@ -395,7 +395,8 @@ Vehicle: {self.meta_data['vehicle_type']}, {self.meta_data['brand']} {self.meta_
 Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.meta_data['baby_mass']} kg baby"""
 
         if hasattr(self, 'trial_bounds'):
-            desc += f"\nTrials: {self.trial_bounds}"
+            trial_info = {k: len(v) for k, v in self.trial_bounds.items()}
+            desc += f"\nTrials: {trial_info}"
         else:
             desc += "\nTrials: no trials available"
 
