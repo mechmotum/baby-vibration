@@ -241,11 +241,20 @@ class Trial():
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
-    def calc_spectrum_root_mean_square(self, sig_name, sample_rate):
+    def calc_spectrum_root_mean_square(self, sig_name, sample_rate,
+                                       iso_weighted=False):
         # returns correct result: np.sqrt(np.sum(np.abs(fft(sig, norm='forward')*len(sig))**2))/np.sqrt(len(fft(sig, norm='forward'))**2)
-        x, y = self.down_sample(sig_name, sample_rate)
-        amp = np.fft.fft(y)
-        return np.sqrt(np.sum(np.abs(amp)**2))/np.sqrt(len(amp)**2)
+
+        t, y = self.down_sample(sig_name, sample_rate)
+
+        sample_time = 1.0/sample_rate  # sample time
+
+        X = np.fft.fft(y)
+        f = np.fft.fftfreq(len(X), d=sample_time)
+        power = X[1:len(X)//2]
+        frequency = f[1:len(X)//2]
+
+        return np.sqrt(np.sum(np.abs(X)**2))/np.sqrt(len(X)**2)
 
     def calc_vibration_dose_value(self, sig_name):
         """Returns the VDV of the raw signal data."""
@@ -729,8 +738,9 @@ if __name__ == "__main__":
     rms_spec = np.sqrt(0.5*np.sum(amp**2))
     print('RMS from all data: ', tr.calc_root_mean_square("SeatBotacc_ver"))
     print('RMS from down sampled: ', rms_time)
-    print('RMS from spectrum: ', rms_spec)
-    print('', tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate))
+    print('RMS from amplitude spectrum: ', rms_spec)
+    print('RMS from power spectrum',
+          tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate))
     # np.sqrt(2*np.sum((amp/2*len(sig))**2))/np.sqrt(len(sig)**2)
 
     if plot:
