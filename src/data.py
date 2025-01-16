@@ -85,7 +85,7 @@ class Trial():
         return new_time, new_signal
 
     @functools.cache
-    def calculate_frequency_spectrum(self, sig_name, sample_rate,
+    def calculate_frequency_spectrum(self, sig_name, sample_rate, cutoff=None,
                                      iso_weighted=False, smooth=False):
         """Down samples to a constant sample rate and and returns the frequency
         spectrum using an FFT.
@@ -96,6 +96,10 @@ class Trial():
             Column name to down sample.
         sample_rate : integer
             Sample rate in Hertz.
+        cutoff : None or float
+            If a float is supplied the signal will be downsampled and low pass
+            filtered at the provided cutoff frequency in Hz before the FFT is
+            applied.
         iso_weighted : boolean
             If true, spectrum will be weighted using the filters in ISO 2631-1.
         smooth : boolean
@@ -118,7 +122,8 @@ class Trial():
 
         """
 
-        new_time, new_signal = self.down_sample(sig_name, sample_rate)
+        new_time, new_signal = self.down_sample(sig_name, sample_rate,
+                                                cutoff=cutoff)
 
         new_signal -= np.mean(new_signal)
 
@@ -246,14 +251,21 @@ class Trial():
         return np.sqrt(np.mean(mean_subtracted**2))
 
     def calc_spectrum_root_mean_square(self, sig_name, sample_rate,
-                                       iso_weighted=False):
-        """
+                                       cutoff=None, iso_weighted=False):
+        """Returns the root mean square of the signal, calculated from the
+        frequency spectrum which takes into account the time series filtering
+        and ISO 2631-1 weights.
+
         Parameters
         ==========
         sig_name : string
             Column name to down sample.
         sample_rate : integer
             Sample rate in Hertz.
+        cutoff : None or float
+            If a float is supplied the signal will be downsampled and low pass
+            filtered at the provided cutoff frequency in Hz before the FFT is
+            applied.
         iso_weighted : boolean
             If true, spectrum will be weighted using the filters in ISO 2631-1.
 
@@ -274,7 +286,7 @@ class Trial():
         # X = fft(x, norm='forward')
         # RMS = np.sqrt(np.sum(np.abs(X*len(x))**2))/np.sqrt(len(X)**2)
 
-        t, x = self.down_sample(sig_name, sample_rate)
+        t, x = self.down_sample(sig_name, sample_rate, cutoff=cutoff)
 
         sample_time = 1.0/sample_rate
 
