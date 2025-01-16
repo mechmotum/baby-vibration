@@ -313,6 +313,30 @@ class Trial():
 
         return np.sqrt(2*np.sum(np.abs(power)**2))/np.sqrt(len(X)**2)
 
+    def calc_magnitude_rms(self, signal_prefix, sample_rate, cutoff=None,
+                           iso_weighted=False):
+        """Returns the RMS of the magnitude of a signal.
+
+        Parameters
+        ==========
+        signal_prefix : string
+            Example: ``SeatBotacc`` or ``SeatBotgyr`` or ``SeatHeadacc``
+
+        We already calculate vector magnitudes but if we want to apply ISO
+        weights we have to calculate the vector magnitude after the weights are
+        applied.
+
+        RMS = sqrt( kx^2 awx^2 + ky^2 awy^2 + kz^2 awz^2)
+
+        """
+        ver_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_ver',
+            sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
+        lat_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_lat',
+            sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
+        lon_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_lon',
+            sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
+        return np.sqrt(ver_rms**2 + lat_rms**2 + lon_rms**2)
+
     def calc_vibration_dose_value(self, sig_name):
         """Returns the VDV of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
@@ -803,6 +827,9 @@ if __name__ == "__main__":
     print('RMS from power spectrum (iso weighted)',
           tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate,
                                             iso_weighted=True))
+    print("RMS of the vector magnitude (from spectrum and ISO weighted): ",
+          tr.calc_magnitude_rms("SeatBotacc", sample_rate,
+                                iso_weighted=True))
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
