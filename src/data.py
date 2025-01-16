@@ -243,16 +243,57 @@ class Trial():
 
     def calc_spectrum_root_mean_square(self, sig_name, sample_rate,
                                        iso_weighted=False):
-        # returns correct result: np.sqrt(np.sum(np.abs(fft(sig, norm='forward')*len(sig))**2))/np.sqrt(len(fft(sig, norm='forward'))**2)
+        """
+        Parameters
+        ==========
+        sig_name : string
+            Column name to down sample.
+        sample_rate : integer
+            Sample rate in Hertz.
+        iso_weighted : boolean
+            If true, spectrum will be weighted using the filters in ISO 2631-1.
 
-        t, y = self.down_sample(sig_name, sample_rate)
+        Returns
+        =======
+        float
+            RMS of the signal (or ISO weighted signal).
 
-        sample_time = 1.0/sample_rate  # sample time
+        """
 
-        X = np.fft.fft(y)
+        # NOTE : I tried many times to calculate the RMS from the result of
+        # dtk.process.freq_spectrum() but the value was always off. The reason
+        # is that the nextpow2() calculation does something that causes a
+        # direct application of Parseval's theorem to be incorrect. So I have
+        # to calculate the FFT here without normalization and without the
+        # nextpow2() to get the correct RMS value. If the normalization is
+        # applied this can work:
+        # X = fft(x, norm='forward')
+        # RMS = np.sqrt(np.sum(np.abs(X*len(x))**2))/np.sqrt(len(X)**2)
+
+        t, x = self.down_sample(sig_name, sample_rate)
+
+        sample_time = 1.0/sample_rate
+
+        X = np.fft.fft(x)
         f = np.fft.fftfreq(len(X), d=sample_time)
+        # take right half spectrum and remove dc component (first value)
         power = X[1:len(X)//2]
-        frequency = f[1:len(X)//2]
+        freq = f[1:len(X)//2]
+
+        if iso_weighted:
+            table_freq = iso_filter_df_01.index.values
+            if 'acc' in sig_name:
+                if 'acc_ver' in sig_name:
+                    col = 'vertical_acceleration_z'
+                else:
+                    col = 'translational_acceleration_xy'
+            elif 'gyr' in sig_name:
+                col = 'rotation_speed_xyz'
+            else:
+                raise ValueError('no weights!')
+            table_weights = iso_filter_df_01[col].values/1000.0
+            weights = np.interp(freq, table_freq, table_weights)
+            power = weights*power
 
         return np.sqrt(2*np.sum(np.abs(power)**2))/np.sqrt(len(X)**2)
 
@@ -736,12 +777,15 @@ if __name__ == "__main__":
                                                           sample_rate)
     rms_time = np.sqrt(np.mean(sig**2))
     rms_spec = np.sqrt(0.5*np.sum(amp**2))
-    print('RMS from all data: ', tr.calc_root_mean_square("SeatBotacc_ver"))
-    print('RMS from down sampled: ', rms_time)
-    print('RMS from amplitude spectrum: ', rms_spec)
+    print('RMS from all time series data: ',
+          tr.calc_root_mean_square("SeatBotacc_ver"))
+    print('RMS from down sampled time series data: ', rms_time)
+    print('RMS from amplitude spectrum (incorrect): ', rms_spec)
     print('RMS from power spectrum',
           tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate))
-    # np.sqrt(2*np.sum((amp/2*len(sig))**2))/np.sqrt(len(sig)**2)
+    print('RMS from power spectrum (iso weighted)',
+          tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate,
+                                            iso_weighted=True))
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
