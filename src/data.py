@@ -51,7 +51,7 @@ class Trial():
         return pprint.pformat(self.meta_data)
 
     @functools.cache
-    def down_sample(self, sig_name, sample_rate):
+    def down_sample(self, sig_name, sample_rate, cutoff=None):
         """Returns the data in the column interpolated at a constant sample
         rate.
 
@@ -61,6 +61,8 @@ class Trial():
             Column name to down sample.
         sample_rate : integer
             Sample rate in Hertz.
+        cutoff : None or float
+            Low pass cutoff frequency for the optionally applied filter.
 
         Returns
         =======
@@ -68,8 +70,8 @@ class Trial():
             Time array in seconds starting at 0.0 with constant spacing at the
             sample rate.
         new_signal : ndarray, shape(n,)
-            Down sampled signal corresponding to the time values in
-            ``new_time``.
+            Down sampled (and possibly filtered) signal corresponding to the
+            time values in ``new_time``.
 
         """
         series = self.imu_data[sig_name].dropna()
@@ -78,6 +80,8 @@ class Trial():
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
+        if cutoff is not None:
+            new_signal = butterworth(new_signal, cutoff, sample_rate)
         return new_time, new_signal
 
     @functools.cache
