@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import statsmodels.formula.api as smf
+from scipy.interpolate import interp1d
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from html_templates import INDEX, H2, P, IMG
@@ -22,9 +23,20 @@ MAXWIDTH = 160  # mm (max width suitable for an A4 with 25 mm margins)
 
 def print_header(msg, sym='*'):
     print(sym*2*len(msg))
-    print('|' + ' '*(len(msg)//2 - 1) + msg + ' '*(len(msg)//2 - 1) + '|')
+    print('|' + ' '*(len(msg)//2 - 1) + msg +
+          ' '*(len(msg)//2 + (-1 if len(msg) % 2 == 0 else -0)) + '|')
     print(sym*2*len(msg))
 
+
+health_caution = np.array(
+    # hour, caution line, risk line (log scale)
+    [[0.02, 5.7, 3.2],
+     [0.2, 5.7, 3.2],
+     [24.0, 0.42, 0.24]]
+)
+health = np.log10(health_caution)
+risk = interp1d(health[:, 0], health[:, 1])
+caution = interp1d(health[:, 0], health[:, 2])
 
 sns.set_theme(style='white')
 
@@ -139,19 +151,30 @@ boxp_html = []
 # TODO : This plot also looks pretty good if you swap the x and hue values.
 # Maybe better.
 boxp_html.append(H2.format('Overall Comparison'))
-msg = """Scatter plot of the RMS acceleration of all trials broken down by
-vehicle setup (brand, seat configuration, baby age), trial duration, road
-surface, and plotted versus speed."""
+msg = """Scatter plot of the ISO 2631-1 Weighted RMS acceleration of all trials
+broken down by vehicle setup (brand, seat configuration, baby age), trial
+duration, road surface, and plotted versus speed. Red horizontal line indicate
+"above the health caution zone" from the ISO 2631-1 standard for different
+durations of daily dosage."""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
     data=stats_df,
     x="Mean Speed [km/h]",
-    y="SeatBotacc_ver_rms",
-    hue="Vehicle, Seat, Baby Age",
-    style='Road Surface',
+    y="SeatBotacc_ver_rms_iso",
+    style="Vehicle, Seat, Baby Age",
+    hue='Road Surface',
     size='Duration [s]',
     sizes=(40, 140),
 )
+# health risk lines for different durations
+p.axes.axhline(np.power(10.0, risk(np.log10(5.0/60.0))), color='red')
+p.axes.text(7.0, np.power(10.0, risk(np.log10(5.0/60.0))) + 0.2, '5 min')
+p.axes.axhline(np.power(10.0, risk(np.log10(20.0/60.0))), color='red')
+p.axes.text(7.0, np.power(10.0, risk(np.log10(20.0/60.0))) + 0.2, '20 min')
+p.axes.axhline(np.power(10.0, risk(np.log10(1.0))), color='red')
+p.axes.text(7.0, np.power(10.0, risk(np.log10(60.0/60.0))) + 0.2, '60 min')
+p.axes.axhline(np.power(10.0, risk(np.log10(4.0))), color='red')
+p.axes.text(7.0, np.power(10.0, risk(np.log10(240.0/60.0))) + 0.2, '240 min')
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
