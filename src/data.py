@@ -456,7 +456,7 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
             self.bounds_data_frame = None
         else:
             path_to_bounds_file = os.path.join(
-                PATH_TO_SESSION_DATA, 'Interval_indexes',
+                PATH_TO_DATA_DIR, 'Interval_indexes',
                 self.meta_data['trial_bounds_file'])
             if self.meta_data['trial_bounds_file'].startswith('events'):
                 self.bounds_data_frame = load_trial_bounds2(
