@@ -783,11 +783,12 @@ if __name__ == "__main__":
 
     plot = False
 
-    session_label = 'session021'
+    session_label = 'session020'
     trial_label = 'klinkers'
     sample_rate = 400
 
-    plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
+    if plot:
+        plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
 
     s = Session(session_label)
     s.load_data()
@@ -795,6 +796,7 @@ if __name__ == "__main__":
     s.rotate_imu_data(subtract_gravity=False)
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
+
     if plot:
         s.plot_accelerometer_rotation()
 
