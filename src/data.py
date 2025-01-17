@@ -232,11 +232,11 @@ class Trial():
         if show_rms or show_vdv:
             mean = self.imu_data[sig_name].mean()
         if show_rms:
-            rms = self.calc_root_mean_square(sig_name)
+            rms = self.calc_rms(sig_name)
             ax.axhline(mean + rms, color='black')
             ax.axhline(mean - rms, color='black')
         if show_vdv:
-            vdv = self.calc_vibration_dose_value(sig_name)
+            vdv = self.calc_vdv(sig_name)
             ax.axhline(mean + vdv, color='grey')
             ax.axhline(mean - vdv, color='grey')
         # TODO : Not the case if gyro signal is selected, e.g.
@@ -244,13 +244,13 @@ class Trial():
         ax.set_xlabel('Time [HH:MM:SS]')
         return ax
 
-    def calc_root_mean_square(self, sig_name):
+    def calc_rms(self, sig_name):
         """Returns the RMS of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
-    def calc_spectrum_root_mean_square(self, sig_name, sample_rate,
+    def calc_spectrum_rms(self, sig_name, sample_rate,
                                        cutoff=None, iso_weighted=False):
         """Returns the root mean square of the signal, calculated from the
         frequency spectrum which takes into account the time series filtering
@@ -329,11 +329,11 @@ class Trial():
         RMS = sqrt( kx^2 awx^2 + ky^2 awy^2 + kz^2 awz^2)
 
         """
-        ver_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_ver',
+        ver_rms = self.calc_spectrum_rms(signal_prefix + '_ver',
             sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
-        lat_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_lat',
+        lat_rms = self.calc_spectrum_rms(signal_prefix + '_lat',
             sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
-        lon_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_lon',
+        lon_rms = self.calc_spectrum_rms(signal_prefix + '_lon',
             sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
         return np.sqrt(ver_rms**2 + lat_rms**2 + lon_rms**2)
 
@@ -342,7 +342,7 @@ class Trial():
         max_peak_sh = abs(self.imu_data[sig_name]).max()
         return max_peak_sh
       
-    def calc_vibration_dose_value(self, sig_name):
+    def calc_vdv(self, sig_name):
         """Returns the VDV of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
                            self.imu_data[sig_name].mean())
@@ -826,13 +826,13 @@ if __name__ == "__main__":
     rms_time = np.sqrt(np.mean(sig**2))
     rms_spec = np.sqrt(0.5*np.sum(amp**2))
     print('RMS from all time series data: ',
-          tr.calc_root_mean_square("SeatBotacc_ver"))
+          tr.calc_rms("SeatBotacc_ver"))
     print('RMS from down sampled time series data: ', rms_time)
     print('RMS from amplitude spectrum (incorrect): ', rms_spec)
     print('RMS from power spectrum',
-          tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate))
+          tr.calc_spectrum_rms("SeatBotacc_ver", sample_rate))
     print('RMS from power spectrum (iso weighted)',
-          tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate,
+          tr.calc_spectrum_rms("SeatBotacc_ver", sample_rate,
                                             iso_weighted=True))
     print("RMS of the vector magnitude (from spectrum and ISO weighted): ",
           tr.calc_magnitude_rms("SeatBotacc", sample_rate,
