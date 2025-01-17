@@ -337,6 +337,11 @@ class Trial():
             sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
         return np.sqrt(ver_rms**2 + lat_rms**2 + lon_rms**2)
 
+    def calc_max_peak(self, sig_name):
+        """Returns the MAX value of the shock events."""
+        max_peak_sh = abs(self.imu_data[sig_name]).max()
+        return max_peak_sh
+      
     def calc_vibration_dose_value(self, sig_name):
         """Returns the VDV of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
