@@ -373,8 +373,8 @@ class Trial():
         return self.imu_data['Speed'].mean(), self.imu_data['Speed'].std()
 
     @functools.cache
-    def calc_spectrum_features(self, sig_name, sample_rate, iso_weighted=False,
-                               smooth=False):
+    def calc_spectrum_features(self, sig_name, sample_rate, cutoff=None,
+                               iso_weighted=False, smooth=False):
         """Returns features of the frequency spectrum.
 
         Parameters
@@ -400,7 +400,8 @@ class Trial():
 
         """
         freq, amp, _, _ = self.calculate_frequency_spectrum(
-            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+            sig_name, sample_rate, cutoff=cutoff, iso_weighted=iso_weighted,
+            smooth=smooth)
         max_amp = np.max(amp)
         peak_freq = freq[np.argmax(amp)]
         area = cumulative_trapezoid(amp, freq)

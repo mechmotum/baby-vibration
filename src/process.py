@@ -147,22 +147,25 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             # from the downsampled data?
                             rms = trial.calc_rms(signal)
                             vdv = trial.calc_vdv(signal)
+                            # TODO : Move this to the input of process()
+                            cutoff = 120.0  # Hz
                             rms_iso = trial.calc_spectrum_rms(
-                                signal, sample_rate, iso_weighted=True)
+                                signal, sample_rate, cutoff=cutoff,
+                                iso_weighted=True)
                             rms_mag_iso = trial.calc_magnitude_rms(
                                 signal.split('_')[0], sample_rate,
-                                iso_weighted=True)
+                                cutoff=cutoff, iso_weighted=True)
                             duration = trial.calc_duration()
                             avg_speed, std_speed = trial.calc_speed_stats()
                             max_amp, peak_freq, thresh_freq = \
                                 trial.calc_spectrum_features(
-                                    signal, sample_rate, smooth=True,
-                                    iso_weighted=True)
+                                    signal, sample_rate, cutoff=cutoff,
+                                    smooth=True, iso_weighted=True)
 
                             stats_data[signal + '_rms'].append(rms)
                             stats_data[signal + '_rms_iso'].append(rms_iso)
                             stats_data[signal.split('_')[0] +
-                                       '_rms_mag_iso'].append(rms_iso)
+                                       '_rms_mag_iso'].append(rms_mag_iso)
                             stats_data[signal + '_vdv'].append(vdv)
                             stats_data['Duration [s]'].append(duration)
                             stats_data['Mean Speed [m/s]'].append(avg_speed)
