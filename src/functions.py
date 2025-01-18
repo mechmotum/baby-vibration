@@ -8,6 +8,16 @@ from dtk.inertia import x_rot, y_rot, z_rot
 from paths import PATH_TO_SESSION_DATA, PATH_TO_REPO
 
 
+def to_dense(series):
+    """Used to convert a DataFrame with some sparse columns to a fully dense
+    DataFrame."""
+    # why needed: https://github.com/pandas-dev/pandas/issues/49045
+    try:
+        return series.sparse.to_dense()
+    except AttributeError:
+        return series
+
+
 def header(msg, sym='*'):
     lines = [sym*2*len(msg)]
     lines.append(

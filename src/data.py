@@ -18,7 +18,7 @@ import yaml
 from functions import (load_session_files, load_trial_bounds,
                        load_trial_bounds2, merge_imu_data_frames,
                        compute_gravity_rotation_matrix, magnitude,
-                       datetime2seconds, header)
+                       datetime2seconds, header, to_dense)
 from paths import PATH_TO_DATA_DIR
 from plots import plot_frequency_spectrum, plot_iso_weights
 
@@ -510,12 +510,9 @@ class Session():
         except AttributeError:
             self.load_data()
 
-        # TODO : Could store this as a sparse data type, but there are
-        # failures, such as .interpolate() not being available.
-        # https://pandas.pydata.org/pandas-docs/stable/user_guide/sparse.html
-        # .astype(pd.SparseDtype("float", np.nan))
-
-        self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
+        self.imu_data = merge_imu_data_frames(
+            *self.imu_data_frames.values()).astype(
+                pd.SparseDtype("float", np.nan))
 
         if minimize_memory:
             # save memory by deleting the original data frames
@@ -566,7 +563,7 @@ class Session():
         start_idx = row['start_time'].values[0]
         stop_idx = row['end_time'].values[0]
 
-        trial_df = self.imu_data[start_idx:stop_idx]
+        trial_df = self.imu_data[start_idx:stop_idx].apply(to_dense)
 
         start = trial_df.index[0]
         stop = trial_df.index[-1]
@@ -574,7 +571,7 @@ class Session():
         if split is not None:
             duration = (stop - start).total_seconds()
             if duration/split < 1.0:  # don't split
-                return self.imu_data[start_idx:stop_idx]
+                return self.imu_data[start_idx:stop_idx].apply(to_dense)
             else:
                 splits = []
                 split_idxs = list(range(int(duration//split)))
@@ -585,7 +582,7 @@ class Session():
                     else:
                         tf = start + datetime.timedelta(
                             seconds=split*(i + 1))
-                    splits.append(self.imu_data[t0:tf])
+                    splits.append(self.imu_data[t0:tf].apply(to_dense))
                 return splits
 
         return trial_df
@@ -705,8 +702,11 @@ class Session():
         ax = self.imu_data['Speed_kph'].plot(ax=ax, linestyle='', marker='.')
         for idx, row in self.bounds_data_frame.iterrows():
             start, end = row['start_time'], row['end_time']
-
-            chunk = self.imu_data.loc[start:end, 'Speed_kph']
+            try:
+                chunk = self.imu_data.loc[start:end,
+                                          'Speed_kph'].sparse.to_dense()
+            except AttributeError:
+                chunk = self.imu_data.loc[start:end, 'Speed_kph']
             mean, std = chunk.mean(), chunk.std()
             ax.plot([start, end], [mean, mean], color='gold')
             ax.plot([start, end], [mean + std, mean + std], color='khaki')
@@ -820,6 +820,8 @@ if __name__ == "__main__":
     s.rotate_imu_data(subtract_gravity=False)
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
+
+    print(s)
 
     if plot:
         s.plot_accelerometer_rotation()
