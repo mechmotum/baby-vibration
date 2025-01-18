@@ -49,6 +49,10 @@ Run a sample processing of a single session::
 
    python src/data.py
 
+Or name a specific session and trial and show sample plots::
+
+   python src/data.py -s session020 -t klinkers -r 200 --plot
+
 Process sessions 0 through 3 for specific signal at sample rate 200::
 
    python src/process.py 0 3 SeatBotacc_ver 200

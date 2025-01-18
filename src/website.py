@@ -12,6 +12,7 @@ from scipy.interpolate import interp1d
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from html_templates import INDEX, H2, P, IMG
+from functions import print_header
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
@@ -19,14 +20,6 @@ SIGNAL_RMS_ISO = SIGNAL + '_rms_iso'
 KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 MM2INCH = 1.0/25.4
 MAXWIDTH = 160  # mm (max width suitable for an A4 with 25 mm margins)
-
-
-def print_header(msg, sym='*'):
-    print(sym*2*len(msg))
-    print('|' + ' '*(len(msg)//2 - 1) + msg +
-          ' '*(len(msg)//2 + (-1 if len(msg) % 2 == 0 else -0)) + '|')
-    print(sym*2*len(msg))
-
 
 health_caution = np.array(
     # hour, caution line, risk line (log scale)
