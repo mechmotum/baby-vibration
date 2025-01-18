@@ -150,6 +150,7 @@ def merge_imu_data_frames(*data_frames):
     for df_next in data_frames[1:]:
         merged = pd.merge(merged, df_next, left_index=True, right_index=True,
                           how='outer')
+        del df_next  # make sure memory is released
     return merged
 
 

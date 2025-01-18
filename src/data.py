@@ -22,6 +22,9 @@ from functions import (load_session_files, load_trial_bounds,
 from paths import PATH_TO_DATA_DIR
 from plots import plot_frequency_spectrum, plot_iso_weights
 
+# NOTE : This seems to reduce memory consumption.
+pd.options.mode.copy_on_write = True
+
 filter_data_01 = os.path.join(PATH_TO_DATA_DIR, 'iso-2631-filter-01.csv')
 iso_filter_df_01 = pd.read_csv(filter_data_01, index_col='frequency_hz')
 filter_data_02 = os.path.join(PATH_TO_DATA_DIR, 'iso-2631-filter-02.csv')
