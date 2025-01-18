@@ -9,6 +9,7 @@ import pandas as pd
 import yaml
 
 from data import Session, Trial, iso_filter_df_01, iso_filter_df_02
+from functions import print_header
 from plots import plot_iso_weights
 from html_templates import IMG, H2, H3, P
 from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
@@ -21,19 +22,13 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     print('Processing {} to {}'.format(start_num, end_num))
 
     if start_num > 0:
-        msg = '* Loading existing pickle files *'
-        print('*'*len(msg))
-        print(msg)
-        print('*'*len(msg))
+        print_header('Loading existing pickle files', sym='*')
         with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
             html_data = pickle.load(f)
         with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
             stats_data = pickle.load(f)
     else:
-        msg = '* Creating new pickle files *'
-        print('*'*len(msg))
-        print(msg)
-        print('*'*len(msg))
+        print_header('Creating new pickle files', sym='*')
         stats_data = defaultdict(list)
         html_data = defaultdict(list)
         for pkl_file in ['html-data.pkl', 'stats-data.pkl']:
@@ -58,10 +53,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
     sessions_to_process = session_labels[start_num:end_num]
 
     for session_label in sessions_to_process:
-        msg = 'Loading: {}'.format(session_label)
-        print('='*len(msg))
-        print(msg)
-        print('='*len(msg))
+        print_header('Loading: {}'.format(session_label), sym='=')
         s = Session(session_label)
         html_data['sess_html'].append(H2.format(session_label))
         html_data['spec_html'].append(H2.format(session_label))
@@ -90,9 +82,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             html_data['srot_html'].append(
                 IMG.format('accrot', session_label + '.png'))
             s.rotate_imu_data()
-            print(s)
             s.calculate_travel_speed(smooth=True)
             s.calculate_vector_magnitudes()
+
+            print(s)  # print after full DataFrame is constructed
 
             ax = s.plot_speed_with_trial_bounds()
             ses_img_fn = session_label + '.png'
@@ -156,6 +149,9 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             vdv = trial.calc_vdv(signal)
                             rms_iso = trial.calc_spectrum_rms(
                                 signal, sample_rate, iso_weighted=True)
+                            rms_mag_iso = trial.calc_magnitude_rms(
+                                signal.split('_')[0], sample_rate,
+                                iso_weighted=True)
                             duration = trial.calc_duration()
                             avg_speed, std_speed = trial.calc_speed_stats()
                             max_amp, peak_freq, thresh_freq = \
@@ -164,12 +160,14 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
                             stats_data[signal + '_rms'].append(rms)
                             stats_data[signal + '_rms_iso'].append(rms_iso)
+                            stats_data[signal.split('_')[0] +
+                                       '_rms_mag_iso'].append(rms_iso)
                             stats_data[signal + '_vdv'].append(vdv)
                             stats_data['Duration [s]'].append(duration)
                             stats_data['Mean Speed [m/s]'].append(avg_speed)
                             stats_data['STD DEV of Speed [m/s]'].append(
                                 std_speed)
-                            stats_data['Max Spectrum Amplitude [m/s/s]'].append(
+                            stats_data['Max Spectrum Amp [m/s/s]'].append(
                                 max_amp)
                             stats_data['Peak Frequency [Hz]'].append(peak_freq)
                             stats_data['Threshold Frequency [Hz]'].append(
