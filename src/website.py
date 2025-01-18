@@ -92,25 +92,17 @@ summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     **{'Trial Count': 'size',
        'Mean RMS Acceleration [m/s/s]': 'mean'}
 )
+summary_df['Mean ISO Weighted RMS Acceleration [m/s/s]'] = \
+    stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
 summary_df['Mean Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()
-summary_df['Mean Peak Frequency [Hz]'] = \
+summary_df['Mean ISO Weighted Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_df['Mean Threshold Frequency [Hz]'] = \
+summary_df['Mean ISO Weighted Threshold Frequency [Hz]'] = \
     stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
 print_header("Mean Statistics Per Scenario")
 print(summary_df)
 #print(summary_df.to_latex(float_format="%0.1f"))
-
-summary_iso_df = stats_df.groupby(groups)[SIGNAL_RMS_ISO].agg(
-    **{'Trial Count': 'size',
-       'Mean ISO Weighted RMS Acceleration [m/s/s]': 'mean'}
-)
-summary_iso_df['Mean Duration [s]'] = \
-    stats_df.groupby(groups)['Duration [s]'].mean()
-print_header("Mean Statistics Per Scenario (ISO Weighted)")
-print(summary_iso_df)
-#print(summary_iso_df.to_latex(float_format="%0.1f"))
 
 # Table that shows how many trials and the mean duration
 groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
@@ -530,7 +522,6 @@ html_source = INDEX.format(
     bicycle_stats=bicycle_res.summary().as_html(),
     stroller_stats=stroller_res.summary().as_html(),
     mean_table=summary_df.to_html(float_format="%0.2f"),
-    mean_iso_table=summary_iso_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),

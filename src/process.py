@@ -156,7 +156,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             avg_speed, std_speed = trial.calc_speed_stats()
                             max_amp, peak_freq, thresh_freq = \
                                 trial.calc_spectrum_features(
-                                    signal, sample_rate, smooth=True)
+                                    signal, sample_rate, smooth=True,
+                                    iso_weighted=True)
 
                             stats_data[signal + '_rms'].append(rms)
                             stats_data[signal + '_rms_iso'].append(rms_iso)
@@ -199,7 +200,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
                             ax = trial.plot_frequency_spectrum(
                                 signal, sample_rate, smooth=True,
-                                show_features=True)
+                                iso_weighted=True, show_features=True)
                             ax.set_title(file_name)
                             ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                            file_name + '.png'))
