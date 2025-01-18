@@ -8,6 +8,33 @@ from dtk.inertia import x_rot, y_rot, z_rot
 from paths import PATH_TO_SESSION_DATA, PATH_TO_REPO
 
 
+def to_dense(series):
+    """Used to convert a DataFrame with some sparse columns to a fully dense
+    DataFrame."""
+    # why needed: https://github.com/pandas-dev/pandas/issues/49045
+    try:
+        return series.sparse.to_dense()
+    except AttributeError:
+        return series
+
+
+def header(msg, sym='*'):
+    lines = [sym*2*len(msg)]
+    lines.append(
+        '|' +
+        ' '*(len(msg)//2 - 1) +
+        msg +
+        ' '*(len(msg)//2 + (-1 if len(msg) % 2 == 0 else -0)) +
+        '|'
+    )
+    lines.append(sym*2*len(msg))
+    return '\n'.join(lines)
+
+
+def print_header(msg, sym='*'):
+    print(header(msg, sym=sym))
+
+
 def magnitude(vector):
     """Calculates the magnitude of each vector in an array of vectors.
 
@@ -133,6 +160,7 @@ def merge_imu_data_frames(*data_frames):
     for df_next in data_frames[1:]:
         merged = pd.merge(merged, df_next, left_index=True, right_index=True,
                           how='outer')
+        del df_next  # make sure memory is released
     return merged
 
 

@@ -15,12 +15,15 @@ import pandas as pd
 import yaml
 
 # local
-from paths import PATH_TO_SESSION_DATA, PATH_TO_DATA_DIR
 from functions import (load_session_files, load_trial_bounds,
                        load_trial_bounds2, merge_imu_data_frames,
                        compute_gravity_rotation_matrix, magnitude,
-                       datetime2seconds)
+                       datetime2seconds, header, to_dense)
+from paths import PATH_TO_DATA_DIR
 from plots import plot_frequency_spectrum, plot_iso_weights
+
+# NOTE : This seems to reduce memory consumption.
+pd.options.mode.copy_on_write = True
 
 filter_data_01 = os.path.join(PATH_TO_DATA_DIR, 'iso-2631-filter-01.csv')
 iso_filter_df_01 = pd.read_csv(filter_data_01, index_col='frequency_hz')
@@ -232,11 +235,11 @@ class Trial():
         if show_rms or show_vdv:
             mean = self.imu_data[sig_name].mean()
         if show_rms:
-            rms = self.calc_root_mean_square(sig_name)
+            rms = self.calc_rms(sig_name)
             ax.axhline(mean + rms, color='black')
             ax.axhline(mean - rms, color='black')
         if show_vdv:
-            vdv = self.calc_vibration_dose_value(sig_name)
+            vdv = self.calc_vdv(sig_name)
             ax.axhline(mean + vdv, color='grey')
             ax.axhline(mean - vdv, color='grey')
         # TODO : Not the case if gyro signal is selected, e.g.
@@ -244,14 +247,14 @@ class Trial():
         ax.set_xlabel('Time [HH:MM:SS]')
         return ax
 
-    def calc_root_mean_square(self, sig_name):
+    def calc_rms(self, sig_name):
         """Returns the RMS of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
-    def calc_spectrum_root_mean_square(self, sig_name, sample_rate,
-                                       cutoff=None, iso_weighted=False):
+    def calc_spectrum_rms(self, sig_name, sample_rate, cutoff=None,
+                          iso_weighted=False):
         """Returns the root mean square of the signal, calculated from the
         frequency spectrum which takes into account the time series filtering
         and ISO 2631-1 weights.
@@ -321,23 +324,40 @@ class Trial():
         ==========
         signal_prefix : string
             Example: ``SeatBotacc`` or ``SeatBotgyr`` or ``SeatHeadacc``
+        cutoff : None or float
+            If a float is supplied the signal will be downsampled and low pass
+            filtered at the provided cutoff frequency in Hz before the FFT is
+            applied.
+        iso_weighted : boolean
+            If true, spectrum will be weighted using the filters in ISO 2631-1.
+
+        Notes
+        =====
 
         We already calculate vector magnitudes but if we want to apply ISO
         weights we have to calculate the vector magnitude after the weights are
         applied.
 
-        RMS = sqrt( kx^2 awx^2 + ky^2 awy^2 + kz^2 awz^2)
+        ``RMS = sqrt( kx^2 awx^2 + ky^2 awy^2 + kz^2 awz^2)``
 
         """
-        ver_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_ver',
-            sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
-        lat_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_lat',
-            sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
-        lon_rms = self.calc_spectrum_root_mean_square(signal_prefix + '_lon',
-            sample_rate, cutoff=cutoff, iso_weighted=iso_weighted)
+        ver_rms = self.calc_spectrum_rms(signal_prefix + '_ver', sample_rate,
+                                         cutoff=cutoff,
+                                         iso_weighted=iso_weighted)
+        lat_rms = self.calc_spectrum_rms(signal_prefix + '_lat', sample_rate,
+                                         cutoff=cutoff,
+                                         iso_weighted=iso_weighted)
+        lon_rms = self.calc_spectrum_rms(signal_prefix + '_lon', sample_rate,
+                                         cutoff=cutoff,
+                                         iso_weighted=iso_weighted)
         return np.sqrt(ver_rms**2 + lat_rms**2 + lon_rms**2)
 
-    def calc_vibration_dose_value(self, sig_name):
+    def calc_max_peak(self, sig_name):
+        """Returns the MAX value of the shock events."""
+        max_peak_sh = abs(self.imu_data[sig_name]).max()
+        return max_peak_sh
+
+    def calc_vdv(self, sig_name):
         """Returns the VDV of the raw signal data."""
         mean_subtracted = (self.imu_data[sig_name] -
                            self.imu_data[sig_name].mean())
@@ -426,13 +446,13 @@ class Session():
         self.meta_data.update(vehicle_meta_data[self.meta_data['vehicle']])
 
     def __str__(self):
-
-        desc = f"""\
--------------------------------------------------------------------------------
-|                      Session: {self.session_label}                                    |
--------------------------------------------------------------------------------
-Vehicle: {self.meta_data['vehicle_type']}, {self.meta_data['brand']} {self.meta_data['model']}
-Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.meta_data['baby_mass']} kg baby"""
+        desc = header('Session: ' + self.session_label, sym='-')
+        desc += (f"\nVehicle: {self.meta_data['vehicle_type']} "
+                 f"{self.meta_data['vehicle']}: "
+                 f"{self.meta_data['brand']} {self.meta_data['model']}")
+        desc += (f"\nSeat: {self.meta_data['seat']} with "
+                 f"{self.meta_data['baby_age']} month, "
+                 f"{self.meta_data['baby_mass']} kg baby")
 
         if hasattr(self, 'trial_bounds'):
             trial_info = {k: len(v) for k, v in self.trial_bounds.items()}
@@ -441,7 +461,10 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
             desc += "\nTrials: no trials available"
 
         if hasattr(self, 'imu_data'):
-            desc += f"\nTotal duration: {datetime2seconds(self.imu_data.index)[-1]:0.2f}"
+            desc += (f"\nTotal duration: "
+                     f"{datetime2seconds(self.imu_data.index)[-1]:0.2f}")
+            desc += (f"\nMain data frame memory usage: "
+                     f"{self.imu_data.memory_usage().sum()/1e6:0.2f} megabytes")
 
         return desc
 
@@ -456,7 +479,7 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
             self.bounds_data_frame = None
         else:
             path_to_bounds_file = os.path.join(
-                PATH_TO_SESSION_DATA, 'Interval_indexes',
+                PATH_TO_DATA_DIR, 'Interval_indexes',
                 self.meta_data['trial_bounds_file'])
             if self.meta_data['trial_bounds_file'].startswith('events'):
                 self.bounds_data_frame = load_trial_bounds2(
@@ -472,7 +495,7 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
                 counts = list(self.bounds_data_frame['count'][selector])
                 self.trial_bounds[trial_name] = counts
 
-    def memory_usage(self):
+    def print_memory_usage(self):
         msg = 'imu_data data frame : {:0.2f} bytes'.format(
             self.imu_data.memory_usage().sum())
         print(msg)
@@ -487,12 +510,9 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
         except AttributeError:
             self.load_data()
 
-        # TODO : Could store this as a sparse data type, but there are
-        # failures, such as .interpolate() not being available.
-        # https://pandas.pydata.org/pandas-docs/stable/user_guide/sparse.html
-        # .astype(pd.SparseDtype("float", np.nan))
-
-        self.imu_data = merge_imu_data_frames(*self.imu_data_frames.values())
+        self.imu_data = merge_imu_data_frames(
+            *self.imu_data_frames.values()).astype(
+                pd.SparseDtype("float", np.nan))
 
         if minimize_memory:
             # save memory by deleting the original data frames
@@ -543,7 +563,7 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
         start_idx = row['start_time'].values[0]
         stop_idx = row['end_time'].values[0]
 
-        trial_df = self.imu_data[start_idx:stop_idx]
+        trial_df = self.imu_data[start_idx:stop_idx].apply(to_dense)
 
         start = trial_df.index[0]
         stop = trial_df.index[-1]
@@ -551,7 +571,7 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
         if split is not None:
             duration = (stop - start).total_seconds()
             if duration/split < 1.0:  # don't split
-                return self.imu_data[start_idx:stop_idx]
+                return self.imu_data[start_idx:stop_idx].apply(to_dense)
             else:
                 splits = []
                 split_idxs = list(range(int(duration//split)))
@@ -562,7 +582,7 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
                     else:
                         tf = start + datetime.timedelta(
                             seconds=split*(i + 1))
-                    splits.append(self.imu_data[t0:tf])
+                    splits.append(self.imu_data[t0:tf].apply(to_dense))
                 return splits
 
         return trial_df
@@ -675,13 +695,6 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
             gyr_mag = magnitude(self.imu_data[gyr_cols].values)
             self.imu_data['{}gyr_mag'.format(sensor)] = gyr_mag
 
-    def differentiate_angular_rate(self):
-        """Calculate the angular acceleration by filtering and numerical
-        time differentiation.
-        """
-        # TODO
-        pass
-
     def plot_speed_with_trial_bounds(self):
         """Createas a plot of forward speed versus time for the whole session
         with shaded labeled areas for each trial."""
@@ -689,8 +702,11 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
         ax = self.imu_data['Speed_kph'].plot(ax=ax, linestyle='', marker='.')
         for idx, row in self.bounds_data_frame.iterrows():
             start, end = row['start_time'], row['end_time']
-
-            chunk = self.imu_data.loc[start:end, 'Speed_kph']
+            try:
+                chunk = self.imu_data.loc[start:end,
+                                          'Speed_kph'].sparse.to_dense()
+            except AttributeError:
+                chunk = self.imu_data.loc[start:end, 'Speed_kph']
             mean, std = chunk.mean(), chunk.std()
             ax.plot([start, end], [mean, mean], color='gold')
             ax.plot([start, end], [mean + std, mean + std], color='khaki')
@@ -781,13 +797,22 @@ Seat: {self.meta_data['seat']} with {self.meta_data['baby_age']} month, {self.me
 
 if __name__ == "__main__":
 
-    plot = False
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Process One Session and Trial')
+    parser.add_argument('-s', '--session', type=str, default='session001')
+    parser.add_argument('-t', '--trial', type=str, default='aula')
+    parser.add_argument('-r', '--sample_rate', type=int, default=400)
+    parser.add_argument('-p', '--plot', action='store_true')
+    a = parser.parse_args()
 
-    session_label = 'session021'
-    trial_label = 'klinkers'
-    sample_rate = 400
+    session_label = a.session
+    trial_label = a.trial
+    sample_rate = a.sample_rate
+    plot = a.plot
 
-    plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
+    if plot:
+        plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
 
     s = Session(session_label)
     s.load_data()
@@ -795,6 +820,9 @@ if __name__ == "__main__":
     s.rotate_imu_data(subtract_gravity=False)
     s.calculate_travel_speed()
     s.calculate_vector_magnitudes()
+
+    print(s)
+
     if plot:
         s.plot_accelerometer_rotation()
 
@@ -819,14 +847,14 @@ if __name__ == "__main__":
     rms_time = np.sqrt(np.mean(sig**2))
     rms_spec = np.sqrt(0.5*np.sum(amp**2))
     print('RMS from all time series data: ',
-          tr.calc_root_mean_square("SeatBotacc_ver"))
+          tr.calc_rms("SeatBotacc_ver"))
     print('RMS from down sampled time series data: ', rms_time)
     print('RMS from amplitude spectrum (incorrect): ', rms_spec)
     print('RMS from power spectrum',
-          tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate))
+          tr.calc_spectrum_rms("SeatBotacc_ver", sample_rate))
     print('RMS from power spectrum (iso weighted)',
-          tr.calc_spectrum_root_mean_square("SeatBotacc_ver", sample_rate,
-                                            iso_weighted=True))
+          tr.calc_spectrum_rms("SeatBotacc_ver", sample_rate,
+                               iso_weighted=True))
     print("RMS of the vector magnitude (from spectrum and ISO weighted): ",
           tr.calc_magnitude_rms("SeatBotacc", sample_rate,
                                 iso_weighted=True))

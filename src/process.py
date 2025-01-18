@@ -52,7 +52,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         'pave': 'Cobblestones',
         'stoeptegels': 'Sidewalk Pavers',
         'tarmac': 'Tarmac',
-        'shock': 'Shock',      
+        'shock': 'Shock',
     }
 
     if end_num == 99:
@@ -120,7 +120,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                         html_data['trial_html'].append(H3.format(mot_trial))
                         html_data['spec_html'].append(H3.format(mot_trial))
                     else:
-                        html_data['trial_html'].append(H3.format(mot_trial))                  
+                        html_data['trial_html'].append(H3.format(mot_trial))
                     for trial_num in s.trial_bounds[mot_trial]:
                         print('Trial Surface and Number: ', mot_trial,
                               trial_num)
@@ -154,14 +154,14 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             md['repetition_number'] = rep_num
                             trial = Trial(md, df)
 
-                            # TODO : RMS and VDV are calculated from
-                            # oversampled data, should I change to calculate
-                            # from the downsampled data?
                             if mot_trial != 'shock':
                                 max_amp_shock = np.nan
-                                rms = trial.calc_root_mean_square(signal)
-                                vdv = trial.calc_vibration_dose_value(signal)
-                                rms_iso = trial.calc_spectrum_root_mean_square(
+                                # TODO : RMS and VDV are calculated from
+                                # oversampled data, should I change to
+                                # calculate from the downsampled data?
+                                rms = trial.calc_rms(signal)
+                                vdv = trial.calc_vdv(signal)
+                                rms_iso = trial.calc_spectrum_rms(
                                     signal, sample_rate, iso_weighted=True)
                                 duration = trial.calc_duration()
                                 avg_speed, std_speed = trial.calc_speed_stats()
@@ -175,8 +175,9 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                 rms_iso = np.nan
                                 duration = np.nan
                                 avg_speed, std_speed = (np.nan, np.nan)
-                                max_amp, peak_freq, thresh_freq = (np.nan, np.nan, np.nan)
-                            
+                                max_amp, peak_freq, thresh_freq = \
+                                    (np.nan, np.nan, np.nan)
+
                             stats_data[signal + '_rms'].append(rms)
                             stats_data[signal + '_rms_iso'].append(rms_iso)
                             stats_data[signal + '_vdv'].append(vdv)
@@ -189,7 +190,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data['Peak Frequency [Hz]'].append(peak_freq)
                             stats_data['Threshold Frequency [Hz]'].append(
                                 thresh_freq)
-                            stats_data['Peak Value [m/s/s]'].append(max_amp_shock)
+                            stats_data['Peak Value [m/s/s]'].append(
+                                max_amp_shock)
                             stats_data['Baby Age [mo]'].append(
                                 s.meta_data['baby_age'])
                             stats_data['Baby Mass [kg]'].append(
@@ -209,10 +211,10 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                                    figsize=(8, 2))
                             if mot_trial != 'shock':
                                 ax = trial.plot_signal(signal, show_rms=True,
-                                                    show_vdv=True, ax=ax)
+                                                       show_vdv=True, ax=ax)
                             else:
                                 ax = trial.plot_signal(signal, show_rms=False,
-                                                    show_vdv=False, ax=ax)
+                                                       show_vdv=False, ax=ax)
                             ax.figure.savefig(os.path.join(
                                 PATH_TO_TIME_HIST_DIR, file_name + '.png'))
                             plt.clf()
