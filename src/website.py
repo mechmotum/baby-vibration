@@ -116,10 +116,10 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
-print_header("Pairwise Comparison of Vehicle Setups on Tarmac")
-print(pairwise_tukeyhsd(bicycle_df[bicycle_df['Road Surface'] == 'Tarmac'][f"{SIGNAL_RMS_ISO}"],
-                        bicycle_df[bicycle_df['Road Surface'] == 'Tarmac']['Vehicle, Seat, Baby Age']))
-print_header("Pairwise Comparison of Vehicle Setups on Paver Bricks")
+print_header("Pairwise Comparison of Vehicle Setups on Tarmac at High Speed")
+print(pairwise_tukeyhsd(bicycle_df[(bicycle_df['Road Surface'] == 'Tarmac') & (bicycle_df['Target Speed [km/h]'] > 12)][f"{SIGNAL_RMS_ISO}"],
+                        bicycle_df[(bicycle_df['Road Surface'] == 'Tarmac') & (bicycle_df['Target Speed [km/h]'] > 12)]['Vehicle, Seat, Baby Age']))
+print_header("Pairwise Comparison of Vehicle Setups on Paver Bricks at All Speeds")
 print(pairwise_tukeyhsd(bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks'][f"{SIGNAL_RMS_ISO}"],
                         bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks']['Vehicle, Seat, Baby Age']))
 
