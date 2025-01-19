@@ -1,11 +1,30 @@
 import os
 
-import yaml
-import pandas as pd
-import numpy as np
 from dtk.inertia import x_rot, y_rot, z_rot
+from scipy.interpolate import interp1d
+import numpy as np
+import pandas as pd
+import yaml
 
 from paths import PATH_TO_SESSION_DATA, PATH_TO_REPO
+
+
+def eval_health(minutes):
+    """Returns the acceleration RMS caution and risk limits from ISO 2631-1 for
+    a duration."""
+    # NOTE : These values are extracted from the Annex B ISO 2631-1 Figure B.1
+    # (based on equation B.1) to build a log-log scale interpolater for the
+    # dashed line.
+    health = np.log10(np.array(
+        # hour, caution line, risk line (log scale)
+        [[0.02, 3.2, 5.7],
+         [0.2, 3.2, 5.7],
+         [24.0, 0.24, 0.42]]
+    ))
+    func = interp1d(health[:, 0], health[:, 1:], axis=0,
+                    fill_value='extrapolate')
+    caution, risk = np.power(10.0, func(np.log10(minutes/60.0)))
+    return caution, risk
 
 
 def to_dense(series):

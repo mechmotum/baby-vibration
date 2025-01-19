@@ -4,7 +4,6 @@ import pickle
 import subprocess
 
 from scikit_posthocs import posthoc_ttest
-from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -14,7 +13,7 @@ import statsmodels.formula.api as smf
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from html_templates import INDEX, H2, P, IMG
-from functions import print_header
+from functions import print_header, eval_health
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
@@ -24,18 +23,6 @@ MM2INCH = 1.0/25.4
 MAXWIDTH = 160.0  # mm (max width suitable for an A4 with 25 mm margins)
 
 sns.set_theme(style='white')
-
-# NOTE : These values are extracted from the Annex B ISO 2631-1 figure to build
-# a log-log scale interpolater for the dashed line.
-health_caution = np.array(
-    # hour, risk line, caution line (log scale)
-    [[0.02, 5.7, 3.2],
-     [0.2, 5.7, 3.2],
-     [24.0, 0.42, 0.24]]
-)
-health = np.log10(health_caution)
-risk = interp1d(health[:, 0], health[:, 1])
-caution = interp1d(health[:, 0], health[:, 2])
 
 try:
     githash = subprocess.check_output([
@@ -174,8 +161,8 @@ p = sns.scatterplot(
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(np.power(10.0, risk(np.log10(val/60.0))), color='black')
-    p.axes.text(7.0, np.power(10.0, risk(np.log10(val/60.0))) + 0.2, note)
+    p.axes.axhline(eval_health(val)[1], color='black')
+    p.axes.text(7.0, eval_health(val)[1] + 0.2, note)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -232,8 +219,8 @@ p = sns.scatterplot(
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(np.power(10.0, risk(np.log10(val/60.0))), color='black')
-    p.axes.text(1.1, np.power(10.0, risk(np.log10(val/60.0))) + 0.1, note)
+    p.axes.axhline(eval_health(val)[1], color='black')
+    p.axes.text(1.1, eval_health(val)[1] + 0.1, note)
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
@@ -258,8 +245,8 @@ p = sns.scatterplot(
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(np.power(10.0, risk(np.log10(val/60.0))), color='black')
-    p.axes.text(1.1, np.power(10.0, risk(np.log10(val/60.0))) + 0.1, note)
+    p.axes.axhline(eval_health(val)[1], color='black')
+    p.axes.text(1.1, eval_health(val)[1] + 0.1, note)
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
