@@ -116,8 +116,8 @@ print(trial_count_df)
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') + "
-     "Q('Road Surface') + "
-     "Q('Vehicle, Seat, Baby Age')")
+     "C(Q('Road Surface'), Treatment('Tarmac')) + "
+     "C(Q('Vehicle, Seat, Baby Age'), Treatment('trike, maxicosi, 0 mo'))")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
