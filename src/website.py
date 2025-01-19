@@ -21,7 +21,7 @@ SIGNAL_RMS = SIGNAL + '_rms'
 SIGNAL_RMS_ISO = SIGNAL + '_rms_iso'
 KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 MM2INCH = 1.0/25.4
-MAXWIDTH = 160  # mm (max width suitable for an A4 with 25 mm margins)
+MAXWIDTH = 160.0  # mm (max width suitable for an A4 with 25 mm margins)
 
 sns.set_theme(style='white')
 
@@ -86,6 +86,7 @@ bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
 
 print_header("Grand Statistics Data Frame")
+print("All columns: ", stats_df.columns)
 print(stats_df)
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
@@ -127,10 +128,11 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
-print(posthoc_ttest(bicycle_df,
-                    val_col=f"{SIGNAL_RMS_ISO}",
-                    group_col='Vehicle, Seat, Baby Age',
-                    p_adjust='holm'))
+ph_bicycle = posthoc_ttest(bicycle_df,
+                           val_col=f"{SIGNAL_RMS_ISO}",
+                           group_col='Vehicle, Seat, Baby Age',
+                           p_adjust='holm')
+print(ph_bicycle)
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
@@ -141,10 +143,11 @@ print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
 anova = sma.stats.anova_lm(stroller_res)
 print(anova)
-print(posthoc_ttest(stroller_df,
-                    val_col=f"{SIGNAL_RMS_ISO}",
-                    group_col='Vehicle, Seat, Baby Age',
-                    p_adjust='holm'))
+ph_stroller_veh = posthoc_ttest(stroller_df,
+                                val_col=f"{SIGNAL_RMS_ISO}",
+                                group_col='Vehicle, Seat, Baby Age',
+                                p_adjust='holm')
+print(ph_stroller_veh)
 print(posthoc_ttest(stroller_df,
                     val_col=f"{SIGNAL_RMS_ISO}",
                     group_col='Road Surface',
