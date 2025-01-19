@@ -3,7 +3,7 @@ import os
 import pickle
 import subprocess
 
-from scikit_posthocs import posthoc_ttest
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -116,21 +116,12 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
-ph_bicycle = posthoc_ttest(bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks'],
-                           val_col=f"{SIGNAL_RMS_ISO}",
-                           group_col='Vehicle, Seat, Baby Age',
-                           p_adjust='holm')
-print(ph_bicycle)
-from statsmodels.stats.multitest import multipletests
-res = pd.concat([bicycle_res.params, bicycle_res.pvalues], axis=1)
-res.columns=['coefficient', 'pvalues']
-res = res[res.index.str.contains('Vehicle, Seat, Baby Age')]
-res['corrected_p'] = multipletests(res['pvalues'], method="sidak")[1]
-print(res)
-
-from statsmodels.stats.multicomp import pairwise_tukeyhsd
-print(pairwise_tukeyhsd(bicycle_df[f"{SIGNAL_RMS_ISO}"],
-                        bicycle_df['Vehicle, Seat, Baby Age']))
+print_header("Pairwise Comparison of Vehicle Setups on Tarmac")
+print(pairwise_tukeyhsd(bicycle_df[bicycle_df['Road Surface'] == 'Tarmac'][f"{SIGNAL_RMS_ISO}"],
+                        bicycle_df[bicycle_df['Road Surface'] == 'Tarmac']['Vehicle, Seat, Baby Age']))
+print_header("Pairwise Comparison of Vehicle Setups on Paver Bricks")
+print(pairwise_tukeyhsd(bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks'][f"{SIGNAL_RMS_ISO}"],
+                        bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks']['Vehicle, Seat, Baby Age']))
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
@@ -141,15 +132,7 @@ print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
 anova = sma.stats.anova_lm(stroller_res)
 print(anova)
-ph_stroller_veh = posthoc_ttest(stroller_df,
-                                val_col=f"{SIGNAL_RMS_ISO}",
-                                group_col='Vehicle, Seat, Baby Age',
-                                p_adjust='holm')
-print(ph_stroller_veh)
-print(posthoc_ttest(stroller_df,
-                    val_col=f"{SIGNAL_RMS_ISO}",
-                    group_col='Road Surface',
-                    p_adjust='holm'))
+print_header("Pairwise Comparison of Vehicle Setups on Paver Bricks")
 print(pairwise_tukeyhsd(stroller_df[stroller_df['Road Surface'] == 'Paver Bricks'][f"{SIGNAL_RMS_ISO}"],
                         stroller_df[stroller_df['Road Surface'] == 'Paver Bricks']['Vehicle, Seat, Baby Age']))
 
