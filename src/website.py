@@ -80,6 +80,9 @@ stats_df['Seat, Baby'] = (
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
+bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
+stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
+
 print_header("Grand Statistics Data Frame")
 print(stats_df)
 
@@ -115,9 +118,9 @@ print(trial_count_df)
 #print(trial_count_df.to_latex(float_format="%0.1f"))
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
-     "Q('Mean Speed [m/s]') + "
+     "Q('Mean Speed [m/s]') * "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
-     "C(Q('Vehicle, Seat, Baby Age'), Treatment('trike, maxicosi, 0 mo'))")
+     "C(Q('Vehicle, Seat, Baby Age'), Treatment('trike, maxicosi, 3 mo'))")
 mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
