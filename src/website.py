@@ -1,6 +1,7 @@
 import datetime
 import os
 import pickle
+import pprint
 import subprocess
 
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
@@ -11,9 +12,9 @@ import seaborn as sns
 import statsmodels.api as sma
 import statsmodels.formula.api as smf
 
-from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
-from html_templates import INDEX, H2, P, IMG
 from functions import print_header, eval_health
+from html_templates import INDEX, H2, P, IMG
+from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
@@ -36,8 +37,8 @@ with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
     stats_data = pickle.load(f)
 
 stats_df = pd.DataFrame(stats_data)
-# NOTE : it is possible to add duplicate rows when running process.py, so drop
-# duplicates
+# NOTE : It may be possible to add duplicate rows when running process.py, so
+# drop duplicates.
 stats_df.drop_duplicates(inplace=True)
 
 stats_df['duration_weight'] = (stats_df['Duration [s]'] /
@@ -74,7 +75,7 @@ stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
 
 print_header("Grand Statistics Data Frame")
 print("All columns:")
-print(stats_df.columns)
+pprint.pprint(stats_df.columns.to_list())
 print(stats_df)
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
@@ -116,12 +117,17 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
-print_header("Pairwise Comparison of Vehicle Setups on Tarmac at High Speed")
-print(pairwise_tukeyhsd(bicycle_df[(bicycle_df['Road Surface'] == 'Tarmac') & (bicycle_df['Target Speed [km/h]'] > 12)][f"{SIGNAL_RMS_ISO}"],
-                        bicycle_df[(bicycle_df['Road Surface'] == 'Tarmac') & (bicycle_df['Target Speed [km/h]'] > 12)]['Vehicle, Seat, Baby Age']))
-print_header("Pairwise Comparison of Vehicle Setups on Paver Bricks at All Speeds")
-print(pairwise_tukeyhsd(bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks'][f"{SIGNAL_RMS_ISO}"],
-                        bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks']['Vehicle, Seat, Baby Age']))
+for surf in ('Tarmac', 'Paver Bricks'):
+    for speed in ('Low', 'High'):
+        print_header(f"Pairwise Comparison of Vehicle Setups on {surf} "
+                     f"at {speed} Speed")
+        if speed == 'Low':
+            spd_sel = bicycle_df['Target Speed [km/h]'] < 15
+        if speed == 'High':
+            spd_sel = bicycle_df['Target Speed [km/h]'] > 15
+        sub_df = bicycle_df[(bicycle_df['Road Surface'] == surf) & spd_sel]
+        print(pairwise_tukeyhsd(sub_df[f"{SIGNAL_RMS_ISO}"],
+                                sub_df['Vehicle, Seat, Baby Age']))
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
@@ -132,9 +138,11 @@ print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
 anova = sma.stats.anova_lm(stroller_res)
 print(anova)
-print_header("Pairwise Comparison of Vehicle Setups on Paver Bricks")
-print(pairwise_tukeyhsd(stroller_df[stroller_df['Road Surface'] == 'Paver Bricks'][f"{SIGNAL_RMS_ISO}"],
-                        stroller_df[stroller_df['Road Surface'] == 'Paver Bricks']['Vehicle, Seat, Baby Age']))
+for surf in stroller_df['Road Surface'].unique():
+    print_header(f"Pairwise Comparison of Vehicle Setups on {surf}")
+    sf_sel = stroller_df[stroller_df['Road Surface'] == surf]
+    print(pairwise_tukeyhsd(sf_sel[f"{SIGNAL_RMS_ISO}"],
+                            sf_sel['Vehicle, Seat, Baby Age']))
 
 boxp_html = []
 
@@ -194,7 +202,7 @@ comfort = (
 )
 for low, high, note in comfort:
     p.axes.axhline(low, color='black')
-    p.axes.text(7.0, low + 0.02, note, fontsize=8)
+    p.axes.text(7.0, low + 0.05, note, fontsize=8)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Magnitude Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
