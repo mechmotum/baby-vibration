@@ -165,8 +165,8 @@ p = sns.scatterplot(
     y=SIGNAL_RMS_ISO,
     style="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    size='Duration [s]',
-    sizes=(40, 140),
+    #size='Duration [s]',
+    #sizes=(40, 140),
 )
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
@@ -175,7 +175,7 @@ for val, note in zip((10.0, 20.0, 60.0, 240.0),
     p.axes.text(7.0, eval_health(val)[1] + 0.2, note)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
@@ -194,8 +194,8 @@ p = sns.scatterplot(
     y=SIGNAL.split('_')[0] + '_rms_mag_iso',
     style="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    size='Duration [s]',
-    sizes=(40, 140),
+    #size='Duration [s]',
+    #sizes=(40, 140),
 )
 # comfort lines for different durations
 comfort = (
@@ -211,7 +211,7 @@ for low, high, note in comfort:
     p.axes.text(7.0, low + 0.05, note, fontsize=8)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Magnitude Acceleration RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.4*MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-compare-all-comfort.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
@@ -230,7 +230,7 @@ p = sns.scatterplot(
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
     p.axes.axhline(eval_health(val)[1], color='black')
-    p.axes.text(1.1, eval_health(val)[1] + 0.1, note)
+    p.axes.text(1.1, eval_health(val)[1] + 0.05, note)
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
