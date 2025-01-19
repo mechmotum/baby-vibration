@@ -73,7 +73,8 @@ bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
 
 print_header("Grand Statistics Data Frame")
-print("All columns: ", stats_df.columns)
+print("All columns:")
+print(stats_df.columns)
 print(stats_df)
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
@@ -103,7 +104,7 @@ trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
     **{'Count': 'count',
        'Mean': 'mean',
        'STD': 'std'})
-print_header("Trial Counts Per Scenario")
+print_header("Trial Counts and Duration Stats Per Scenario")
 print(trial_count_df)
 #print(trial_count_df.to_latex(float_format="%0.1f"))
 
@@ -115,11 +116,21 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
-ph_bicycle = posthoc_ttest(bicycle_df,
+ph_bicycle = posthoc_ttest(bicycle_df[bicycle_df['Road Surface'] == 'Paver Bricks'],
                            val_col=f"{SIGNAL_RMS_ISO}",
                            group_col='Vehicle, Seat, Baby Age',
                            p_adjust='holm')
 print(ph_bicycle)
+from statsmodels.stats.multitest import multipletests
+res = pd.concat([bicycle_res.params, bicycle_res.pvalues], axis=1)
+res.columns=['coefficient', 'pvalues']
+res = res[res.index.str.contains('Vehicle, Seat, Baby Age')]
+res['corrected_p'] = multipletests(res['pvalues'], method="sidak")[1]
+print(res)
+
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+print(pairwise_tukeyhsd(bicycle_df[f"{SIGNAL_RMS_ISO}"],
+                        bicycle_df['Vehicle, Seat, Baby Age']))
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
@@ -139,6 +150,8 @@ print(posthoc_ttest(stroller_df,
                     val_col=f"{SIGNAL_RMS_ISO}",
                     group_col='Road Surface',
                     p_adjust='holm'))
+print(pairwise_tukeyhsd(stroller_df[stroller_df['Road Surface'] == 'Paver Bricks'][f"{SIGNAL_RMS_ISO}"],
+                        stroller_df[stroller_df['Road Surface'] == 'Paver Bricks']['Vehicle, Seat, Baby Age']))
 
 boxp_html = []
 
@@ -198,7 +211,7 @@ comfort = (
 )
 for low, high, note in comfort:
     p.axes.axhline(low, color='black')
-    p.axes.text(7.0, low + 0.05, note, fontsize=8)
+    p.axes.text(7.0, low + 0.02, note, fontsize=8)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Magnitude Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
