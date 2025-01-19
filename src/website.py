@@ -3,12 +3,14 @@ import os
 import pickle
 import subprocess
 
+from scikit_posthocs import posthoc_ttest
+from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import statsmodels.api as sma
 import statsmodels.formula.api as smf
-from scipy.interpolate import interp1d
 
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from html_templates import INDEX, H2, P, IMG
@@ -121,18 +123,32 @@ f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') * "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
      "C(Q('Vehicle, Seat, Baby Age'), Treatment('trike, maxicosi, 3 mo'))")
-mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'bicycle'])
+mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
+print(posthoc_ttest(bicycle_df,
+                    val_col=f"{SIGNAL_RMS_ISO}",
+                    group_col='Vehicle, Seat, Baby Age',
+                    p_adjust='holm'))
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
-     "Q('Vehicle, Seat, Baby Age') + "
-     "Q('Road Surface')")
-mod = smf.ols(formula=f, data=stats_df[stats_df['Vehicle Type'] == 'stroller'])
+     "C(Q('Road Surface'), Treatment('Tarmac')) + "
+     "C(Q('Vehicle, Seat, Baby Age'), Treatment('greenmachine, cot, 0 mo'))")
+mod = smf.ols(formula=f, data=stroller_df)
 stroller_res = mod.fit()
 print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
+anova = sma.stats.anova_lm(stroller_res)
+print(anova)
+print(posthoc_ttest(stroller_df,
+                    val_col=f"{SIGNAL_RMS_ISO}",
+                    group_col='Vehicle, Seat, Baby Age',
+                    p_adjust='holm'))
+print(posthoc_ttest(stroller_df,
+                    val_col=f"{SIGNAL_RMS_ISO}",
+                    group_col='Road Surface',
+                    p_adjust='holm'))
 
 boxp_html = []
 
@@ -204,7 +220,7 @@ plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 boxp_html.append(H2.format(f'Stroller ISO Weighted RMS {SIGNAL} Comparison'))
 p = sns.scatterplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
+    data=stroller_df,
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -230,7 +246,7 @@ boxp_html.append(
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    data=bicycle_df,
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -275,7 +291,7 @@ boxp_html.append(H2.format(f'Stroller Unweighted {SIGNAL} VDV Comparison'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
+    data=stroller_df,
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -296,7 +312,7 @@ boxp_html.append(
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    data=bicycle_df,
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -353,7 +369,7 @@ asphalt and paver bricks. The shaded regions represent the 95% confidence
 intervals."""
 boxp_html.append(P.format(msg))
 p = sns.lmplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    data=bicycle_df,
     x="Mean Speed [km/h]",
     y=SIGNAL_RMS_ISO,
     hue="Road Surface",
@@ -395,7 +411,7 @@ boxp_html.append(H2.format('Stroller Comparison'))
 msg = """Compare baby age for each stroller on each tested surface."""
 boxp_html.append(P.format(msg))
 p = sns.catplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
+    data=stroller_df,
     x="Vehicle",
     y=SIGNAL_RMS_ISO,
     hue="Baby Age [mo]",
@@ -419,7 +435,7 @@ msg = """Compare the baby seats used in the cargo bicycles for each bicycle and
 road surface type."""
 boxp_html.append(P.format(msg))
 p = sns.catplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    data=bicycle_df,
     x="Vehicle",
     y=SIGNAL_RMS_ISO,
     hue="Seat, Baby",
@@ -479,7 +495,7 @@ boxp_html.append(H2.format('Stroller Type Comparison'))
 msg = ''
 boxp_html.append(P.format(msg))
 p = sns.pointplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'stroller'],
+    data=stroller_df,
     x='Road Surface',
     y=SIGNAL_RMS_ISO,
     hue='Vehicle',
@@ -498,7 +514,7 @@ boxp_html.append(H2.format('Bicycle Comparison'))
 msg = ''
 boxp_html.append(P.format(msg))
 p = sns.lmplot(
-    data=stats_df[stats_df['Vehicle Type'] == 'bicycle'],
+    data=bicycle_df,
     x='Mean Speed [km/h]',
     y=SIGNAL_RMS_ISO,
     hue="Vehicle",
