@@ -1,6 +1,7 @@
 H1 = '<h1>{}</h1>'
 H2 = '<h2>{}</h2>'
 H3 = '<h3>{}</h3>'
+H4 = '<h4>{}</h4>'
 HR = '<hr>'
 IMG = '<img src="fig/{}/{}"></img>'
 P = '<p>{}</p>'
@@ -10,11 +11,11 @@ INDEX = """\
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Baby Vehicle Vibration Results</title>
+    <title>Baby Vehicle Transport Vibration Results</title>
   </head>
   <body>
 
-  <h1>Baby Vehicle Vibration Results</h1>
+  <h1>Baby Vehicle Transport Vibration Results</h1>
   <hr>
   <p>
     Last updated: {date}
@@ -42,17 +43,32 @@ INDEX = """\
     <li><a href="#sync">Sensor Time Synchronization Checks</a></li>
   </ol>
 
-  <h1 id="mean_table">Mean of the RMS of {signal}</h1>
+  <h1 id="mean_table">Mean Over Scenarios for Signal: {signal}</h1>
   <hr>
+  <p>
+    Mean values for each scenario: vehicle, seat, baby, road surface, and speed
+    combination.
+  </p>
 {mean_table}
 
   <h1 id="statistics">Regression Results</h1>
+  <p>
+    Ordinary linear least squares regression models fit to the data.
+  </p>
+
   <h2>Strollers</h2>
 {stroller_stats}
-  <h3>Cargo Bicycles</h2>
+
+  <h3>Stroller Comparisons</h3>
+{stroller_comp}
+
+  <h2>Cargo Bicycles</h2>
 {bicycle_stats}
 
-  <h1 id="boxp">Comparison Plots: RMS of {signal} </h1>
+  <h3>Cargo Bicycle Comparisons</h3>
+{bicycle_comp}
+
+  <h1 id="boxp">Comparison Plots Based on the Signal: {signal}</h1>
   <hr>
 {boxp_html}
 
@@ -62,7 +78,7 @@ INDEX = """\
 
   <h1 id="trial_table">Trials</h1>
   <hr>
-  <p>This lists all of the trials in long form data forma (tidy data).</p>
+  <p>This lists all of the trials in long form (tidy data).</p>
 {trial_table}
 
   <h1 id="iso">ISO 2631-1 Weights</h1>
@@ -74,13 +90,13 @@ INDEX = """\
   <br>
   <img src='fig/iso-filter-weights-02.png'</img>
 
-  <h1 id="trial">Seat Pan Vertical Acceleration Time Histories</h1>
+  <h1 id="trial">{signal} Time Histories</h1>
   <hr>
   <p>
   </p>
 {trial_html}
 
-  <h1 id="spec">Seat Pan Vertical Acceleration Spectrums</h1>
+  <h1 id="spec">{signal} ISO Weighted Frequency Spectrums</h1>
   <hr>
 {spec_html}
 

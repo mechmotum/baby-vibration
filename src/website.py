@@ -13,7 +13,7 @@ import statsmodels.api as sma
 import statsmodels.formula.api as smf
 
 from functions import print_header, eval_health
-from html_templates import INDEX, H2, P, IMG
+from html_templates import INDEX, H2, H4, P, IMG
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
 from run import SIGNAL
 
@@ -73,7 +73,7 @@ stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
 
-print_header("Grand Statistics Data Frame")
+print_header("Statistics Data Frame in Tidy Format")
 print("All columns:")
 pprint.pprint(stats_df.columns.to_list())
 print(stats_df)
@@ -85,17 +85,17 @@ weighted_mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
 
 summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
     **{'Trial Count': 'size',
-       'Mean RMS Acceleration [m/s/s]': 'mean'}
+       'RMS Acceleration [m/s/s]': 'mean'}
 )
-summary_df['Mean ISO Weighted RMS Acceleration [m/s/s]'] = \
+summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
     stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
-summary_df['Mean Duration [s]'] = \
+summary_df['Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()
-summary_df['Mean ISO Weighted Peak Frequency [Hz]'] = \
+summary_df['ISO Weighted Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_df['Mean ISO Weighted Threshold Frequency [Hz]'] = \
+summary_df['ISO Weighted Threshold Frequency [Hz]'] = \
     stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
-print_header("Mean Statistics Per Scenario")
+print_header("Means Per Scenario")
 print(summary_df)
 #print(summary_df.to_latex(float_format="%0.1f"))
 
@@ -117,6 +117,7 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
+bicycle_comp_tables = []
 for surf in ('Tarmac', 'Paver Bricks'):
     for speed in ('Low', 'High'):
         print_header(f"Pairwise Comparison of Vehicle Setups on {surf} "
@@ -126,8 +127,10 @@ for surf in ('Tarmac', 'Paver Bricks'):
         if speed == 'High':
             spd_sel = bicycle_df['Target Speed [km/h]'] > 15
         sub_df = bicycle_df[(bicycle_df['Road Surface'] == surf) & spd_sel]
-        print(pairwise_tukeyhsd(sub_df[f"{SIGNAL_RMS_ISO}"],
-                                sub_df['Vehicle, Seat, Baby Age']))
+        comp_tab = pairwise_tukeyhsd(sub_df[f"{SIGNAL_RMS_ISO}"],
+                                     sub_df['Vehicle, Seat, Baby Age'])
+        bicycle_comp_tables.append((surf, speed, comp_tab))
+        print(comp_tab)
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
@@ -138,11 +141,14 @@ print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
 anova = sma.stats.anova_lm(stroller_res)
 print(anova)
+stroller_comp_tables = []
 for surf in stroller_df['Road Surface'].unique():
     print_header(f"Pairwise Comparison of Vehicle Setups on {surf}")
     sf_sel = stroller_df[stroller_df['Road Surface'] == surf]
-    print(pairwise_tukeyhsd(sf_sel[f"{SIGNAL_RMS_ISO}"],
-                            sf_sel['Vehicle, Seat, Baby Age']))
+    comp_tab = pairwise_tukeyhsd(sf_sel[f"{SIGNAL_RMS_ISO}"],
+                                 sf_sel['Vehicle, Seat, Baby Age'])
+    stroller_comp_tables.append((surf, comp_tab))
+    print(comp_tab)
 
 boxp_html = []
 
@@ -534,6 +540,8 @@ html_source = INDEX.format(
     boxp_html='\n  '.join(boxp_html),
     bicycle_stats=bicycle_res.summary().as_html(),
     stroller_stats=stroller_res.summary().as_html(),
+    stroller_comp='\n'.join([H4.format(surf) + '\n' + tab.summary().as_html() for surf, tab in stroller_comp_tables]),
+    bicycle_comp='\n'.join([H4.format(surf + ' ' + speed) + '\n' + tab.summary().as_html() for surf, speed, tab in bicycle_comp_tables]),
     mean_table=summary_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
