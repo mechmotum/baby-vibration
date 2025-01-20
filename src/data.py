@@ -276,6 +276,7 @@ class Trial():
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
+    @functools.cache
     def calc_spectrum_rms(self, sig_name, sample_rate, cutoff=None,
                           iso_weighted=False):
         """Returns the root mean square of the signal, calculated from the
@@ -339,6 +340,7 @@ class Trial():
 
         return np.sqrt(2*np.sum(np.abs(power)**2))/np.sqrt(len(X)**2)
 
+    @functools.cache
     def calc_magnitude_rms(self, signal_prefix, sample_rate, cutoff=None,
                            iso_weighted=False):
         """Returns the RMS of the magnitude of a signal.
