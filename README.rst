@@ -34,7 +34,7 @@ or on Windows::
 **Do not commit the configuration file to Git.**
 
 The ``Trillingen-Project_Dec2024`` is currently a private mountable directory
-share on TU Delft netowrk. The data will be shared in a public repository in
+share on TU Delft network. The data will be shared in a public repository in
 the future.
 
 Install conda then create and activate the environment::
@@ -69,20 +69,30 @@ during different trials.
 
 .. _Shimmer: https://www.shimmersensing.com/
 
+Scenario
+   We test a combination of vehicle, baby seat, baby dummy, road surface
+   (including shock), and speed. A unique combination of these factors is
+   called a "scenario".
 Session
-   A "session" is a continuous collection of data from a set of Shimmer IMUs.
-   The IMU's internal clocks are time synchronized on the base station,
-   attached to the vehicle, and each IMU is started. After a time period of
-   collecting data of possibly multiple trials and calibrations the IMUs are
-   stopped. Each IMU produces a single acquisition CSV file for that session.
+   A "session" is a continuous collection of data from a set of Shimmer IMUs
+   which contains one or more scenarios. The IMU's internal clocks are time
+   synchronized on the base station, attached to the vehicle, and each IMU is
+   started. After a time period of collecting data of possibly multiple trials
+   and calibrations the IMUs are stopped. Each IMU produces a single
+   acquisition CSV file for that session.
 Trial
-   A trial is defined as a continuous time segment selected from a session. The
-   trial may be a static calibration period, a time synchronization motion
-   period, or a constant speed period of vehicle motion.
+   A trial is defined as a continuous time segment selected from a session that
+   represents a specific scenario. The trial may be a static calibration period,
+   a time synchronization motion period, or a constant speed period of vehicle
+   motion.
+Trial Segment
+   We split trials into shorter segments to have an average trial segment
+   duration of about 20 seconds.
 
 Shimmer IMU names:
 
-- ``BotTrike``:  a sensor placed underneath the baby seat, for the strollers
+- ``BotTrike``:  a sensor placed underneath the baby seat on the frame
+  structure of the vehicle
 - ``FrontWHeel`` : attached to the axle of the front wheel (closest possible
   point to the ground)
 - ``RearWheel`` : attached to the rotating rear wheel (used for speed
@@ -93,19 +103,20 @@ Shimmer IMU names:
 Vehicle name:
 
 - ``bugaboo``: Bugaboo Fox 5 stroller
-- ``greenmachine``:
+- ``greenmachine``: an old-style (~70's) cot for very young infants
 - ``maxicosi``: Maxi-Cosi Street Plus stroller
-- ``oldrusty``:
-- ``trike``: Keiler cargo tricycle (tadpole wheel arrangement)
+- ``oldrusty``: an old-style (~70's) seat for older infants
+- ``trike``: Keiler cargo tricycle (tadpole wheel arrangement with some extra
+  mass added to represent propulsion motor and battery)
 - ``urbanarrow``: Urban Arrow cargo electric bicycle
 - ``yoyo``: Stokke BABYZEN YOYO 0+ stroller
 
 The Shimmer IMUs are set to +/- 16 g and +/- 2000 deg/s. The values are
 recorded to 16 bit floating point precision other than the time stamp which is
-a 16 bit integer. The IMUs are placed in the base station and their clocks are
-synchronized with each other. This means we assume that the time stamp values
-represents the same real time value in each shimmer. The following column order
-is consistent among the files.
+a 16 bit positive integer. The IMUs are placed in the base station and their
+clocks are synchronized with each other. This means we assume that the time
+stamp values represents the same real time value in each IMU. The following
+column order is consistent among the files.
 
 - ``S_SENSORNAME_Timestamp_Unix_CAL`` : milliseconds since epoch
 - ``S_SENSORNAME_Accel_WR_X_CAL``: m/s/s
@@ -118,38 +129,49 @@ is consistent among the files.
 Data Processing
 ===============
 
-#. Load each acquisition file into a Pandas data frame with the timestamp as the
-   index.
+#. Load each acquisition file into a Pandas sparse data frame with the
+   time stamp as the index.
 #. Combine all sensor data frames from a single session into a single data
-   frame. These can be 700 Mb in size. NaNs are used to represent mismatches in
-   the sample times.
-#. Extract the trial start/stop times from the CSV files for the session.
+   frame. These can be up to 2 Gb in size. NaNs are used to represent
+   mismatches in the sample times.
+#. Extract the trial start/stop times for trials from the manually created CSV
+   files for each session.
 #. Use a period of no motion, "static", in the session to find the direction of
    gravity in all sensors assuming that one axis of each sensor is aligned with
    the lateral axis of the vehicle.
-#. Remove bad data points (random spikes and maybe the repeated values).
-#. Low pass filter the time series (not sure if this matters so much if we are
-   converting to frequency spectrum and just taking means of things).
-#. Calculate linear speed of the vehicle using wheel radius and rear wheel
-   rate gyro. Calculate the mean speed per trial.
-#. Calculate the frequency spectrum of component and magnitude of acceleration
-   and angular rate for all sensors expect the speed sensor and then find the
-   RMS of the frequency spectrum. This will give 8 RMS values per trial. These
-   should be stored in a tidy data table with each row being a trial.
-#. Same as above but apply the ISO 2631 filters before calculating RMS.
+#. Down sample the time series from ~900 Hz to 400 Hz.
+#. Set any values greater than +/-16 g or +/-2000 deg/s to those maximum
+   values, as the sensors are not valid at higher values.
+#. Low pass filter the time series at 120 Hz (ISO 2631-1 recommended 1.5*80 Hz)
+   with a 2nd Order zero-lag Butterworth filter.
+#. Calculate linear speed of the vehicle using wheel radius and rear wheel rate
+   gyro. Calculate the mean speed and standard deviation per trial.
+#. Calculate the vibration dose value (VDV) from the unfiltered time series.
+#. Calculate the frequency spectrum of the buttocks sensor's vertical
+   acceleration component for health assessment and magnitude of acceleration
+   for comfort assessment.
+#. Apply the ISO 2631-1 spectrum weights for health and comfort assessments.
+#. Smooth the frequency spectrums with low pass filter.
+#. Calculate the root mean square (RMS) from the weighted spectrums.
+#. Calculate the peak frequency and peak amplitude from the spectrum. Calculate
+   the bandwidth containing 80% of the spectrum area.
 
 Final data table should have these columns:
 
 - Trial ID
 - Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|keiler|greenmachine|oldrusty]
 - Vehicle Type [stroller|bicycle]
-- Baby Age [0|3|9] (implies seat configuration for vehicles with multiple seat
-  setups)
-- Surface [stoeptegels|tarmac|klinkers]
+- Seat Type [cot|seat]
+- Baby Age [month] [0|3|9]
+- Baby Mass [kg] [3.48|5.9|8.9]
+- Surface [aula|stoeptegels|tarmac|klinkers|pave]
 - Duration [s]
 - Mean of Speed [m/s]
 - Standard Deviation of Speed [m/s]
 - Speed Category [5 kph|12 kph|20 kph|25 kph]
+- Peak Frequency [Hz]
+- Peak Spectrum Amplitude [m/s/s]
+- 80% Bandwidth [Hz]
 - SENSOR_N lateral acceleration RMS [m/s/s]
 - SENSOR_N longitudinal acceleration RMS [m/s/s]
 - SENSOR_N vertical acceleration RMS [m/s/s]
@@ -174,25 +196,6 @@ Final data table should have these columns:
 - SENSOR_N yaw angular rate VDV [deg/s]
 - SENSOR_N roll angular rate VDV [deg/s]
 - SENSOR_N angular rate magnitude VDV [deg/s]
-
-ISO 2631 Filters
-----------------
-
-Code to covert Georgios's CSV filse of the ISO filter tables into CSV files:
-
-.. code:: python
-
-   import numpy as np
-   from scipy.io import loadmat
-   d = loadmat('filter_ISO_01.mat')
-   np.savetxt('data/iso-2631-filter-01.csv', d['filter_ISO_01'], fmt='%1.12f', delimiter=',')
-   d = loadmat('ISO_Filters/filter_ISO_02.mat')
-   np.savetxt('data/iso-2631-filter-02.csv', d['filter_ISO_02'], fmt='%1.12f', delimiter=',')
-
-The two filter files have amplitude weightings versus frequency from 0 to 400
-Hz. The weights must be divided by 1000 to have multiplicative factors from 0
-to 1. Different k values are mutiplied to the weightings depending on if you
-are seated, standing, supine, etc.
 
 Resources
 =========
