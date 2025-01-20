@@ -83,6 +83,15 @@ class Trial():
         deltat = 1.0/sample_rate
         new_time = np.arange(time[0], time[-1], deltat)
         new_signal = np.interp(new_time, time, signal)
+        # TODO : These should be applied to the whole data frame in Session.
+        # Caps for sensor limits.
+        if 'acc' in sig_name.lower():
+            new_signal[new_signal > 16.0*9.81] = 16.0*9.81
+            new_signal[new_signal < -16.0*9.81] = -16.0*9.81
+        elif 'gyr' in sig_name.lower():
+            new_signal[new_signal > 2000.0] = 2000.0
+            new_signal[new_signal < -2000.0] = -2000.0
+
         if cutoff is not None:
             new_signal = butterworth(new_signal, cutoff, sample_rate)
         return new_time, new_signal
