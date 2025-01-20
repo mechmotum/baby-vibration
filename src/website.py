@@ -165,8 +165,8 @@ p = sns.scatterplot(
     y=SIGNAL_RMS_ISO,
     style="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    #size='Duration [s]',
-    #sizes=(40, 140),
+    size='Duration [s]',
+    sizes=(60, 100),
 )
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
@@ -194,8 +194,8 @@ p = sns.scatterplot(
     y=SIGNAL.split('_')[0] + '_rms_mag_iso',
     style="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    #size='Duration [s]',
-    #sizes=(40, 140),
+    size='Duration [s]',
+    sizes=(60, 100),
 )
 # comfort lines for different durations
 comfort = (
@@ -219,12 +219,12 @@ plt.clf()
 
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 boxp_html.append(H2.format(f'Stroller ISO Weighted RMS {SIGNAL} Comparison'))
-p = sns.scatterplot(
+p = sns.stripplot(
     data=stroller_df,
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    sizes=(40, 140),
+    order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
@@ -246,7 +246,7 @@ boxp_html.append(
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=bicycle_df,
+    data=bicycle_df.sort_values("Vehicle, Seat, Baby Age"),
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -271,7 +271,7 @@ boxp_html.append(H2.format(f'All Trials Unweighted {SIGNAL} VDV Compared'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df,
+    data=stats_df.sort_values("Vehicle, Seat, Baby Age"),
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -291,7 +291,7 @@ boxp_html.append(H2.format(f'Stroller Unweighted {SIGNAL} VDV Comparison'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stroller_df,
+    data=stroller_df.sort_values("Vehicle, Seat, Baby Age"),
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -312,11 +312,11 @@ boxp_html.append(
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=bicycle_df,
+    data=bicycle_df.sort_values("Vehicle, Seat, Baby Age"),
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    style="Target Speed [km/h]",
+    size="Mean Speed [km/h]",
 )
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -443,6 +443,7 @@ p = sns.catplot(
     kind='strip',
     palette='deep',
     sharex=False,
+    sharey=False,
     size=10,
     linewidth=1,
     marker="D",
