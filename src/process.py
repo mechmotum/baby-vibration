@@ -155,6 +155,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             rms_mag_iso = trial.calc_magnitude_rms(
                                 signal.split('_')[0], sample_rate,
                                 cutoff=cutoff, iso_weighted=True)
+                            crest_factor = trial.calc_crest_factor(
+                                signal, sample_rate, cutoff=cutoff)
                             duration = trial.calc_duration()
                             avg_speed, std_speed = trial.calc_speed_stats()
                             max_amp, peak_freq, thresh_freq = \
@@ -167,6 +169,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data[signal.split('_')[0] +
                                        '_rms_mag_iso'].append(rms_mag_iso)
                             stats_data[signal + '_vdv'].append(vdv)
+                            stats_data['Crest Factor'].append(crest_factor)
                             stats_data['Duration [s]'].append(duration)
                             stats_data['Mean Speed [m/s]'].append(avg_speed)
                             stats_data['STD DEV of Speed [m/s]'].append(

@@ -277,6 +277,21 @@ class Trial():
         return np.sqrt(np.mean(mean_subtracted**2))
 
     @functools.cache
+    def calc_crest_factor(self, sig_name, sample_rate, cutoff=None):
+        """Returns the crest factor: ratio of maximum absolute value to the RMS
+        (no ISO weighting).
+
+        Notes
+        =====
+        ISO 2631-1 says that if the crest factor is greater than 9, then other
+        methods should be used for assessment, like VDV.
+
+        """
+        _, x = self.down_sample(sig_name, sample_rate, cutoff=cutoff)
+        rms = self.calc_spectrum_rms(sig_name, sample_rate, cutoff=cutoff)
+        return np.max(np.abs(x))/rms
+
+    @functools.cache
     def calc_spectrum_rms(self, sig_name, sample_rate, cutoff=None,
                           iso_weighted=False):
         """Returns the root mean square of the signal, calculated from the
@@ -884,6 +899,9 @@ if __name__ == "__main__":
     print("RMS of the vector magnitude (from spectrum and ISO weighted): ",
           tr.calc_magnitude_rms("SeatBotacc", sample_rate,
                                 iso_weighted=True))
+    print("Crest factor: ",
+          tr.calc_crest_factor("SeatBotacc_ver", sample_rate,
+                               iso_weighted=True))
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,

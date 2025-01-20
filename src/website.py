@@ -89,12 +89,13 @@ summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
 )
 summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
     stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
-summary_df['Duration [s]'] = \
-    stats_df.groupby(groups)['Duration [s]'].mean()
 summary_df['ISO Weighted Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_df['ISO Weighted Threshold Frequency [Hz]'] = \
+summary_df['ISO Weighted Bandwidth (80%) [Hz]'] = \
     stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
+summary_df['Duration [s]'] = \
+    stats_df.groupby(groups)['Duration [s]'].mean()
+summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 print_header("Means Per Scenario")
 print(summary_df)
 #print(summary_df.to_latex(float_format="%0.1f"))
@@ -347,7 +348,7 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-boxp_html.append(H2.format('Bandwidth'))
+boxp_html.append(H2.format('Bandwidth (80%)'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.boxplot(
