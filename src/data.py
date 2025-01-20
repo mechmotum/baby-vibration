@@ -238,7 +238,13 @@ class Trial():
             Matplotlib axis to plot on.
 
         """
-        ax = self.imu_data[sig_name].interpolate(method='time').plot(ax=ax)
+        interped = self.imu_data[sig_name].interpolate(method='time')
+        ax = interped.plot(ax=ax)
+        if 'acc' in sig_name.lower():
+            too_big = interped[interped > 16.0*9.81]
+            too_small= interped[interped < -16.0*9.81]
+            ax = too_big.plot(ax=ax, linestyle='', marker='o', color='red')
+            ax = too_small.plot(ax=ax, linestyle='', marker='o', color='red')
         ax.figure.text(0.01, 0.01,
                        'Duration: {:1.1f}'.format(self.calc_duration()))
         if show_rms or show_vdv:
