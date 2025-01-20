@@ -186,32 +186,40 @@ class Trial():
 
         """
 
-        if smooth:
-            freq, amp, _, _ = self.calculate_frequency_spectrum(
-                sig_name, sample_rate, iso_weighted=iso_weighted, smooth=False)
-            ax = plot_frequency_spectrum(freq, amp, ax=ax,
-                                         plot_kw={'color': 'gray',
-                                                  'alpha': 0.8})
-            legend = ['FFT']
-        else:
-            legend = []
+        # raw data
+        freq, amp, _, _ = self.calculate_frequency_spectrum(
+            sig_name, sample_rate, iso_weighted=False, smooth=False)
+        ax = plot_frequency_spectrum(freq, amp, ax=ax,
+                                     plot_kw={'color': 'gray',
+                                              'alpha': 0.8})
+        legend = ['Raw FFT']
 
+        # features are from fully processed, but plotted first
         if show_features:
             max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
                 sig_name, sample_rate, iso_weighted=iso_weighted,
                 smooth=smooth)
             ax.axvline(peak_freq, color='C1', linewidth=3)
             ax.axvline(thresh_freq, color='C2', linewidth=3)
-            legend += ['Peak Frequency', 'Threshold Frequency']
+            legend += ['Peak Frequency', '80% Bandwidth']
 
-        freq, amp, _, _ = self.calculate_frequency_spectrum(
-            sig_name, sample_rate, iso_weighted=iso_weighted, smooth=smooth)
+        # plot unweighted if smoothed
+        if iso_weighted and smooth:
+            plot_kw = {'color': 'C3', 'linewidth': 3}
+            legend += ['Smoothed Raw FFT']
+            freq, amp, _, _ = self.calculate_frequency_spectrum(
+                sig_name, sample_rate, iso_weighted=False, smooth=smooth)
+            ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
 
+        # plot smooth (and possible weighted)
         if smooth:
+            freq, amp, _, _ = self.calculate_frequency_spectrum(
+                sig_name, sample_rate, iso_weighted=iso_weighted,
+                smooth=smooth)
             plot_kw = {'color': 'C0', 'linewidth': 3}
-            legend += ['Smoothed FFT']
+            legend += ['Smoothed ' +
+                       ('& ISO Weighted FFT' if iso_weighted else '')]
         else:
-            legend += ['FFT']
             plot_kw = None
 
         ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
@@ -877,6 +885,6 @@ if __name__ == "__main__":
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
-                                   show_features=True)
+                                   iso_weighted=True, show_features=True)
 
         plt.show()
