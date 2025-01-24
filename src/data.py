@@ -9,6 +9,7 @@ import pprint
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum, butterworth
 from scipy.integrate import cumulative_trapezoid
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -248,6 +249,8 @@ class Trial():
         """
         interped = self.imu_data[sig_name].interpolate(method='time')
         ax = interped.plot(ax=ax)
+        ax.xaxis.set_major_locator(mdates.SecondLocator(interval=4))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
         if 'acc' in sig_name.lower():
             too_big = interped[interped > 16.0*9.81]
             too_small= interped[interped < -16.0*9.81]
@@ -740,7 +743,11 @@ class Session():
         """Createas a plot of forward speed versus time for the whole session
         with shaded labeled areas for each trial."""
         fig, ax = plt.subplots(figsize=(16, 3), layout='constrained')
-        ax = self.imu_data['Speed_kph'].plot(ax=ax, linestyle='', marker='.')
+        ax = self.imu_data['Speed_kph'].dropna().plot(ax=ax, linestyle='',
+                                                      marker='.',
+                                                      x_compat=True)
+        ax.xaxis.set_major_locator(mdates.MinuteLocator())
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
         for idx, row in self.bounds_data_frame.iterrows():
             start, end = row['start_time'], row['end_time']
             try:
@@ -900,8 +907,7 @@ if __name__ == "__main__":
           tr.calc_magnitude_rms("SeatBotacc", sample_rate,
                                 iso_weighted=True))
     print("Crest factor: ",
-          tr.calc_crest_factor("SeatBotacc_ver", sample_rate,
-                               iso_weighted=True))
+          tr.calc_crest_factor("SeatBotacc_ver", sample_rate))
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
