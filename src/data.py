@@ -163,7 +163,7 @@ class Trial():
 
         return freq, amp, new_time, new_signal
 
-    def plot_frequency_spectrum(self, sig_name, sample_rate,
+    def plot_frequency_spectrum(self, sig_name, sample_rate, cutoff=None,
                                 iso_weighted=False, smooth=False, ax=None,
                                 show_features=False):
         """Down samples to a constant sample rate and and returns a plot of the
@@ -175,11 +175,16 @@ class Trial():
             Column name to down sample.
         sample_rate : integer
             Sample rate in Hertz.
+        cutoff : None or float
+            If a float is supplied the signal will be downsampled and low pass
+            filtered at the provided cutoff frequency in Hz before the FFT is
+            applied.
         iso_weighted : boolean
-            If true, spectrum will be weighted using the filters in ISO 2631-1.
+            If true, amplitude spectrum will be weighted using the filters in
+            ISO 2631-1 before FFT smoothing.
         smooth : boolean
-            If true, the spectrum will be filtered using a 2nd order zero-lag
-            Butterworth filter.
+            If true, the amplitude spectrum will be filtered using a 2nd order
+            zero-lag Butterworth filter.
         ax : Axis
             Matplotlib axis to plot on.
         show_features : boolean
@@ -189,7 +194,8 @@ class Trial():
 
         # raw data
         freq, amp, _, _ = self.calculate_frequency_spectrum(
-            sig_name, sample_rate, iso_weighted=False, smooth=False)
+            sig_name, sample_rate, cutoff=cutoff, iso_weighted=False,
+            smooth=False)
         ax = plot_frequency_spectrum(freq, amp, ax=ax,
                                      plot_kw={'color': 'gray',
                                               'alpha': 0.8})
@@ -209,21 +215,25 @@ class Trial():
             plot_kw = {'color': 'C3', 'linewidth': 3}
             legend += ['Smoothed Raw FFT']
             freq, amp, _, _ = self.calculate_frequency_spectrum(
-                sig_name, sample_rate, iso_weighted=False, smooth=smooth)
+                sig_name, sample_rate, cutoff=cutoff, iso_weighted=False,
+                smooth=smooth)
             ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
 
         # plot smooth (and possible weighted)
         if smooth:
             freq, amp, _, _ = self.calculate_frequency_spectrum(
-                sig_name, sample_rate, iso_weighted=iso_weighted,
-                smooth=smooth)
+                sig_name, sample_rate, cutoff=cutoff,
+                iso_weighted=iso_weighted, smooth=smooth)
             plot_kw = {'color': 'C0', 'linewidth': 3}
             legend += ['Smoothed ' +
-                       ('& ISO Weighted FFT' if iso_weighted else '')]
+                       ('ISO Weighted FFT' if iso_weighted else '')]
         else:
             plot_kw = None
 
         ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
+
+        if cutoff is not None:
+            ax.set_xlim((0.0, cutoff))
 
         ax.legend(legend)
 
