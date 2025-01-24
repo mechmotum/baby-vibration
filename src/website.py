@@ -98,7 +98,7 @@ summary_df['Duration [s]'] = \
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 print_header("Means Per Scenario")
 print(summary_df)
-#print(summary_df.to_latex(float_format="%0.1f"))
+print(summary_df.to_latex(float_format="%0.1f"))
 
 # Table that shows how many trials and the mean duration
 groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
@@ -108,7 +108,7 @@ trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
        'STD': 'std'})
 print_header("Trial Counts and Duration Stats Per Scenario")
 print(trial_count_df)
-#print(trial_count_df.to_latex(float_format="%0.1f"))
+print(trial_count_df.to_latex(float_format="%0.1f"))
 
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') * "
