@@ -626,19 +626,16 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 boxp_html.append(H2.format('Baby Mass Comparison'))
 msg = 'Compare accelerations across baby mass (age) and speed.'
 boxp_html.append(P.format(msg))
-p = sns.catplot(
+p = sns.stripplot(
     data=stats_df,
     x="Baby Age [mo]",
     y=SIGNAL_RMS_ISO,
     hue='Mean Speed [km/h]',
-    col='Vehicle Type',
-    sharex=False,
 )
-p.set_ylabels(r'Vertical Acceleration RMS [m/s$^2$]')
+p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 fname = '{}-baby-mass-compare.png'.format(SIGNAL)
-# TODO : The legend overlaps the axes if I try to make it a fixed width.
-#p.figure.set_size_inches((MAXWIDTH*MM2INCH, 80*MM2INCH))
-#p.figure.set_layout_engine('constrained')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
+p.figure.set_layout_engine('constrained')
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
