@@ -19,7 +19,7 @@ oldrusty:
   model: null
   vehicle_type: stroller
   wheel_diameter: 0.230
-trike:
+keiler:
   brand: Keiler
   model: null
   vehicle_type: bicycle

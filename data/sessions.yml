@@ -260,7 +260,7 @@ session014:  # test of taping IMUs together and shaking
     trike_bottom: 2024-12-11_p1_500Hz/2024-12-11_11.27.30_p1_500Hz_BT_SD_Session1/p1_500Hz_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session015:
   date: 2024-12-12
-  vehicle: trike
+  vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
   seat: maxicosi
@@ -279,7 +279,7 @@ session015:
     trike_bottom: 2024-12-12_Trike_1_0months/2024-12-12_10.46.51_Trike_1_BT_SD_Session1/Trike_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session016:  # We miss half of time history on klinkers, 20 km/h, only for the SeatBot sensor. We repeated the test (only for 20 km/h) in session030
   date: 2024-12-13
-  vehicle: trike
+  vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
   seat: maxicosi
@@ -298,7 +298,7 @@ session016:  # We miss half of time history on klinkers, 20 km/h, only for the S
     trike_bottom: 2024-12-13_Trike_2_0months/2024-12-13_10.13.29_Trike_2_BT_SD_Session1/Trike_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session017:  # missing rear wheel data, see note at https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
   date: 2024-12-13
-  vehicle: trike
+  vehicle: keiler
   baby_age: 3
   baby_mass: 5.9
   seat: melia
@@ -317,7 +317,7 @@ session017:  # missing rear wheel data, see note at https://github.com/mechmotum
     trike_bottom: 2024-12-13_Trike_4_3months/2024-12-13_14.23.37_Trike_4_BT_SD_Session1/Trike_4_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session018:
   date: 2024-12-16
-  vehicle: trike
+  vehicle: keiler
   baby_age: 3
   baby_mass: 5.9
   seat: melia
@@ -431,7 +431,7 @@ session023:
     trike_bottom: 2024-12-20_UrbanA_5_3months/2024-12-18_18.24.09_UrbanA_5_BT_SD_Session1/UrbanA_5_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session024:
   date: 2024-12-20
-  vehicle: trike
+  vehicle: keiler
   baby_age: 3
   baby_mass: 5.9
   seat: maxicosi
@@ -545,7 +545,7 @@ session029:
     trike_bottom: 2025-01-02_GreenM_1_0months/2024-12-31_15.41.32_GreenM_1_BT_SD_Session1/GreenM_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session030:  # Here we repeat the test on klinkers, 20 km/h, missed in session016
   date: 2025-01-03
-  vehicle: trike
+  vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
   seat: maxicosi

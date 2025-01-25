@@ -125,7 +125,7 @@ print(trial_count_df.to_latex(float_format="%0.1f"))
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') * "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
-     "C(Q('Vehicle, Seat, Baby Age'), Treatment('trike, maxicosi, 3 mo'))")
+     "C(Q('Vehicle, Seat, Baby Age'), Treatment('keiler, maxicosi, 3 mo'))")
 mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
@@ -312,7 +312,8 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
-p.set_xticklabels(p.get_xticklabels(), rotation=90)
+p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
+                   p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.1*MAXWIDTH*MM2INCH))
@@ -346,10 +347,11 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
-p.set_xticklabels(p.get_xticklabels(), rotation=90)
+p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
+                   p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-comfort-bicycle-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
