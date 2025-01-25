@@ -1,9 +1,11 @@
+# builtin
 import datetime
 import os
 import pickle
 import pprint
 import subprocess
 
+# external dependencies
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,6 +14,7 @@ import seaborn as sns
 import statsmodels.api as sma
 import statsmodels.formula.api as smf
 
+# local
 from functions import print_header, eval_health
 from html_templates import INDEX, H2, H4, P, IMG
 from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
@@ -19,11 +22,20 @@ from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
 SIGNAL_RMS_ISO = SIGNAL + '_rms_iso'
+SIGNAL_RMS_MAG_ISO = SIGNAL.split('_')[0] + '_rms_mag_iso'
 KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 MM2INCH = 1.0/25.4
 MAXWIDTH = 160.0  # mm (max width suitable for an A4 with 25 mm margins)
+COMFORT_BOUNDS = (
+    (0.0, 0.315, 'not uncomfortable'),
+    (0.315, 0.63, 'a little uncomfortable'),
+    (0.5, 1.0, 'fairly uncomfortable'),
+    (0.8, 1.6, 'uncomfortable'),
+    (1.25, 2.5, 'very uncomfortable'),
+    (2.0, 99.0, 'extremely uncomfortable'),
+)
 
-sns.set_theme(style='white')
+sns.set_theme(style='whitegrid')
 
 try:
     githash = subprocess.check_output([
@@ -153,85 +165,58 @@ for surf in stroller_df['Road Surface'].unique():
 
 boxp_html = []
 
+#########################################################
+# Figure: Health ISO Weighted RMS All Trials Scatter Plot
+#########################################################
 boxp_html.append(H2.format('All Trials ISO Weighted RMS Compared (Health)'))
 msg = f"""Scatter plot of the ISO 2631-1 Weighted RMS {SIGNAL} of all trials
 broken down by vehicle setup (brand, seat configuration, baby age), trial
-duration, road surface, and plotted versus speed. Red horizontal line indicate
-"above the health caution zone" from the ISO 2631-1 standard for different
-durations of daily dosage."""
+duration, road surface, and plotted versus speed. Black horizontal line
+indicate "above the health caution zone" from the ISO 2631-1 standard for
+different durations of daily dosage."""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df,
+    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     x="Mean Speed [km/h]",
     y=SIGNAL_RMS_ISO,
     style="Vehicle, Seat, Baby Age",
     hue='Road Surface',
     size='Duration [s]',
-    sizes=(60, 100),
+    sizes=(40, 140),
 )
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(eval_health(val)[1], color='black')
-    p.axes.text(7.0, eval_health(val)[1] + 0.2, note)
+    p.axes.axhline(eval_health(val)[1], color='grey')
+    p.axes.text(7.0, eval_health(val)[1] + 0.2, note,
+                bbox=dict(boxstyle='round,pad=0.1', color='white'))
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.05*MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-boxp_html.append(H2.format('All Trials ISO Weighted RMS Compared (Comfort)'))
-msg = f"""Scatter plot of the ISO 2631-1 Weighted RMS {SIGNAL.split('_')[0]}
-magnitude of all trials broken down by vehicle setup (brand, seat
-configuration, baby age), trial duration, road surface, and plotted versus
-speed. Horizontal line indicate the ISO 2631-1 comfort labels."""
-boxp_html.append(P.format(msg))
-p = sns.scatterplot(
-    data=stats_df,
-    x="Mean Speed [km/h]",
-    y=SIGNAL.split('_')[0] + '_rms_mag_iso',
-    style="Vehicle, Seat, Baby Age",
-    hue='Road Surface',
-    size='Duration [s]',
-    sizes=(60, 100),
-)
-# comfort lines for different durations
-comfort = (
-    (0.0, 0.315, 'not uncomfortable'),
-    (0.315, 0.63, 'a little uncomfortable'),
-    (0.5, 1.0, 'fairly uncomfortable'),
-    (0.8, 1.6, 'uncomfortable'),
-    (1.25, 2.5, 'very uncomfortable'),
-    (2.0, 99.0, 'extremely uncomfortable'),
-)
-for low, high, note in comfort:
-    p.axes.axhline(low, color='black')
-    p.axes.text(7.0, low + 0.05, note, fontsize=8)
-sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Magnitude Acceleration RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.4*MAXWIDTH*MM2INCH))
-p.figure.set_layout_engine('constrained')
-fname = '{}-compare-all-comfort.png'.format(SIGNAL)
-p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
-plt.clf()
-
-boxp_html.append(IMG.format('', fname) + '\n</br>')
-boxp_html.append(H2.format(f'Stroller ISO Weighted RMS {SIGNAL} Comparison'))
+############################################################
+# Figure: Health ISO Weighted RMS Stroller Trials Strip Plot
+############################################################
+boxp_html.append(
+    H2.format(f'Stroller ISO Weighted RMS {SIGNAL} Comparison (Health)'))
 p = sns.stripplot(
     data=stroller_df,
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
+    hue_order=sorted(stroller_df["Road Surface"].unique()),
     order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
-# health risk lines for different durations
+# health risk lines for different durations Equation B.1
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(eval_health(val)[1], color='black')
-    p.axes.text(1.1, eval_health(val)[1] + 0.05, note)
+    p.axes.axhline(eval_health(val)[1], color='grey')
+    p.axes.text(1.15, eval_health(val)[1] + 0.05, note)
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
@@ -242,22 +227,27 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+###################################################################
+# Figure: Health ISO Weighted RMS Cargo Bicycle Trials Scatter Plot
+###################################################################
 boxp_html.append(
-    H2.format(f'Cargo Bicycle ISO Weighted RMS {SIGNAL} Comparison'))
+    H2.format(f'Cargo Bicycle ISO Weighted RMS {SIGNAL} Comparison (Health)'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=bicycle_df.sort_values("Vehicle, Seat, Baby Age"),
+    data=bicycle_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
+    palette=['C1', 'C4', 'C0', 'C2', 'C3', 'C5'],
     style="Target Speed [km/h]",
 )
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(eval_health(val)[1], color='black')
-    p.axes.text(1.1, eval_health(val)[1] + 0.1, note)
+    p.axes.axhline(eval_health(val)[1], color='grey')
+    p.axes.text(1.1, eval_health(val)[1] + 0.15, note,
+                bbox=dict(boxstyle='round,pad=0.02', color='white'))
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
@@ -268,6 +258,93 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+##########################################################
+# Figure: Comfort ISO Weighted RMS All Trials Scatter Plot
+##########################################################
+boxp_html.append(H2.format('All Trials ISO Weighted RMS Compared (Comfort)'))
+msg = f"""Scatter plot of the ISO 2631-1 Weighted RMS {SIGNAL.split('_')[0]}
+magnitude of all trials broken down by vehicle setup (brand, seat
+configuration, baby age), trial duration, road surface, and plotted versus
+speed. Horizontal lines indicate the ISO 2631-1 comfort labels."""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
+    x="Mean Speed [km/h]",
+    y=SIGNAL_RMS_MAG_ISO,
+    style="Vehicle, Seat, Baby Age",
+    hue='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+# comfort lines for different durations
+for low, high, note in COMFORT_BOUNDS:
+    p.axes.axhline(low, color='grey')
+    p.axes.text(7.0, low + 0.05, note, fontsize=8,
+                bbox=dict(boxstyle='round,pad=0.0', color='white'))
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.4*MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-compare-all-comfort.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+
+#############################################################
+# Figure: Comfort ISO Weighted RMS Stroller Trials Strip Plot
+#############################################################
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+boxp_html.append(H2.format(f'Stroller ISO Weighted RMS {SIGNAL} Comparison'))
+p = sns.stripplot(
+    data=stroller_df,
+    y=SIGNAL_RMS_MAG_ISO,
+    x="Vehicle, Seat, Baby Age",
+    hue='Road Surface',
+    hue_order=sorted(stroller_df["Road Surface"].unique()),
+    order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
+)
+for low, high, note in COMFORT_BOUNDS:
+    p.axes.axhline(low, color='black')
+    p.axes.text(1.3, low + 0.05, note, fontsize=8,
+                bbox=dict(boxstyle='round,pad=0.0', color='white'))
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.1*MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-rms-comfort-stroller-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+###################################################################
+# Figure: Health ISO Weighted RMS Cargo Bicycle Trials Scatter Plot
+###################################################################
+boxp_html.append(
+    H2.format(f'Cargo Bicycle ISO Weighted RMS {SIGNAL} Comparison'))
+msg = """"""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=bicycle_df.sort_values("Vehicle, Seat, Baby Age"),
+    y=SIGNAL_RMS_MAG_ISO,
+    x="Vehicle, Seat, Baby Age",
+    hue='Road Surface',
+    style="Target Speed [km/h]",
+)
+for low, high, note in COMFORT_BOUNDS:
+    p.axes.axhline(low, color='black')
+    p.axes.text(1.4, low + 0.1, note, fontsize=8,
+                bbox=dict(boxstyle='round,pad=0.0', color='white'))
+p.set_xticklabels(p.get_xticklabels(), rotation=90)
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-rms-comfort-bicycle-compare-all.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+###################################
 boxp_html.append(H2.format(f'All Trials Unweighted {SIGNAL} VDV Compared'))
 msg = """"""
 boxp_html.append(P.format(msg))
