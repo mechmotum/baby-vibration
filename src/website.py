@@ -217,7 +217,8 @@ for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
     p.axes.axhline(eval_health(val)[1], color='grey')
     p.axes.text(1.15, eval_health(val)[1] + 0.05, note)
-p.set_xticklabels(p.get_xticklabels(), rotation=90)
+p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
+                   p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -248,7 +249,8 @@ for val, note in zip((10.0, 20.0, 60.0, 240.0),
     p.axes.axhline(eval_health(val)[1], color='grey')
     p.axes.text(1.1, eval_health(val)[1] + 0.15, note,
                 bbox=dict(boxstyle='round,pad=0.02', color='white'))
-p.set_xticklabels(p.get_xticklabels(), rotation=90)
+p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
+                   p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -312,6 +314,8 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
+p.axes.text(8.0, 3.5, 'ISO 2631-1 Adult\nPublic Transit Feelings',
+            color='tab:brown')
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -331,10 +335,11 @@ boxp_html.append(
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=bicycle_df.sort_values("Vehicle, Seat, Baby Age"),
+    data=bicycle_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     y=SIGNAL_RMS_MAG_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
+    palette=['C1', 'C4'],
     style="Target Speed [km/h]",
 )
 for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
@@ -347,6 +352,8 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
+p.axes.text(5.7, 5.8, 'ISO 2631-1 Adult\nPublic Transit Feelings',
+            color='tab:brown')
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -358,12 +365,41 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-###################################
+#########################################################
+# Figure: Crest FactorISO Weighted RMS All Trials Scatter Plot
+#########################################################
+boxp_html.append(H2.format('Crest Factor'))
+msg = f"""Scatter plot of the crest factors of the unweighted {SIGNAL} of all
+trials broken down by vehicle setup (brand, seat configuration, baby age),
+trial duration, road surface, and plotted versus speed."""
+boxp_html.append(P.format(msg))
+p = sns.scatterplot(
+    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
+    x="Mean Speed [km/h]",
+    y='Crest Factor',
+    style="Vehicle, Seat, Baby Age",
+    hue='Road Surface',
+    size='Duration [s]',
+    sizes=(40, 140),
+)
+p.axes.axhline(9.0, color='grey')
+sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
+p.set_ylabel(r'Crest Factor')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
+p.figure.set_layout_engine('constrained')
+fname = '{}-crest-factor.png'.format(SIGNAL)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
+
+##########################################
+# Figure: VDV of Raw Vertical Acceleration
+##########################################
 boxp_html.append(H2.format(f'All Trials Unweighted {SIGNAL} VDV Compared'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df.sort_values("Vehicle, Seat, Baby Age"),
+    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -379,17 +415,22 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+#####################################################
+# Figure: VDV of Raw Vertical Acceleration (Stroller)
+#####################################################
 boxp_html.append(H2.format(f'Stroller Unweighted {SIGNAL} VDV Comparison'))
 msg = """"""
 boxp_html.append(P.format(msg))
-p = sns.scatterplot(
-    data=stroller_df.sort_values("Vehicle, Seat, Baby Age"),
-    y=SIGNAL + "_vdv",
+p = sns.stripplot(
+    data=stroller_df,
     x="Vehicle, Seat, Baby Age",
+    y=SIGNAL + "_vdv",
     hue='Road Surface',
-    size="Mean Speed [km/h]",
+    hue_order=sorted(stroller_df["Road Surface"].unique()),
+    order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
-p.set_xticklabels(p.get_xticklabels(), rotation=90)
+p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
+                   p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -399,18 +440,23 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+##########################################################
+# Figure: VDV of Raw Vertical Acceleration (Carge Bicycle)
+##########################################################
 boxp_html.append(
     H2.format(f'Cargo Bicycle Unweighted {SIGNAL} VDV Comparison'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=bicycle_df.sort_values("Vehicle, Seat, Baby Age"),
+    data=bicycle_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    size="Mean Speed [km/h]",
+    palette=['C1', 'C4', 'C0', 'C2', 'C3', 'C5'],
+    style="Target Speed [km/h]",
 )
-p.set_xticklabels(p.get_xticklabels(), rotation=90)
+p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
+                   p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -420,6 +466,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+######################################
+# Figure: Peak Frequency Distributions
+######################################
 boxp_html.append(H2.format('Peak Frequency'))
 msg = """"""
 boxp_html.append(P.format(msg))
@@ -428,18 +477,25 @@ p = sns.boxplot(
     x="Target Speed [km/h]",
     y="Peak Frequency [Hz]",
     hue="Road Surface",
+    hue_order=sorted(stroller_df["Road Surface"].unique()),
 )
+p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
+                   zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
+                                             'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
-p.axvline(0.5, color='k')
-p.axvline(1.5, color='k')
-p.axvline(2.5, color='k')
+p.axvline(0.5, color='gray')
+p.axvline(1.5, color='gray')
+p.axvline(2.5, color='gray')
 fname = '{}-peak-freq-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-boxp_html.append(H2.format('Bandwidth (80%)'))
+#####################################
+# Figure: 80% Bandwidth Distributions
+#####################################
+boxp_html.append(H2.format('80% Bandwidth'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.boxplot(
@@ -447,6 +503,9 @@ p = sns.boxplot(
     x="Target Speed [km/h]",
     y="Threshold Frequency [Hz]",
 )
+p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
+                   zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
+                                             'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH/2*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-thresh-freq-dist.png'.format(SIGNAL)
@@ -454,6 +513,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+#################################
+# Figure: Cargo Bicycles vs Speed
+#################################
 boxp_html.append(H2.format('Cargo Bicycle Speed Comparison'))
 msg = f"""How does vibration vary across speed for the cargo bicycles? This plot
 shows a linear regression of ISO weighted {SIGNAL} versus speed for both
@@ -465,6 +527,8 @@ p = sns.lmplot(
     x="Mean Speed [km/h]",
     y=SIGNAL_RMS_ISO,
     hue="Road Surface",
+    hue_order=sorted(bicycle_df["Road Surface"].unique()),
+    palette=['C1', 'C4'],
     n_boot=200,  # increase to ensure consistent shaded bounds
 )
 p.legend.draw_frame(True)
@@ -478,6 +542,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+#################################
+# Figure: Cargo Bicycles vs Speed
+#################################
 boxp_html.append(H2.format('Vehicle Comparison'))
 msg = """Do vehicles differ in each surface-speed scenario?"""
 boxp_html.append(P.format(msg))
@@ -490,6 +557,7 @@ p = sns.catplot(
     col_wrap=2,
     kind='box',
     order=sorted(stats_df['Road Surface'].unique()),
+    hue_order=sorted(stats_df['Vehicle'].unique()),
     sharey=False,
 )
 p.set_xticklabels(sorted(stats_df['Road Surface'].unique()), rotation=30)
@@ -499,6 +567,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+#########################################
+# Figure: Stroller Comparison by Baby Age
+#########################################
 boxp_html.append(H2.format('Stroller Comparison'))
 msg = """Compare baby age for each stroller on each tested surface."""
 boxp_html.append(P.format(msg))
@@ -506,6 +577,7 @@ p = sns.catplot(
     data=stroller_df,
     x="Vehicle",
     y=SIGNAL_RMS_ISO,
+    order=sorted(stroller_df['Vehicle'].unique()),
     hue="Baby Age [mo]",
     col='Road Surface',
     col_wrap=2,
@@ -522,6 +594,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+#####################################################
+# Figure: Compare Cargo Bicycles with Different Seats
+#####################################################
 boxp_html.append(H2.format('Cargo Bicycle Seat Comparison'))
 msg = """Compare the baby seats used in the cargo bicycles for each bicycle and
 road surface type."""
@@ -545,6 +620,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+######################################
+# Figure: Compare Baby Mass All Trials
+######################################
 boxp_html.append(H2.format('Baby Mass Comparison'))
 msg = 'Compare accelerations across baby mass (age) and speed.'
 boxp_html.append(P.format(msg))
@@ -565,6 +643,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+#########################################
+# Figure: Compare Road Surface All Trials
+#########################################
 boxp_html.append(H2.format('Road Surface Comparison'))
 msg = ''
 boxp_html.append(P.format(msg))
@@ -584,6 +665,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+######################################
+# Figure: Compare Strollers All Trials
+######################################
 boxp_html.append(H2.format('Stroller Type Comparison'))
 msg = ''
 boxp_html.append(P.format(msg))
@@ -593,7 +677,8 @@ p = sns.pointplot(
     y=SIGNAL_RMS_ISO,
     hue='Vehicle',
     dodge=True,
-    order=sorted(stats_df['Road Surface'].unique()),
+    order=sorted(stroller_df['Road Surface'].unique()),
+    hue_order=sorted(stroller_df['Vehicle'].unique()),
 )
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
@@ -603,6 +688,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
+##################################################
+# Figure: Cargo Bicycles Speed Effect, Per Vehicle
+##################################################
 boxp_html.append(H2.format('Bicycle Comparison'))
 msg = ''
 boxp_html.append(P.format(msg))
@@ -610,7 +698,7 @@ p = sns.lmplot(
     data=bicycle_df,
     x='Mean Speed [km/h]',
     y=SIGNAL_RMS_ISO,
-    hue="Vehicle",
+    hue='Vehicle',
     col='Road Surface',
     x_bins=3,
     seed=924,
@@ -633,8 +721,11 @@ html_source = INDEX.format(
     boxp_html='\n  '.join(boxp_html),
     bicycle_stats=bicycle_res.summary().as_html(),
     stroller_stats=stroller_res.summary().as_html(),
-    stroller_comp='\n'.join([H4.format(surf) + '\n' + tab.summary().as_html() for surf, tab in stroller_comp_tables]),
-    bicycle_comp='\n'.join([H4.format(surf + ' ' + speed) + '\n' + tab.summary().as_html() for surf, speed, tab in bicycle_comp_tables]),
+    stroller_comp='\n'.join([H4.format(surf) + '\n' + tab.summary().as_html()
+                             for surf, tab in stroller_comp_tables]),
+    bicycle_comp='\n'.join([H4.format(surf + ' ' + speed) + '\n' +
+                            tab.summary().as_html()
+                            for surf, speed, tab in bicycle_comp_tables]),
     mean_table=summary_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
