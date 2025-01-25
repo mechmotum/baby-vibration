@@ -303,14 +303,14 @@ p = sns.stripplot(
     order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
 for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
-    p.axes.axhline(low, color='grey')
+    p.axes.axhline(low, color='tab:brown', alpha=0.6)
     p.axes.annotate('→ ' + note,
                     xy=(7.5, low),
                     xytext=(9.6 - i*0.3, low + 0.02),
-                    color='black',
+                    color='tab:brown',
                     fontsize=8,
                     rotation=90,
-                    arrowprops=dict(facecolor='grey', width=2.0,
+                    arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -337,14 +337,14 @@ p = sns.scatterplot(
     style="Target Speed [km/h]",
 )
 for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
-    p.axes.axhline(low, color='grey')
+    p.axes.axhline(low, color='tab:brown', alpha=0.6)
     p.axes.annotate('→ ' + note,
                     xy=(5.25, low),
                     xytext=(7.2 - i*0.3, low + 0.02),
-                    color='black',
+                    color='tab:brown',
                     fontsize=8,
                     rotation=90,
-                    arrowprops=dict(facecolor='grey', width=2.0,
+                    arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
