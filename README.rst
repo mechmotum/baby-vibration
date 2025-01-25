@@ -106,7 +106,7 @@ Vehicle name:
 - ``greenmachine``: an old-style (~70's) cot for very young infants
 - ``maxicosi``: Maxi-Cosi Street Plus stroller
 - ``oldrusty``: an old-style (~70's) seat for older infants
-- ``trike``: Keiler cargo tricycle (tadpole wheel arrangement with some extra
+- ``keiler``: Keiler cargo tricycle (tadpole wheel arrangement with some extra
   mass added to represent propulsion motor and battery)
 - ``urbanarrow``: Urban Arrow cargo electric bicycle
 - ``yoyo``: Stokke BABYZEN YOYO 0+ stroller
