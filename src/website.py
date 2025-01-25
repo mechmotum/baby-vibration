@@ -302,10 +302,16 @@ p = sns.stripplot(
     hue_order=sorted(stroller_df["Road Surface"].unique()),
     order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
-for low, high, note in COMFORT_BOUNDS:
-    p.axes.axhline(low, color='black')
-    p.axes.text(1.3, low + 0.05, note, fontsize=8,
-                bbox=dict(boxstyle='round,pad=0.0', color='white'))
+for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
+    p.axes.axhline(low, color='grey')
+    p.axes.annotate('→ ' + note,
+                    xy=(7.5, low),
+                    xytext=(9.6 - i*0.3, low + 0.02),
+                    color='black',
+                    fontsize=8,
+                    rotation=90,
+                    arrowprops=dict(facecolor='grey', width=2.0,
+                                    headwidth=0.0, frac=0.0))
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
@@ -330,10 +336,16 @@ p = sns.scatterplot(
     hue='Road Surface',
     style="Target Speed [km/h]",
 )
-for low, high, note in COMFORT_BOUNDS:
-    p.axes.axhline(low, color='black')
-    p.axes.text(1.4, low + 0.1, note, fontsize=8,
-                bbox=dict(boxstyle='round,pad=0.0', color='white'))
+for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
+    p.axes.axhline(low, color='grey')
+    p.axes.annotate('→ ' + note,
+                    xy=(5.25, low),
+                    xytext=(7.2 - i*0.3, low + 0.02),
+                    color='black',
+                    fontsize=8,
+                    rotation=90,
+                    arrowprops=dict(facecolor='grey', width=2.0,
+                                    headwidth=0.0, frac=0.0))
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
