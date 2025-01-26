@@ -10,6 +10,7 @@ PATH_TO_REPO = os.path.realpath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 PATH_TO_DATA_DIR = os.path.join(PATH_TO_REPO, 'data')
 PATH_TO_FIG_DIR = os.path.join(PATH_TO_REPO, 'fig')
+PATH_TO_TABLE_DIR = os.path.join(PATH_TO_REPO, 'table')
 PATH_TO_BOUNDS_DIR = os.path.join(PATH_TO_FIG_DIR, 'bounds')
 PATH_TO_TIME_HIST_DIR = os.path.join(PATH_TO_FIG_DIR, 'time_hist')
 PATH_TO_SPECT_DIR = os.path.join(PATH_TO_FIG_DIR, 'spectrums')
@@ -19,6 +20,7 @@ PATH_TO_SYNC_DIR = os.path.join(PATH_TO_FIG_DIR, 'sync')
 paths_to_create = [
     PATH_TO_DATA_DIR,
     PATH_TO_FIG_DIR,
+    PATH_TO_TABLE_DIR,
     PATH_TO_BOUNDS_DIR,
     PATH_TO_TIME_HIST_DIR,
     PATH_TO_SPECT_DIR,

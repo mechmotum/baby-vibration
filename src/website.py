@@ -17,7 +17,8 @@ import statsmodels.formula.api as smf
 # local
 from functions import print_header, eval_health
 from html_templates import INDEX, H2, H4, P, IMG
-from paths import PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR
+from paths import (PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR,
+                   PATH_TO_TABLE_DIR)
 from run import SIGNAL
 
 SIGNAL_RMS = SIGNAL + '_rms'
@@ -110,7 +111,8 @@ summary_df['Duration [s]'] = \
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 print_header("Means Per Scenario")
 print(summary_df)
-print(summary_df.to_latex(float_format="%0.1f"))
+with open(os.path.join(PATH_TO_TABLE_DIR, 'summary-data-frame.tex'), 'w') as f:
+    f.write(summary_df.to_latex(float_format="%0.1f"))
 
 # Table that shows how many trials and the mean duration
 groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
@@ -120,8 +122,13 @@ trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
        'STD': 'std'})
 print_header("Trial Counts and Duration Stats Per Scenario")
 print(trial_count_df)
-print(trial_count_df.to_latex(float_format="%0.1f"))
+with open(os.path.join(PATH_TO_TABLE_DIR,
+                       'trial-count-data-frame.tex'), 'w') as f:
+    f.write(trial_count_df.to_latex(float_format="%0.1f"))
 
+#####################################
+# Table: ISO Weighted RMS Bicycle OLS
+#####################################
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') * "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
@@ -130,6 +137,8 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
+with open(os.path.join(PATH_TO_TABLE_DIR, 'bicycle-ols.tex'), 'w') as f:
+    f.write(bicycle_res.summary().as_latex())
 bicycle_comp_tables = []
 for surf in ('Tarmac', 'Paver Bricks'):
     for speed in ('Low', 'High'):
@@ -145,6 +154,9 @@ for surf in ('Tarmac', 'Paver Bricks'):
         bicycle_comp_tables.append((surf, speed, comp_tab))
         print(comp_tab)
 
+######################################
+# Table: ISO Weighted RMS Stroller OLS
+######################################
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
      "C(Q('Vehicle, Seat, Baby Age'), Treatment('greenmachine, cot, 0 mo'))")
@@ -152,6 +164,8 @@ mod = smf.ols(formula=f, data=stroller_df)
 stroller_res = mod.fit()
 print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
+with open(os.path.join(PATH_TO_TABLE_DIR, 'stroller-ols.tex'), 'w') as f:
+    f.write(stroller_res.summary().as_latex())
 anova = sma.stats.anova_lm(stroller_res)
 print(anova)
 stroller_comp_tables = []
