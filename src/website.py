@@ -151,7 +151,14 @@ for surf in ('Tarmac', 'Paver Bricks'):
         sub_df = bicycle_df[(bicycle_df['Road Surface'] == surf) & spd_sel]
         comp_tab = pairwise_tukeyhsd(sub_df[f"{SIGNAL_RMS_ISO}"],
                                      sub_df['Vehicle, Seat, Baby Age'])
-        bicycle_comp_tables.append((surf, speed, comp_tab))
+        fig, ax = plt.subplots(layout='constrained')
+        comp_tab.plot_simultaneous(ax=ax)
+        fig.set_size_inches((MAXWIDTH*MM2INCH, 0.5*MAXWIDTH*MM2INCH))
+        fname = 'tukey-{}-bicycle-{}-{}.png'.format(SIGNAL, surf, speed)
+        fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+        plt.clf()
+        bicycle_comp_tables.append((surf, speed, comp_tab,
+                                    IMG.format('', fname) + '\n</br>'))
         print(comp_tab)
 
 ######################################
@@ -174,7 +181,14 @@ for surf in stroller_df['Road Surface'].unique():
     sf_sel = stroller_df[stroller_df['Road Surface'] == surf]
     comp_tab = pairwise_tukeyhsd(sf_sel[f"{SIGNAL_RMS_ISO}"],
                                  sf_sel['Vehicle, Seat, Baby Age'])
-    stroller_comp_tables.append((surf, comp_tab))
+    fig, ax = plt.subplots(layout='constrained')
+    comp_tab.plot_simultaneous(ax=ax)
+    fig.set_size_inches((MAXWIDTH*MM2INCH, 0.5*MAXWIDTH*MM2INCH))
+    fname = 'tukey-{}-stroller-{}.png'.format(SIGNAL, surf)
+    fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+    plt.clf()
+    stroller_comp_tables.append((surf, comp_tab,
+                                 IMG.format('', fname) + '\n</br>'))
     print(comp_tab)
 
 boxp_html = []
@@ -732,11 +746,12 @@ html_source = INDEX.format(
     boxp_html='\n  '.join(boxp_html),
     bicycle_stats=bicycle_res.summary().as_html(),
     stroller_stats=stroller_res.summary().as_html(),
-    stroller_comp='\n'.join([H4.format(surf) + '\n' + tab.summary().as_html()
-                             for surf, tab in stroller_comp_tables]),
+    stroller_comp='\n'.join([H4.format(surf) + '\n' +
+                             tab.summary().as_html() + img
+                             for surf, tab, img in stroller_comp_tables]),
     bicycle_comp='\n'.join([H4.format(surf + ' ' + speed) + '\n' +
-                            tab.summary().as_html()
-                            for surf, speed, tab in bicycle_comp_tables]),
+                            tab.summary().as_html() + img
+                            for surf, speed, tab, img in bicycle_comp_tables]),
     mean_table=summary_df.to_html(float_format="%0.2f"),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
