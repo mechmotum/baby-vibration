@@ -281,6 +281,7 @@ class Trial():
         # TODO : Not the case if gyro signal is selected, e.g.
         ax.set_ylabel('Acceleration\n[m/s$^2$]')
         ax.set_xlabel('Time [HH:MM:SS]')
+        ax.grid()
         return ax
 
     def calc_rms(self, sig_name):
