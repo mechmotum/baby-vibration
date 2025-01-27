@@ -259,7 +259,7 @@ class Trial():
         """
         interped = self.imu_data[sig_name].interpolate(method='time')
         ax = interped.plot(ax=ax)
-        ax.xaxis.set_major_locator(mdates.SecondLocator(interval=4))
+        ax.xaxis.set_major_locator(mdates.SecondLocator(interval=2))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
         if 'acc' in sig_name.lower():
             too_big = interped[interped > 16.0*9.81]
@@ -267,7 +267,7 @@ class Trial():
             ax = too_big.plot(ax=ax, linestyle='', marker='o', color='red')
             ax = too_small.plot(ax=ax, linestyle='', marker='o', color='red')
         ax.figure.text(0.01, 0.01,
-                       'Duration: {:1.1f}'.format(self.calc_duration()))
+                       'Duration: {:1.1f}s'.format(self.calc_duration()))
         if show_rms or show_vdv:
             mean = self.imu_data[sig_name].mean()
         if show_rms:
@@ -279,7 +279,7 @@ class Trial():
             ax.axhline(mean + vdv, color='grey')
             ax.axhline(mean - vdv, color='grey')
         # TODO : Not the case if gyro signal is selected, e.g.
-        ax.set_ylabel('Acceleration [m/s$^2$]')
+        ax.set_ylabel('Acceleration\n[m/s$^2$]')
         ax.set_xlabel('Time [HH:MM:SS]')
         return ax
 
