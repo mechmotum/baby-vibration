@@ -206,13 +206,17 @@ class Trial():
             max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
                 sig_name, sample_rate, iso_weighted=iso_weighted,
                 smooth=smooth)
-            ax.axvline(peak_freq, color='C1', linewidth=3)
-            ax.axvline(thresh_freq, color='C2', linewidth=3)
+            if smooth:
+                color = 'black'
+            else:
+                color = 'C0'
+            ax.axvline(peak_freq, color=color, linestyle='--', linewidth=2)
+            ax.axvline(thresh_freq, color=color, linestyle='-.', linewidth=2)
             legend += ['Peak Frequency', '80% Bandwidth']
 
         # plot unweighted if smoothed
         if iso_weighted and smooth:
-            plot_kw = {'color': 'C3', 'linewidth': 3}
+            plot_kw = {'color': 'black', 'linewidth': 2}
             legend += ['Smoothed Raw FFT']
             freq, amp, _, _ = self.calculate_frequency_spectrum(
                 sig_name, sample_rate, cutoff=cutoff, iso_weighted=False,
@@ -224,11 +228,15 @@ class Trial():
             freq, amp, _, _ = self.calculate_frequency_spectrum(
                 sig_name, sample_rate, cutoff=cutoff,
                 iso_weighted=iso_weighted, smooth=smooth)
-            plot_kw = {'color': 'C0', 'linewidth': 3}
+            if iso_weighted:
+                color = 'C0'
+            else:
+                color = 'black'
+            plot_kw = {'color': color, 'linewidth': 2}
             legend += ['Smoothed ' +
                        ('ISO Weighted FFT' if iso_weighted else '')]
         else:
-            plot_kw = None
+            plot_kw = {'color': 'gray', 'alpha': 0.8}
 
         ax = plot_frequency_spectrum(freq, amp, ax=ax, plot_kw=plot_kw)
 
