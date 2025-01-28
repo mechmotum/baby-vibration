@@ -35,6 +35,7 @@ COMFORT_BOUNDS = (
     (1.25, 2.5, 'very uncomfortable'),
     (2.0, 99.0, 'extremely uncomfortable'),
 )
+GAO_ACC_ACCEPTANCE = 2.54  # m/s/s
 
 sns.set_theme(style='whitegrid')
 
@@ -43,6 +44,10 @@ try:
         'git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 except (FileNotFoundError, subprocess.CalledProcessError):
     githash = 'none found'
+
+#############################
+# Prepare Primary Data Frames
+#############################
 
 with open(os.path.join(PATH_TO_DATA_DIR, 'html-data.pkl'), 'rb') as f:
     html_data = pickle.load(f)
@@ -85,6 +90,10 @@ stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
 bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
+
+################
+# Data Summaries
+################
 
 print_header("Statistics Data Frame in Tidy Format")
 print("All columns:")
@@ -341,14 +350,23 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
     p.axes.axhline(low, color='tab:brown', alpha=0.6)
     p.axes.annotate('→ ' + note,
                     xy=(7.5, low),
-                    xytext=(9.6 - i*0.3, low + 0.02),
+                    xytext=(9.8 - i*0.3, low + 0.02),
                     color='tab:brown',
                     fontsize=8,
                     rotation=90,
                     arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
-p.axes.text(8.0, 3.5, 'ISO 2631-1 Adult\nPublic Transit Feelings',
+p.axes.text(8.2, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:brown')
+p.axes.axhline(GAO_ACC_ACCEPTANCE, color='red')
+p.axes.annotate('→ ' + "Cyclist's Acceptance\n    Threshold",
+                xy=(7.5, GAO_ACC_ACCEPTANCE),
+                xytext=(7.7, GAO_ACC_ACCEPTANCE + 0.02),
+                color='tab:red',
+                fontsize=8,
+                rotation=90,
+                arrowprops=dict(facecolor='tab:red', width=2.0,
+                                headwidth=0.0, frac=0.0))
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -379,14 +397,23 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
     p.axes.axhline(low, color='tab:brown', alpha=0.6)
     p.axes.annotate('→ ' + note,
                     xy=(5.25, low),
-                    xytext=(7.2 - i*0.3, low + 0.02),
+                    xytext=(7.4 - i*0.3, low + 0.02),
                     color='tab:brown',
                     fontsize=8,
                     rotation=90,
                     arrowprops=dict(facecolor='tab:brown', width=2.0,
                                     headwidth=0.0, frac=0.0))
-p.axes.text(5.7, 5.8, 'ISO 2631-1 Adult\nPublic Transit Feelings',
+p.axes.text(5.9, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:brown')
+p.axes.axhline(GAO_ACC_ACCEPTANCE, color='red')
+p.axes.annotate('→ ' + "Cyclist's Acceptance Threshold",
+                xy=(5.25, GAO_ACC_ACCEPTANCE),
+                xytext=(5.5, GAO_ACC_ACCEPTANCE + 0.02),
+                color='tab:red',
+                fontsize=8,
+                rotation=90,
+                arrowprops=dict(facecolor='tab:red', width=2.0,
+                                headwidth=0.0, frac=0.0))
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
