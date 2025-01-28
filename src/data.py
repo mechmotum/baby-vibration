@@ -204,12 +204,12 @@ class Trial():
         # features are from fully processed, but plotted first
         if show_features:
             max_amp, peak_freq, thresh_freq = self.calc_spectrum_features(
-                sig_name, sample_rate, iso_weighted=iso_weighted,
-                smooth=smooth)
+                sig_name, sample_rate, cutoff=cutoff,
+                iso_weighted=iso_weighted, smooth=smooth)
             if smooth:
-                color = 'black'
-            else:
                 color = 'C0'
+            else:
+                color = 'black'
             ax.axvline(peak_freq, color=color, linestyle='--', linewidth=2)
             ax.axvline(thresh_freq, color=color, linestyle='-.', linewidth=2)
             legend += ['Peak Frequency', '80% Bandwidth']
