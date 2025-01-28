@@ -562,12 +562,17 @@ p = sns.boxplot(
     data=stats_df,
     x="Target Speed [km/h]",
     y="Bandwidth [Hz]",
+    hue="Road Surface",
+    hue_order=sorted(stats_df["Road Surface"].unique()),
 )
 p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                    zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
                                              'Bicycles', 'Bicycles'])])
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH/2*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
+p.axvline(0.5, color='gray')
+p.axvline(1.5, color='gray')
+p.axvline(2.5, color='gray')
 fname = '{}-bandwidth-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
