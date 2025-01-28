@@ -229,7 +229,7 @@ p = sns.scatterplot(
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(eval_health(val)[1], color='grey')
+    p.axes.axhline(eval_health(val)[1], linestyle='--', color='tab:grey')
     p.axes.text(7.0, eval_health(val)[1] + 0.2, note,
                 bbox=dict(boxstyle='round,pad=0.1', color='white'))
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -257,8 +257,8 @@ p = sns.stripplot(
 # health risk lines for different durations Equation B.1
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(eval_health(val)[1], color='grey')
-    p.axes.text(1.15, eval_health(val)[1] + 0.05, note)
+    p.axes.axhline(eval_health(val)[1], linestyle='--', color='tab:grey')
+    p.axes.text(1.18, eval_health(val)[1] + 0.05, note)
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -288,7 +288,7 @@ p = sns.scatterplot(
 # health risk lines for different durations
 for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
-    p.axes.axhline(eval_health(val)[1], color='grey')
+    p.axes.axhline(eval_health(val)[1], linestyle='--', color='tab:grey')
     p.axes.text(1.1, eval_health(val)[1] + 0.15, note,
                 bbox=dict(boxstyle='round,pad=0.02', color='white'))
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
@@ -322,7 +322,7 @@ p = sns.scatterplot(
 )
 # comfort lines for different durations
 for low, high, note in COMFORT_BOUNDS:
-    p.axes.axhline(low, color='grey')
+    p.axes.axhline(low, linestyle='--', color='tab:grey')
     p.axes.text(7.0, low + 0.05, note, fontsize=8,
                 bbox=dict(boxstyle='round,pad=0.0', color='white'))
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -347,26 +347,27 @@ p = sns.stripplot(
     order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
 for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
-    p.axes.axhline(low, color='tab:brown', alpha=0.6)
+    p.axes.axhline(low, linestyle='--', color='tab:grey', alpha=0.6)
     p.axes.annotate('→ ' + note,
                     xy=(7.5, low),
                     xytext=(9.8 - i*0.3, low + 0.02),
-                    color='tab:brown',
+                    color='tab:grey',
                     fontsize=8,
                     rotation=90,
-                    arrowprops=dict(facecolor='tab:brown', width=2.0,
+                    arrowprops=dict(facecolor='tab:grey', width=2.0,
                                     headwidth=0.0, frac=0.0))
-p.axes.text(8.2, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
-            color='tab:brown')
-p.axes.axhline(GAO_ACC_ACCEPTANCE, color='tab:red')
-p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold",
+p.axes.text(8.3, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
+            color='tab:grey')
+p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
+p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
                 xy=(7.5, GAO_ACC_ACCEPTANCE),
                 xytext=(7.7, GAO_ACC_ACCEPTANCE + 0.02),
-                color='tab:red',
+                color='tab:grey',
                 fontsize=8,
                 rotation=90,
-                arrowprops=dict(facecolor='tab:red', width=2.0,
+                arrowprops=dict(facecolor='tab:grey', width=2.0,
                                 headwidth=0.0, frac=0.0))
+p.axes.grid(False)
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -394,26 +395,27 @@ p = sns.scatterplot(
     style="Target Speed [km/h]",
 )
 for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
-    p.axes.axhline(low, color='tab:brown', alpha=0.6)
+    p.axes.axhline(low, linestyle='--', color='tab:grey', alpha=0.6)
     p.axes.annotate('→ ' + note,
                     xy=(5.25, low),
-                    xytext=(7.4 - i*0.3, low + 0.02),
-                    color='tab:brown',
+                    xytext=(7.5 - i*0.3, low + 0.02),
+                    color='tab:grey',
                     fontsize=8,
                     rotation=90,
-                    arrowprops=dict(facecolor='tab:brown', width=2.0,
+                    arrowprops=dict(facecolor='tab:grey', width=2.0,
                                     headwidth=0.0, frac=0.0))
-p.axes.text(5.9, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
-            color='tab:brown')
-p.axes.axhline(GAO_ACC_ACCEPTANCE, color='tab:red')
-p.axes.annotate('→ ' + "Cyclist's Discomfort Threshold",
+p.axes.text(6.0, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
+            color='tab:grey')
+p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
+p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
                 xy=(5.25, GAO_ACC_ACCEPTANCE),
                 xytext=(5.5, GAO_ACC_ACCEPTANCE + 0.02),
-                color='tab:red',
+                color='tab:grey',
                 fontsize=8,
                 rotation=90,
-                arrowprops=dict(facecolor='tab:red', width=2.0,
+                arrowprops=dict(facecolor='tab:grey', width=2.0,
                                 headwidth=0.0, frac=0.0))
+p.axes.grid(False)
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
