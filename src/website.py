@@ -359,7 +359,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
 p.axes.text(8.2, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:brown')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, color='red')
-p.axes.annotate('→ ' + "Cyclist's Acceptance\n    Threshold",
+p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold",
                 xy=(7.5, GAO_ACC_ACCEPTANCE),
                 xytext=(7.7, GAO_ACC_ACCEPTANCE + 0.02),
                 color='tab:red',
@@ -406,7 +406,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
 p.axes.text(5.9, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:brown')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, color='red')
-p.axes.annotate('→ ' + "Cyclist's Acceptance Threshold",
+p.axes.annotate('→ ' + "Cyclist's Discomfort Threshold",
                 xy=(5.25, GAO_ACC_ACCEPTANCE),
                 xytext=(5.5, GAO_ACC_ACCEPTANCE + 0.02),
                 color='tab:red',
