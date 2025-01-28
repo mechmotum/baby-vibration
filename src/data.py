@@ -198,6 +198,7 @@ class Trial():
             smooth=False)
         ax = plot_frequency_spectrum(freq, amp, ax=ax,
                                      plot_kw={'color': 'gray',
+                                              'linewidth': 0.5,
                                               'alpha': 0.8})
         legend = ['Raw FFT']
 
