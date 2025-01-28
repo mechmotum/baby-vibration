@@ -188,7 +188,7 @@ class Trial():
         ax : Axis
             Matplotlib axis to plot on.
         show_features : boolean
-            If true, shows peak frequency and threshold frequency.
+            If true, shows peak frequency and bandwidth threshold frequency.
 
         """
 

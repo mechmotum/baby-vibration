@@ -177,7 +177,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data['Max Spectrum Amp [m/s/s]'].append(
                                 max_amp)
                             stats_data['Peak Frequency [Hz]'].append(peak_freq)
-                            stats_data['Threshold Frequency [Hz]'].append(
+                            stats_data['Bandwidth [Hz]'].append(
                                 thresh_freq)
                             stats_data['Baby Age [mo]'].append(
                                 s.meta_data['baby_age'])

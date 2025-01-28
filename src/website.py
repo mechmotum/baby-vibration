@@ -114,7 +114,7 @@ summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
 summary_df['ISO Weighted Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
 summary_df['ISO Weighted Bandwidth (80%) [Hz]'] = \
-    stats_df.groupby(groups)['Threshold Frequency [Hz]'].mean()
+    stats_df.groupby(groups)['Bandwidth [Hz]'].mean()
 summary_df['Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
@@ -561,14 +561,14 @@ boxp_html.append(P.format(msg))
 p = sns.boxplot(
     data=stats_df,
     x="Target Speed [km/h]",
-    y="Threshold Frequency [Hz]",
+    y="Bandwidth [Hz]",
 )
 p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                    zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
                                              'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH/2*MM2INCH))
 p.figure.set_layout_engine('constrained')
-fname = '{}-thresh-freq-dist.png'.format(SIGNAL)
+fname = '{}-bandwidth-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
