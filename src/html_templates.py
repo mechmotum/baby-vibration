@@ -11,11 +11,11 @@ INDEX = """\
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Baby Vehicle Transport Vibration Results</title>
+    <title>Infant Vehicle Transport Vibration Results</title>
   </head>
   <body>
 
-  <h1>Baby Vehicle Transport Vibration Results</h1>
+  <h1>Infant Vehicle Transport Vibration Results</h1>
   <hr>
   <p>
     Last updated: {date}
@@ -26,17 +26,17 @@ INDEX = """\
     supporting paper is published.</strong>
   </p>
   <p>
-    This results page examines the signal: <strong>{signal}</strong>.
+    This page examines the signal: <strong>{signal}</strong>.
   </p>
 
   <h1>Table of Contents</h1>
   <ol>
-    <li><a href="#mean_table">Mean Table</a></li>
-    <li><a href="#statistics">Statistical Regression Results</a></li>
+    <li><a href="#mean_table">Scenario Mean Table</a></li>
     <li><a href="#boxp">Comparison Plots</a></li>
+    <li><a href="#iso">ISO 2631-1 Weights</a></li>
+    <li><a href="#statistics">Statistical Regression Results</a></li>
     <li><a href="#sess">Sessions Segmented into Trials</a></li>
     <li><a href="#trial_table">Table of All Trials</a></li>
-    <li><a href="#iso">ISO 2631-1 Weights</a></li>
     <li><a href="#trial">Seat Pan Vertical Acceleration Time Histories</a></li>
     <li><a href="#spec">Seat Pan Vertical Acceleration Spectrums</a></li>
     <li><a href="#srot">Sensor Rotation Checks</a></li>
@@ -46,12 +46,26 @@ INDEX = """\
   <h1 id="mean_table">Mean Over Scenarios for Signal: {signal}</h1>
   <hr>
   <p>
-    Mean values for each scenario: vehicle, seat, baby, road surface, and speed
-    combination.
+    Mean values for each scenario, i.e. combination of vehicle, seat, baby
+    mass, road surface, and speed.
   </p>
 {mean_table}
 
-  <h1 id="statistics">Regression Results</h1>
+  <h1 id="boxp">Comparison Plots of the Signal: {signal}</h1>
+  <hr>
+{boxp_html}
+
+  <h1 id="iso">ISO 2631-1 Weights</h1>
+  <hr>
+  <p>
+    Plots of the filter weights versus frequency we apply to the data.
+  </p>
+  <img src='fig/iso-filter-weights-01.png'</img>
+  <br>
+  <img src='fig/iso-filter-weights-02.png'</img>
+
+  <h1 id="statistics">Statistical Regression Results</h1>
+  <hr>
   <p>
     Ordinary linear least squares regression models fit to the data.
   </p>
@@ -68,31 +82,23 @@ INDEX = """\
   <h3>Cargo Bicycle Comparisons</h3>
 {bicycle_comp}
 
-  <h1 id="boxp">Comparison Plots Based on the Signal: {signal}</h1>
-  <hr>
-{boxp_html}
-
   <h1 id="sess">Sessions Segmented into Trials</h1>
+  <hr>
   <p>This section shows how the sessions are segmented into trials.</p>
 {sess_html}
 
-  <h1 id="trial_table">Trials</h1>
+  <h1 id="trial_table">Repetitions</h1>
   <hr>
-  <p>This lists all of the trials in long form (tidy data).</p>
+  <p>
+    This lists all of the repetitions in long form (tidy data).
+  </p>
 {trial_table}
 
-  <h1 id="iso">ISO 2631-1 Weights</h1>
+  <h1 id="trial">{signal} Repetition Time Histories</h1>
   <hr>
   <p>
-    Plots of the filter weights versus frequency we apply to the data.
-  </p>
-  <img src='fig/iso-filter-weights-01.png'</img>
-  <br>
-  <img src='fig/iso-filter-weights-02.png'</img>
-
-  <h1 id="trial">{signal} Time Histories</h1>
-  <hr>
-  <p>
+    The time history of the signal of each repetition broken into trials
+    selected from each scenario.
   </p>
 {trial_html}
 
