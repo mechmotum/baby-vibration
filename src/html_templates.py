@@ -46,19 +46,23 @@ INDEX = """\
   <h1 id="mean_table">Mean Over Scenarios for Signal: {signal}</h1>
   <hr>
   <p>
-    Mean values for each scenario, i.e. combination of vehicle, seat, baby
-    mass, road surface, and speed.
+    Counts and mean values for each scenario, i.e. combination of vehicle,
+    seat, baby mass, road surface, and speed.
   </p>
 {mean_table}
 
   <h1 id="boxp">Comparison Plots of the Signal: {signal}</h1>
   <hr>
+  <p>
+    Descriptive statistical plots of the data.
+  </p>
 {boxp_html}
 
   <h1 id="iso">ISO 2631-1 Weights</h1>
   <hr>
   <p>
-    Plots of the filter weights versus frequency we apply to the data.
+    Plots of the ISO 2631-1 filter weights versus frequency we apply to the
+    data.
   </p>
   <img src='fig/iso-filter-weights-01.png'</img>
   <br>
@@ -97,12 +101,12 @@ INDEX = """\
   <h1 id="trial">{signal} Repetition Time Histories</h1>
   <hr>
   <p>
-    The time history of the signal of each repetition broken into trials
+    The time history of the signal of each trial broken into repetitions
     selected from each scenario.
   </p>
 {trial_html}
 
-  <h1 id="spec">{signal} ISO Weighted Frequency Spectrums</h1>
+  <h1 id="spec">{signal} Amplitude Spectra (with ISO 2631-1 weighting)</h1>
   <hr>
 {spec_html}
 
