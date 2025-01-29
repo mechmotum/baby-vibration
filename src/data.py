@@ -532,6 +532,9 @@ class Session():
 
         return desc
 
+    def _repr_html_(self):
+        return '<pre>' + self.__str__() + '</pre>'
+
     def load_data(self):
         """Loads the IMU CSV files for this session into ``imu_data_frames``
         and the trial bound data into ``bounds_data_frame``."""

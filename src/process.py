@@ -87,6 +87,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             s.calculate_vector_magnitudes()
 
             print(s)  # print after full DataFrame is constructed
+            html_data['sess_html'].append(s._repr_html_())
+            html_data['spec_html'].append(s._repr_html_())
+            html_data['srot_html'].append(s._repr_html_())
+            html_data['trial_html'].append(s._repr_html_())
+            html_data['sync_html'].append(s._repr_html_())
 
             ax = s.plot_speed_with_trial_bounds()
             ses_img_fn = session_label + '.png'
