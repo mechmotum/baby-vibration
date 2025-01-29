@@ -60,7 +60,7 @@ stats_df = pd.DataFrame(stats_data)
 stats_df.drop_duplicates(inplace=True)
 
 # drop shock from overall analysis (for now)
-stats_df = stats_df[stats_df['Road Surface'] != 'Shock']
+stats_df = stats_df.loc[stats_df['Road Surface'] != 'Shock', :]
 
 stats_df['duration_weight'] = (stats_df['Duration [s]'] /
                                stats_df['Duration [s]'].max())
