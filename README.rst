@@ -85,7 +85,7 @@ Trial
    represents a specific scenario. The trial may be a static calibration period,
    a time synchronization motion period, or a constant speed period of vehicle
    motion.
-Trial Segment
+Repetition
    We split trials into shorter segments to have an average trial segment
    duration of about 20 seconds.
 
