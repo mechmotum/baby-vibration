@@ -44,6 +44,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
         'aula': 'Sidewalk Slabs',
         'klinkers': 'Paver Bricks',
         'pave': 'Cobblestones',
+        'shock': 'Shock',
         'stoeptegels': 'Sidewalk Pavers',
         'tarmac': 'Tarmac',
     }
@@ -196,8 +197,11 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
                             fig, ax = plt.subplots(layout='constrained',
                                                    figsize=(8, 2))
-                            ax = trial.plot_signal(signal, show_rms=True,
-                                                   show_vdv=True, ax=ax)
+                            if mot_trial == 'shock':  # no RMS and VDV
+                                ax = trial.plot_signal(signal, ax=ax)
+                            else:
+                                ax = trial.plot_signal(signal, show_rms=True,
+                                                       show_vdv=True, ax=ax)
                             ax.figure.savefig(os.path.join(
                                 PATH_TO_TIME_HIST_DIR, file_name + '.png'))
                             plt.clf()
