@@ -1,9 +1,9 @@
-================================================
-Vibration of Babies in Cargo Bikes and Strollers
-================================================
+===================================================================================
+Vibration Characterisation of Strollers and Cargo Bicycles for Transporting Infants
+===================================================================================
 
 This repository houses the analysis and paper that investigates the vibrations
-experienced by babies (0-9 months old) when carried in cargo bicycles and
+experienced by infants (0-9 months old) when carried in cargo bicycles and
 strollers.
 
 Preliminary results can be viewed at:
@@ -14,10 +14,10 @@ License
 =======
 
 The paper content (text, figures, etc.) and the generated paper itself are
-licensed under the Creative Commons BY-4.0 license. The computer source code is
-licensed under the MIT license. The data is available as public domain with no
-copyright restrictions. If you make use of the copyrighted material use a full
-citation to the paper to acknowledge the use and include the relevant
+licensed under the Creative Commons BY-4.0 license. The computer program source
+code is licensed under the MIT license. The data is available as public domain
+with no copyright restrictions. If you make use of the copyrighted material use
+a full citation to the paper to acknowledge the use and include the relevant
 license(s).
 
 Build Instructions
@@ -25,11 +25,11 @@ Build Instructions
 
 Create a ``config.yml`` file in the repository directory with these contents::
 
-   data-directory: /path/to/Trillingen-Project_Dec2024
+   data-directory: /path/to/Trillingen-Project_Dec2024/raw_data
 
 or on Windows::
 
-   data-directory: C:\path\to\Trillingen-Project_Dec2024
+   data-directory: C:\path\to\Trillingen-Project_Dec2024\raw_data
 
 **Do not commit the configuration file to Git.**
 
@@ -70,7 +70,7 @@ during different trials.
 .. _Shimmer: https://www.shimmersensing.com/
 
 Scenario
-   We test a combination of vehicle, baby seat, baby dummy, road surface
+   We test a combination of vehicle, infant seat, infant dummy, road surface
    (including shock), and speed. A unique combination of these factors is
    called a "scenario".
 Session
@@ -82,23 +82,23 @@ Session
    acquisition CSV file for that session.
 Trial
    A trial is defined as a continuous time segment selected from a session that
-   represents a specific scenario. The trial may be a static calibration period,
-   a time synchronization motion period, or a constant speed period of vehicle
-   motion.
+   represents a specific scenario. The trial may be a static calibration
+   period, a time synchronization motion period, or a constant speed period of
+   vehicle motion.
 Repetition
    We split trials into shorter segments to have an average trial segment
    duration of about 20 seconds.
 
 Shimmer IMU names:
 
-- ``BotTrike``:  a sensor placed underneath the baby seat on the frame
+- ``BotTrike``:  a sensor placed underneath the infant seat on the frame
   structure of the vehicle
 - ``FrontWHeel`` : attached to the axle of the front wheel (closest possible
   point to the ground)
 - ``RearWheel`` : attached to the rotating rear wheel (used for speed
   measurements)
-- ``SeatBot`` : attached to the seat just under the baby's buttocks
-- ``SeatHead`` : attached to the seat just under the back of the baby's head
+- ``SeatBot`` : attached to the seat just under the infant's buttocks
+- ``SeatHead`` : attached to the seat just under the back of the infant's head
 
 Vehicle name:
 
