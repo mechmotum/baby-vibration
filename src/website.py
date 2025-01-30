@@ -816,13 +816,17 @@ shock_html = []
 shock_html.append(H2.format('Shock test Comparison'))
 msg = 'Compare accelerations across vehicles and speed.'
 shock_html.append(P.format(msg))
+sns.set_theme(style='whitegrid')
 p = sns.stripplot(
     data=shock_df,
     x="Vehicle",
     y="Peak Value [m/s/s]",
     hue='Mean Speed [m/s]',
 )
-p.set_ylabel(r'Vertical Acceleration shock test [m/s$^2$]')
+p.set_ylabel(r'Vertical Acceleration Shock test [m/s$^2$]')
+p.set_xticklabels(
+    [label.get_text().replace("trike", "keiler") for label in p.get_xticklabels()],
+    rotation=30)
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
 fname = '{}-shock-test-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
