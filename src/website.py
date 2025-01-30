@@ -59,8 +59,6 @@ stats_df = pd.DataFrame(stats_data)
 # drop duplicates.
 stats_df.drop_duplicates(inplace=True)
 
-# drop shock from overall analysis (for now)
-stats_df = stats_df.loc[stats_df['Road Surface'] != 'Shock', :]
 
 stats_df['duration_weight'] = (stats_df['Duration [s]'] /
                                stats_df['Duration [s]'].max())
@@ -91,8 +89,20 @@ stats_df['Seat, Baby'] = (
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
+
+# Store the original order of stats_df before removing shock
+stats_df['original_order'] = np.arange(len(stats_df))
+
+# drop shock from overall analysis (for now)
+shock_df = stats_df[stats_df['Road Surface'] == 'Shock']
+stats_df = stats_df.loc[stats_df['Road Surface'] != 'Shock', :]
+
+
 bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
+
+
+
 
 ################
 # Data Summaries
@@ -102,6 +112,9 @@ print_header("Statistics Data Frame in Tidy Format")
 print("All columns:")
 pprint.pprint(stats_df.columns.to_list())
 print(stats_df)
+
+
+
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
@@ -121,6 +134,7 @@ summary_df['ISO Weighted Bandwidth (80%) [Hz]'] = \
 summary_df['Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
+
 print_header("Means Per Scenario")
 print(summary_df)
 with open(os.path.join(PATH_TO_TABLE_DIR, 'summary-data-frame.tex'), 'w') as f:
@@ -137,6 +151,8 @@ print(trial_count_df)
 with open(os.path.join(PATH_TO_TABLE_DIR,
                        'trial-count-data-frame.tex'), 'w') as f:
     f.write(trial_count_df.to_latex(float_format="%0.1f"))
+
+
 
 #####################################
 # Table: ISO Weighted RMS Bicycle OLS
@@ -781,6 +797,41 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 
 plt.close('all')
 
+# Attach again the shock tests. Issue: the rows are not sorted as it was in the beginning.
+complete_stats_df = pd.concat([stats_df, shock_df], ignore_index=True)
+# Restore the original order using 'original_order'
+complete_stats_df['original_order'] = complete_stats_df['original_order'].fillna(len(complete_stats_df))
+complete_stats_df = complete_stats_df.sort_values(by='original_order').drop(columns=['original_order'])
+
+# Reset index if needed
+complete_stats_df = complete_stats_df.reset_index(drop=True)
+
+# Limit max_amp_shock values to a maximum of 160 (only for plotting, in the table you will have uncut values)
+shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(upper=16*9.81)
+
+######################################
+# Figure: Shock test comparison -  All Trials
+######################################
+shock_html = []
+shock_html.append(H2.format('Shock test Comparison'))
+msg = 'Compare accelerations across vehicles and speed.'
+shock_html.append(P.format(msg))
+p = sns.stripplot(
+    data=shock_df,
+    x="Vehicle",
+    y="Peak Value [m/s/s]",
+    hue='Mean Speed [m/s]',
+)
+p.set_ylabel(r'Vertical Acceleration shock test [m/s$^2$]')
+p.set_xticklabels(p.get_xticklabels(), rotation=30)
+fname = '{}-shock-test-compare.png'.format(SIGNAL)
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
+p.figure.set_layout_engine('constrained')
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
+plt.clf()
+shock_html.append(IMG.format('', fname) + '\n</br>')
+shock_html = '\n'.join(shock_html)
+
 html_source = INDEX.format(
     date=datetime.datetime.today(),
     githash=githash,
@@ -798,9 +849,13 @@ html_source = INDEX.format(
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
+    #shock_html='\n  '.join(html_data['shock_html']),
+    shock_html=shock_html,
     srot_html='\n  '.join(html_data['srot_html']),
     sync_html='\n  '.join(html_data['sync_html']),
-    trial_table=stats_df.to_html(),
+    trial_table=complete_stats_df.to_html(),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
+
+
