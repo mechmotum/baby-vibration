@@ -299,6 +299,11 @@ class Trial():
                            self.imu_data[sig_name].mean())
         return np.sqrt(np.mean(mean_subtracted**2))
 
+    def calc_max_peak(self, sig_name):
+        """Returns the MAX value of the shock events."""
+        max_peak_sh = abs(self.imu_data[sig_name]).max()
+        return max_peak_sh
+
     @functools.cache
     def calc_crest_factor(self, sig_name, sample_rate, cutoff=None):
         """Returns the crest factor: ratio of maximum absolute value to the RMS
