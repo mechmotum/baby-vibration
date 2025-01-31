@@ -179,7 +179,8 @@ for surf in ('Tarmac', 'Paver Bricks'):
         ax.set_title(f'Cargo Bicycle Tukey Comparison for\nSurface {surf} and '
                      f'Speed {speed}')
         ax.set_xlabel('RMS Acceleration [m/s$^2$]')
-        fig.set_size_inches((90*MM2INCH, 0.4*90*MM2INCH))
+        # TODO : make these actual width in paper
+        fig.set_size_inches((MAXWIDTH*MM2INCH, 0.4*MAXWIDTH*MM2INCH))
         fname = 'tukey-{}-bicycle-{}-{}.png'.format(SIGNAL, surf, speed)
         fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
         plt.clf()
@@ -211,6 +212,7 @@ for surf in stroller_df['Road Surface'].unique():
     comp_tab.plot_simultaneous(ax=ax)
     ax.set_title(f'Stroller Tukey Comparison for Surface {surf}')
     ax.set_xlabel('RMS Acceleration [m/s$^2$]')
+    # TODO : make these actual width in paper
     fig.set_size_inches((MAXWIDTH*MM2INCH, 0.4*MAXWIDTH*MM2INCH))
     fname = 'tukey-{}-stroller-{}.png'.format(SIGNAL, surf)
     fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)

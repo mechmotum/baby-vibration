@@ -22,8 +22,8 @@ INDEX = """\
     <br>
     Generated from Git hash: {githash}
     <br>
-    <strong>Warning: These results are preliminary, do not rely on them until a
-    supporting paper is published.</strong>
+    <strong style="color:red;">Warning: These results are preliminary, do not
+    rely on them until a supporting paper is published.</strong>
   </p>
   <p>
     This page examines the signal: <strong>{signal}</strong>.
@@ -59,8 +59,6 @@ INDEX = """\
   </p>
 {boxp_html}
 
-  <h1 id="shock">Shock Test Comparison Across Vehicles</h1>
-  <hr>
 {shock_html}
 
   <h1 id="iso">ISO 2631-1 Weights</h1>
