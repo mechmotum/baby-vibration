@@ -33,13 +33,13 @@ INDEX = """\
   <ol>
     <li><a href="#mean_table">Scenario Mean Table</a></li>
     <li><a href="#boxp">Comparison Plots</a></li>
+    <li><a href="#shock">Shock Test</a></li>
     <li><a href="#iso">ISO 2631-1 Weights</a></li>
     <li><a href="#statistics">Statistical Regression Results</a></li>
     <li><a href="#sess">Sessions Segmented into Trials</a></li>
     <li><a href="#trial_table">Table of All Trials</a></li>
     <li><a href="#trial">Seat Pan Vertical Acceleration Time Histories</a></li>
     <li><a href="#spec">Seat Pan Vertical Acceleration Spectrums</a></li>
-    <li><a href="#shock">Shock Test</a></li>
     <li><a href="#srot">Sensor Rotation Checks</a></li>
     <li><a href="#sync">Sensor Time Synchronization Checks</a></li>
   </ol>
@@ -58,6 +58,10 @@ INDEX = """\
     Descriptive statistical plots of the data.
   </p>
 {boxp_html}
+
+  <h1 id="shock">Shock Test Comparison Across Vehicles</h1>
+  <hr>
+{shock_html}
 
   <h1 id="iso">ISO 2631-1 Weights</h1>
   <hr>
@@ -110,11 +114,6 @@ INDEX = """\
   <h1 id="spec">{signal} Amplitude Spectra (with ISO 2631-1 weighting)</h1>
   <hr>
 {spec_html}
-
-  <h1 id="shock">Shock Test comparison across vehicles</h1>
-  <hr>
-{shock_html}
-
 
   <h1 id="srot">Sensor Rotation Check</h1>
   <hr>

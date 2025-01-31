@@ -24,6 +24,7 @@ from run import SIGNAL
 SIGNAL_RMS = SIGNAL + '_rms'
 SIGNAL_RMS_ISO = SIGNAL + '_rms_iso'
 SIGNAL_RMS_MAG_ISO = SIGNAL.split('_')[0] + '_rms_mag_iso'
+SIGNAL_VDV = SIGNAL + '_vdv'
 KPH2MPS, MPS2KPH = 1.0/3.6, 3.6
 MM2INCH = 1.0/25.4
 MAXWIDTH = 160.0  # mm (max width suitable for an A4 with 25 mm margins)
@@ -101,9 +102,6 @@ stats_df = stats_df.loc[stats_df['Road Surface'] != 'Shock', :]
 bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
 
-
-
-
 ################
 # Data Summaries
 ################
@@ -112,9 +110,6 @@ print_header("Statistics Data Frame in Tidy Format")
 print("All columns:")
 pprint.pprint(stats_df.columns.to_list())
 print(stats_df)
-
-
-
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
@@ -127,13 +122,15 @@ summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
 )
 summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
     stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
+summary_df['VDV Acceleration [m/s/s]'] = \
+    stats_df.groupby(groups)[SIGNAL_VDV].mean()
+summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 summary_df['ISO Weighted Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
 summary_df['ISO Weighted Bandwidth (80%) [Hz]'] = \
     stats_df.groupby(groups)['Bandwidth [Hz]'].mean()
 summary_df['Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()
-summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 
 print_header("Means Per Scenario")
 print(summary_df)
@@ -151,8 +148,6 @@ print(trial_count_df)
 with open(os.path.join(PATH_TO_TABLE_DIR,
                        'trial-count-data-frame.tex'), 'w') as f:
     f.write(trial_count_df.to_latex(float_format="%0.1f"))
-
-
 
 #####################################
 # Table: ISO Weighted RMS Bicycle OLS
@@ -787,17 +782,19 @@ p = sns.lmplot(
     seed=924,
     facet_kws={'sharey': False},
 )
+sns.move_legend(p, 'center right', bbox_to_anchor=(0.8, 0.8))
 p.set_ylabels(r'Vertical Acceleration RMS [m/s$^2$]')
 fname = '{}-bicycle-type-compare.png'.format(SIGNAL)
-#p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
-#p.figure.set_layout_engine('constrained')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
+p.figure.set_layout_engine('constrained')
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
 plt.close('all')
 
-# Attach again the shock tests. Issue: the rows are not sorted as it was in the beginning.
+# Attach again the shock tests. Issue: the rows are not sorted as it was in the
+# beginning.
 complete_stats_df = pd.concat([stats_df, shock_df], ignore_index=True)
 # Restore the original order using 'original_order'
 complete_stats_df['original_order'] = complete_stats_df['original_order'].fillna(len(complete_stats_df))
@@ -806,7 +803,8 @@ complete_stats_df = complete_stats_df.sort_values(by='original_order').drop(colu
 # Reset index if needed
 complete_stats_df = complete_stats_df.reset_index(drop=True)
 
-# Limit max_amp_shock values to a maximum of 160 (only for plotting, in the table you will have uncut values)
+# Limit max_amp_shock values to a maximum of 160 (only for plotting, in the
+# table you will have uncut values)
 shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(upper=16*9.81)
 
 ######################################
@@ -814,9 +812,8 @@ shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(upper=16*9.
 ######################################
 shock_html = []
 shock_html.append(H2.format('Shock test Comparison'))
-msg = 'Compare accelerations across vehicles and speed.'
+msg = 'Compare maximum acceleration across vehicles and speed.'
 shock_html.append(P.format(msg))
-sns.set_theme(style='whitegrid')
 p = sns.stripplot(
     data=shock_df,
     x="Vehicle",
@@ -825,7 +822,8 @@ p = sns.stripplot(
 )
 p.set_ylabel(r'Vertical Acceleration Shock test [m/s$^2$]')
 p.set_xticklabels(
-    [label.get_text().replace("trike", "keiler") for label in p.get_xticklabels()],
+    [label.get_text().replace("trike", "keiler")
+     for label in p.get_xticklabels()],
     rotation=30)
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
 fname = '{}-shock-test-compare.png'.format(SIGNAL)
@@ -853,7 +851,6 @@ html_source = INDEX.format(
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
-    #shock_html='\n  '.join(html_data['shock_html']),
     shock_html=shock_html,
     srot_html='\n  '.join(html_data['srot_html']),
     sync_html='\n  '.join(html_data['sync_html']),
