@@ -80,7 +80,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             s.rotate_imu_data(subtract_gravity=False)
             axes = s.plot_accelerometer_rotation()
             axes[0, 0].figure.savefig(os.path.join(PATH_TO_ACCROT_DIR,
-                                                   session_label + '.png'))
+                                                   session_label + '.png'),
+                                      dpi=300)
             plt.clf()
             html_data['srot_html'].append(
                 IMG.format('accrot', session_label + '.png'))
@@ -97,14 +98,16 @@ def process_sessions(start_num, end_num, signal, sample_rate):
 
             ax = s.plot_speed_with_trial_bounds()
             ses_img_fn = session_label + '.png'
-            ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR, ses_img_fn))
+            ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR, ses_img_fn),
+                              dpi=300)
             plt.clf()
             html_data['sess_html'].append(IMG.format('bounds', ses_img_fn))
 
             if 'synchro' in s.trial_bounds:
                 ax = s.plot_time_sync()
                 sync_img_fn = session_label + '.png'
-                ax.figure.savefig(os.path.join(PATH_TO_SYNC_DIR, sync_img_fn))
+                ax.figure.savefig(os.path.join(PATH_TO_SYNC_DIR, sync_img_fn),
+                                  dpi=300)
                 plt.clf()
                 html_data['sync_html'].append(IMG.format('sync', ses_img_fn))
             else:
@@ -192,7 +195,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data['Peak Frequency [Hz]'].append(peak_freq)
                             stats_data['Bandwidth [Hz]'].append(
                                 thresh_freq)
-                            stats_data['Peak Value [m/s/s]'].append(max_amp_shock)                            
+                            stats_data['Peak Value [m/s/s]'].append(max_amp_shock)
                             stats_data['Baby Age [mo]'].append(
                                 s.meta_data['baby_age'])
                             stats_data['Baby Mass [kg]'].append(
@@ -216,7 +219,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                 ax = trial.plot_signal(signal, show_rms=True,
                                                        show_vdv=True, ax=ax)
                             ax.figure.savefig(os.path.join(
-                                PATH_TO_TIME_HIST_DIR, file_name + '.png'))
+                                PATH_TO_TIME_HIST_DIR, file_name + '.png'),
+                                dpi=300)
                             plt.clf()
                             html_data['trial_html'].append(
                                 IMG.format('time_hist', file_name + '.png'))
@@ -227,7 +231,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                 show_features=True)
                             ax.set_title(file_name)
                             ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
-                                                           file_name + '.png'))
+                                                           file_name + '.png'),
+                                              dpi=300)
                             plt.clf()
                             html_data['spec_html'].append(
                                 IMG.format('spectrums', file_name + '.png'))
@@ -265,9 +270,9 @@ if __name__ == '__main__':
 
     ax1, ax2 = plot_iso_weights(iso_filter_df_01, iso_filter_df_02)
     ax1[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
-                                       'iso-filter-weights-01.png'))
+                                       'iso-filter-weights-01.png'), dpi=300)
     ax2[0].figure.savefig(os.path.join(PATH_TO_FIG_DIR,
-                                       'iso-filter-weights-02.png'))
+                                       'iso-filter-weights-02.png'), dpi=300)
     plt.clf()
 
     process_sessions(a.start_num, a.end_num, a.signal,
