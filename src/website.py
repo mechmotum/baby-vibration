@@ -179,7 +179,7 @@ for surf in ('Tarmac', 'Paver Bricks'):
         ax.set_title(f'Cargo Bicycle Tukey Comparison for\nSurface {surf} and '
                      f'Speed {speed}')
         ax.set_xlabel('RMS Acceleration [m/s$^2$]')
-        fig.set_size_inches((MAXWIDTH*MM2INCH, 0.4*MAXWIDTH*MM2INCH))
+        fig.set_size_inches((90*MM2INCH, 0.4*90*MM2INCH))
         fname = 'tukey-{}-bicycle-{}-{}.png'.format(SIGNAL, surf, speed)
         fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
         plt.clf()
@@ -807,9 +807,9 @@ complete_stats_df = complete_stats_df.reset_index(drop=True)
 # table you will have uncut values)
 shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(upper=16*9.81)
 
-######################################
+#############################################
 # Figure: Shock test comparison -  All Trials
-######################################
+#############################################
 shock_html = []
 shock_html.append(H2.format('Shock test Comparison'))
 msg = 'Compare maximum acceleration across vehicles and speed.'
@@ -818,7 +818,7 @@ p = sns.stripplot(
     data=shock_df,
     x="Vehicle",
     y="Peak Value [m/s/s]",
-    hue='Mean Speed [m/s]',
+    hue='Target Speed [km/h]',
 )
 p.set_ylabel(r'Vertical Acceleration Shock test [m/s$^2$]')
 p.set_xticklabels(
