@@ -3,7 +3,7 @@ H2 = '<h2>{}</h2>'
 H3 = '<h3>{}</h3>'
 H4 = '<h4>{}</h4>'
 HR = '<hr>'
-IMG = '<img src="fig/{}/{}"></img>'
+IMG = '<img src="fig/{}/{}" width="900px" ></img>'
 P = '<p>{}</p>'
 
 INDEX = """\
@@ -69,9 +69,9 @@ INDEX = """\
     Plots of the ISO 2631-1 filter weights versus frequency we apply to the
     data.
   </p>
-  <img src='fig/iso-filter-weights-01.png'</img>
+  <img src='fig/iso-filter-weights-01.png' width="900px"></img>
   <br>
-  <img src='fig/iso-filter-weights-02.png'</img>
+  <img src='fig/iso-filter-weights-02.png' width="900px"></img>
 
   <h1 id="statistics">Statistical Regression Results</h1>
   <hr>
