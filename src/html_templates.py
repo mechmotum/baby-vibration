@@ -3,7 +3,7 @@ H2 = '<h2>{}</h2>'
 H3 = '<h3>{}</h3>'
 H4 = '<h4>{}</h4>'
 HR = '<hr>'
-IMG = '<img src="fig/{}/{}" width="900px" ></img>'
+IMG = '<img src="fig/{}/{}" class="img-fluid"></img>'
 P = '<p>{}</p>'
 
 INDEX = """\
@@ -11,19 +11,23 @@ INDEX = """\
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Infant Vehicle Transport Vibration Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
   <body>
 
+  <div class="container">
   <h1>Infant Vehicle Transport Vibration Results</h1>
   <hr>
+  <div class="alert alert-danger" role="alert">
+    <p>Warning: These results are preliminary, do not rely on them until a
+    supporting paper is published.</p>
+  </div>
   <p>
     Last updated: {date}
     <br>
     Generated from Git hash: {githash}
-    <br>
-    <strong style="color:red;">Warning: These results are preliminary, do not
-    rely on them until a supporting paper is published.</strong>
   </p>
   <p>
     This page examines the signal: <strong>{signal}</strong>.
@@ -67,9 +71,9 @@ INDEX = """\
     Plots of the ISO 2631-1 filter weights versus frequency we apply to the
     data.
   </p>
-  <img src='fig/iso-filter-weights-01.png' width="900px"></img>
+  <img src='fig/iso-filter-weights-01.png' class="img-fluid"></img>
   <br>
-  <img src='fig/iso-filter-weights-02.png' width="900px"></img>
+  <img src='fig/iso-filter-weights-02.png' class="img-fluid"></img>
 
   <h1 id="statistics">Statistical Regression Results</h1>
   <hr>
@@ -136,5 +140,7 @@ INDEX = """\
   <hr>
 {sync_html}
 
+  </div>  <!--container-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   </body>
 </html>"""

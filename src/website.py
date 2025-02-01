@@ -849,14 +849,23 @@ html_source = INDEX.format(
     bicycle_comp='\n'.join([H4.format(surf + ' ' + speed) + '\n' +
                             tab.summary().as_html() + img
                             for surf, speed, tab, img in bicycle_comp_tables]),
-    mean_table=summary_df.to_html(float_format="%0.2f"),
+    mean_table=summary_df.to_html(float_format="%0.2f",
+                                  sparsify=False,
+                                  justify='center',
+                                  show_dimensions=True,
+                                  classes=['table', 'table-hover',
+                                           'table-sm']),
     sess_html='\n  '.join(html_data['sess_html']),
     spec_html='\n  '.join(html_data['spec_html']),
     trial_html='\n  '.join(html_data['trial_html']),
     shock_html=shock_html,
     srot_html='\n  '.join(html_data['srot_html']),
     sync_html='\n  '.join(html_data['sync_html']),
-    trial_table=complete_stats_df.to_html(),
+    trial_table=complete_stats_df.to_html(
+        float_format="%0.3f",
+        justify='center',
+        show_dimensions=True,
+        classes=['table', 'table-hover', 'table-sm']),
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
