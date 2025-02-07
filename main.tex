@@ -30,12 +30,24 @@
 
 \usepackage{amsmath}  % extra math features
 \usepackage{booktabs}  % nice tables
+\usepackage{draftwatermark}  % use [nostamp] to disable
+\usepackage{fancyhdr}
 \usepackage[margin=25mm]{geometry}
 \usepackage{graphicx} % required for inserting images
 \usepackage{hyperref} % clickable hyperlinks
 \usepackage{multirow}  % pandas to_latex() uses this
 \usepackage{siunitx}  % use for all units
 \usepackage{subcaption}  % for subfigures
+
+% fancyhdr settings
+\pagestyle{fancy}
+\fancyhead[L]{Dell'Orto et. al, Vibration Characterisation of Strollers and Cargo Bicycles for Transporting Infants}
+\fancyhead[R]{\thepage}
+
+% watermark settings
+\SetWatermarkColor[gray]{0.92}
+\SetWatermarkText{Non-disclosure}
+\SetWatermarkScale{5}
 
 % hyperref settings for better looking links
 \hypersetup{
@@ -50,6 +62,7 @@
 \def\mps{\meter\per\second}
     
 \title{
+  DRAFT: v4 \\
   Vibration Characterisation of Strollers and\\
   Cargo Bicycles for Transporting Infants\\
   \vspace{2mm}
@@ -66,7 +79,7 @@ Georgios Papaioannou \and
 Arjo J. Loeve \and
 Jesper Meijerink \and
 Thomas Valk \and
-Jason K. Moore
+Jason K. Moore~\footnote{corresponding author: j.k.moore@tudelft.nl, +31 (0)15 278 3556}
 }
 
 \begin{document}
@@ -76,23 +89,16 @@ Jason K. Moore
 \color{red}
 \section*{\centering Notice}
 %
-This report or its findings may not be shared outside of VeiligheidNL and
-TU~Delft without further review of the methods and findings.
-We also need to carefully consider possible adverse effects of dissemination. In
-particular we need to consider:
-%
-\begin{itemize}
-  \item System manufacturers being negatively affected by publication.
-    Organisations like Consumentenbond typically give manufacturers access to
-    draft test results, and give an opportunity to react. We can do this as
-    well. We may now remove Brand and type information from this report. In a
-    later stage we may test multiple products and then publish a comparison.
-  \item Stimulating car use to transport infants and children. We don't want
-    newspaper/online headlines which are overly alarming, and later turn out to
-    be debatable.
-\end{itemize}
-\color{black}
+This draft report is shared by TU Delft and VeiligheidNL with a number of
+societal, industrial and, scientific parties. We aim to submit this to a journal
+at the end of February 2025. Your feedback will be appreciated.
+\\ \\
+This report is shared under NON-DISCLOSURE. If you receive this report you may
+share and discuss it with colleagues but do not distribute it further without
+our permission. Do not place this document anywhere on internet and do not cite
+this version.
 
+\color{black}
 \begin{abstract}
   Infants are transported in strollers and in baby seats mounted in cargo
   bicycles. The infants experience whole-body vibration during the associated
@@ -322,7 +328,7 @@ and
 an older stroller, when moving on different surfaces: asphalt road, concrete
 paving blocks, concrete plates, dirt road, lawn and damaged concrete. The
 obtained weighted RMS acceleration values based on ISO~2631-1 were several times
-in the range of the highest discomfort (>2~\si{\mps\squared}). 
+in the range of the highest discomfort ($>$2~\si{\mps\squared}). 
 Another research which included also children as test subjects was conducted by
 Okajima~et~al.~\cite{okajima2020dynamic} measuring vibrations that seven
 children received, sitting upright in a stroller, when riding over a protrusion
@@ -374,15 +380,18 @@ infants. The modern strollers are configurable as cots for newborns and as seats
 for older infants.
 %
 \begin{description}
-  \item[Maxi-Cosi Street Plus] This stroller comes
-  with a cot configuration (0-3 months) and an infant seat option. It has large wheels, with only a marginal suspension system.
+  \item[Maxi-Cosi Street Plus] This stroller comes with a cot configuration (0-3
+  months) and an infant seat option. It has large wheels, with only a marginal
+  suspension system.
   (\href{https://www.maxi-cosi.nl/kinderwagens/street-plus?color_swatch_id=5519}{Maxi-cosi website})
-  \item[Stokke BABYZEN YOYO 0+] The smallest foldable stroller on the
-  market. It has only a marginal suspension system and smaller wheels compared to those of other strollers available on the market.
+  \item[Stokke BABYZEN YOYO 0+] The smallest foldable stroller on the market. It
+  has only a marginal suspension system and smaller wheels compared to those of
+  other strollers available on the market.
   (\href{https://tinylibrary.nl/products/kinderwagen-babyzen-yoyo-0-plus}{Model
   rented for the experiment})
-  \item[Bugaboo Fox 5] Featuring large wheels and a suspension system
-  that makes it an all-terrain stroller according to the manufacturer. It has large puncture-proof tyres and an air-permeable mattress.
+  \item[Bugaboo Fox 5] Featuring large wheels and a suspension system that makes
+  it an all-terrain stroller according to the manufacturer. It has large
+  puncture-proof tyres and an air-permeable mattress.
   (\href{https://www.bugaboo.com/nl-nl/speciale-aanbiedingen/bugaboo-fox-5-bassinet-and-seat-stroller-black-base-midnight-black-fabrics-midnight-black-sun-canopy-PV006272.html?gad_source=1&gclid=Cj0KCQiA1Km7BhC9ARIsAFZfEIuB-6fQPRl5KyIHVJtion5lyD_Z1Qn-IP3shWoB_HXFozM1ySTXNfgaAgzFEALw_wcB&gclsrc=aw.ds}{Bugaboo
   website})
   \item[Green Machine] An unknown brand vintage perambulator, dating
@@ -640,7 +649,7 @@ ground is listed in Table~\ref{tab:baby-posture} for each condition tested.
   each tested configuration. We report the angles defined by the axis of the
   human body reference system (a reference system connected to the dummy, whose
   z-axis is aligned with the body spine and x-axis points to the front of the
-  body) and the ground plane. An angle 90~\si{\degree} indicates supine posture,
+  body) and the ground plane. An angle 90~\si{\degree} indicates supine posture (lying horizontally),
   -90~\si{\degree} indicates recumbent posture, and 0~\si{\degree} means erect
   posture.}
 \begin{tabular}{lllrrr}
@@ -1696,11 +1705,13 @@ vibration in occupational durations (\SIrange{4}{8}{\hour} daily dose) or during
 public transportation.
 %
 \begin{quote}
-  \textbf{The recommendations in standard ISO~2631-1 have not been based on or validated for: 1)
-  short durations that dominate stroller and cargo bicycle travel, 2) infants,
-  children, or young adults, 3) nor to recumbent or reclined seating postures with the head supported.
-  So our recommendations must be taken with utmost caution, at least until more
-  research is done to improve the standard guidance.}
+  \textbf{The recommendations in standard ISO~2631-1 have not been based on or
+  validated for infants, children, or young adults nor for recumbent or reclined
+  seating postures with the head supported. Additionally, the admissible
+  durations for health are not validated for daily short durations or shorter
+  lifetime accumulation that dominate stroller and cargo bicycle travel with
+  infants. So our recommendations must be taken with caution, at least until
+  more research is done to improve the standard guidance.}
 \end{quote}
 %
 Nevertheless, the following list provides recommendations for users,
@@ -1743,11 +1754,12 @@ that we believe stand in spite of the standard's limitations:
     over surfaces rougher than tarmac. E-cargo bicycles can easily reach the
     maximum speed of 25~\si{\kph}. Infants should only be transported for short
     durations when riding over non-tarmac surfaces at these speeds.
-    \item Standard ISO~2631-1 is not based on or validated to characterize
-    health and comfort effects of vibration for infants or children or for short
-    durations or non-erect seating. However, this is the only available standard
-    in the literature assessing health and comfort levels on vibrations, and
-    could be used as benchmark.
+    \item Standard ISO~2631-1 is not validated to characterize health and
+    comfort effects of vibration for infants or children, for short travel
+    durations, for vibration accumulation over only a small number of years, or
+    for non-erect seating. However, this is the only available standard in the
+    literature assessing health and comfort levels on vibrations, and should be
+    used as benchmark.
 \end{enumerate}
 
 \subsection{Future Work}
