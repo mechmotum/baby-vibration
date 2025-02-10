@@ -5,7 +5,7 @@ session001:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
+  imu_lateral_axis:  # unsure. We miss pictures of the sensors
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -24,7 +24,7 @@ session002:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -44,7 +44,7 @@ session003:
   baby_mass: 3.48
   seat: cot
   trial_bounds_file: events_YOYO_3_0months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -62,7 +62,7 @@ session004:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -81,7 +81,7 @@ session005:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
+  imu_lateral_axis:  # unsure. We miss pictures of the sensors
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -100,8 +100,8 @@ session006:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # TODO : not yet reported, need to update when data available.
-    BotTrike: -y  # TODO : Unsure, needs check from data.
+  imu_lateral_axis:  # # unsure. We miss pictures of the sensors
+    BotTrike: -y  
     FrontWheel: -z
     RearWheel: -z
     SeatBot: x
@@ -119,12 +119,12 @@ session007:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # unsure SeatBot and SeatHead
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
-    SeatBot: x  # TODO : unsure
-    SeatHead: x  # TODO : unsure
+    SeatBot: x  # TODO : unsure, needs check from data.
+    SeatHead: x  # TODO : unsure, needs check from data.
   trial_bounds_file: events_Maxicosi_5_9months.csv
   imu_files:
     front_wheel: 2024-11-29_Maxicos_5_9months/Maxicos_5_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -138,7 +138,7 @@ session008:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -157,12 +157,12 @@ session009:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # unsure SeatBot and SeatHead (no pictures)
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
-    SeatBot: x  # TODO : Unsure, needs check from data.
-    SeatHead: x  # TODO : Unsure, needs check from data.
+    SeatBot: x  # TODO : unsure, needs check from data.
+    SeatHead: x  # TODO : unsure, needs check from data.
   trial_bounds_file: events_Bugaboo_4_0months.csv
   imu_files:
     front_wheel: 2024-12-10_Bugaboo_4_0months/2024-12-10_13.17.22_Bugaboo_4_FW_SD_Session1/Bugaboo_4_FW_Session1_S_FrontWheel_Calibrated_SD.csv
@@ -176,7 +176,7 @@ session010:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # unsure BotTrike.
     BotTrike: -y  # TODO : Unsure, needs check from data.
     FrontWheel: -z
     RearWheel: -z
@@ -195,7 +195,7 @@ session011:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2546186613
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -214,7 +214,7 @@ session012:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # TODO : no data provided
+  imu_lateral_axis:  # Unsure, no pictures of the sensors available
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -233,7 +233,7 @@ session013:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:
+  imu_lateral_axis:  # Unsure, no pictures of the sensors available
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -265,7 +265,7 @@ session015:
   baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_Trike_1_0months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -284,7 +284,7 @@ session016:  # We miss half of time history on klinkers, 20 km/h, only for the S
   baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_Trike_2_0months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -322,7 +322,7 @@ session018:
   baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_Trike_5_3months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -341,7 +341,7 @@ session019:
   baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_UrbanA_1_0months.csv
-  imu_lateral_axis:  # checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
+  imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -360,7 +360,7 @@ session020:
   baby_mass: 5.9
   seat: maxicosi
   trial_bounds_file: events_UrbanA_2_3months.csv
-  imu_lateral_axis:
+  imu_lateral_axis:  # sure
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -379,7 +379,7 @@ session021:
   baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_UrbanA_3_0months.csv
-  imu_lateral_axis:
+  imu_lateral_axis:  # sure
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -398,7 +398,7 @@ session022:
   baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_UrbanA_4_3months.csv
-  imu_lateral_axis:
+  imu_lateral_axis:  # sure
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -417,7 +417,7 @@ session023:
   baby_mass: 5.9
   seat: melia
   trial_bounds_file: events_UrbanA_5_3months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: y
     FrontWheel: z
     RearWheel: -x
@@ -436,7 +436,7 @@ session024:
   baby_mass: 5.9
   seat: maxicosi
   trial_bounds_file: events_Trike_6_3months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
@@ -455,7 +455,7 @@ session025:
   baby_mass: 8.9
   seat: seat
   trial_bounds_file: events_YOYO_6_9months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -474,7 +474,7 @@ session026:
   baby_mass: 8.9
   seat: seat
   trial_bounds_file: events_YOYO_7_9months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -493,7 +493,7 @@ session027:
   baby_mass: 3.48
   seat: cot
   trial_bounds_file: events_GreenM_2_0months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: -x
     FrontWheel: -y
     RearWheel: -z
@@ -512,7 +512,7 @@ session028:
   baby_mass: 8.9
   seat: seat
   trial_bounds_file: events_OldR_2_9months.csv
-  imu_lateral_axis:
+  imu_lateral_axis:  # sure
     BotTrike: -z
     FrontWheel: -y
     RearWheel: -z
@@ -531,7 +531,7 @@ session029:
   baby_mass: 3.48
   seat: cot
   trial_bounds_file: events_GreenM_1_0months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: -x
     FrontWheel: -y
     RearWheel: -z
@@ -550,7 +550,7 @@ session030:  # Here we repeat the test on klinkers, 20 km/h, missed in session01
   baby_mass: 3.48
   seat: maxicosi
   trial_bounds_file: events_Trike_7_0months.csv
-  imu_lateral_axis:  # 100% sure
+  imu_lateral_axis:  # sure
     BotTrike: -y
     FrontWheel: -x
     RearWheel: -x
