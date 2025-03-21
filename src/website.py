@@ -315,6 +315,7 @@ p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-bicycle-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname.replace('png', 'svg')))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 

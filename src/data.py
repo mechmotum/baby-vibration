@@ -8,7 +8,7 @@ import pprint
 # dependencies
 from dtk.inertia import x_rot, y_rot, z_rot
 from dtk.process import freq_spectrum, butterworth
-from scipy.integrate import cumulative_trapezoid
+from scipy.integrate import cumulative_trapezoid, trapezoid
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
@@ -275,18 +275,17 @@ class Trial():
             too_small= interped[interped < -16.0*9.81]
             ax = too_big.plot(ax=ax, linestyle='', marker='o', color='red')
             ax = too_small.plot(ax=ax, linestyle='', marker='o', color='red')
-        ax.figure.text(0.01, 0.01,
-                       'Duration: {:1.1f}s'.format(self.calc_duration()))
         if show_rms or show_vdv:
             mean = self.imu_data[sig_name].mean()
         if show_rms:
             rms = self.calc_rms(sig_name)
             ax.axhline(mean + rms, color='black')
             ax.axhline(mean - rms, color='black')
+        dur_string = 'Duration: {:1.1f}s'.format(self.calc_duration())
         if show_vdv:
             vdv = self.calc_vdv(sig_name)
-            ax.axhline(mean + vdv, color='grey')
-            ax.axhline(mean - vdv, color='grey')
+            dur_string += f', VDV = {vdv:0.2f}'
+        ax.figure.text(0.01, 0.01, dur_string)
         # TODO : Not the case if gyro signal is selected, e.g.
         ax.set_ylabel('Acceleration\n[m/s$^2$]')
         ax.set_xlabel('Time [HH:MM:SS]')
@@ -425,11 +424,35 @@ class Trial():
         max_peak_sh = abs(self.imu_data[sig_name]).max()
         return max_peak_sh
 
-    def calc_vdv(self, sig_name):
-        """Returns the VDV of the raw signal data."""
-        mean_subtracted = (self.imu_data[sig_name] -
-                           self.imu_data[sig_name].mean())
-        return np.mean(mean_subtracted**4)**(0.25)
+    def calc_vdv(self, sig_name, duration=None):
+        """Returns the VDV of the raw signal data.
+
+        Parameters
+        ==========
+        sig_name : string
+        duration : float, optional
+
+        Returns
+        =======
+        vdv : float
+            Returns NaN if duration is larger than total signal time duration.
+
+        Notes
+        =====
+
+        Vibration Dose Value is the 4th root of the integral of the signal with
+        respect to time.
+
+        """
+        fourthed = self.imu_data[sig_name].dropna()**4
+        time = datetime2seconds(fourthed.index)
+        if duration is not None:
+            if duration > time[-1]:
+                return np.nan
+            max_time_idx = np.argmin(np.abs(time - duration)) - 1
+            fourthed = fourthed.values[:max_time_idx]
+            time = time[:max_time_idx]
+        return trapezoid(fourthed, x=time)**(1/4)
 
     def calc_duration(self):
         """Returns the total duration of the trial in seconds."""
@@ -922,8 +945,7 @@ if __name__ == "__main__":
                                                           sample_rate)
     rms_time = np.sqrt(np.mean(sig**2))
     rms_spec = np.sqrt(0.5*np.sum(amp**2))
-    print('RMS from all time series data: ',
-          tr.calc_rms("SeatBotacc_ver"))
+    print('RMS from all time series data: ', tr.calc_rms("SeatBotacc_ver"))
     print('RMS from down sampled time series data: ', rms_time)
     print('RMS from amplitude spectrum (incorrect): ', rms_spec)
     print('RMS from power spectrum',
@@ -936,6 +958,7 @@ if __name__ == "__main__":
                                 iso_weighted=True))
     print("Crest factor: ",
           tr.calc_crest_factor("SeatBotacc_ver", sample_rate))
+    print("VDV: ", tr.calc_vdv("SeatBotacc_ver"))
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
