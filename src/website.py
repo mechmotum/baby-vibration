@@ -127,7 +127,7 @@ summary_df['VDV Acceleration [m/s^1.75]'] = \
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 summary_df['ISO Weighted Peak Frequency [Hz]'] = \
     stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_df['ISO Weighted Bandwidth (80%) [Hz]'] = \
+summary_df['Bandwidth (80%) [Hz]'] = \
     stats_df.groupby(groups)['Bandwidth [Hz]'].mean()
 summary_df['Duration [s]'] = \
     stats_df.groupby(groups)['Duration [s]'].mean()

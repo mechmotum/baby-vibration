@@ -146,6 +146,8 @@ Data Processing
 #. Use a period of no motion, "static", in the session to find the direction of
    gravity in all sensors assuming that one axis of each sensor is aligned with
    the lateral axis of the vehicle.
+#. Calculate the vibration dose value (VDV) from the unfiltered time series for
+   the first 10 seconds of each repitition, skipping shock data.
 #. Down sample the time series from ~900 Hz to 400 Hz.
 #. Set any values greater than +/-16 g or +/-2000 deg/s to those maximum
    values, as the sensors are not valid at higher values.
@@ -153,17 +155,16 @@ Data Processing
    with a 2nd Order zero-lag Butterworth filter.
 #. Calculate linear speed of the vehicle using wheel radius and rear wheel rate
    gyro. Calculate the mean speed and standard deviation per trial.
-#. Calculate the vibration dose value (VDV) from the unfiltered time series for
-   the first 10 seconds of each repitition, skipping shock data.
 #. Calculate the crest factor from unweighted maximum and unweighted RMS.
+#. Calculate the bandwidth containing 80% of the spectrum area from unweighted
+   frequency spectrum.
 #. Calculate the frequency spectrum of the buttocks sensor's vertical
    acceleration component for health assessment and magnitude of acceleration
    for comfort assessment.
 #. Apply the ISO 2631-1 spectrum weights for health and comfort assessments.
 #. Smooth the frequency spectrums with low pass filter.
 #. Calculate the root mean square (RMS) from the weighted spectrums.
-#. Calculate the peak frequency and peak amplitude from the spectrum. Calculate
-   the bandwidth containing 80% of the spectrum area.
+#. Calculate the peak frequency and peak amplitude from the spectrum.
 
 Final data table should have these columns:
 

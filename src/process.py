@@ -174,10 +174,14 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                 signal, sample_rate, cutoff=cutoff)
                             duration = trial.calc_duration()
                             avg_speed, std_speed = trial.calc_speed_stats()
-                            max_amp, peak_freq, thresh_freq = \
+                            _, _, thresh_freq = \
                                 trial.calc_spectrum_features(
                                     signal, sample_rate, cutoff=cutoff,
                                     smooth=True, iso_weighted=False)
+                            max_amp, peak_freq, _ = \
+                                trial.calc_spectrum_features(
+                                    signal, sample_rate, cutoff=cutoff,
+                                    smooth=True, iso_weighted=True)
                             max_amp_shock = trial.calc_max_peak(signal)
 
                             stats_data[signal + '_rms'].append(rms)
