@@ -187,8 +187,10 @@ class Trial():
             zero-lag Butterworth filter.
         ax : Axis
             Matplotlib axis to plot on.
-        show_features : boolean
-            If true, shows peak frequency and bandwidth threshold frequency.
+        show_features : boolean or string
+            If true, shows peak frequency and bandwidth threshold frequency. If
+            ``'bandwidth from smooth'``, bandwidth is calculated before ISO
+            weighting.
 
         """
 
@@ -209,10 +211,18 @@ class Trial():
                 iso_weighted=iso_weighted, smooth=smooth)
             if smooth:
                 color = 'C0'
+                thresh_color = 'C0'
             else:
                 color = 'black'
+                thresh_color = 'black'
+            if show_features == 'bandwidth from smooth':
+                _, _, thresh_freq = self.calc_spectrum_features(
+                    sig_name, sample_rate, cutoff=cutoff,
+                    iso_weighted=False, smooth=smooth)
+                thresh_color = 'black'
             ax.axvline(peak_freq, color=color, linestyle='--', linewidth=2)
-            ax.axvline(thresh_freq, color=color, linestyle='-.', linewidth=2)
+            ax.axvline(thresh_freq, color=thresh_color, linestyle='-.',
+                       linewidth=2)
             legend += ['Peak Frequency', '80% Bandwidth']
 
         # plot unweighted if smoothed
@@ -962,6 +972,7 @@ if __name__ == "__main__":
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
-                                   iso_weighted=True, show_features=True)
+                                   iso_weighted=True,
+                                   show_features='bandwidth from smooth')
 
         plt.show()

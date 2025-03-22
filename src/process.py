@@ -232,7 +232,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             ax = trial.plot_frequency_spectrum(
                                 signal, sample_rate, cutoff=cutoff,
                                 smooth=True, iso_weighted=True,
-                                show_features=True)
+                                show_features='bandwidth from smooth')
                             ax.set_title(file_name)
                             ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                            file_name + '.png'),
