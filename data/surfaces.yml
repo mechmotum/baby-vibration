@@ -1,0 +1,20 @@
+# Dimensions of the road surface tile, brick, slab. The length is dimension
+# that was traversed and should correspond to the frequency of vibrations,
+# except for the klinkers which were aligned ~45 deg relative to the travel
+# path and pave which the strollers were pushed in both directions over the
+# cobbles, but a likely more over the length dimension.
+Aula:
+  width: 2.0
+  length: 0.99
+klinkers:
+  width: 0.195
+  length: 0.095
+stoeptegels:
+  width: 0.290
+  length: 0.290
+pave:
+  width: 0.180
+  length: 0.125
+tarmac:
+  width: 0.0
+  length: 0.0
