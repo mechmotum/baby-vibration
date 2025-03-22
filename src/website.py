@@ -145,6 +145,20 @@ print(summary_df)
 with open(os.path.join(PATH_TO_TABLE_DIR, 'summary-data-frame.tex'), 'w') as f:
     f.write(summary_df.to_latex(float_format="%0.1f"))
 
+stroller_summary_df = create_summary_data_frame(stroller_df)
+print_header("Means Per Scenario: Stroller")
+print(stroller_summary_df)
+with open(os.path.join(PATH_TO_TABLE_DIR,
+                       'stroller-summary-data-frame.tex'), 'w') as f:
+    f.write(stroller_summary_df.to_latex(float_format="%0.1f"))
+
+bicycle_summary_df = create_summary_data_frame(bicycle_df)
+print_header("Means Per Scenario: Bicycle")
+print(bicycle_summary_df)
+with open(os.path.join(PATH_TO_TABLE_DIR,
+                       'bicycle-summary-data-frame.tex'), 'w') as f:
+    f.write(bicycle_summary_df.to_latex(float_format="%0.1f"))
+
 # Table that shows how many trials and the mean duration
 groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
 trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
