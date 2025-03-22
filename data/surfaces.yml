@@ -3,7 +3,7 @@
 # except for the klinkers which were aligned ~45 deg relative to the travel
 # path and pave which the strollers were pushed in both directions over the
 # cobbles, but a likely more over the length dimension.
-Aula:
+aula:
   width: 2.0
   length: 0.99
 klinkers:

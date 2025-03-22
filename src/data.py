@@ -468,6 +468,22 @@ class Trial():
         trial."""
         return self.imu_data['Speed'].mean(), self.imu_data['Speed'].std()
 
+    def calc_expected_frequency(self, surface):
+        """Returns the bump frequency basd on travel speed and road surface
+        feature dimensions: length and width."""
+        speed, _ = self.calc_speed_stats()
+        length = self.meta_data['surfaces'][surface]['length']
+        if length < 1e-10:
+            length_freq = np.nan
+        else:
+            length_freq = speed/length
+        width = self.meta_data['surfaces'][surface]['width']
+        if width < 1e-10:
+            width_freq = np.nan
+        else:
+            width_freq = speed/width
+        return length_freq, width_freq
+
     @functools.cache
     def calc_spectrum_features(self, sig_name, sample_rate, cutoff=None,
                                iso_weighted=False, smooth=False):
@@ -539,8 +555,12 @@ class Session():
         with open(os.path.join(PATH_TO_DATA_DIR, 'vehicles.yml')) as f:
             vehicle_meta_data = yaml.safe_load(f)
 
+        with open(os.path.join(PATH_TO_DATA_DIR, 'surfaces.yml')) as f:
+            surface_meta_data = yaml.safe_load(f)
+
         self.meta_data = session_meta_data[session_label]
         self.meta_data.update(vehicle_meta_data[self.meta_data['vehicle']])
+        self.meta_data.update({'surfaces': surface_meta_data})
 
     def __str__(self):
         desc = header('Session: ' + self.session_label, sym='-')
@@ -939,6 +959,9 @@ if __name__ == "__main__":
         s.plot_raw_time_series(trial=trial_label, gyr=False)
         s.plot_raw_time_series(trial=trial_label, acc=False)
 
+    # TODO : A trial doesn't know what surface type it is we should pass in
+    # trial_label or hae extract_trial return a Trial with it included in the
+    # meta data.
     tr = Trial(s.meta_data, s.extract_trial(trial_label))
     if plot:
         # TODO : For some reason, this plots on the last axes of the
@@ -964,6 +987,7 @@ if __name__ == "__main__":
     print("Crest factor: ",
           tr.calc_crest_factor("SeatBotacc_ver", sample_rate))
     print("VDV: ", tr.calc_vdv("SeatBotacc_ver"))
+    print("Expected frequency: ", tr.calc_expected_frequency(trial_label))
 
     if plot:
         tr.plot_frequency_spectrum('SeatBotacc_ver', sample_rate, smooth=True,
