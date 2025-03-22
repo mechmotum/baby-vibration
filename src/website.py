@@ -575,7 +575,8 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 # Figure: 80% Bandwidth Distributions
 #####################################
 boxp_html.append(H2.format('80% Bandwidth'))
-msg = """"""
+msg = """Frequency at which 80% of the cumulative area under the non-iso
+weighted amplitude spectrum occurs."""
 boxp_html.append(P.format(msg))
 p = sns.boxplot(
     data=stats_df,
