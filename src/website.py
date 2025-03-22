@@ -122,7 +122,7 @@ summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
 )
 summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
     stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
-summary_df['VDV Acceleration [m/s/s]'] = \
+summary_df['VDV Acceleration [m/s^1.75]'] = \
     stats_df.groupby(groups)[SIGNAL_VDV].mean()
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
 summary_df['ISO Weighted Peak Frequency [Hz]'] = \
@@ -315,6 +315,7 @@ p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-bicycle-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname.replace('png', 'svg')))
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
@@ -485,7 +486,7 @@ p = sns.scatterplot(
 )
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-compare-all.png'.format(SIGNAL)
@@ -510,7 +511,7 @@ p = sns.stripplot(
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-stroller-compare-all.png'.format(SIGNAL)
@@ -536,7 +537,7 @@ p = sns.scatterplot(
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration VDV [m/s$^2$]')
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-bicycle-compare-all.png'.format(SIGNAL)

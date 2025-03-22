@@ -161,7 +161,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             # from the downsampled data?
                             max_amp_shock = np.nan
                             rms = trial.calc_rms(signal)
-                            vdv = trial.calc_vdv(signal)
+                            vdv = trial.calc_vdv(signal, duration=10.0)
                             # TODO : Move this to the input of process()
                             cutoff = 120.0  # Hz
                             rms_iso = trial.calc_spectrum_rms(
