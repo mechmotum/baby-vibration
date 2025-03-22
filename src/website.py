@@ -61,7 +61,7 @@ stats_df = pd.DataFrame(stats_data)
 stats_df.drop_duplicates(inplace=True)
 
 
-stats_df['duration_weight'] = (stats_df['Duration [s]'] /
+stats_df['Duration Weight'] = (stats_df['Duration [s]'] /
                                stats_df['Duration [s]'].max())
 
 # target speeds were 5, 12, 20, 25 so group as < 8.5, 8.5-16, 16-22.5, >22.5
@@ -77,12 +77,14 @@ stats_df.loc[crit, 'Target Speed [km/h]'] = 20
 crit = stats_df['Mean Speed [m/s]'] > 22.5*KPH2MPS
 stats_df.loc[crit, 'Target Speed [km/h]'] = 25
 
+# make a column representing the vehicle, seat, baby age combination
 stats_df['Vehicle, Seat, Baby Age'] = (
     stats_df['Vehicle'] + ', ' +
     stats_df['Seat'] + ', ' +
     stats_df['Baby Age [mo]'].astype(str) + ' mo'
 )
 
+# make a column representing the seat, baby age combination
 stats_df['Seat, Baby'] = (
     stats_df['Seat'] + ', ' +
     stats_df['Baby Age [mo]'].astype(str) + ' mo'
@@ -90,14 +92,12 @@ stats_df['Seat, Baby'] = (
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
-
-# Store the original order of stats_df before removing shock
+# store the original order of stats_df before removing shock
 stats_df['original_order'] = np.arange(len(stats_df))
 
 # drop shock from overall analysis (for now)
 shock_df = stats_df[stats_df['Road Surface'] == 'Shock']
 stats_df = stats_df.loc[stats_df['Road Surface'] != 'Shock', :]
-
 
 bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
 stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
@@ -109,31 +109,37 @@ stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
 print_header("Statistics Data Frame in Tidy Format")
 print("All columns:")
 pprint.pprint(stats_df.columns.to_list())
+print("All data:")
 print(stats_df)
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
 weighted_mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
-    lambda x: np.average(x, weights=stats_df.loc[x.index, "duration_weight"]))
+    lambda x: np.average(x, weights=stats_df.loc[x.index, "Duration Weight"]))
 
-summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
-    **{'Trial Count': 'size',
-       'RMS Acceleration [m/s/s]': 'mean'}
-)
-summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
-    stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
-summary_df['ISO Weighted RMS Acceleration Magnitude [m/s/s]'] = \
-    stats_df.groupby(groups)[SIGNAL_RMS_MAG_ISO].mean()
-summary_df['VDV Acceleration [m/s^1.75]'] = \
-    stats_df.groupby(groups)[SIGNAL_VDV].mean()
-summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
-summary_df['ISO Weighted Peak Frequency [Hz]'] = \
-    stats_df.groupby(groups)['Peak Frequency [Hz]'].mean()
-summary_df['Bandwidth (80%) [Hz]'] = \
-    stats_df.groupby(groups)['Bandwidth [Hz]'].mean()
-summary_df['Duration [s]'] = \
-    stats_df.groupby(groups)['Duration [s]'].mean()
 
+def create_summary_data_frame(df):
+    summary_df = df.groupby(groups)[SIGNAL_RMS].agg(
+        **{'Trial Count': 'size',
+           'RMS Acceleration [m/s/s]': 'mean'}
+    )
+    summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
+        df.groupby(groups)[SIGNAL_RMS_ISO].mean()
+    summary_df['ISO Weighted RMS Acceleration Magnitude [m/s/s]'] = \
+        df.groupby(groups)[SIGNAL_RMS_MAG_ISO].mean()
+    summary_df['VDV Acceleration [m/s^1.75]'] = \
+        df.groupby(groups)[SIGNAL_VDV].mean()
+    summary_df['Crest Factor'] = df.groupby(groups)['Crest Factor'].mean()
+    summary_df['ISO Weighted Peak Frequency [Hz]'] = \
+        df.groupby(groups)['Peak Frequency [Hz]'].mean()
+    summary_df['Bandwidth (80%) [Hz]'] = \
+        df.groupby(groups)['Bandwidth [Hz]'].mean()
+    summary_df['Duration [s]'] = \
+        df.groupby(groups)['Duration [s]'].mean()
+    return summary_df
+
+
+summary_df = create_summary_data_frame(stats_df)
 print_header("Means Per Scenario")
 print(summary_df)
 with open(os.path.join(PATH_TO_TABLE_DIR, 'summary-data-frame.tex'), 'w') as f:
