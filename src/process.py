@@ -177,7 +177,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             max_amp, peak_freq, thresh_freq = \
                                 trial.calc_spectrum_features(
                                     signal, sample_rate, cutoff=cutoff,
-                                    smooth=True, iso_weighted=True)
+                                    smooth=True, iso_weighted=False)
                             max_amp_shock = trial.calc_max_peak(signal)
 
                             stats_data[signal + '_rms'].append(rms)
