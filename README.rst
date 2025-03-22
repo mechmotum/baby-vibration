@@ -146,7 +146,8 @@ Data Processing
    with a 2nd Order zero-lag Butterworth filter.
 #. Calculate linear speed of the vehicle using wheel radius and rear wheel rate
    gyro. Calculate the mean speed and standard deviation per trial.
-#. Calculate the vibration dose value (VDV) from the unfiltered time series.
+#. Calculate the vibration dose value (VDV) from the unfiltered time series for
+   the first 10 seconds of each repitition, skipping shock data.
 #. Calculate the crest factor from unweighted maximum and unweighted RMS.
 #. Calculate the frequency spectrum of the buttocks sensor's vertical
    acceleration component for health assessment and magnitude of acceleration

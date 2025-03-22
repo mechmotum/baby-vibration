@@ -486,7 +486,7 @@ p = sns.scatterplot(
 )
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration VDV [m/s$^1.75$]')
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-compare-all.png'.format(SIGNAL)
@@ -511,7 +511,7 @@ p = sns.stripplot(
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration VDV [m/s$^1.75$]')
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-stroller-compare-all.png'.format(SIGNAL)
@@ -537,7 +537,7 @@ p = sns.scatterplot(
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration VDV [m/s$^1.75$]')
+p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-vdv-bicycle-compare-all.png'.format(SIGNAL)
