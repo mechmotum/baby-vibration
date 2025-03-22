@@ -24,7 +24,7 @@ INDEX = """\
     <p>
       Warning: These results are preliminary, do not rely on them until a
       supporting paper is published. See the latest preprint for more context:
-      https://doi.org/10.31224/4415.
+      <a href="https://doi.org/10.31224/4415">doi.org/10.31224/4415</a>.
     </p>
   </div>
   <p>
