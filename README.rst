@@ -17,6 +17,11 @@ Moore can be viewed at:
 
 https://doi.org/10.31224/4415
 
+Private links to the related editable documents:
+
+- Experiment paper on Overleaf: https://www.overleaf.com/4478681329cgkzxtynvvzz#e49cd7
+- Lit Study on Google Docs: https://drive.google.com/drive/folders/1y4d1djsXC8zveT1g1Zd_FxibJYxMT0O1
+
 License
 =======
 
