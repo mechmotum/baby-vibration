@@ -21,13 +21,18 @@ INDEX = """\
   <h1>Infant Vehicle Transport Vibration Results</h1>
   <hr>
   <div class="alert alert-danger" role="alert">
-    <p>Warning: These results are preliminary, do not rely on them until a
-    supporting paper is published.</p>
+    <p>
+      Warning: These results are preliminary, do not rely on them until a
+      supporting paper is published. See the latest preprint for more context:
+      https://doi.org/10.31224/4415.
+    </p>
   </div>
   <p>
     Last updated: {date}
     <br>
     Generated from Git hash: {githash}
+    <br>
+    License: CC-BY 4.0
   </p>
   <p>
     This page examines the signal: <strong>{signal}</strong>.
