@@ -122,6 +122,8 @@ summary_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
 )
 summary_df['ISO Weighted RMS Acceleration [m/s/s]'] = \
     stats_df.groupby(groups)[SIGNAL_RMS_ISO].mean()
+summary_df['ISO Weighted RMS Acceleration Magnitude [m/s/s]'] = \
+    stats_df.groupby(groups)[SIGNAL_RMS_MAG_ISO].mean()
 summary_df['VDV Acceleration [m/s^1.75]'] = \
     stats_df.groupby(groups)[SIGNAL_VDV].mean()
 summary_df['Crest Factor'] = stats_df.groupby(groups)['Crest Factor'].mean()
