@@ -10,6 +10,13 @@ Preliminary results can be viewed at:
 
 https://mechmotum.github.io/baby-vibration/
 
+Preprint "Vibration Characterisation of Strollers and Cargo Bicycles for
+Transporting Infants" by Gabriele Dell'Orto, Brecht Daams, Riender Happee,
+Georgios Papaioannou, Arjo Loeve, Jesper Meijerink, Thomas Valk, and Jason K.
+Moore can be viewed at:
+
+https://doi.org/10.31224/4415
+
 License
 =======
 
@@ -18,7 +25,7 @@ licensed under the Creative Commons BY-4.0 license. The computer program source
 code is licensed under the MIT license. The data is available as public domain
 with no copyright restrictions. If you make use of the copyrighted material use
 a full citation to the paper to acknowledge the use and include the relevant
-license(s).
+license(s). If you make use of the data, we kindly ask that you also cite us.
 
 Build Instructions
 ==================
