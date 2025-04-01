@@ -62,7 +62,7 @@
 \def\mps{\meter\per\second}
     
 \title{
-  DRAFT: v5 \\
+  DRAFT: v6.dev \\
   Vibration Characterisation of Strollers and\\
   Cargo Bicycles for Transporting Infants\\
   \vspace{2mm}
@@ -87,13 +87,13 @@ Jason K. Moore\footnote{corresponding author: j.k.moore@tudelft.nl, +31 (0)15 27
 \color{red}
 \section*{\centering Notice}
 %
-This draft report is not yet peer reviewed and is subject to change with
+This draft report is not yet peer-reviewed and is subject to change with
 revisions. These results are preliminary, so we do not recommend relying on them
-until a supporting peer reviewed paper is published.
+until a supporting peer-reviewed paper is published.
 
 \color{black}
 \begin{abstract}
-  Infants are transported in strollers and in baby seats mounted in cargo
+  Infants are transported in strollers and in baby seats mounted on cargo
   bicycles. The infants experience whole-body vibration during the associated
   walking and cycling trips, but there is little existing knowledge about
   associated comfort and health effects. To improve this, we measure the seat
@@ -108,7 +108,7 @@ until a supporting peer reviewed paper is published.
   surfaces, amplified by travel speed, may have health risks for travel
   durations as low as \SIrange{10}{30}{\min}. Stroller designs from 50 years ago
   significantly reduce vibrations, relative to most modern strollers we tested,
-  indicating the need for return of suspension elements. Cargo bicycles ridden
+  indicating the need for a return of suspension elements. Cargo bicycles ridden
   at the maximum electric bicycle speed over paver bricks can cause
   accelerations that should likely be avoided except for only the shortest of
   durations until more direct evidence of risks to infants is studied. Standards
@@ -155,8 +155,7 @@ during transport in strollers and cargo bicycles.
 
 % Paragraph about motivation
 Cycling, one of the active transportation modes, is advantageous for
-health~\cite{Oja1998} and greatly contributes to reducing CO\(_2\) emissions,
-congestion, and air pollution~\cite{Neves2019}. As a result, bicycles are
+health~\cite{Oja1998} and greatly contributes to reducing CO\(_2\) emissions, congestion, and air pollution~\cite{Neves2019}. As a result, bicycles are
 increasingly used as a means to deliver goods to consumers, and also for daily
 commuting to work and personal matters (shopping, commuting with
 children/infants, and others). Among all journeys in the EU, 20-40\% are by
@@ -267,7 +266,7 @@ Schwanitz~et~al.~\cite{Schwanitz2020} assessed accelerations in a child bicycle
 trailer riding over smooth asphalt, gravel, and cobblestones using ISO~2631-1
 weighted RMS vertical accelerations.
 Anthropomorphic children shaped sandbag dummies (baby and toddler sizes) were
-used as lumped masses. According to the results, tyre pressure and the number of
+used as lumped masses to represent the child body. According to the results, tyre pressure and the number of
 passengers had no significant effect on vibration magnitude, but road surface
 and travel speed did. 
 The baby sized dummy (5~\si{\kilo\gram}) experienced 20\% higher vibration than
@@ -322,7 +321,7 @@ an older stroller, when moving on different surfaces: asphalt road, concrete
 paving blocks, concrete plates, dirt road, lawn and damaged concrete. The
 obtained weighted RMS acceleration values based on ISO~2631-1 were several times
 in the range of the highest discomfort ($>$2~\si{\mps\squared}). 
-Another research which included also children as test subjects was conducted by
+Another research which also included children as test subjects was conducted by
 Okajima~et~al.~\cite{okajima2020dynamic} measuring vibrations that seven
 children received, sitting upright in a stroller, when riding over a protrusion
 (13x60 mm) with either one wheel or two wheels. 
@@ -640,11 +639,11 @@ ground is listed in Table~\ref{tab:baby-posture} for each condition tested.
   \centering
   \caption{Inclination angles of the IMUs ``Seat Head'' and ``Seat Pan'', per
   each tested configuration. %We report the angles defined by the axis of the human body reference system (a reference system connected to the dummy, whose z-axis is aligned with the body spine and x-axis points to the front of the body) and the ground plane. 
-  For the head 0~\si{\degree} means erect posture, and positive angles represent rearward head rotation with 90~\si{\degree} indicating a fully  supine posture (lying horizontally). For the seat pan I STILL DONT UNDERSTAND especially the -28 for Melia.}
+  For the head positive angles represent forward head rotation with 0~\si{\degree} indicating a fully  supine posture (lying horizontally) and 90~\si{\degree} fully erect. For the seat pan  0~\si{\degree} is horizontal and positive angles indicate elevated legs, see Figures in Appendix \ref{app:equipment}. I STILL DONT UNDERSTAND -43. RF is rearward facing and FF is forward facing.}
 \begin{tabular}{lllrrr}
 \toprule
  &  &  & & \multicolumn{2}{c}{Inclination angle [deg]}  \\
-Vehicle Type & Model & Dummy & Baby seat (facing direction)& Seat Head & Seat Pan\\
+Vehicle Type & Model & Dummy & Baby seat (facing direction)& Head & Seat Pan\\
 \midrule
 \multirow[t]{6}{*}{Cargo Bicycle} & \multirow[t]{3}{*}{Urban Arrow} & 0 mo & Maxi-Cosi X Joolz (RF)& 41
 & 2 \\
@@ -790,8 +789,8 @@ applies to frequencies up to 80~\si{\hertz}.
   \includegraphics[width=160mm]{fig/session001-t2-aula-stroller-maxicosi-cot-0-SeatBotacc_ver-rep0.png}
   \caption{Raw seat pan vertical acceleration versus time from session 001:
   Maxi-Cosi Street Plus Stroller over the Sidewalk Slabs. Black horizontal lines
-  indicate the \(\pm\)root mean square (RMS) about the mean and grey horizontal
-  lines indicate the \(\pm\)vibration dose value (VDV) about the mean.}
+  indicate the \(\pm\)root mean square (RMS) about the mean. The vibration dose
+  value (VDV) for the printed duration is shown in the bottom left.}
   \label{fig:vert-acc-example}
 \end{figure}
 
@@ -815,8 +814,8 @@ of bandwidth.
   the FFT, the black line is a smoothed version of the FFT (zero-lag Butterworth
   low pass), and the blue line is the smoothed ISO weighted FFT. The blue dashed
   vertical line indicates the frequency at the maximum amplitude of the smoothed
-  curve. The blue dashed-dotted vertical line indicates the bandwidth threshold
-  for 80\% of the area under the blue curve.}
+  curve. The black dashed-dotted vertical line indicates the bandwidth threshold
+  for 80\% of the area under the black curve.}
   \label{fig:freq-spectrum}
 \end{figure}
 
@@ -858,7 +857,7 @@ details of the metrics calculations:
 \end{align}
 
 \begin{align}
-  \textrm{VDV}_{a_{z}} = \left(\frac{1}{M}\sum_{m=1}^{M} a_{z}^4(t_m)\right)^{1/4}
+  \textrm{VDV}_{a_{z}} = \left[\sum_{m=2}^{M} \frac{1}{2} (a_{z,m}^4 - a_{z,m-1}^4) (t_m -t_{m-1})\right]^{1/4}
   \label{eq:vdv-acc}
 \end{align}
 
@@ -948,54 +947,6 @@ over the speed range.
   \label{fig:compare-bicycle-speed}
 \end{figure}
 
-\subsection{Effect of Dummy Size}
-%
-Figure~\ref{fig:compare-baby-mass} shows the ISO~2631-1 weighted vertical RMS
-acceleration for each repetition for all vehicles, comparing among dummy sizes.
-There were larger accelerations in the bicycle (high speeds) versus the stroller
-(low speeds), likely mostly attributed to the different testing speeds. When
-comparing the vertical RMS acceleration values between cargo bicycles and
-strollers there are no obvious differences due to baby size, i.e. each dummy
-size experienced a similar range of acceleration magnitudes when vehicle type
-and road surface are ignored. For the bicycles, the lightest dummy sometimes
-experienced higher acceleration than the heavier dummy, but high and low
-accelerations are seen across the speed range tested.
-%
-\begin{figure}
-  \centering
-  \includegraphics[width=160mm]{fig/SeatBotacc_ver-baby-mass-compare.png}
-  \caption{Seat pan ISO~2631-1 weighted vertical RMS acceleration grouped by
-  baby age (and thus size \& mass) for all repetitions with colour indicating
-  the mean speed of the trial. The lightest colour dots are strollers and the
-  remaining are cargo bicycles.}
-  \label{fig:compare-baby-mass}
-\end{figure}
-
-\subsection{Effect of Road Surface}
-%
-Figure~\ref{fig:compare-road-surface} shows ISO~2631-1 weighted vertical RMS
-acceleration from repetitions grouped into the various road surfaces tested. All
-vehicles were tested on paver bricks and tarmac but only strollers were tested
-on cobblestones and sidewalk pavers and sidewalk slabs, i.e. light colour dots
-(strollers are present in each column).
-It is notable that tarmac almost always induced lower RMS acceleration than
-other road types regardless of speed and vehicle type.
-The sidewalk slabs and cobblestones have very similar acceleration ranges for
-all strollers.
-Paver bricks and sidewalk pavers seem to have a similar range of RMS
-acceleration for the same 5~\si{\kilo\meter\per\hour} walking speeds.
-Paver bricks cause relatively large accelerations at high travel speeds in the
-cargo bicycles.
-%
-\begin{figure}
-  \centering
-  \includegraphics[width=160mm]{fig/SeatBotacc_ver-road-surface-compare.png}
-  \caption{Seat pan ISO 2631-1 weighted vertical RMS acceleration grouped by
-  road surface with colour indicating the mean speed of the repetition. The
-  lightest colour dots are strollers and the rest are cargo bicycles.}
-  \label{fig:compare-road-surface}
-\end{figure}
-
 \subsection{Effect of Vehicle Model}
 %
 Figure~\ref{fig:stroller-type-compare} shows the vertical RMS accelerations for
@@ -1034,6 +985,13 @@ increasing vertical RMS acceleration with speed.
   linear regression, vertical lines are the standard deviation at those speeds,
   and shaded regions show the 95\% confidence intervals for the regression.}
   \label{fig:bicycle-type-compare}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=160mm]{fig/SeatBotacc_ver-spectra-compare.png}
+  \caption{Mean amplitude spectra of each vehicle.} 
+  \label{fig:spectra-compare}
 \end{figure}
 
 \subsection{Dominant Frequency and Bandwidth}
@@ -1199,103 +1157,6 @@ paver bricks and tarmac at all speeds tested.
   Gao~et.~al~\cite{Gao2018}.}
   \label{fig:comfort-bicycle}
 \end{figure}
-
-\subsection{Shock}
-%
-We identified the maximum peak acceleration values for each trial
-(Equation~\ref{eq:max-acc}), then averaged them across repetitions to obtain the
-results listed in Table~\ref{tab:shock} for different vehicles and
-configurations. There is a significant variation among tests, with the peaks for
-the bicycles sometimes reaching the accelerometer's full scale (\(\pm\)16~g).
-While the seat pan accelerations for the strollers are generally lower than
-those experienced with the bicycles, the configuration (0 or 9 months) may play
-a large role. Among bicycles, the use of Melia baby shell seems to transmit
-lower accelerations compared to Maxi-Cosi, 3 months, for both the Keiler
-tricycle and the Urban Arrow. Strollers with the baby seat configuration for 9
-months show much lower acceleration compared to the baby cot for 0 months
-(Bugaboo and Maxi-Cosi). Surprisingly, the oldest strollers (Old Rusty and Green
-Machine) performed very well during the shock test, resulting in the lowest seat
-pan acceleration among all the tested vehicles.
-Figure~\ref{fig:shock_vehicle_comparison} shows the peaks of the vertical
-acceleration recorded at the seat pan, grouped by different vehicles, for the
-shock test. As noted in Table~\ref{tab:shock}, the old strollers Old Rusty and
-Green Machine show lower acceleration values. We do not clearly distinguish any
-trend with speed for the bicycles (Keiler and Urban Arrow). During the tests
-involving Keiler tricycle and strollers, we cannot exclude that the front wheels
-(left and right) hit the bump at slightly different time instants.   
-%
-\begin{figure}
-  \centering
-  \includegraphics[width=160mm]{fig/SeatBotacc_ver-shock-test-compare.png}
-  \caption{Vertical acceleration recorded at the seat pan during the shock test
-  per each trial, grouped by vehicles. The colour indicates the mean speed of
-  the trial. The lighter the colour the lower the speed.}
-  \label{fig:shock_vehicle_comparison}
-\end{figure}
-
-\begin{table}
-  \centering
-  \caption{Mean of the maximum seat pan acceleration across trials in
-  \si{\mps\squared} recorded for shock test, for different vehicles and baby
-  masses.}
-  \label{tab:shock}
-  \footnotesize
-  \begin{tabular}{lllrrrr}
-    \toprule
-     & &  & Target Speed & Trial Count & Max Acceleration \\
-    Vehicle Type & Model & Seat, Baby & [km/h] & & [m/s²] \\
-    \midrule
-    Strollers & Bugaboo & Cot, 0 mo  & 5 & 3 & 146 \\
-              &         & Seat, 9 mo & 5 & 4 & 49 \\
-    \cline{2-6}
-              & Maxi-Cosi & Cot, 0 mo  & 5 & 2 & 131 \\
-              &           & Seat, 9 mo & 5 & 4 & 35 \\
-    \cline{2-6}
-              & Stokke BABYZEN YOYO & Cot, 0 mo  & 5 & 4 & 35 \\
-              &                     & Seat, 9 mo & 5 & 4 & 51 \\
-    \cline{2-6}
-              & Green Machine & Cot, 0 mo & 5 & 4 & 17 \\
-    \cline{2-6}
-              & Old Rusty & Seat, 9 mo & 5 & 4 & 31 \\
-    \cline{1-6}
-    Bicycles & Keiler tricycle & Melia, 3 mo & 5 & 2 & 52 \\
-
-             &               & Melia, 3 mo & 12 & 2 & 85 \\
-
-             &               & Melia, 3 mo & 20 & 2 & 124 \\
-    \cline{2-6}
-             &               & Maxi-Cosi, 0 mo & 5 & 2 & 113 \\
-
-             &               & Maxi-Cosi, 0 mo & 12 & 2 & 140 \\
-
-             &               & Maxi-Cosi, 0 mo & 20 & 2 & 115 \\
-    \cline{2-6}
-             &               & Maxi-Cosi, 3 mo & 5 & 2 & 151 \\
-
-             &               & Maxi-Cosi, 3 mo & 12 & 2 & 160 \\
-
-             &               & Maxi-Cosi, 3 mo & 20 & 2 & 145 \\
-    \cline{2-6}
-             & Urban Arrow & Melia, 3 mo & 5 & 2 & 43 \\
-
-             &               & Melia, 3 mo & 12 & 2 & 43 \\
-
-             &               & Melia, 3 mo & 25 & 2 & 42 \\
-    \cline{2-6}
-             &               & Maxi-Cosi, 0 mo & 5 & 1 & 50 \\
-    
-             &               & Maxi-Cosi, 0 mo & 12 & 2 & 63 \\
-    
-             &               & Maxi-Cosi, 0 mo & 25 & 2 & 130 \\
-    \cline{2-6}
-             &               & Maxi-Cosi, 3 mo & 5 & 2 & 156 \\
-    
-             &               & Maxi-Cosi, 3 mo & 12 & 2 & 160 \\
-    
-             &               & Maxi-Cosi, 3 mo & 25 & 2 & 160 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
 
 \subsection{Statistical Results}
 %
@@ -1751,64 +1612,6 @@ that we believe stand in spite of the standard's limitations:
     used as a benchmark.
 \end{enumerate}
 
-\subsection{Future Work}
-% 
-There are four possible directions for future work: more in-depth analysis of
-the present measurements, more research on vibrations generated by infant
-transport systems, more research on the effects of vibration on infants, and
-development of a benchmark.
-
-\paragraph{Concerning further analysis of the present measurements:}
-%
-We acquired data from four other sensors on the vehicles, each with three
-accelerometer and three gyroscope time histories, for a total of 30 time
-histories of possible interest. This paper provides a look into the experiments
-via four metrics: ISO weighted vertical RMS acceleration, maximum acceleration,
-peak frequency, and bandwidth of the seat pan sensor. The collected data can
-also be used to investigate the transmissibility from sensor to sensor, as well
-as rotational vibration effects. Investigating these further can give a more
-complete picture of the connections to health and comfort. This work also gives
-a benchmark against which new designs can be tested to show reduction in
-vibration.
-
-\paragraph{Concerning more research on vibrations generated by infant transport
-systems:}
-%
-There are products and variables that have not yet been investigated for their
-effect on vibration. For example, running with an infant in a sports stroller is
-not tested. Investigating this is important because we expect that vibrations
-when running may quickly exceed health limits. In addition, recumbent posture in
-sports strollers is estimated to increase the vibration load on the head of the
-infant. It is important to establish the actual vibration load on the head in
-practice.
-
-\paragraph{Concerning more research on the effects of vibration on infants:}
-%
-The frequency weighting of the ISO~2631-1 standard is not designed or validated
-to characterise health and comfort for infants or children, for short durations,
-and for non-erect seating. Research is urgently needed to develop a new standard
-with a more appropriate frequency weighting to improve assessment of the comfort
-and health effects of whole-body vibration of infants and children, also for
-short durations and for non-erect seating. Furthermore, tests with more
-realistic dummies and/or real infants are necessary to investigate how the
-infant itself moves when excited by various vibrations in different postures.
-The results will contribute to the assessment of the transmissibility of
-vibration in children, which is needed to deduce the vibrations transmitted to
-the head. 
-
-\paragraph{Concerning the development of a benchmark:}
-%
-At this moment, no requirements are made for the vibrational properties of child
-transport systems in the standards for strollers, cargo bicycles, bicycle seats,
-and car seats. Due to the magnitude of vibrations that can occur during child
-transport, it is imperative to include a requirement to the vibrational
-properties in the standards for these products. At this moment, no new
-requirements can be defined because there is not enough information. With the
-information resulting from more research on infant vibration, a benchmark for
-the vibration properties of infant transportation products needs to be
-developed. This will enable the inclusion of minimal requirements for vibration
-properties in the standards, which would greatly increase the health and comfort
-of the infants who must use these products. 
 
 \subsection{Acknowledgement}
 %
@@ -1824,6 +1627,56 @@ We acknowledge the advice and financial support of VeiligheidNL.
 %\addcontentsline{toc}{section}{Appendix} % Optional: Add to TOC
 %\renewcommand{\thesection}{A}
 %\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+\section{Exploratory Statistics}
+%
+\subsection{Effect of Dummy Size}
+%
+Figure~\ref{fig:compare-baby-mass} shows the ISO~2631-1 weighted vertical RMS
+acceleration for each repetition for all vehicles, comparing among dummy sizes.
+There were larger accelerations in the bicycle (high speeds) versus the stroller
+(low speeds), likely mostly attributed to the different testing speeds. When
+comparing the vertical RMS acceleration values between cargo bicycles and
+strollers there are no obvious differences due to baby size, i.e. each dummy
+size experienced a similar range of acceleration magnitudes when vehicle type
+and road surface are ignored. For the bicycles, the lightest dummy sometimes
+experienced higher acceleration than the heavier dummy, but high and low
+accelerations are seen across the speed range tested.
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=160mm]{fig/SeatBotacc_ver-baby-mass-compare.png}
+  \caption{Seat pan ISO~2631-1 weighted vertical RMS acceleration grouped by
+  baby age (and thus size \& mass) for all repetitions with colour indicating
+  the mean speed of the trial. The lightest colour dots are strollers and the
+  remaining are cargo bicycles.}
+  \label{fig:compare-baby-mass}
+\end{figure}
+
+\subsection{Effect of Road Surface}
+%
+Figure~\ref{fig:compare-road-surface} shows ISO~2631-1 weighted vertical RMS
+acceleration from repetitions grouped into the various road surfaces tested. All
+vehicles were tested on paver bricks and tarmac but only strollers were tested
+on cobblestones and sidewalk pavers and sidewalk slabs, i.e. light colour dots
+(strollers are present in each column).
+It is notable that tarmac almost always induced lower RMS acceleration than
+other road types regardless of speed and vehicle type.
+The sidewalk slabs and cobblestones have very similar acceleration ranges for
+all strollers.
+Paver bricks and sidewalk pavers seem to have a similar range of RMS
+acceleration for the same 5~\si{\kilo\meter\per\hour} walking speeds.
+Paver bricks cause relatively large accelerations at high travel speeds in the
+cargo bicycles.
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=160mm]{fig/SeatBotacc_ver-road-surface-compare.png}
+  \caption{Seat pan ISO 2631-1 weighted vertical RMS acceleration grouped by
+  road surface with colour indicating the mean speed of the repetition. The
+  lightest colour dots are strollers and the rest are cargo bicycles.}
+  \label{fig:compare-road-surface}
+\end{figure}
 
 \section{Experimental Equipment}
 \label{app:equipment}
@@ -2067,144 +1920,167 @@ Details of the shock experiment: we pushed the stroller over a squared section a
 \section{Table of Repetition Metrics}
 \label{app:results}
 %
-Table~\ref{tab:results} shows the mean over the scenario repetitions unweighted
-and ISO~2631-1 weighted seat pan vertical RMS acceleration, unweighted seat pan
-vertical VDV, crest factor, peak frequency, bandwidth, and duration for all 52
+Table~\ref{tab:summary-stroller} and Table~\ref{tab:summary-bicycle} show mean
+values over the scenario repetitions. They report the unweighted and ISO~2631-1
+weighted seat pan vertical RMS acceleration, weighted seat pan magnitude RMS
+acceleration, unweighted seat pan vertical VDV for the first 10 seconds of the
+reptition, crest factor, peak frequency, bandwidth, and duration for all 67
 combinations of vehicle setup, road surface, and target speed.
-% NOTE : This table is generated automatically from the Python scripts. I manually edit the header rows to fit on the page width. Save the edits between toprule and midrule!
+% NOTE : These tables are generated automatically from the Python scripts. I manually edit the header rows to fit on the page width. Save the edits between toprule and midrule!
 \bgroup
 \setlength\tabcolsep{0.4mm}  % reduces horiztonal padding between columns
 \begin{table}[!ht]
   \centering
-  \caption{Mean computed metrics for all 52 non-shock scenarios, using seat pan
-  vertical accelerations.}
-  \label{tab:results}
+  \caption{Mean computed metrics of the strollers for all 40 non-shock
+  scenarios, using seat pan acceleration.}
+  \label{tab:summary-stroller}
   \scriptsize
-\begin{tabular}{lllccccccccc}
+\begin{tabular}{lllcccccccccc}
 \toprule
-        &            &         & Target & Trial     & RMS     & ISO Weighted & VDV      & Crest  & Peak      & \\
-        &            & Road    & Speed  & Count     & Accel   & RMS Accel    & Accel    & Factor & Freq. & Bandwidth  & Duration \\
-Vehicle & Seat, Baby & Surface & [\si{\kph}] & & [\si{\mps\squared}] & [\si{\mps\squared}] & [\si{\mps\squared}] & & [\si{\hertz}] & [\si{\hertz}]       & [\si{\second}]       \\
+        &            &         &        & .     &     & ISO      & ISO      &     &        &      &       &       \\
+        &            &         & Target & Rep.  & RMS & Weighted & Weighted & VDV & Crest  & Peak & Band- & Dur-  \\
+        &            & Road    & Speed  & Count & Acc & RMS Acc  & RMS Mag  & Acc & Factor & Freq & width & ation \\
+Vehicle & Seat, Baby & Surface & [\si{\kph}] & & [\si{\mps\squared}] & [\si{\mps\squared}] & [\si{\mps\squared}] & [\si{\meter\second}\(^{-1.75}\)] & & [\si{\hertz}] & [\si{\hertz}]       & [\si{\second}]       \\
 \midrule
-\multirow[t]{10}{*}{bugaboo} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 4 & 4.4 & 4.3 & 6.6 & 6.2 & 6.5 & 14.3 & 20.4 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 3 & 2.6 & 2.4 & 3.4 & 4.1 & 9.5 & 17.2 & 23.3 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 2 & 2.9 & 2.7 & 7.5 & 13.5 & 6.1 & 18.5 & 25.4 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 4.8 & 4.7 & 7.9 & 6.4 & 5.8 & 15.1 & 20.2 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 0.7 & 0.6 & 0.9 & 3.3 & 10.1 & 18.5 & 23.1 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 4 & 2.5 & 2.3 & 3.4 & 4.7 & 6.6 & 20.7 & 22.5 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 3 & 2.3 & 1.8 & 3.0 & 3.8 & 9.4 & 26.4 & 22.6 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 3 & 1.7 & 1.4 & 2.5 & 5.5 & 7.7 & 23.8 & 24.7 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 2.4 & 2.2 & 3.6 & 5.3 & 6.0 & 20.3 & 24.5 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 0.6 & 0.4 & 0.8 & 6.5 & 8.4 & 29.3 & 34.6 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
-\multirow[t]{5}{*}{greenmachine} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 3 & 3.2 & 2.9 & 4.6 & 5.3 & 4.1 & 17.3 & 23.7 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 2 & 1.6 & 1.3 & 2.1 & 4.5 & 4.2 & 26.8 & 29.6 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 2 & 2.7 & 2.5 & 4.2 & 6.5 & 4.1 & 18.5 & 28.2 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 3.5 & 3.2 & 5.5 & 6.7 & 3.9 & 16.8 & 23.9 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 0.5 & 0.4 & 0.6 & 4.1 & 4.2 & 33.4 & 22.1 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
-\multirow[t]{12}{*}{keiler} & \multirow[t]{4}{*}{maxicosi, 0 mo} & \multirow[t]{2}{*}{Paver Bricks} & 12 & 2 & 7.0 & 6.9 & 11.2 & 7.2 & 7.6 & 16.7 & 23.8 \\
- &  &  & 20 & 1 & 12.6 & 10.7 & 27.1 & 9.9 & 6.8 & 26.9 & 34.0 \\
-\cline{3-12}
- &  & \multirow[t]{2}{*}{Tarmac} & 12 & 3 & 1.8 & 1.8 & 3.3 & 8.3 & 8.1 & 13.3 & 24.6 \\
- &  &  & 20 & 2 & 2.8 & 2.8 & 3.9 & 5.1 & 7.8 & 13.2 & 29.2 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{4}{*}{maxicosi, 3 mo} & \multirow[t]{2}{*}{Paver Bricks} & 12 & 2 & 6.3 & 5.7 & 12.3 & 11.0 & 8.0 & 21.9 & 28.9 \\
- &  &  & 20 & 2 & 9.8 & 7.8 & 23.5 & 14.4 & 7.2 & 30.7 & 21.4 \\
-\cline{3-12}
- &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.5 & 1.5 & 2.6 & 8.1 & 7.6 & 12.8 & 27.8 \\
- &  &  & 20 & 2 & 2.1 & 2.1 & 2.8 & 3.9 & 6.4 & 12.7 & 23.8 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{4}{*}{melia, 3 mo} & \multirow[t]{2}{*}{Paver Bricks} & 12 & 2 & 5.4 & 4.9 & 8.9 & 8.1 & 7.9 & 21.9 & 26.3 \\
- &  &  & 20 & 2 & 9.5 & 6.7 & 19.7 & 10.2 & 6.8 & 34.8 & 23.0 \\
-\cline{3-12}
- &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.2 & 1.2 & 2.1 & 8.2 & 7.8 & 14.2 & 25.4 \\
- &  &  & 20 & 2 & 1.6 & 1.5 & 2.1 & 3.8 & 8.3 & 13.8 & 22.6 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
-\multirow[t]{10}{*}{maxicosi} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 4 & 4.6 & 4.4 & 6.4 & 4.9 & 8.1 & 18.3 & 20.7 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 2 & 3.2 & 2.8 & 4.2 & 3.9 & 10.4 & 21.1 & 27.2 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 3 & 3.0 & 2.9 & 4.5 & 5.5 & 7.6 & 18.1 & 21.4 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 5.0 & 4.6 & 8.4 & 8.2 & 5.1 & 20.7 & 16.3 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 0.9 & 0.8 & 1.4 & 8.0 & 9.6 & 24.4 & 34.3 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 3 & 4.1 & 3.7 & 5.8 & 5.8 & 8.0 & 20.3 & 25.9 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 2 & 3.0 & 2.4 & 3.9 & 3.4 & 9.7 & 24.0 & 27.8 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 2 & 2.6 & 2.3 & 4.1 & 5.5 & 7.3 & 21.2 & 27.8 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 3.1 & 2.9 & 4.7 & 5.4 & 6.9 & 20.1 & 25.6 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 1.0 & 0.7 & 1.4 & 5.8 & 10.2 & 30.0 & 36.1 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
-\multirow[t]{5}{*}{oldrusty} & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 2 & 4.7 & 2.0 & 7.5 & 6.0 & 5.1 & 39.0 & 29.9 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 3 & 3.4 & 1.2 & 4.9 & 6.1 & 5.2 & 44.2 & 21.9 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 2 & 3.3 & 1.4 & 5.5 & 9.7 & 5.4 & 40.1 & 27.3 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 3.2 & 1.6 & 6.1 & 11.6 & 5.3 & 39.0 & 23.8 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 1.1 & 0.5 & 1.6 & 5.7 & 7.0 & 42.1 & 22.6 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
-\multirow[t]{15}{*}{urbanarrow} & \multirow[t]{5}{*}{maxicosi, 0 mo} & \multirow[t]{3}{*}{Paver Bricks} & 12 & 3 & 6.5 & 5.7 & 14.5 & 9.6 & 7.6 & 21.4 & 20.8 \\
- &  &  & 20 & 1 & 9.2 & 8.5 & 15.9 & 9.9 & 8.0 & 19.8 & 39.1 \\
- &  &  & 25 & 1 & 11.6 & 8.2 & 30.4 & 13.7 & 6.9 & 38.0 & 38.3 \\
-\cline{3-12}
- &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.3 & 1.2 & 2.4 & 8.3 & 9.3 & 18.5 & 29.0 \\
- &  &  & 25 & 2 & 2.1 & 1.9 & 2.9 & 5.2 & 9.7 & 18.1 & 21.5 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{5}{*}{maxicosi, 3 mo} & \multirow[t]{3}{*}{Paver Bricks} & 12 & 2 & 4.5 & 3.9 & 11.0 & 13.5 & 5.8 & 21.6 & 29.1 \\
- &  &  & 20 & 1 & 10.8 & 7.4 & 30.2 & 14.7 & 5.0 & 32.4 & 32.1 \\
- &  &  & 25 & 1 & 10.6 & 7.7 & 29.4 & 14.7 & 6.3 & 31.2 & 30.3 \\
-\cline{3-12}
- &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.1 & 1.0 & 2.0 & 9.6 & 8.8 & 18.3 & 25.3 \\
- &  &  & 25 & 2 & 1.6 & 1.5 & 2.3 & 4.9 & 9.5 & 18.3 & 21.6 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{5}{*}{melia, 3 mo} & \multirow[t]{3}{*}{Paver Bricks} & 12 & 2 & 4.5 & 4.1 & 7.3 & 8.3 & 7.5 & 18.9 & 24.1 \\
- &  &  & 20 & 1 & 6.9 & 6.2 & 11.5 & 8.6 & 7.9 & 21.2 & 36.8 \\
- &  &  & 25 & 1 & 7.6 & 6.8 & 11.9 & 7.2 & 9.2 & 21.1 & 31.7 \\
-\cline{3-12}
- &  & \multirow[t]{2}{*}{Tarmac} & 12 & 3 & 0.9 & 0.9 & 2.0 & 9.3 & 9.4 & 16.7 & 20.4 \\
- &  &  & 25 & 2 & 1.4 & 1.3 & 2.0 & 5.8 & 9.4 & 16.6 & 23.0 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
-\multirow[t]{10}{*}{yoyo} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 3 & 4.1 & 4.0 & 5.7 & 4.8 & 6.4 & 16.9 & 21.3 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 2 & 3.0 & 2.1 & 4.0 & 4.1 & 9.4 & 41.7 & 29.5 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 3 & 2.8 & 2.6 & 4.2 & 5.5 & 6.7 & 18.8 & 22.2 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 2 & 4.0 & 3.8 & 6.7 & 6.4 & 5.2 & 19.6 & 25.7 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 0.9 & 0.6 & 1.4 & 7.4 & 7.7 & 42.9 & 19.5 \\
-\cline{2-12} \cline{3-12}
- & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 3 & 5.2 & 4.9 & 7.1 & 4.4 & 7.7 & 17.6 & 21.5 \\
-\cline{3-12}
- &  & Paver Bricks & 5 & 3 & 3.6 & 3.0 & 4.7 & 3.8 & 10.4 & 25.0 & 22.5 \\
-\cline{3-12}
- &  & Sidewalk Pavers & 5 & 2 & 3.1 & 2.7 & 5.8 & 9.9 & 8.3 & 23.4 & 28.5 \\
-\cline{3-12}
- &  & Sidewalk Slabs & 5 & 3 & 4.0 & 3.7 & 6.0 & 6.2 & 5.3 & 19.0 & 23.3 \\
-\cline{3-12}
- &  & Tarmac & 5 & 2 & 0.7 & 0.4 & 1.0 & 6.3 & 11.1 & 41.7 & 39.1 \\
-\cline{1-12} \cline{2-12} \cline{3-12}
+\multirow[t]{10}{*}{bugaboo} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 4 & 4.4 & 4.3 & 4.5 & 11.5 & 6.2 & 6.5 & 20.5 & 20.4 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 3 & 2.6 & 2.4 & 2.5 & 6.1 & 4.1 & 9.5 & 23.4 & 23.3 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 2 & 2.9 & 2.7 & 2.9 & 15.6 & 13.5 & 6.1 & 49.8 & 25.4 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 4.8 & 4.7 & 4.8 & 12.5 & 6.4 & 5.8 & 30.6 & 20.2 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 0.7 & 0.6 & 0.7 & 1.7 & 3.3 & 10.1 & 33.3 & 23.1 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 4 & 2.5 & 2.3 & 2.5 & 6.2 & 4.7 & 6.6 & 37.9 & 22.5 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 3 & 2.3 & 1.8 & 1.8 & 5.2 & 3.8 & 9.4 & 43.2 & 22.6 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 3 & 1.7 & 1.4 & 1.6 & 4.5 & 5.5 & 7.7 & 39.5 & 24.7 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 2.4 & 2.2 & 2.3 & 5.9 & 5.3 & 6.0 & 36.6 & 24.5 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 0.6 & 0.4 & 0.5 & 1.6 & 6.5 & 8.4 & 51.2 & 34.6 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
+\multirow[t]{5}{*}{greenmachine} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 3 & 3.2 & 2.9 & 3.4 & 7.2 & 5.3 & 4.1 & 38.1 & 23.7 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 2 & 1.6 & 1.3 & 1.6 & 3.2 & 4.5 & 4.2 & 47.4 & 29.6 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 2 & 2.7 & 2.5 & 2.9 & 7.4 & 6.5 & 4.1 & 41.3 & 28.2 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 3.5 & 3.2 & 3.4 & 7.6 & 6.7 & 3.9 & 36.0 & 23.9 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 0.5 & 0.4 & 0.7 & 1.1 & 4.1 & 4.2 & 52.5 & 22.1 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
+\multirow[t]{10}{*}{maxicosi} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 4 & 4.6 & 4.4 & 4.5 & 11.3 & 4.9 & 8.1 & 51.2 & 20.7 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 2 & 3.2 & 2.8 & 2.9 & 7.5 & 3.9 & 10.4 & 53.6 & 27.2 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 3 & 3.0 & 2.9 & 3.0 & 8.3 & 5.5 & 7.6 & 40.1 & 21.4 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 5.0 & 4.6 & 4.7 & 13.8 & 8.2 & 5.1 & 70.3 & 16.3 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 0.9 & 0.8 & 0.8 & 2.1 & 8.0 & 9.6 & 43.4 & 34.3 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 3 & 4.1 & 3.7 & 3.8 & 10.4 & 5.8 & 8.0 & 46.9 & 25.9 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 2 & 3.0 & 2.4 & 2.4 & 6.9 & 3.4 & 9.7 & 57.4 & 27.8 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 2 & 2.6 & 2.3 & 2.5 & 7.2 & 5.5 & 7.3 & 47.2 & 27.8 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 3.1 & 2.9 & 3.0 & 7.8 & 5.4 & 6.9 & 51.4 & 25.6 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 1.0 & 0.7 & 0.8 & 2.6 & 5.8 & 10.2 & 55.5 & 36.1 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
+\multirow[t]{5}{*}{oldrusty} & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 2 & 4.7 & 2.0 & 2.3 & 13.0 & 6.0 & 5.1 & 105.1 & 29.9 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 3 & 3.4 & 1.2 & 1.4 & 8.7 & 6.1 & 5.2 & 106.1 & 21.9 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 2 & 3.3 & 1.4 & 1.7 & 9.7 & 9.7 & 5.4 & 104.2 & 27.3 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 3.2 & 1.6 & 1.7 & 10.5 & 11.6 & 5.3 & 103.9 & 23.8 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 1.1 & 0.5 & 0.6 & 2.7 & 5.7 & 7.0 & 105.5 & 22.6 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
+\multirow[t]{10}{*}{yoyo} & \multirow[t]{5}{*}{cot, 0 mo} & Cobblestones & 5 & 3 & 4.1 & 4.0 & 4.1 & 10.5 & 4.8 & 6.4 & 66.3 & 21.3 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 2 & 3.0 & 2.1 & 2.2 & 6.9 & 4.1 & 9.4 & 97.7 & 29.5 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 3 & 2.8 & 2.6 & 2.7 & 7.0 & 5.5 & 6.7 & 69.9 & 22.2 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 2 & 4.0 & 3.8 & 3.9 & 11.6 & 6.4 & 5.2 & 79.1 & 25.7 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 0.9 & 0.6 & 0.6 & 2.8 & 7.4 & 7.7 & 89.3 & 19.5 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{5}{*}{seat, 9 mo} & Cobblestones & 5 & 3 & 5.2 & 4.9 & 5.0 & 12.4 & 4.4 & 7.7 & 69.1 & 21.5 \\
+\cline{3-13}
+ &  & Paver Bricks & 5 & 3 & 3.6 & 3.0 & 3.0 & 8.2 & 3.8 & 10.4 & 93.4 & 22.5 \\
+\cline{3-13}
+ &  & Sidewalk Pavers & 5 & 2 & 3.1 & 2.7 & 2.8 & 11.9 & 9.9 & 8.3 & 78.3 & 28.5 \\
+\cline{3-13}
+ &  & Sidewalk Slabs & 5 & 3 & 4.0 & 3.7 & 3.8 & 9.7 & 6.2 & 5.3 & 69.7 & 23.3 \\
+\cline{3-13}
+ &  & Tarmac & 5 & 2 & 0.7 & 0.4 & 0.5 & 1.9 & 6.3 & 11.1 & 95.6 & 39.1 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
+\bottomrule
+\end{tabular}
+\end{table}
+\egroup
+
+\bgroup
+\setlength\tabcolsep{0.4mm}  % reduces horiztonal padding between columns
+\begin{table}[!ht]
+  \centering
+  \caption{Mean computed metrics of the cargo bicycles for all 27 non-shock scenarios, using seat pan
+  acceleration.}
+  \label{tab:summary-bicycle}
+  \scriptsize
+\begin{tabular}{lllcccccccccc}
+\toprule
+        &            &         &        & .     &     & ISO      & ISO      &     &        &      &       &       \\
+        &            &         & Target & Rep.  & RMS & Weighted & Weighted & VDV & Crest  & Peak & Band- & Dur-  \\
+        &            & Road    & Speed  & Count & Acc & RMS Acc  & RMS Mag  & Acc & Factor & Freq & width & ation \\
+Vehicle & Seat, Baby & Surface & [\si{\kph}] & & [\si{\mps\squared}] & [\si{\mps\squared}] & [\si{\mps\squared}] & [\si{\meter\second}\(^{-1.75}\)] & & [\si{\hertz}] & [\si{\hertz}]       & [\si{\second}]       \\
+\midrule
+\multirow[t]{12}{*}{keiler} & \multirow[t]{4}{*}{maxicosi, 0 mo} & \multirow[t]{2}{*}{Paver Bricks} & 12 & 2 & 7.0 & 6.9 & 7.1 & 15.7 & 7.2 & 7.6 & 36.6 & 23.8 \\
+ &  &  & 20 & 1 & 12.6 & 10.7 & 10.9 & 26.6 & 9.9 & 6.8 & 74.8 & 34.0 \\
+\cline{3-13}
+ &  & \multirow[t]{2}{*}{Tarmac} & 12 & 3 & 1.8 & 1.8 & 1.9 & 6.4 & 8.3 & 8.1 & 18.7 & 24.6 \\
+ &  &  & 20 & 2 & 2.8 & 2.8 & 2.8 & 6.7 & 5.1 & 7.8 & 16.7 & 29.2 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{4}{*}{maxicosi, 3 mo} & \multirow[t]{2}{*}{Paver Bricks} & 12 & 2 & 6.3 & 5.7 & 5.9 & 14.7 & 11.0 & 8.0 & 47.5 & 28.9 \\
+ &  &  & 20 & 2 & 9.8 & 7.8 & 8.0 & 28.7 & 14.4 & 7.2 & 68.3 & 21.4 \\
+\cline{3-13}
+ &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.5 & 1.5 & 1.6 & 4.9 & 8.1 & 7.6 & 18.5 & 27.8 \\
+ &  &  & 20 & 2 & 2.1 & 2.1 & 2.2 & 5.1 & 3.9 & 6.4 & 16.0 & 23.8 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{4}{*}{melia, 3 mo} & \multirow[t]{2}{*}{Paver Bricks} & 12 & 2 & 5.4 & 4.9 & 5.0 & 12.9 & 8.1 & 7.9 & 62.5 & 26.3 \\
+ &  &  & 20 & 2 & 9.5 & 6.7 & 6.9 & 31.9 & 10.2 & 6.8 & 82.6 & 23.0 \\
+\cline{3-13}
+ &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.2 & 1.2 & 1.3 & 2.7 & 8.2 & 7.8 & 41.6 & 25.4 \\
+ &  &  & 20 & 2 & 1.6 & 1.5 & 1.6 & 3.6 & 3.8 & 8.3 & 28.9 & 22.6 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
+\multirow[t]{15}{*}{urbanarrow} & \multirow[t]{5}{*}{maxicosi, 0 mo} & \multirow[t]{3}{*}{Paver Bricks} & 12 & 3 & 6.5 & 5.7 & 5.7 & 26.1 & 9.6 & 7.6 & 58.5 & 20.8 \\
+ &  &  & 20 & 1 & 9.2 & 8.5 & 8.6 & 15.5 & 9.9 & 8.0 & 53.1 & 39.1 \\
+ &  &  & 25 & 1 & 11.6 & 8.2 & 8.3 & 31.8 & 13.7 & 6.9 & 85.0 & 38.3 \\
+\cline{3-13}
+ &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.3 & 1.2 & 1.2 & 4.8 & 8.3 & 9.3 & 24.8 & 29.0 \\
+ &  &  & 25 & 2 & 2.1 & 1.9 & 1.9 & 4.7 & 5.2 & 9.7 & 24.6 & 21.5 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{5}{*}{maxicosi, 3 mo} & \multirow[t]{3}{*}{Paver Bricks} & 12 & 2 & 4.5 & 3.9 & 3.9 & 11.5 & 13.5 & 5.8 & 46.0 & 29.1 \\
+ &  &  & 20 & 1 & 10.8 & 7.4 & 7.5 & 15.2 & 14.7 & 5.0 & 71.9 & 32.1 \\
+ &  &  & 25 & 1 & 10.6 & 7.7 & 7.8 & 36.3 & 14.7 & 6.3 & 71.0 & 30.3 \\
+\cline{3-13}
+ &  & \multirow[t]{2}{*}{Tarmac} & 12 & 2 & 1.1 & 1.0 & 1.0 & 3.8 & 9.6 & 8.8 & 28.3 & 25.3 \\
+ &  &  & 25 & 2 & 1.6 & 1.5 & 1.5 & 3.8 & 4.9 & 9.5 & 25.4 & 21.6 \\
+\cline{2-13} \cline{3-13}
+ & \multirow[t]{5}{*}{melia, 3 mo} & \multirow[t]{3}{*}{Paver Bricks} & 12 & 2 & 4.5 & 4.1 & 4.1 & 12.0 & 8.3 & 7.5 & 31.9 & 24.1 \\
+ &  &  & 20 & 1 & 6.9 & 6.2 & 6.3 & 15.2 & 8.6 & 7.9 & 40.1 & 36.8 \\
+ &  &  & 25 & 1 & 7.6 & 6.8 & 6.8 & 15.1 & 7.2 & 9.2 & 47.7 & 31.7 \\
+\cline{3-13}
+ &  & \multirow[t]{2}{*}{Tarmac} & 12 & 3 & 0.9 & 0.9 & 0.9 & 3.6 & 9.3 & 9.4 & 33.2 & 20.4 \\
+ &  &  & 25 & 2 & 1.4 & 1.3 & 1.3 & 3.4 & 5.8 & 9.4 & 27.8 & 23.0 \\
+\cline{1-13} \cline{2-13} \cline{3-13}
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2247,5 +2123,163 @@ significant difference.
   \caption{Tukey Comparison Plots for the Cargo Bicycles}
   \label{fig:tukey-bicycle}
 \end{figure}
+
+\newpage
+\section{Shock tests}
+\label{app:shock}
+
+We identified the maximum peak acceleration values for each trial
+(Equation~\ref{eq:max-acc}), then averaged them across repetitions to obtain the
+results listed in Table~\ref{tab:shock} for different vehicles and
+configurations. There is a significant variation among tests, with the peaks for
+the bicycles sometimes reaching the accelerometer's full scale (\(\pm\)16~g).
+While the seat pan accelerations for the strollers are generally lower than
+those experienced with the bicycles, the configuration (0 or 9 months) may play
+a large role. Among bicycles, the use of Melia baby shell seems to transmit
+lower accelerations compared to Maxi-Cosi, 3 months, for both the Keiler
+tricycle and the Urban Arrow. Strollers with the baby seat configuration for 9
+months show much lower acceleration compared to the baby cot for 0 months
+(Bugaboo and Maxi-Cosi). Surprisingly, the oldest strollers (Old Rusty and Green
+Machine) performed very well during the shock test, resulting in the lowest seat
+pan acceleration among all the tested vehicles.
+Figure~\ref{fig:shock_vehicle_comparison} shows the peaks of the vertical
+acceleration recorded at the seat pan, grouped by different vehicles, for the
+shock test. As noted in Table~\ref{tab:shock}, the old strollers Old Rusty and
+Green Machine show lower acceleration values. We do not clearly distinguish any
+trend with speed for the bicycles (Keiler and Urban Arrow). During the tests
+involving Keiler tricycle and strollers, we cannot exclude that the front wheels
+(left and right) hit the bump at slightly different time instants.   
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=160mm]{fig/SeatBotacc_ver-shock-test-compare.png}
+  \caption{Vertical acceleration recorded at the seat pan during the shock test
+  per each trial, grouped by vehicles. The colour indicates the mean speed of
+  the trial. The lighter the colour the lower the speed.}
+  \label{fig:shock_vehicle_comparison}
+\end{figure}
+
+\begin{table}
+  \centering
+  \caption{Mean of the maximum seat pan acceleration across trials in
+  \si{\mps\squared} recorded for shock test, for different vehicles and baby
+  masses.}
+  \label{tab:shock}
+  \footnotesize
+  \begin{tabular}{lllrrrr}
+    \toprule
+     & &  & Target Speed & Trial Count & Max Acceleration \\
+    Vehicle Type & Model & Seat, Baby & [km/h] & & [m/s²] \\
+    \midrule
+    Strollers & Bugaboo & Cot, 0 mo  & 5 & 3 & 146 \\
+              &         & Seat, 9 mo & 5 & 4 & 49 \\
+    \cline{2-6}
+              & Maxi-Cosi & Cot, 0 mo  & 5 & 2 & 131 \\
+              &           & Seat, 9 mo & 5 & 4 & 35 \\
+    \cline{2-6}
+              & Stokke BABYZEN YOYO & Cot, 0 mo  & 5 & 4 & 35 \\
+              &                     & Seat, 9 mo & 5 & 4 & 51 \\
+    \cline{2-6}
+              & Green Machine & Cot, 0 mo & 5 & 4 & 17 \\
+    \cline{2-6}
+              & Old Rusty & Seat, 9 mo & 5 & 4 & 31 \\
+    \cline{1-6}
+    Bicycles & Keiler tricycle & Melia, 3 mo & 5 & 2 & 52 \\
+
+             &               & Melia, 3 mo & 12 & 2 & 85 \\
+
+             &               & Melia, 3 mo & 20 & 2 & 124 \\
+    \cline{2-6}
+             &               & Maxi-Cosi, 0 mo & 5 & 2 & 113 \\
+
+             &               & Maxi-Cosi, 0 mo & 12 & 2 & 140 \\
+
+             &               & Maxi-Cosi, 0 mo & 20 & 2 & 115 \\
+    \cline{2-6}
+             &               & Maxi-Cosi, 3 mo & 5 & 2 & 151 \\
+
+             &               & Maxi-Cosi, 3 mo & 12 & 2 & 160 \\
+
+             &               & Maxi-Cosi, 3 mo & 20 & 2 & 145 \\
+    \cline{2-6}
+             & Urban Arrow & Melia, 3 mo & 5 & 2 & 43 \\
+
+             &               & Melia, 3 mo & 12 & 2 & 43 \\
+
+             &               & Melia, 3 mo & 25 & 2 & 42 \\
+    \cline{2-6}
+             &               & Maxi-Cosi, 0 mo & 5 & 1 & 50 \\
+    
+             &               & Maxi-Cosi, 0 mo & 12 & 2 & 63 \\
+    
+             &               & Maxi-Cosi, 0 mo & 25 & 2 & 130 \\
+    \cline{2-6}
+             &               & Maxi-Cosi, 3 mo & 5 & 2 & 156 \\
+    
+             &               & Maxi-Cosi, 3 mo & 12 & 2 & 160 \\
+    
+             &               & Maxi-Cosi, 3 mo & 25 & 2 & 160 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Future Work}
+% 
+There are four possible directions for future work: more in-depth analysis of
+the present measurements, more research on vibrations generated by infant
+transport systems, more research on the effects of vibration on infants, and
+development of a benchmark.
+
+\paragraph{Concerning further analysis of the present measurements:}
+%
+We acquired data from four other sensors on the vehicles, each with three
+accelerometer and three gyroscope time histories, for a total of 30 time
+histories of possible interest. This paper provides a look into the experiments
+via four metrics: ISO weighted vertical RMS acceleration, maximum acceleration,
+peak frequency, and bandwidth of the seat pan sensor. The collected data can
+also be used to investigate the transmissibility from sensor to sensor, as well
+as rotational vibration effects. Investigating these further can give a more
+complete picture of the connections to health and comfort. This work also gives
+a benchmark against which new designs can be tested to show reduction in
+vibration.
+
+\paragraph{Concerning more research on vibrations generated by infant transport
+systems:}
+%
+There are products and variables that have not yet been investigated for their
+effect on vibration. For example, running with an infant in a sports stroller is
+not tested. Investigating this is important because we expect that vibrations
+when running may quickly exceed health limits. In addition, recumbent posture in
+sports strollers is estimated to increase the vibration load on the head of the
+infant. It is important to establish the actual vibration load on the head in
+practice.
+
+\paragraph{Concerning more research on the effects of vibration on infants:}
+%
+The frequency weighting of the ISO~2631-1 standard is not designed or validated
+to characterise health and comfort for infants or children, for short durations,
+and for non-erect seating. Research is urgently needed to develop a new standard
+with a more appropriate frequency weighting to improve assessment of the comfort
+and health effects of whole-body vibration of infants and children, also for
+short durations and for non-erect seating. Furthermore, tests with more
+realistic dummies and/or real infants are necessary to investigate how the
+infant itself moves when excited by various vibrations in different postures.
+The results will contribute to the assessment of the transmissibility of
+vibration in children, which is needed to deduce the vibrations transmitted to
+the head. 
+
+\paragraph{Concerning the development of a benchmark:}
+%
+At this moment, no requirements are made for the vibrational properties of child
+transport systems in the standards for strollers, cargo bicycles, bicycle seats,
+and car seats. Due to the magnitude of vibrations that can occur during child
+transport, it is imperative to include a requirement to the vibrational
+properties in the standards for these products. At this moment, no new
+requirements can be defined because there is not enough information. With the
+information resulting from more research on infant vibration, a benchmark for
+the vibration properties of infant transportation products needs to be
+developed. This will enable the inclusion of minimal requirements for vibration
+properties in the standards, which would greatly increase the health and comfort
+of the infants who must use these products. 
 
 \end{document}
