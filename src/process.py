@@ -183,6 +183,15 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                     signal, sample_rate, cutoff=cutoff,
                                     smooth=True, iso_weighted=True)
                             max_amp_shock = trial.calc_max_peak(signal)
+                            freq, amp, _, _ = trial.calculate_frequency_spectrum(
+                                signal, sample_rate, cutoff=cutoff,
+                                smooth=True)
+                            # NOTE : The frequency spectrum can be different
+                            # lengths depending on the length of the signal. It
+                            # seems len() = 2047, 4095, 8191 are common. So
+                            # interpolate to make a common length.
+                            freq_new = np.linspace(0.0, 120.0, num=2001)
+                            amp_new = np.interp(freq_new, freq, amp)
 
                             stats_data[signal + '_rms'].append(rms)
                             stats_data[signal + '_rms_iso'].append(rms_iso)
@@ -199,7 +208,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data['Peak Frequency [Hz]'].append(peak_freq)
                             stats_data['Bandwidth [Hz]'].append(
                                 thresh_freq)
-                            stats_data['Peak Value [m/s/s]'].append(max_amp_shock)
+                            stats_data['Peak Value [m/s/s]'].append(
+                                max_amp_shock)
                             stats_data['Baby Age [mo]'].append(
                                 s.meta_data['baby_age'])
                             stats_data['Baby Mass [kg]'].append(
@@ -214,6 +224,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             stats_data['Vehicle Type'].append(
                                 s.meta_data['vehicle_type'])
                             stats_data['repetition_number'].append(rep_num)
+                            stats_data['Frequency Array'].append(freq_new)
+                            stats_data['Amplitude Array'].append(amp_new)
 
                             fig, ax = plt.subplots(layout='constrained',
                                                    figsize=(8, 2))

@@ -8,6 +8,7 @@ import subprocess
 # external dependencies
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -56,10 +57,6 @@ with open(os.path.join(PATH_TO_DATA_DIR, 'stats-data.pkl'), 'rb') as f:
     stats_data = pickle.load(f)
 
 stats_df = pd.DataFrame(stats_data)
-# NOTE : It may be possible to add duplicate rows when running process.py, so
-# drop duplicates.
-stats_df.drop_duplicates(inplace=True)
-
 
 stats_df['Duration Weight'] = (stats_df['Duration [s]'] /
                                stats_df['Duration [s]'].max())
@@ -244,6 +241,65 @@ for surf in stroller_df['Road Surface'].unique():
     print(comp_tab)
 
 boxp_html = []
+
+
+##################################################
+# Figure: Stroller and Bicycle Spectrum Comparison
+##################################################
+fig, axes = plt.subplots(ncols=2, nrows=2, layout='constrained',
+                         figsize=(MAXWIDTH*MM2INCH, 0.6*MAXWIDTH*MM2INCH))
+tick_spacing = 20
+
+gs = axes[0, 0].get_gridspec()
+# remove axes on left column
+axes[0, 0].remove()
+axes[1, 0].remove()
+# add axis that spans whole left column
+strol_ax = fig.add_subplot(gs[:, 0])
+surf_select = stroller_df['Road Surface'] == 'Sidewalk Pavers'
+freq = stroller_df.loc[50, 'Frequency Array']
+for vehicle in ['bugaboo', 'greenmachine', 'maxicosi', 'oldrusty', 'yoyo']:
+    vehi_select = stroller_df['Vehicle'] == vehicle
+    mean_amp = stroller_df.loc[surf_select & vehi_select,
+                               'Amplitude Array'].mean()
+    strol_ax.plot(freq, mean_amp, label=vehicle)
+strol_ax.xaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+strol_ax.set_ylabel('Amplitude [m/s$^2$]')
+strol_ax.set_xlabel('Frequency [Hz]')
+strol_ax.grid(visible=True)
+strol_ax.legend()
+
+surf_select = bicycle_df['Road Surface'] == 'Paver Bricks'
+sped_select = bicycle_df['Target Speed [km/h]'] == 12
+freq = bicycle_df.loc[100, 'Frequency Array']
+for vehicle in ['keiler', 'urbanarrow']:
+    vehi_select = bicycle_df['Vehicle'] == vehicle
+    mean_amp = bicycle_df.loc[surf_select & sped_select & vehi_select,
+                              'Amplitude Array'].mean()
+    axes[1, 1].plot(freq, mean_amp, label=vehicle)
+axes[1, 1].xaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+axes[1, 1].grid(visible=True)
+axes[1, 1].legend()
+axes[1, 1].set_title('Target Speed: 12 km/h')
+axes[1, 1].set_xlabel('Frequency [Hz]')
+
+surf_select = bicycle_df['Road Surface'] == 'Paver Bricks'
+sped_select = bicycle_df['Target Speed [km/h]'] > 15
+freq = bicycle_df.loc[100, 'Frequency Array']
+for vehicle in ['keiler', 'urbanarrow']:
+    vehi_select = bicycle_df['Vehicle'] == vehicle
+    mean_amp = bicycle_df.loc[surf_select & sped_select & vehi_select,
+                              'Amplitude Array'].mean()
+    axes[0, 1].plot(freq, mean_amp, label=vehicle)
+axes[0, 1].xaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+axes[0, 1].set_xticklabels([])
+axes[0, 1].set_title('Target Speed: 20 & 25 km/h')
+axes[0, 1].grid(visible=True)
+axes[0, 1].legend()
+
+fname = '{}-spectra-compare.png'.format(SIGNAL)
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+plt.clf()
 
 #########################################################
 # Figure: Health ISO Weighted RMS All Trials Scatter Plot

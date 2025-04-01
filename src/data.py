@@ -436,6 +436,7 @@ class Trial():
         ==========
         sig_name : string
         duration : float, optional
+            Duration in seconds to integrate over.
 
         Returns
         =======
