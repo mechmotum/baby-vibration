@@ -243,10 +243,12 @@ for surf in stroller_df['Road Surface'].unique():
 
 boxp_html = []
 
-
 ##################################################
 # Figure: Stroller and Bicycle Spectrum Comparison
 ##################################################
+boxp_html.append(H2.format("""Mean spectra of each vehicle at each speed."""))
+msg = """TODO"""
+boxp_html.append(P.format(msg))
 fig, axes = plt.subplots(ncols=2, nrows=2, layout='constrained',
                          figsize=(MAXWIDTH*MM2INCH, 0.6*MAXWIDTH*MM2INCH))
 tick_spacing = 20
@@ -267,6 +269,7 @@ for vehicle in ['bugaboo', 'greenmachine', 'maxicosi', 'oldrusty', 'yoyo']:
 strol_ax.xaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
 strol_ax.set_ylabel('Amplitude [m/s$^2$]')
 strol_ax.set_xlabel('Frequency [Hz]')
+strol_ax.set_title('Target Speed: 5 km/h')
 strol_ax.grid(visible=True)
 strol_ax.legend()
 
@@ -301,6 +304,7 @@ axes[0, 1].legend()
 fname = '{}-spectra-compare.png'.format(SIGNAL)
 fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
+boxp_html.append(IMG.format('', fname) + '\n</br>')
 
 #########################################################
 # Figure: Health ISO Weighted RMS All Trials Scatter Plot
@@ -382,7 +386,7 @@ p = sns.scatterplot(
     y=SIGNAL_RMS_ISO,
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    palette=['C1', 'C4', 'C0', 'C2', 'C3', 'C5'],
+    palette=['C1', 'C4'],
     style="Target Speed [km/h]",
 )
 # health risk lines for different durations
@@ -620,7 +624,7 @@ p = sns.scatterplot(
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
-    palette=['C1', 'C4', 'C0', 'C2', 'C3', 'C5'],
+    palette=['C1', 'C4'],
     style="Target Speed [km/h]",
 )
 p.set_xticks(p.get_xticks())
