@@ -112,7 +112,7 @@ INDEX = """\
   <hr>
   <p>
   This lists all of the repetitions in long form (tidy data). Download as an
-  excel spreadsheet: <a href='all-reps.xlxs'>all-reps.xlxs</a>.
+  excel spreadsheet: <a href='all-reps.xlsx'>all-reps.xlsx</a>.
   </p>
 {trial_table}
 
