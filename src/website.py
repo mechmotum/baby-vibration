@@ -89,15 +89,16 @@ stats_df['Seat, Baby'] = (
 
 stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
-# store the original order of stats_df before removing shock
-stats_df['original_order'] = np.arange(len(stats_df))
-
-# drop shock from overall analysis (for now)
+# separate in to vibration and shock sets and vibration into bicycle and
+# stroller sets
+vibr_df = stats_df[stats_df['Road Surface'] != 'Shock']
 shock_df = stats_df[stats_df['Road Surface'] == 'Shock']
-stats_df = stats_df.loc[stats_df['Road Surface'] != 'Shock', :]
+bicycle_df = vibr_df[vibr_df['Vehicle Type'] == 'bicycle']
+stroller_df = vibr_df[vibr_df['Vehicle Type'] == 'stroller']
 
-bicycle_df = stats_df[stats_df['Vehicle Type'] == 'bicycle']
-stroller_df = stats_df[stats_df['Vehicle Type'] == 'stroller']
+# these aren't needed in this data frame and just cause printing issues
+del stats_df['Frequency Array']
+del stats_df['Amplitude Array']
 
 ################
 # Data Summaries
@@ -111,8 +112,8 @@ print(stats_df)
 
 groups = ['Vehicle', 'Seat, Baby', 'Road Surface', 'Target Speed [km/h]']
 # weight means by duration
-weighted_mean_df = stats_df.groupby(groups)[SIGNAL_RMS].agg(
-    lambda x: np.average(x, weights=stats_df.loc[x.index, "Duration Weight"]))
+weighted_mean_df = vibr_df.groupby(groups)[SIGNAL_RMS].agg(
+    lambda x: np.average(x, weights=vibr_df.loc[x.index, "Duration Weight"]))
 
 
 def create_summary_data_frame(df):
@@ -136,7 +137,7 @@ def create_summary_data_frame(df):
     return summary_df
 
 
-summary_df = create_summary_data_frame(stats_df)
+summary_df = create_summary_data_frame(vibr_df)
 print_header("Means Per Scenario")
 print(summary_df)
 with open(os.path.join(PATH_TO_TABLE_DIR, 'summary-data-frame.tex'), 'w') as f:
@@ -158,7 +159,7 @@ with open(os.path.join(PATH_TO_TABLE_DIR,
 
 # Table that shows how many trials and the mean duration
 groups = ['Vehicle Type', 'Road Surface', 'Target Speed [km/h]']
-trial_count_df = stats_df.groupby(groups)['Duration [s]'].agg(
+trial_count_df = vibr_df.groupby(groups)['Duration [s]'].agg(
     **{'Count': 'count',
        'Mean': 'mean',
        'STD': 'std'})
@@ -312,7 +313,7 @@ indicate "above the health caution zone" from the ISO 2631-1 standard for
 different durations of daily dosage."""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
+    data=vibr_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     x="Mean Speed [km/h]",
     y=SIGNAL_RMS_ISO,
     style="Vehicle, Seat, Baby Age",
@@ -407,7 +408,7 @@ configuration, baby age), trial duration, road surface, and plotted versus
 speed. Horizontal lines indicate the ISO 2631-1 comfort labels."""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
+    data=vibr_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     x="Mean Speed [km/h]",
     y=SIGNAL_RMS_MAG_ISO,
     style="Vehicle, Seat, Baby Age",
@@ -531,7 +532,7 @@ trials broken down by vehicle setup (brand, seat configuration, baby age),
 trial duration, road surface, and plotted versus speed."""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
+    data=vibr_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     x="Mean Speed [km/h]",
     y='Crest Factor',
     style="Vehicle, Seat, Baby Age",
@@ -556,7 +557,7 @@ boxp_html.append(H2.format(f'All Trials Unweighted {SIGNAL} VDV Compared'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.scatterplot(
-    data=stats_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
+    data=vibr_df.sort_values(["Vehicle, Seat, Baby Age", "Road Surface"]),
     y=SIGNAL + "_vdv",
     x="Vehicle, Seat, Baby Age",
     hue='Road Surface',
@@ -630,7 +631,7 @@ boxp_html.append(H2.format('Peak Frequency'))
 msg = """"""
 boxp_html.append(P.format(msg))
 p = sns.boxplot(
-    data=stats_df,
+    data=vibr_df,
     x="Target Speed [km/h]",
     y="Peak Frequency [Hz]",
     hue="Road Surface",
@@ -657,11 +658,11 @@ msg = """Frequency at which 80% of the cumulative area under the non-iso
 weighted amplitude spectrum occurs."""
 boxp_html.append(P.format(msg))
 p = sns.boxplot(
-    data=stats_df,
+    data=vibr_df,
     x="Target Speed [km/h]",
     y="Bandwidth [Hz]",
     hue="Road Surface",
-    hue_order=sorted(stats_df["Road Surface"].unique()),
+    hue_order=sorted(vibr_df["Road Surface"].unique()),
 )
 p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                    zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
@@ -712,18 +713,18 @@ boxp_html.append(H2.format('Vehicle Comparison'))
 msg = """Do vehicles differ in each surface-speed scenario?"""
 boxp_html.append(P.format(msg))
 p = sns.catplot(
-    data=stats_df,
+    data=vibr_df,
     x="Road Surface",
     y=SIGNAL_RMS_ISO,
     hue="Vehicle",
     col='Target Speed [km/h]',
     col_wrap=2,
     kind='box',
-    order=sorted(stats_df['Road Surface'].unique()),
-    hue_order=sorted(stats_df['Vehicle'].unique()),
+    order=sorted(vibr_df['Road Surface'].unique()),
+    hue_order=sorted(vibr_df['Vehicle'].unique()),
     sharey=False,
 )
-p.set_xticklabels(sorted(stats_df['Road Surface'].unique()), rotation=30)
+p.set_xticklabels(sorted(vibr_df['Road Surface'].unique()), rotation=30)
 p.figure.set_layout_engine('constrained')
 fname = '{}-vehicle-compare.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
@@ -790,7 +791,7 @@ boxp_html.append(H2.format('Baby Mass Comparison'))
 msg = 'Compare accelerations across baby mass (age) and speed.'
 boxp_html.append(P.format(msg))
 p = sns.stripplot(
-    data=stats_df,
+    data=vibr_df,
     x="Baby Age [mo]",
     y=SIGNAL_RMS_ISO,
     hue='Mean Speed [km/h]',
@@ -810,11 +811,11 @@ boxp_html.append(H2.format('Road Surface Comparison'))
 msg = ''
 boxp_html.append(P.format(msg))
 p = sns.stripplot(
-    data=stats_df,
+    data=vibr_df,
     x="Road Surface",
     y=SIGNAL_RMS_ISO,
     hue='Mean Speed [km/h]',
-    order=sorted(stats_df['Road Surface'].unique()),
+    order=sorted(vibr_df['Road Surface'].unique()),
 )
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
@@ -875,23 +876,14 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 
 plt.close('all')
 
-# Attach again the shock tests. Issue: the rows are not sorted as it was in the
-# beginning.
-complete_stats_df = pd.concat([stats_df, shock_df], ignore_index=True)
-# Restore the original order using 'original_order'
-complete_stats_df['original_order'] = complete_stats_df['original_order'].fillna(len(complete_stats_df))
-complete_stats_df = complete_stats_df.sort_values(by='original_order').drop(columns=['original_order'])
-
-# Reset index if needed
-complete_stats_df = complete_stats_df.reset_index(drop=True)
-
-# Limit max_amp_shock values to a maximum of 160 (only for plotting, in the
-# table you will have uncut values)
-shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(upper=16*9.81)
-
 #############################################
 # Figure: Shock test comparison -  All Trials
 #############################################
+# Limit max_amp_shock values to a maximum of 160 (only for plotting, in the
+# table you will have uncut values)
+shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(
+    upper=16*9.81)
+
 shock_html = []
 shock_html.append(H2.format('Shock test Comparison'))
 msg = 'Compare maximum acceleration across vehicles and speed.'
@@ -941,7 +933,7 @@ html_source = INDEX.format(
     shock_html=shock_html,
     srot_html='\n  '.join(html_data['srot_html']),
     sync_html='\n  '.join(html_data['sync_html']),
-    trial_table=complete_stats_df.to_html(
+    trial_table=stats_df.to_html(
         float_format="%0.3f",
         justify='center',
         show_dimensions=True,
@@ -949,5 +941,3 @@ html_source = INDEX.format(
 )
 with open(os.path.join(PATH_TO_REPO, 'index.html'), 'w') as f:
     f.write(html_source)
-
-
