@@ -22,9 +22,10 @@ INDEX = """\
   <hr>
   <div class="alert alert-danger" role="alert">
     <p>
-      Warning: These results are preliminary, do not rely on them until a
-      supporting paper is published. See the latest preprint for more context:
-      <a href="https://doi.org/10.31224/4415">doi.org/10.31224/4415</a>.
+      Warning: These results are a work-in-progress, we caution reliance on
+      them until a supporting paper is published. See the latest preprint for
+      more context: <a
+      href="https://doi.org/10.31224/4415">doi.org/10.31224/4415</a>.
     </p>
   </div>
   <p>
@@ -58,6 +59,9 @@ INDEX = """\
   <p>
     Counts and mean values for each scenario, i.e. combination of vehicle,
     seat, baby mass, road surface, and speed.
+    Download summary tables for the strollers and bicycles in excel format: <a
+    href='stroller-summary.xlsx'>stroller-summary.xlsx</a> and <a
+    href='bicycle-summary.xlsx'>bicycle-summary.xlsx</a>.
   </p>
 {mean_table}
 

@@ -146,6 +146,8 @@ with open(os.path.join(PATH_TO_TABLE_DIR, 'summary-data-frame.tex'), 'w') as f:
     f.write(summary_df.to_latex(float_format="%0.1f"))
 
 stroller_summary_df = create_summary_data_frame(stroller_df)
+stroller_summary_df.to_excel(os.path.join(PATH_TO_DATA_DIR,
+                                          'stroller-summary.xlsx'))
 print_header("Means Per Scenario: Stroller")
 print(stroller_summary_df)
 with open(os.path.join(PATH_TO_TABLE_DIR,
@@ -153,6 +155,8 @@ with open(os.path.join(PATH_TO_TABLE_DIR,
     f.write(stroller_summary_df.to_latex(float_format="%0.1f"))
 
 bicycle_summary_df = create_summary_data_frame(bicycle_df)
+bicycle_summary_df.to_excel(os.path.join(PATH_TO_DATA_DIR,
+                                         'bicycle-summary.xlsx'))
 print_header("Means Per Scenario: Bicycle")
 print(bicycle_summary_df)
 with open(os.path.join(PATH_TO_TABLE_DIR,
