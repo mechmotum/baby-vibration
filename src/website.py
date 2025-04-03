@@ -91,10 +91,10 @@ stats_df['Mean Speed [km/h]'] = stats_df['Mean Speed [m/s]']*3.6
 
 # separate in to vibration and shock sets and vibration into bicycle and
 # stroller sets
-vibr_df = stats_df[stats_df['Road Surface'] != 'Shock']
-shock_df = stats_df[stats_df['Road Surface'] == 'Shock']
-bicycle_df = vibr_df[vibr_df['Vehicle Type'] == 'bicycle']
-stroller_df = vibr_df[vibr_df['Vehicle Type'] == 'stroller']
+vibr_df = stats_df[stats_df['Road Surface'] != 'Shock'].copy()
+shock_df = stats_df[stats_df['Road Surface'] == 'Shock'].copy()
+bicycle_df = vibr_df[vibr_df['Vehicle Type'] == 'bicycle'].copy()
+stroller_df = vibr_df[vibr_df['Vehicle Type'] == 'stroller'].copy()
 
 # these aren't needed in this data frame and just cause printing issues
 del stats_df['Frequency Array']
@@ -354,8 +354,13 @@ for val, note in zip((10.0, 20.0, 60.0, 240.0),
                      ('10 min', '20 min', '1 hr', '4 hr')):
     p.axes.axhline(eval_health(val)[1], linestyle='--', color='tab:grey')
     p.axes.text(1.18, eval_health(val)[1] + 0.05, note)
+# NOTE : calling set_xticks before set_xticklabels gets rid of the userwarning,
+# see:
+# https://stackoverflow.com/questions/63723514/userwarning-fixedformatter-should-only-be-used-together-with-fixedlocator
+p.set_xticks(p.get_xticks())
+xlabs = p.get_xticklabels()
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
-                   p.get_xticklabels()], rotation=90)
+                   xlabs], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -386,6 +391,7 @@ for val, note in zip((10.0, 20.0, 60.0, 240.0),
     p.axes.axhline(eval_health(val)[1], linestyle='--', color='tab:grey')
     p.axes.text(1.1, eval_health(val)[1] + 0.15, note,
                 bbox=dict(boxstyle='round,pad=0.02', color='white'))
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -451,7 +457,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     fontsize=8,
                     rotation=90,
                     arrowprops=dict(facecolor='tab:grey', width=2.0,
-                                    headwidth=0.0, frac=0.0))
+                                    headwidth=0.0))
 p.axes.text(8.3, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:grey')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
@@ -462,8 +468,9 @@ p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
                 fontsize=8,
                 rotation=90,
                 arrowprops=dict(facecolor='tab:grey', width=2.0,
-                                headwidth=0.0, frac=0.0))
+                                headwidth=0.0))
 p.axes.grid(False)
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -499,7 +506,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     fontsize=8,
                     rotation=90,
                     arrowprops=dict(facecolor='tab:grey', width=2.0,
-                                    headwidth=0.0, frac=0.0))
+                                    headwidth=0.0))
 p.axes.text(6.0, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:grey')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
@@ -510,8 +517,9 @@ p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
                 fontsize=8,
                 rotation=90,
                 arrowprops=dict(facecolor='tab:grey', width=2.0,
-                                headwidth=0.0, frac=0.0))
+                                headwidth=0.0))
 p.axes.grid(False)
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -563,6 +571,7 @@ p = sns.scatterplot(
     hue='Road Surface',
     size="Mean Speed [km/h]",
 )
+p.set_xticks(p.get_xticks())
 p.set_xticklabels(p.get_xticklabels(), rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration VDV [m/s$^{1.75}$]')
@@ -587,6 +596,7 @@ p = sns.stripplot(
     hue_order=sorted(stroller_df["Road Surface"].unique()),
     order=sorted(stroller_df["Vehicle, Seat, Baby Age"].unique()),
 )
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -613,6 +623,7 @@ p = sns.scatterplot(
     palette=['C1', 'C4', 'C0', 'C2', 'C3', 'C5'],
     style="Target Speed [km/h]",
 )
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
@@ -637,6 +648,7 @@ p = sns.boxplot(
     hue="Road Surface",
     hue_order=sorted(stroller_df["Road Surface"].unique()),
 )
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                    zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
                                              'Bicycles', 'Bicycles'])])
@@ -664,6 +676,7 @@ p = sns.boxplot(
     hue="Road Surface",
     hue_order=sorted(vibr_df["Road Surface"].unique()),
 )
+p.set_xticks(p.get_xticks())
 p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                    zip(p.get_xticklabels(), ['Strollers', 'Bicycles',
                                              'Bicycles', 'Bicycles'])])
@@ -817,6 +830,7 @@ p = sns.stripplot(
     hue='Mean Speed [km/h]',
     order=sorted(vibr_df['Road Surface'].unique()),
 )
+p.set_xticks(p.get_xticks())
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 fname = '{}-road-surface-compare.png'.format(SIGNAL)
@@ -842,6 +856,7 @@ p = sns.pointplot(
     hue_order=sorted(stroller_df['Vehicle'].unique()),
 )
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.set_xticks(p.get_xticks())
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
 fname = '{}-stroller-type-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
@@ -895,6 +910,7 @@ p = sns.stripplot(
     hue='Target Speed [km/h]',
 )
 p.set_ylabel(r'Vertical Acceleration Shock test [m/s$^2$]')
+p.set_xticks(p.get_xticks())
 p.set_xticklabels(
     [label.get_text().replace("trike", "keiler")
      for label in p.get_xticklabels()],
@@ -907,6 +923,10 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
 shock_html.append(IMG.format('', fname) + '\n</br>')
 shock_html = '\n'.join(shock_html)
+
+#############################################
+# HTML Generation
+#############################################
 
 html_source = INDEX.format(
     date=datetime.datetime.today(),
