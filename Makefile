@@ -12,6 +12,7 @@ rsync:
 pushwebsite:
 	mkdir website
 	cp index.html website/
+	cp data/all-reps.xlxs website/
 	cp -r fig website/
 	ghp-import --no-jekyll --message="Update results site" --no-history --push website
 	rm -r website/

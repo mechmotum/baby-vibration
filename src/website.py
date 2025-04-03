@@ -100,6 +100,8 @@ stroller_df = vibr_df[vibr_df['Vehicle Type'] == 'stroller'].copy()
 del stats_df['Frequency Array']
 del stats_df['Amplitude Array']
 
+stats_df.to_excel(os.path.join(PATH_TO_DATA_DIR, 'all-reps.xlsx'))
+
 ################
 # Data Summaries
 ################
