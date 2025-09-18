@@ -468,7 +468,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:grey', width=2.0,
                                     headwidth=0.0))
-p.axes.text(8.3, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
+p.axes.text(8.3, 3.6, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:grey')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
 p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
@@ -485,7 +485,7 @@ p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.1*MAXWIDTH*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-comfort-stroller-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
@@ -517,7 +517,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:grey', width=2.0,
                                     headwidth=0.0))
-p.axes.text(6.0, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
+p.axes.text(6.0, 6.0, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:grey')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
 p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
