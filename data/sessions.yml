@@ -27,7 +27,7 @@ session001:
     trike_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1/Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session002:
   date: 2024-11-28
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 0
   baby_mass: 3.48
   seat: cot
@@ -46,7 +46,7 @@ session002:
     trike_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.18.35_YOYO_2_BT_SD_Session1/YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session003:
   date: 2024-11-28
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 0
   baby_mass: 3.48
   seat: cot
@@ -236,7 +236,7 @@ session012:
     trike_bottom: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.25.31_Maxicos_7_BT_SD_Session1/Maxicos_7_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session013:
   date: 2024-12-10
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 0
   baby_mass: 3.48
   seat: cot
@@ -457,7 +457,7 @@ session024:
     trike_bottom: 2024-12-20_Trike_6_3months/2024-12-20_10.56.01_Trike_6_BT_SD_Session1/Trike_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session025:
   date: 2024-12-30
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 9
   baby_mass: 8.9
   seat: seat
@@ -476,7 +476,7 @@ session025:
     trike_bottom: 2024-12-30_YOYO_6_9months/2024-12-30_09.15.48_YOYO_6_BT_SD_Session1/YOYO_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session026:
   date: 2024-12-30
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 9
   baby_mass: 8.9
   seat: seat

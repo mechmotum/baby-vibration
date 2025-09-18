@@ -267,7 +267,7 @@ axes[1, 0].remove()
 strol_ax = fig.add_subplot(gs[:, 0])
 surf_select = stroller_df['Road Surface'] == 'Sidewalk Pavers'
 freq = stroller_df.loc[50, 'Frequency Array']
-for vehicle in ['bugaboo', 'greenmachine', 'maxicosi', 'oldrusty', 'yoyo']:
+for vehicle in ['bugaboo', 'greenmachine', 'maxicosi', 'oldrusty', 'stokke']:
     vehi_select = stroller_df['Vehicle'] == vehicle
     mean_amp = stroller_df.loc[surf_select & vehi_select,
                                'Amplitude Array'].mean()

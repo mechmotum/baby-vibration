@@ -19,6 +19,11 @@ oldrusty:
   model: null
   vehicle_type: stroller
   wheel_diameter: 0.230
+stokke:
+  brand: Stokke
+  model: BABYZEN YOYO 0+
+  vehicle_type: stroller
+  wheel_diameter: 0.130
 keiler:
   brand: Keiler
   model: null
@@ -29,11 +34,6 @@ urbanarrow:
   model: null
   vehicle_type: bicycle
   wheel_diameter: 0.670
-yoyo:
-  brand: Stokke
-  model: BABYZEN YOYO 0+
-  vehicle_type: stroller
-  wheel_diameter: 0.130
 none:
   brand: null
   model: null
