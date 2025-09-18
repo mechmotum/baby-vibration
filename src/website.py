@@ -484,7 +484,7 @@ p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.1*MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-comfort-stroller-compare-all.png'.format(SIGNAL)
@@ -492,9 +492,9 @@ p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-###################################################################
-# Figure: Health ISO Weighted RMS Cargo Bicycle Trials Scatter Plot
-###################################################################
+####################################################################
+# Figure: Comfort ISO Weighted RMS Cargo Bicycle Trials Scatter Plot
+####################################################################
 boxp_html.append(
     H2.format(f'Cargo Bicycle ISO Weighted RMS {SIGNAL} Comparison'))
 msg = """"""
@@ -533,7 +533,7 @@ p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-comfort-bicycle-compare-all.png'.format(SIGNAL)
