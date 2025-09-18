@@ -181,7 +181,7 @@ with open(os.path.join(PATH_TO_TABLE_DIR,
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') * "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
-     "C(Q('Vehicle, Seat, Baby Age'), Treatment('keiler, maxicosi, 3 mo'))")
+     "C(Q('Vehicle, Seat, Baby Age'), Treatment('keiler, pebble, 3 mo'))")
 mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")

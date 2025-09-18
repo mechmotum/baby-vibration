@@ -270,7 +270,7 @@ session015:
   vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_1_0months.csv
   imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -289,7 +289,7 @@ session016:  # We miss half of time history on klinkers, 20 km/h, only for the S
   vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_2_0months.csv
   imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -346,7 +346,7 @@ session019:
   vehicle: urbanarrow
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_UrbanA_1_0months.csv
   imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
@@ -365,7 +365,7 @@ session020:
   vehicle: urbanarrow
   baby_age: 3
   baby_mass: 5.9
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_UrbanA_2_3months.csv
   imu_lateral_axis:  # sure
     BotTrike: y
@@ -384,7 +384,7 @@ session021:
   vehicle: urbanarrow
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_UrbanA_3_0months.csv
   imu_lateral_axis:  # sure
     BotTrike: y
@@ -441,7 +441,7 @@ session024:
   vehicle: keiler
   baby_age: 3
   baby_mass: 5.9
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_6_3months.csv
   imu_lateral_axis:  # sure
     BotTrike: -y
@@ -555,7 +555,7 @@ session030:  # Here we repeat the test on klinkers, 20 km/h, missed in session01
   vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_7_0months.csv
   imu_lateral_axis:  # sure
     BotTrike: -y
