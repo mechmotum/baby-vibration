@@ -1,11 +1,18 @@
-# use tree -fi to get a flattened full path for copying file paths
+# Notes:
+# - The imu_lateral_axis is used to identify which axis on the sensor is
+#   approximately aligned with the lateral axis of the vehicle (and its sense).
+#   If there is a comment that says "unsure", we made an educated guess but a
+#   more care inspection of the time series data is still needed to be sure
+#   about the corrext axis.
+#
+# TIP: use tree -fi to get a flattened full path for copying file paths
 session001:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # unsure. We miss pictures of the sensors
+  imu_lateral_axis:  # unsure: we are missing pictures of the sensors.
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -81,7 +88,7 @@ session005:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # unsure. We miss pictures of the sensors
+  imu_lateral_axis:  # unsure: we are missing pictures of the sensors.
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -100,8 +107,8 @@ session006:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # # unsure. We miss pictures of the sensors
-    BotTrike: -y  
+  imu_lateral_axis:  # unsure: we are missing pictures of the sensors.
+    BotTrike: -y
     FrontWheel: -z
     RearWheel: -z
     SeatBot: x
@@ -119,7 +126,7 @@ session007:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # unsure SeatBot and SeatHead
+  imu_lateral_axis:  # unsure: SeatBot and SeatHead
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -157,7 +164,7 @@ session009:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # unsure SeatBot and SeatHead (no pictures)
+  imu_lateral_axis:  # unsure: SeatBot and SeatHead (no pictures)
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -176,7 +183,7 @@ session010:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # unsure BotTrike.
+  imu_lateral_axis:  # unsure: BotTrike.
     BotTrike: -y  # TODO : Unsure, needs check from data.
     FrontWheel: -z
     RearWheel: -z
@@ -214,7 +221,7 @@ session012:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # Unsure, no pictures of the sensors available
+  imu_lateral_axis:  # unsure: no pictures of the sensors available
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -233,7 +240,7 @@ session013:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # Unsure, no pictures of the sensors available
+  imu_lateral_axis:  # unsure: no pictures of the sensors available
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
