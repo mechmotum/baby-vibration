@@ -862,12 +862,14 @@ p = sns.pointplot(
     y=SIGNAL_RMS_ISO,
     hue='Vehicle',
     dodge=True,
+    linestyle="none",
     order=sorted(stroller_df['Road Surface'].unique()),
     hue_order=sorted(stroller_df['Vehicle'].unique()),
 )
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.set_xticks(p.get_xticks())
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
+plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-stroller-type-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
