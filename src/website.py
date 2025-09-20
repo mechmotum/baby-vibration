@@ -40,6 +40,7 @@ COMFORT_BOUNDS = (
 GAO_ACC_ACCEPTANCE = 2.54  # m/s/s
 
 sns.set_theme(style='whitegrid')
+sns.set_palette('colorblind')
 
 try:
     githash = subprocess.check_output([
@@ -664,9 +665,9 @@ p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                                              'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
-p.axvline(0.5, color='gray')
-p.axvline(1.5, color='gray')
-p.axvline(2.5, color='gray')
+p.axvline(0.5, color='tab:grey')
+p.axvline(1.5, color='tab:grey')
+p.axvline(2.5, color='tab:grey')
 plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-peak-freq-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
@@ -693,9 +694,9 @@ p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                                              'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
-p.axvline(0.5, color='gray')
-p.axvline(1.5, color='gray')
-p.axvline(2.5, color='gray')
+p.axvline(0.5, color='tab:grey')
+p.axvline(1.5, color='tab:grey')
+p.axvline(2.5, color='tab:grey')
 plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-bandwidth-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
@@ -706,8 +707,8 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 # Figure: Cargo Bicycles vs Speed
 #################################
 boxp_html.append(H2.format('Cargo Bicycle Speed Comparison'))
-msg = f"""How does vibration vary across speed for the cargo bicycles? This plot
-shows a linear regression of ISO weighted {SIGNAL} versus speed for both
+msg = f"""How does vibration vary across speed for the cargo bicycles? This
+plot shows a linear regression of ISO weighted {SIGNAL} versus speed for both
 asphalt and paver bricks. The shaded regions represent the 95% confidence
 intervals."""
 boxp_html.append(P.format(msg))
