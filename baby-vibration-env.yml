@@ -2,7 +2,7 @@ name: baby-vibration
 channels:
   - conda-forge
 dependencies:
-  - dynamicisttoolkit =0.6.1
+  - dynamicisttoolkit =0.6.2
   - ghp-import
   - ipython
   - jinja2  # optional dependency for pandas
