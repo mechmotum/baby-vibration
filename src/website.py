@@ -40,6 +40,7 @@ COMFORT_BOUNDS = (
 GAO_ACC_ACCEPTANCE = 2.54  # m/s/s
 
 sns.set_theme(style='whitegrid')
+sns.set_palette('colorblind')
 
 try:
     githash = subprocess.check_output([
@@ -181,7 +182,7 @@ with open(os.path.join(PATH_TO_TABLE_DIR,
 f = (f"{SIGNAL_RMS_ISO} ~ "
      "Q('Mean Speed [m/s]') * "
      "C(Q('Road Surface'), Treatment('Tarmac')) + "
-     "C(Q('Vehicle, Seat, Baby Age'), Treatment('keiler, maxicosi, 3 mo'))")
+     "C(Q('Vehicle, Seat, Baby Age'), Treatment('keiler, pebble, 3 mo'))")
 mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
@@ -267,7 +268,7 @@ axes[1, 0].remove()
 strol_ax = fig.add_subplot(gs[:, 0])
 surf_select = stroller_df['Road Surface'] == 'Sidewalk Pavers'
 freq = stroller_df.loc[50, 'Frequency Array']
-for vehicle in ['bugaboo', 'greenmachine', 'maxicosi', 'oldrusty', 'yoyo']:
+for vehicle in ['bugaboo', 'greenmachine', 'maxicosi', 'oldrusty', 'stokke']:
     vehi_select = stroller_df['Vehicle'] == vehicle
     mean_amp = stroller_df.loc[surf_select & vehi_select,
                                'Amplitude Array'].mean()
@@ -468,7 +469,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:grey', width=2.0,
                                     headwidth=0.0))
-p.axes.text(8.3, 3.5, 'ISO 2631-1 Adult\nPublic Transit Rating',
+p.axes.text(8.3, 3.6, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:grey')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
 p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
@@ -484,17 +485,17 @@ p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.1*MAXWIDTH*MM2INCH))
+p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-comfort-stroller-compare-all.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
 boxp_html.append(IMG.format('', fname) + '\n</br>')
 
-###################################################################
-# Figure: Health ISO Weighted RMS Cargo Bicycle Trials Scatter Plot
-###################################################################
+####################################################################
+# Figure: Comfort ISO Weighted RMS Cargo Bicycle Trials Scatter Plot
+####################################################################
 boxp_html.append(
     H2.format(f'Cargo Bicycle ISO Weighted RMS {SIGNAL} Comparison'))
 msg = """"""
@@ -517,7 +518,7 @@ for i, (low, high, note) in enumerate(COMFORT_BOUNDS):
                     rotation=90,
                     arrowprops=dict(facecolor='tab:grey', width=2.0,
                                     headwidth=0.0))
-p.axes.text(6.0, 5.8, 'ISO 2631-1 Adult\nPublic Transit Rating',
+p.axes.text(6.0, 6.0, 'ISO 2631-1 Adult\nPublic Transit Rating',
             color='tab:grey')
 p.axes.axhline(GAO_ACC_ACCEPTANCE, linestyle='-.', color='tab:grey')
 p.axes.annotate('→ ' + "Cyclists' Discomfort\n     Threshold (Gao 2018)",
@@ -533,7 +534,7 @@ p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
-p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
+p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
 p.figure.set_layout_engine('constrained')
 fname = '{}-rms-comfort-bicycle-compare-all.png'.format(SIGNAL)
@@ -664,9 +665,10 @@ p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                                              'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
-p.axvline(0.5, color='gray')
-p.axvline(1.5, color='gray')
-p.axvline(2.5, color='gray')
+p.axvline(0.5, color='tab:grey')
+p.axvline(1.5, color='tab:grey')
+p.axvline(2.5, color='tab:grey')
+plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-peak-freq-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
@@ -692,9 +694,10 @@ p.set_xticklabels([veh + ' @ ' + lab.get_text() for lab, veh in
                                              'Bicycles', 'Bicycles'])])
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*2/3*MM2INCH))
 p.figure.set_layout_engine('constrained')
-p.axvline(0.5, color='gray')
-p.axvline(1.5, color='gray')
-p.axvline(2.5, color='gray')
+p.axvline(0.5, color='tab:grey')
+p.axvline(1.5, color='tab:grey')
+p.axvline(2.5, color='tab:grey')
+plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-bandwidth-dist.png'.format(SIGNAL)
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
@@ -704,8 +707,8 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 # Figure: Cargo Bicycles vs Speed
 #################################
 boxp_html.append(H2.format('Cargo Bicycle Speed Comparison'))
-msg = f"""How does vibration vary across speed for the cargo bicycles? This plot
-shows a linear regression of ISO weighted {SIGNAL} versus speed for both
+msg = f"""How does vibration vary across speed for the cargo bicycles? This
+plot shows a linear regression of ISO weighted {SIGNAL} versus speed for both
 asphalt and paver bricks. The shaded regions represent the 95% confidence
 intervals."""
 boxp_html.append(P.format(msg))
@@ -769,7 +772,6 @@ p = sns.catplot(
     col='Road Surface',
     col_wrap=2,
     kind='strip',
-    palette='deep',
     sharex=False,
     sharey=False,
     size=10,
@@ -795,7 +797,6 @@ p = sns.catplot(
     hue="Seat, Baby",
     col='Road Surface',
     kind='strip',
-    palette='deep',
     sharex=False,
     sharey=False,
     size=10,
@@ -862,12 +863,14 @@ p = sns.pointplot(
     y=SIGNAL_RMS_ISO,
     hue='Vehicle',
     dodge=True,
+    linestyle="none",
     order=sorted(stroller_df['Road Surface'].unique()),
     hue_order=sorted(stroller_df['Vehicle'].unique()),
 )
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.set_xticks(p.get_xticks())
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
+plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-stroller-type-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)

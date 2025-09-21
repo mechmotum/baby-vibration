@@ -1,11 +1,18 @@
-# use tree -fi to get a flattened full path for copying file paths
+# Notes:
+# - The imu_lateral_axis is used to identify which axis on the sensor is
+#   approximately aligned with the lateral axis of the vehicle (and its sense).
+#   If there is a comment that says "unsure", we made an educated guess but a
+#   more care inspection of the time series data is still needed to be sure
+#   about the corrext axis.
+#
+# TIP: use tree -fi to get a flattened full path for copying file paths
 session001:
   date: 2024-11-28
   vehicle: maxicosi
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # unsure. We miss pictures of the sensors
+  imu_lateral_axis:  # unsure: we are missing pictures of the sensors.
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -20,7 +27,7 @@ session001:
     trike_bottom: 2024-11-28_Maxicos_1_0months/2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1/Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session002:
   date: 2024-11-28
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 0
   baby_mass: 3.48
   seat: cot
@@ -39,7 +46,7 @@ session002:
     trike_bottom: 2024-11-28_YOYO_2_0months/2024-11-28_12.18.35_YOYO_2_BT_SD_Session1/YOYO_2_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session003:
   date: 2024-11-28
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 0
   baby_mass: 3.48
   seat: cot
@@ -81,7 +88,7 @@ session005:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # unsure. We miss pictures of the sensors
+  imu_lateral_axis:  # unsure: we are missing pictures of the sensors.
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -100,8 +107,8 @@ session006:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # # unsure. We miss pictures of the sensors
-    BotTrike: -y  
+  imu_lateral_axis:  # unsure: we are missing pictures of the sensors.
+    BotTrike: -y
     FrontWheel: -z
     RearWheel: -z
     SeatBot: x
@@ -119,7 +126,7 @@ session007:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # unsure SeatBot and SeatHead
+  imu_lateral_axis:  # unsure: SeatBot and SeatHead
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -157,7 +164,7 @@ session009:
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # unsure SeatBot and SeatHead (no pictures)
+  imu_lateral_axis:  # unsure: SeatBot and SeatHead (no pictures)
     BotTrike: x
     FrontWheel: -z
     RearWheel: -z
@@ -176,7 +183,7 @@ session010:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # unsure BotTrike.
+  imu_lateral_axis:  # unsure: BotTrike.
     BotTrike: -y  # TODO : Unsure, needs check from data.
     FrontWheel: -z
     RearWheel: -z
@@ -214,7 +221,7 @@ session012:
   baby_age: 9
   baby_mass: 8.9
   seat: seat
-  imu_lateral_axis:  # Unsure, no pictures of the sensors available
+  imu_lateral_axis:  # unsure: no pictures of the sensors available
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -229,11 +236,11 @@ session012:
     trike_bottom: 2024-12-10_Maxicosi_7_9months/2024-12-10_17.25.31_Maxicos_7_BT_SD_Session1/Maxicos_7_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session013:
   date: 2024-12-10
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 0
   baby_mass: 3.48
   seat: cot
-  imu_lateral_axis:  # Unsure, no pictures of the sensors available
+  imu_lateral_axis:  # unsure: no pictures of the sensors available
     BotTrike: -x
     FrontWheel: -z
     RearWheel: -z
@@ -263,7 +270,7 @@ session015:
   vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_1_0months.csv
   imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -282,7 +289,7 @@ session016:  # We miss half of time history on klinkers, 20 km/h, only for the S
   vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_2_0months.csv
   imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2550638125
     BotTrike: -y
@@ -339,7 +346,7 @@ session019:
   vehicle: urbanarrow
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_UrbanA_1_0months.csv
   imu_lateral_axis:  # sure, checked with: https://github.com/mechmotum/baby-vibration/issues/3#issuecomment-2551923730
     BotTrike: y
@@ -358,7 +365,7 @@ session020:
   vehicle: urbanarrow
   baby_age: 3
   baby_mass: 5.9
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_UrbanA_2_3months.csv
   imu_lateral_axis:  # sure
     BotTrike: y
@@ -377,7 +384,7 @@ session021:
   vehicle: urbanarrow
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_UrbanA_3_0months.csv
   imu_lateral_axis:  # sure
     BotTrike: y
@@ -434,7 +441,7 @@ session024:
   vehicle: keiler
   baby_age: 3
   baby_mass: 5.9
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_6_3months.csv
   imu_lateral_axis:  # sure
     BotTrike: -y
@@ -450,7 +457,7 @@ session024:
     trike_bottom: 2024-12-20_Trike_6_3months/2024-12-20_10.56.01_Trike_6_BT_SD_Session1/Trike_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session025:
   date: 2024-12-30
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 9
   baby_mass: 8.9
   seat: seat
@@ -469,7 +476,7 @@ session025:
     trike_bottom: 2024-12-30_YOYO_6_9months/2024-12-30_09.15.48_YOYO_6_BT_SD_Session1/YOYO_6_BT_Session1_S_BotTrike_Calibrated_SD.csv
 session026:
   date: 2024-12-30
-  vehicle: yoyo
+  vehicle: stokke
   baby_age: 9
   baby_mass: 8.9
   seat: seat
@@ -548,7 +555,7 @@ session030:  # Here we repeat the test on klinkers, 20 km/h, missed in session01
   vehicle: keiler
   baby_age: 0
   baby_mass: 3.48
-  seat: maxicosi
+  seat: pebble
   trial_bounds_file: events_Trike_7_0months.csv
   imu_lateral_axis:  # sure
     BotTrike: -y

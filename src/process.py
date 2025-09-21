@@ -241,10 +241,12 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                             html_data['trial_html'].append(
                                 IMG.format('time_hist', file_name + '.png'))
 
+                            fig, ax = plt.subplots(layout='constrained',
+                                                   figsize=(8, 4))
                             ax = trial.plot_frequency_spectrum(
                                 signal, sample_rate, cutoff=cutoff,
                                 smooth=True, iso_weighted=True,
-                                show_features='bandwidth from smooth')
+                                show_features='bandwidth from smooth', ax=ax)
                             ax.set_title(file_name)
                             ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                            file_name + '.png'),
