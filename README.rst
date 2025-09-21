@@ -17,11 +17,6 @@ Moore can be viewed at:
 
 https://doi.org/10.31224/4415
 
-Private links to the related editable documents:
-
-- Experiment paper on Overleaf: https://www.overleaf.com/4478681329cgkzxtynvvzz#e49cd7
-- Lit Study on Google Docs: https://drive.google.com/drive/folders/1y4d1djsXC8zveT1g1Zd_FxibJYxMT0O1
-
 License
 =======
 
@@ -65,7 +60,7 @@ Or name a specific session and trial and show sample plots::
 
    python src/data.py -s session020 -t klinkers -r 200 --plot
 
-Process sessions 0 through 3 for specific signal at sample rate 200::
+Process sessions 0 through 3 for a specific signal at sample rate 200::
 
    python src/process.py 0 3 SeatBotacc_ver 200
 
@@ -121,14 +116,22 @@ Vehicle name:
 - ``keiler``: Keiler cargo tricycle (tadpole wheel arrangement with some extra
   mass added to represent propulsion motor and battery)
 - ``urbanarrow``: Urban Arrow cargo electric bicycle
-- ``yoyo``: Stokke BABYZEN YOYO 0+ stroller
+- ``stokke``: Stokke BABYZEN YOYO 0+ stroller
 
-The Shimmer IMUs are set to +/- 16 g and +/- 2000 deg/s. The values are
-recorded to 16 bit floating point precision other than the time stamp which is
-a 16 bit positive integer. The IMUs are placed in the base station and their
-clocks are synchronized with each other. This means we assume that the time
-stamp values represents the same real time value in each IMU. The following
-column order is consistent among the files.
+Road surfaces:
+
+- ``aula``: sidewalk slabs
+- ``klinkers``: paver bricks
+- ``pave``: cobblestones
+- ``stoeptegels``: sidewalk pavers
+- ``tarmac``: smooth asphalt
+
+The Shimmer IMUs are set to full scale ranges +/- 16 g and +/- 2000 deg/s. The
+values are recorded to 16 bit floating point precision other than the time
+stamp which is a 16 bit positive integer. The IMUs are placed in the base
+station and their clocks are synchronized with each other. This means we assume
+that the time stamp values represents the same real time value in each IMU. The
+following column order is consistent among the files.
 
 - ``S_SENSORNAME_Timestamp_Unix_CAL`` : milliseconds since epoch
 - ``S_SENSORNAME_Accel_WR_X_CAL``: m/s/s
@@ -141,8 +144,8 @@ column order is consistent among the files.
 Data Processing
 ===============
 
-#. Load each acquisition file into a Pandas sparse data frame with the
-   time stamp as the index.
+#. Load each acquisition file into a Pandas sparse data frame with the time
+   stamp as the index.
 #. Combine all sensor data frames from a single session into a single data
    frame. These can be up to 2 Gb in size. NaNs are used to represent
    mismatches in the sample times.
@@ -151,8 +154,9 @@ Data Processing
 #. Use a period of no motion, "static", in the session to find the direction of
    gravity in all sensors assuming that one axis of each sensor is aligned with
    the lateral axis of the vehicle.
-#. Calculate the vibration dose value (VDV) from the unfiltered time series for
-   the first 10 seconds of each repitition, skipping shock data.
+#. Calculate the RMS from the raw time series for each repitition.
+#. Calculate the vibration dose value (VDV) from the raw time series for the
+   first 10 seconds of each repitition, skipping shock data.
 #. Down sample the time series from ~900 Hz to 400 Hz.
 #. Set any values greater than +/-16 g or +/-2000 deg/s to those maximum
    values, as the sensors are not valid at higher values.
@@ -160,21 +164,23 @@ Data Processing
    with a 2nd Order zero-lag Butterworth filter.
 #. Calculate linear speed of the vehicle using wheel radius and rear wheel rate
    gyro. Calculate the mean speed and standard deviation per trial.
-#. Calculate the crest factor from unweighted maximum and unweighted RMS.
-#. Calculate the bandwidth containing 80% of the spectrum area from unweighted
-   frequency spectrum.
+#. Calculate the crest factor from downsampled, smoothed, but unweighted
+   maximum and unweighted RMS.
+#. Calculate the bandwidth containing 80% of the spectrum area from
+   downsampled, smoothed, but unweighted frequency spectrum.
 #. Calculate the frequency spectrum of the buttocks sensor's vertical
    acceleration component for health assessment and magnitude of acceleration
    for comfort assessment.
-#. Apply the ISO 2631-1 spectrum weights for health and comfort assessments.
-#. Smooth the frequency spectrums with low pass filter.
-#. Calculate the root mean square (RMS) from the weighted spectrums.
+#. Apply the ISO 2631-1 spectrum weights for health and comfort assessments to
+   spectra.
+#. Smooth the frequency spectra with low pass filter.
+#. Calculate the root mean square (RMS) from the weighted spectra.
 #. Calculate the peak frequency and peak amplitude from the spectrum.
 
 Final data table should have these columns:
 
 - Trial ID
-- Vehicle [bugaboo|yoyo|maxicosi|urbanarrow|keiler|greenmachine|oldrusty]
+- Vehicle [bugaboo|greenmachine|maxicosi|keiler|oldrusty|stokke|urbanarrow]
 - Vehicle Type [stroller|bicycle]
 - Seat Type [cot|seat]
 - Baby Age [month] [0|3|9]
