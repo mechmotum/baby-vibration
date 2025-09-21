@@ -905,7 +905,7 @@ boxp_html.append(IMG.format('', fname) + '\n</br>')
 plt.close('all')
 
 #############################################
-# Figure: Shock test comparison -  All Trials
+# Figure: Shock Test comparison -  All Trials
 #############################################
 # Limit max_amp_shock values to a maximum of 160 (only for plotting, in the
 # table you will have uncut values)
@@ -913,7 +913,7 @@ shock_df['Peak Value [m/s/s]'] = shock_df['Peak Value [m/s/s]'].clip(
     upper=16*9.81)
 
 shock_html = []
-shock_html.append(H2.format('Shock test Comparison'))
+shock_html.append(H2.format('Shock Test Comparison'))
 msg = 'Compare maximum acceleration across vehicles and speed.'
 shock_html.append(P.format(msg))
 p = sns.stripplot(
@@ -922,7 +922,7 @@ p = sns.stripplot(
     y="Peak Value [m/s/s]",
     hue='Target Speed [km/h]',
 )
-p.set_ylabel(r'Vertical Acceleration Shock test [m/s$^2$]')
+p.set_ylabel(r'Vertical Acceleration Shock Test [m/s$^2$]')
 p.set_xticks(p.get_xticks())
 p.set_xticklabels(
     [label.get_text().replace("trike", "keiler")
@@ -930,7 +930,7 @@ p.set_xticklabels(
     rotation=30)
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
 fname = '{}-shock-test-compare.png'.format(SIGNAL)
-p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
+p.figure.set_size_inches((MAXWIDTH*MM2INCH, 110*MM2INCH))
 p.figure.set_layout_engine('constrained')
 p.figure.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 plt.clf()
