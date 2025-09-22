@@ -62,7 +62,7 @@
 \def\mps{\meter\per\second}
     
 \title{
-  DRAFT: v6.dev \\
+  DRAFT: v6 \\
   Vibration Characterisation of Strollers and\\
   Cargo Bicycles for Transporting Infants\\
   \vspace{2mm}
@@ -95,18 +95,26 @@ Jason K. Moore\footnote{corresponding author: j.k.moore@tudelft.nl, +31 (0)15 27
 \color{black}
 \begin{abstract}
   % NOTE: keep to 150 words max
-  We evaluated road-induced vibrations with dummies representing infants aged 0,
-  3, and 9 months with five strollers and two cargo bicycles on six common road
-  surfaces using the ISO standard for whole-body vibration. Strollers induced on
-  average 0.4~\si{\mps\squared} on tarmac and up to 5.0~\si{\mps\squared} on
-  cobblestones at a mean walking speed of 5.3~\si{\kph}. Cargo bicycles induced
-  induced as low as 0.6~\si{\mps\squared} on tarmac and up to
-  10.7~\si{\mps\squared} at 25~\si{\kph} on paver bricks. The standard suggests
-  that the highest accelerations for the strollers and cargo bicycles should be
-  limited to continuous duration less than 10~\si{\minute}. Effects of body size
-  and posture were minor. Two vintage stroller designs significantly reduced
-  vibrations compared to three modern strollers, indicating the benefits of
-  compliant suspensions. 
+  % Knowledge is lacking on road-induced vibrations for infants transported  in
+  % strollers and cargo  bicycles.
+  We evaluated vibrations with dummies representing infants aged 0, 3, and 9
+  months lying or sitting in five strollers and two cargo bicycles with
+  dedicated baby seats on six common road surfaces using the ISO standard for
+  whole-body vibration.
+  Strollers induced on average 0.4~\si{\mps\squared} on tarmac and up to
+  5.0~\si{\mps\squared} on cobblestones at a mean walking speed of
+  5.3~\si{\kph}.
+  Cargo bicycles induced on average 0.6~\si{\mps\squared} on tarmac and up to
+  10.7~\si{\mps\squared} at 25~\si{\kph} on paver bricks.
+  The standard suggests the highest accelerations for strollers and cargo
+  bicycles are extremely uncomfortable and continuous exposure should be limited
+  to less than 10~\si{\minute}.
+  % Effects of body size and posture were minor.
+  Two vintage strollers significantly reduced vibrations compared to three
+  modern strollers, indicating benefits of compliant suspensions. 
+  We recommend designers systematically consider vibration, users avoid
+  prolonged exposure to surfaces rougher than tarmac, and researchers to pursue
+  scientifically founded test procedures and standards for infant vibration.
 \end{abstract}
 
 \section*{Keywords}
@@ -1473,9 +1481,9 @@ show substantial differences between RMS and VDV, highlighting the importance of
 reviewing their meaning. These differences emerge from the high bandwidth of the
 accelerations now measured, which greatly exceed the bandwidth of accelerations
 measured with adults seated in cars (see e.g. Figure 2 in
-\cite{griffin2004experimental}). Adult experiments show that significant
-discomfort can be measured across all tested frequencies being 80 Hz
-\cite{morioka2010frequency} or even 315~\si{\hertz}~\cite{morioka2006magnitude}
+\cite{griffin2004experimental}). Adult experiments investigating discomfort as a function of frequency, show that significant
+discomfort can be measured across all tested frequencies, being up to 80 Hz
+\cite{morioka2010frequency} or even up to 315~\si{\hertz}~\cite{morioka2006magnitude}
 albeit with reduced sensitivity.
 
 The ISO frequency weightings are defined for adults in more or less erect
@@ -1550,7 +1558,7 @@ that we believe stand in spite of the standard's limitations:
 \begin{enumerate}
     \item Manufacturers of strollers, cargo bicycles, and seats should test for
     vibrations for all expected surface types and ranges of relevant body sizes
-    and posture to ensure that their designs isolate vibrations well for all use
+    and postures to ensure that their designs isolate vibrations well for all use
     conditions. Testing across relevant body sizes is especially important for
     strollers, due to the high mass of the infant relative to the mass of the
     stroller.
@@ -1593,8 +1601,8 @@ that we believe stand in spite of the standard's limitations:
 
 \subsection{Acknowledgement}
 %
-Niel Mansfield, Jim Papadopoulos, Malte Rothhämel, Stefan Schwanitz, Idsart
-Kignma, Darek Wieckowksi, Aernout Dijkstra-Hellinga, and  Clement Moe all
+Neil Mansfield, Jim Papadopoulos, Malte Rothhämel, Stefan Schwanitz, Idsart
+Kingma, Darek Wieckowksi, Aernout Dijkstra-Hellinga, and  Clement Moe all
 provided important feedback on the preprint that helped improve the paper. This
 work was financially supported by VeiligheidNL under the ``Project Trillingen
 bakfiets en wandelwagen.''
@@ -1605,7 +1613,7 @@ The authors report there are no competing interests to declare.
 
 \subsection{Data Availability Statement}
 %
-TODO
+The data will be made publicly available alongside publication.
 
 \bibliographystyle{plain}
 \bibliography{reference}
@@ -1625,7 +1633,7 @@ Figure~\ref{fig:compare-bicycle-speed} shows the variation in ISO~2631-1
 weighted vertical RMS acceleration across the tested speeds. On paver
 bricks, the RMS acceleration increased by approximately 1.6\(\times\) when increasing
 the speed from \SIrange{12}{25}{\kilo\meter\per\hour}.The effect of speed while cycling on tarmac was less drastic, but still showed a slight increase.
-
+%
 \begin{figure}
   \centering
   \includegraphics[width=160mm]{fig/SeatBotacc_ver-bicycle-speed-compare.png}
@@ -1635,7 +1643,7 @@ the speed from \SIrange{12}{25}{\kilo\meter\per\hour}.The effect of speed while 
   \(x_\textrm{Cargo Bicycle}\).}
   \label{fig:compare-bicycle-speed}
 \end{figure}
-%
+
 \subsection{Effect of Dummy Size}
 %
 Figure~\ref{fig:compare-baby-mass} shows the ISO~2631-1 weighted vertical RMS
@@ -1890,13 +1898,20 @@ the head.
 \paragraph{Concerning the development of a benchmark:}
 %
 At this moment, no requirements exist for the vibrational properties of child
-transport systems in the standards for strollers, cargo bicycles, bicycle seats, bicycle trailers,
-and car seats. Due to the magnitude of vibrations that can occur during child
-transport, it is imperative to include requirements for the vibrational
-properties in the standards for these products. %At this moment, no new requirements can be defined because there is not enough information. With the information resulting from more research on infant vibration, a benchmark for the vibration properties of infant transportation products needs to be developed. 
-Tests as performed in this study mark a first milestone. Road surfaces, speeds, dummies, posture, and metrics could be standardised. Over the years, these could be refined building upon scientific research. Acceptance thresholds could be set to accept current products that perform well.  This will enable the inclusion of (minimal) requirements for vibration
-properties in the standards, which would greatly increase the health and comfort
-of infants who must use these products. 
+transport systems in the standards for strollers, cargo bicycles, bicycle seats,
+bicycle trailers, and car seats. Due to the magnitude of vibrations that can
+occur during child transport, it is imperative to include requirements for the
+vibrational properties in the standards for these products. At this moment, it
+is difficult to develop new requirements because there is not enough
+information. With the information resulting from more research on infant
+vibration, a benchmark for the vibration properties of infant transportation
+products needs to be developed. Tests as performed in this study mark a first
+milestone. Road surfaces, speeds, dummies, posture, and metrics could be
+standardised. Over the years, these could be refined building upon scientific
+research. Acceptance thresholds could be set to accept current products that
+perform well.  This will enable the inclusion of (minimal) requirements for
+vibration properties in the standards, which would greatly increase the health
+and comfort of infants who must use these products. 
 
 \section{Experimental Equipment}
 \label{app:equipment}
@@ -1904,11 +1919,7 @@ of infants who must use these products.
 We considered the use of ``crash test dummies'' (also known as anthropomorphic
 test devices or ATDs), which are designed and commonly used to test child seats
 in car crash tests. However, the closest available body sizes for crash test
-dummies do not meet the body sizes desired for this investigation. Furthermore,
-crash test dummies are of a fundamentally different design, based on scaling of
-adult biomechanical data rather than child data and with dynamic properties
-designed for crash conditions, not for vibration testing. Therefore, crash test
-dummies were not considered a good option to use for the envisaged vibration tests. 
+dummies do not meet the body sizes desired for this investigation. Furthermore, crash test dummies are of a fundamentally different design, based on scaling of adult biomechanical data rather than child data and with dynamic properties designed for crash conditions, not for vibration testing. Therefore, crash test dummies were not used for the envisaged vibration tests. 
  The following lists the dummies used:
 %
 \begin{description}
@@ -1952,14 +1963,27 @@ for older infants.
 seats can be mounted.
 %
 \begin{description}
-  \item[Keiler Tricycle] A tadpole (two wheels in the front, one in the
-  rear) cargo tricycle without electric assist. This vehicle will not roll into
+  \item[Keiler Tricycle] A tadpole (two wheels in the front, one in the rear)
+  cargo tricycle without electric assist. This vehicle will not roll into
   curves. However, differing road surface unevenness at the left and right front
   wheels will induce lateral roll and lateral acceleration in infants. We added
   masses in specific locations to simulate the presence of an electric motor and
-  battery package, in order to compare the results with those of the Urban Arrow. (\href{https://kashop.nl/product/keiler-bakfiets/}{Product
-  Webpage}) 
-  \item[Urban Arrow Cargo Bicycle] An electric cargo bicycle that is popular in the Netherlands. This vehicle has two inline wheels, which makes it roll into curves like a regular bicycle. It is featured by a long frame that can carry loads (e.g., a child in a car seat or a baby shell) placed in between the rider and the front wheel. 
+  battery package, in order to compare the results with those of the Urban
+  Arrow. The tricycle was equipped with tyres CST XPEDIUM Safe 47-559
+  (Cheng Shin Tire, Yuanlin, Taiwan) on the rear, and Schwalbe Green Comfort Road Cruiser
+  K-Guard 3 47-507 (Ralf Bohle GmbH, Reichshof-Wehnrath, Germany) on
+  the front. We set both tyres to an inflation pressure of 300~\si{\kPa}.
+  (\href{https://kashop.nl/product/keiler-bakfiets/}{Product Webpage}) 
+  \item[Urban Arrow Cargo Bicycle] An electric cargo bicycle that is popular in
+  the Netherlands. This vehicle has two inline wheels, which makes it roll into
+  curves like a regular bicycle. It is featured by a long frame that can carry
+  loads (e.g., a child in a car seat or a baby shell) placed in between the
+  rider and the front wheel. We used the ''Family Performance Plus'' model, with
+  an electric drivetrain from Bosch Performance Line (65~\si{\N}\si{\m},
+  250~\si{\W}). It was equipped with tyres Schwalbe Big Ben Plus 55-559 on the
+  rear, and Schwalbe Big Ben Plus 55-406 on the front (Ralf Bohle GmbH, Reichshof-Wehnrath, Germany). We set both tyres to an
+  inflation pressure of 300~\si{\kPa}, according to the range recommended by the
+  manufacturer.
   (\href{https://urban arrow.com/}{Urban Arrow website})
 \end{description}
 \item[Baby Seats] These two baby seats were mounted in the cargo bays of the two
@@ -2131,7 +2155,7 @@ Additional sensor locations are as follows.
       \item Shock bump: A 30x30~\si{\mm} square section aluminium bar 
   \end{itemize}
   \item \textbf{Cargo bicycles} were tested with dummies of 0 months and 3
-  months. Test were performed at 12~\si{\kph} for both vehicles. The Urban Arrow
+  months. Tests were performed at 12~\si{\kph} for both vehicles. The Urban Arrow
   was also tested at 25~\si{\kph} whereas the Keiler was tested at
   20~\si{\km\per\hour} for safety reasons (due to wobbling). The test surfaces
   are:
