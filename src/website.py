@@ -254,7 +254,8 @@ boxp_html = []
 # Figure: Stroller and Bicycle Spectrum Comparison
 ##################################################
 boxp_html.append(H2.format("""Mean spectra of each vehicle at each speed."""))
-msg = """TODO"""
+msg = """Curves represent the average amplitude at each frequency over all
+repetitions of the same vehicle grouped by target speed."""
 boxp_html.append(P.format(msg))
 fig, axes = plt.subplots(ncols=2, nrows=2, layout='constrained',
                          figsize=(MAXWIDTH*MM2INCH, 0.6*MAXWIDTH*MM2INCH))

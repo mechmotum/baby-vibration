@@ -22,9 +22,8 @@ INDEX = """\
   <hr>
   <div class="alert alert-danger" role="alert">
     <p>
-      Warning: These results are a work-in-progress, we caution reliance on
-      them until a supporting paper is published. See the latest preprint for
-      more context: <a
+      Warning: These results are currently under peer review. See the latest
+      preprint for more context: <a
       href="https://doi.org/10.31224/4415">doi.org/10.31224/4415</a>.
     </p>
   </div>
@@ -36,11 +35,13 @@ INDEX = """\
     License: CC-BY 4.0
   </p>
   <p>
-    This page examines the signal: <strong>{signal}</strong>.
+    This page examines the signal from the strollers and cargo bicycles:
+    <strong>{signal}</strong>.
   </p>
 
   <h1>Table of Contents</h1>
   <ol>
+    <li><a href="#definitions">Definitions</a></li>
     <li><a href="#mean_table">Scenario Mean Table</a></li>
     <li><a href="#boxp">Comparison Plots</a></li>
     <li><a href="#shock">Shock Test</a></li>
@@ -54,6 +55,52 @@ INDEX = """\
     <li><a href="#sync">Sensor Time Synchronization Checks</a></li>
   </ol>
 
+  <h1 id="definitions">Definitions</h1>
+  <h2>Data Sectioning</h2>
+  <dl>
+    <dt>Scenario</dt>
+    <dd>We test a combination of vehicle, infant seat, infant dummy, road
+    surface (including shock), and speed. A unique combination of these factors
+    is called a "scenario".</dd>
+    <dt>Session</dt>
+    <dd>A "session" is a continuous collection of data from a set of Shimmer
+    IMUs which contains one or more scenarios. The IMU's internal clocks are
+    time synchronized on the base station, attached to the vehicle, and each
+    IMU is started. After a time period of collecting data of possibly multiple
+    trials and calibrations the IMUs are stopped. Each IMU produces a single
+    acquisition CSV file for that session.</dd>
+    <dt>Trial</dt>
+    <dd>A trial is defined as a continuous time segment selected from a session
+    that represents a specific scenario. The trial may be a static calibration
+    period, a time synchronization motion period, or a constant speed period of
+    vehicle motion.</dd>
+    <dt>Repetition</dt>
+    <dd>We split trials into shorter segments to have an average trial segment
+    duration of about 20 seconds.</dd>
+  </dl>
+
+  <h2>Vehicle name:</h2>
+  <ul>
+    <li><code>bugaboo</code>: Bugaboo Fox 5 stroller</li>
+    <li><code>greenmachine</code>: an old-style (~70's) cot for very young
+    infants</li>
+    <li><code>maxicosi</code>: Maxi-Cosi Street Plus stroller</li>
+    <li><code>oldrusty</code>: an old-style (~70's) seat for older infants</li>
+    <li><code>keiler</code>: Keiler cargo tricycle (tadpole wheel arrangement
+    with some extra mass added to represent propulsion motor and battery)</li>
+    <li><code>urbanarrow</code>: Urban Arrow cargo electric bicycle</li>
+    <li><code>stokke</code>: Stokke BABYZEN YOYO 0+ stroller</li>
+  </ul>
+
+  <h2>Road surfaces:</h2>
+  <ul>
+    <li><code>aula</code>: sidewalk slabs</li>
+    <li><code>klinkers</code>: paver bricks</li>
+    <li><code>pave</code>: cobblestones</li>
+    <li><code>stoeptegels</code>: sidewalk pavers</li>
+    <li><code>tarmac</code>: smooth asphalt</li>
+  </ul>
+
   <h1 id="mean_table">Mean Over Scenarios for Signal: {signal}</h1>
   <hr>
   <p>
@@ -62,6 +109,29 @@ INDEX = """\
     Download summary tables for the strollers and bicycles in excel format: <a
     href='stroller-summary.xlsx'>stroller-summary.xlsx</a> and <a
     href='bicycle-summary.xlsx'>bicycle-summary.xlsx</a>.
+    <dl>
+      <dt>Trial Count</dt><dd>Number of repetitions averaged over.</dd>
+      <dt>RMS Acceleration</dt><dd>RMS of the raw acceleration signal component
+      (no downsampling, filtering, or ISO weighting).</dd>
+      <dt>ISO Weighted RMS Acceleration</dt><dd>RMS of the gravity subtracted,
+      downsampled, low pass filtered, and ISO weighted acceleration signal
+      component.</dd>
+      <dt>ISO Weighted RMS Acceleration Magnitude</dt><dd>RMS of the gravity
+      substracted, downsampled, low pass filtered, and ISO weighted
+      acceleration signal 3D magnitude.</dd>
+      <dt>VDV Acceleration</dt><dd>10 second VDV of the raw acceleration signal
+      component (no downsampling, filtering, or ISO weighting).</dd>
+      <dt>Crest Factor</dt><dd>Crest factor computed from the raw acceleration
+      signal component (no downsampling, filtering, or ISO weighting).</dd>
+      <dt>ISO Weighted Peak Frequency</dt><dd>Frequency corresponding to the
+      maximum amplitude in the frequency spectrum of the gravity subtracted,
+      downsampled, lowpass filtered, ISO weighted acceleration signal
+      component.</dd>
+      <dt>Bandwidth 80%</dt><dd>Frequency at which aligns with 80% of the area
+      under the frequency spectrum of the downsampled and lowpass filtered
+      curve.</dd>
+      <dt>Duration</dt><dd>Duration of the repetition.</dd>
+    </dl>
   </p>
 {mean_table}
 
@@ -124,7 +194,8 @@ INDEX = """\
   <hr>
   <p>
     The time history of the signal of each trial broken into repetitions
-    selected from each scenario.
+    selected from each scenario. The blue line is the raw gravity subtracted
+    signal and the black lines represent the RMS of the blue line.
   </p>
 {trial_html}
 
