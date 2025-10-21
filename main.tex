@@ -62,7 +62,7 @@
 \def\mps{\meter\per\second}
     
 \title{
-  DRAFT: v7 \\
+  DRAFT: v8 \\
   Vibration Characterisation of Strollers and\\
   Cargo Bicycles for Transporting Infants\\
   \vspace{2mm}
@@ -112,11 +112,19 @@ Jason K. Moore\footnote{corresponding author: j.k.moore@tudelft.nl, +31 (0)15 27
   % Effects of body size and posture were minor.
   Two vintage strollers significantly reduced vibrations compared to three
   modern strollers, indicating benefits of compliant suspensions. 
-  We recommend designers systematically consider vibration, users avoid
-  prolonged exposure to surfaces rougher than tarmac, and researchers to pursue
+  We recommend that designers systematically consider vibration, users avoid
+  prolonged exposure to surfaces rougher than tarmac, and researchers pursue
   scientifically founded test procedures and standards for infant vibration.
 \end{abstract}
 
+\section*{Practitioner Summary}
+%
+Strollers pushed over cobblestones and cargo bicycles travelling over paver
+bricks at typical speeds induce infant seat pan accelerations up to 5 and
+11~\si{\mps\squared}, respectively. The adult whole-body vibration standard
+suggests these accelerations are extremely uncomfortable and continuous exposure
+should be limited to less than 10~\si{\minute}.
+  
 \section*{Keywords}
 %
 whole-body vibration, infant, bicycle, stroller, ISO
@@ -346,7 +354,8 @@ and technical descriptions of all tested strollers and cargo bicycles.}
   \includegraphics[width=160mm]{fig/equipment.png}
   \caption{Tested products: cargo bicycles with baby seats, strollers, and
   dummies. Images are reproduced from manufacturer's websites except for the
-  vintage strollers and dummies.}
+  vintage strollers and dummies. ALT TEXT: Photos of cargo bicycles, infant
+  seats, strollers, and infant dummies.}
   \label{fig:equipment}
 \end{figure}
 
@@ -407,7 +416,8 @@ foams and the inertia and compliance of the dummy.
   radius and the IMU's angular speed about the wheel axis. In b) the IMUs were
   taped into the baby seat at the interface between the dummy's buttocks or head
   and the baby seat. In c) the camera is mounted to the stroller handlebar and
-  IMUs are on the wheels.}
+  IMUs are on the wheels. ALT TEXT: Photos of IMU and camera locations on the
+  vehicles.}
   \label{fig:sensors_UA}
 \end{figure}
 
@@ -496,7 +506,8 @@ on the handlebar of the stroller or cargo bicycle.
   \centering
   \includegraphics[width=160mm]{fig/surfaces.png}
   \caption{Road surfaces tested: tarmac and paver bricks (cargo bicycles and
-  strollers), sidewalk pavers, cobblestones, sidewalk slabs (strollers).}
+  strollers), sidewalk pavers, cobblestones, sidewalk slabs (strollers). ALT
+  TEXT: Photos of road surfaces.}
   \label{fig:surfaces}
 \end{figure}
 
@@ -535,7 +546,7 @@ session in different trials. The data were processed per session as follows:
   \caption{Vehicle speed versus time derived from the wheel hub IMU for an
   entire session (015) showing the trials in the shaded grey areas. Gold
   horizontal lines depict the mean speed during trials bounded by its standard
-  deviation.}
+  deviation. ALT TEXT: Plot of vehicle speed during a session.}
   \label{fig:session}
 \end{figure}
 %
@@ -627,7 +638,8 @@ only applies to frequencies up to 80~\si{\hertz}.
   Maxi-Cosi stroller over the Sidewalk Slabs. Black horizontal lines indicate
   the \(\pm\)root mean square (RMS) about the mean. The vibration dose value
   (VDV) for the first 10~\si{\second} of the printed duration is shown in the
-  bottom left.}
+  bottom left. ALT TEXT: Plot of acceleration versus time during an example
+  repetition.}
   \label{fig:vert-acc-example}
 \end{figure}
 
@@ -652,7 +664,8 @@ amplitude content falls marked as an indicator of bandwidth.
   low pass), and the blue line is the smoothed ISO weighted FFT. The blue dashed
   vertical line indicates the frequency at the maximum amplitude of the smoothed
   curve. The black dashed-dotted vertical line indicates the bandwidth threshold
-  for 80\% of the area under the black curve.}
+  for 80\% of the area under the black curve. ALT TEXT: Plot of amplitude versus
+  frequency for an example repetition.}
   \label{fig:freq-spectrum}
 \end{figure}
 
@@ -955,7 +968,9 @@ vehicles show increasing accelerations with speed.
   \caption{Seat pan ISO~2631-1 weighted vertical RMS acceleration versus speed
   grouped by road surface and cargo bicycle model. Slanted lines indicate a
   linear regression, vertical lines are the standard deviation at those speeds,
-  and shaded regions show the 95\% confidence intervals for the regression.}
+  and shaded regions show the 95\% confidence intervals for the regression. ALT
+  TEXT: Plots of cargo bicycle acceleration versus speed for tarmac and paver
+  bricks.}
   \label{fig:bicycle-type-compare}
 \end{figure}
 
@@ -976,7 +991,8 @@ double the RMS acceleration.
   \includegraphics[width=160mm]{fig/SeatBotacc_ver-stroller-type-compare.png}
   \caption{Seat pan ISO 2631-1 weighted vertical RMS acceleration per road
   surface for each stroller. Vertical lines indicate the standard deviation for
-  categories that have more than one repetition.} 
+  categories that have more than one repetition. ALT TEXT: Plot of stroller
+  accelerations for each road surface.} 
   \label{fig:stroller-type-compare}
 \end{figure}
 
@@ -1006,7 +1022,8 @@ road surfaces is not as apparent or consistent.
   \includegraphics[width=160mm]{fig/SeatBotacc_ver-spectra-compare.png}
   \caption{Mean vertical seat pan amplitude spectra of each vehicle for
   strollers on sidewalk pavers (left) and cargo bicycles on paver bricks
-  (right).} 
+  (right). ALT TEXT: Plot of amplitude versus frequency for each stroller and
+  cargo bicycle.} 
   \label{fig:spectra-compare}
 \end{figure}
 %
@@ -1016,7 +1033,8 @@ road surfaces is not as apparent or consistent.
   \caption{Seat pan vertical peak frequency distributions comparisons among road surfaces for each
   target speed group for non-shock repetitions. The boxes bound the quartiles
   and indicate the median. The whiskers indicate the 95\textsuperscript{th}
-  percentile and circles are outliers.}
+  percentile and circles are outliers. ALT TEXT: Box plots of peak frequencies
+  for strollers and bicycles on each road surface.}
   \label{fig:peak-freq-dist}
 \end{figure}
 
@@ -1032,7 +1050,8 @@ Old Rusty, and 44 Hz for cargo bicycles.
   vertical amplitude spectrum) for each target speed group for non-shock
   repetitions. The boxes bound the quartiles and indicate the median. The
   whiskers indicate the 95\textsuperscript{th} percentile and circles are
-  outliers.}
+  outliers. ALT TEXT: Box plots of bandwidth for strollers and bicycles on each
+  road surface.}
   \label{fig:bandwidth-dist}
 \end{figure}
 
@@ -1056,7 +1075,9 @@ and may not result in a representative risk for infants or older children.
   stroller repetitions with colour representing road surface. The horizontal
   dashed grey lines with time duration indicators are the upper bounds of the
   ISO~2631-1 ``health caution zones'' for long-term exposure of adults seated
-  erectly, daily experiencing these vibrations with continuous duration.}
+  erectly, daily experiencing these vibrations with continuous duration. ALT
+  TEXT: Vertical acceleration for each stroller repetition with ISO health
+  duration limits.}
   \label{fig:health-stroller}
 \end{figure}
 %
@@ -1068,7 +1089,8 @@ and may not result in a representative risk for infants or older children.
   indicating the target speed. The horizontal dashed grey lines with time
   duration indicators are the upper bounds of the ISO~2631-1 ``health caution
   zones'' for long-term exposure of adults seated erectly, daily experiencing
-  these vibrations with continuous duration.}
+  these vibrations with continuous duration. ALT TEXT: Vertical acceleration for
+  each cargo bicycle repetition with ISO health duration limits.}
   \label{fig:health-bicycle}
 \end{figure}
 
@@ -1130,7 +1152,8 @@ Rusty generally shows the lowest discomfort levels.
   dashed lines are the lower bound of the ISO~2631-1 ``comfort zones'' for
   adults seated erectly experiencing vibrations in public transit. The
   horizontal dashed dotted line is the cyclists' vibration discomfort threshold
-  as reported by Gao et. al~\cite{Gao2018}.}
+  as reported by Gao et. al~\cite{Gao2018}. ALT TEXT: Acceleration magnitude for
+  each stroller repetition with ISO comfort limits.}
   \label{fig:comfort-stroller}
 \end{figure}
 
@@ -1151,7 +1174,8 @@ speeds.
   bound of the ISO~2631-1 ``comfort zones'' for adults seated erectly
   experiencing vibrations in public transit. The horizontal dashed-dotted line
   is the cyclists' vibration discomfort threshold as reported by
-  Gao~et.~al~\cite{Gao2018}.}
+  Gao~et.~al~\cite{Gao2018}. ALT TEXT: Acceleration magnitude for each cargo
+  bicycle repetition with ISO comfort limits.}
   \label{fig:comfort-bicycle}
 \end{figure}
 
@@ -1603,19 +1627,26 @@ that we believe stand in spite of the standard's limitations:
     standard on vibration that is applicable for infant transportation.
 \end{enumerate}
 
-\subsection{Acknowledgement}
+\section*{Acknowledgement}
 %
-Neil Mansfield, Jim Papadopoulos, Malte Rothhämel, Stefan Schwanitz, Idsart
-Kingma, Darek Wieckowksi, Aernout Dijkstra-Hellinga, and  Clement Moe all
-provided important feedback on the preprint that helped improve the paper. This
-work was financially supported by VeiligheidNL under the ``Project Trillingen
-bakfiets en wandelwagen.''
+Neil Mansfield, Jim Papadopoulos, Malte Rothhämel, Stefan Schwanitz, and Aernout
+Dijkstra-Hellinga all provided important feedback on the preprint that helped
+improve the paper. This work was financially supported by VeiligheidNL under the
+``Project Trillingen bakfiets en wandelwagen'' and we thank VeiligheidNL
+employee Mieke Cotterink for advice, support, and review of our work.
 
-\subsection{Declaration of Interest Statement}
+\section*{Author Contribution Statement}
+%
+All authors were involved in the conception and design, or analysis and
+interpretation of the data; the drafting of the paper; revising it critically
+for intellectual content; and the final approval of the version to be published;
+and all authors agree to be accountable for all aspects of the work.
+
+\section*{Declaration of Interest Statement}
 %
 The authors report there are no competing interests to declare.
 
-\subsection{Data Availability Statement}
+\section*{Data Availability Statement}
 %
 The data will be made publicly available alongside publication.
 
@@ -1644,7 +1675,8 @@ the speed from \SIrange{12}{25}{\kilo\meter\per\hour}.The effect of speed while 
   \caption{Seat pan ISO 2631-1 weighted vertical acceleration RMS versus speed
   for all cargo bicycle repetitions. Shaded regions represent the 95\%
   confidence intervals from a simple linear regression that ignores
-  \(x_\textrm{Cargo Bicycle}\).}
+  \(x_\textrm{Cargo Bicycle}\). ALT TEXT: Cargo bicycle vertical acceleration
+  versus speed for each road surface.}
   \label{fig:compare-bicycle-speed}
 \end{figure}
 
@@ -1669,7 +1701,8 @@ accelerations were observed across the tested speed range.
   \caption{Seat pan ISO~2631-1 weighted vertical RMS acceleration grouped by
   baby age (and thus size \& mass) for all repetitions with colour indicating
   the mean speed of the trial. The lightest colour dots are strollers (4 km/h) and the
-  remaining are cargo bicycles (8-24 km/h).}
+  remaining are cargo bicycles (8-24 km/h). ALT TEXT: Vertical acceleration for
+  each repetition grouped by dummy age representation.}
   \label{fig:compare-baby-mass}
 \end{figure}
 
@@ -1694,7 +1727,9 @@ cargo bicycles. Paver bricks result in approximately 4-5\(\times\) higher accele
   \includegraphics[width=160mm]{fig/SeatBotacc_ver-road-surface-compare.png}
   \caption{Seat pan ISO 2631-1 weighted vertical RMS acceleration grouped by
   road surface with colour indicating the mean speed of the repetition. The
-  lightest colour dots are strollers (4 km/h), and the rest are cargo bicycles (8-24 km/h).}
+  lightest colour dots are strollers (4 km/h), and the rest are cargo bicycles
+  (8-24 km/h). ALT TEXT: Vertical acceleration for each repetition grouped by
+  road surface.}
   \label{fig:compare-road-surface}
 \end{figure}
 
@@ -1718,7 +1753,8 @@ significant difference.
   \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Sidewalk Slabs.png}}
   \subcaptionbox{}{
   \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Tarmac.png}}
-  \caption{Tukey Comparison Plots for the Strollers}
+  \caption{Tukey comparison plots for the strollers. ALT TEXT: Tukey comparison
+  plots for the strollers.}
   \label{fig:tukey-stroller}
 \end{figure}
 %
@@ -1732,7 +1768,8 @@ significant difference.
   \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-bicycle-Paver Bricks-High.png}}
   \subcaptionbox{}{
   \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-bicycle-Tarmac-High.png}}
-  \caption{Tukey Comparison Plots for the Cargo Bicycles}
+  \caption{Tukey comparison plots for the cargo bicycles. ALT TEXT: Tukey
+  comparison plots for the cargo bicycles.}
   \label{fig:tukey-bicycle}
 \end{figure}
 
@@ -1776,19 +1813,21 @@ events' time histories (Figure \ref{fig:shock_time-history}), limiting it to
 %
 \begin{figure}
   \centering
-  \includegraphics[width=160mm]{fig/SeatBotacc_ver-shock-test-compare.png}
-  \caption{Vertical acceleration recorded at the seat pan during the shock test
-  per each trial, grouped by vehicles. The colour indicates the mean speed of
-  the trial. The lighter the colour the lower the speed.}
-  \label{fig:shock_vehicle_comparison}
+  \includegraphics[width=160mm]{fig/session015-t5-shock-bicycle-keiler-maxicosi-0-SeatBotacc_ver-rep0.png}
+  \caption{Raw seat pan vertical acceleration versus time from session 015:
+  Keiler tricycle during the shock test. ALT TEXT: Vertical acceleration versus
+  time during an example shock test.}
+  \label{fig:shock_time-history}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=160mm]{fig/session015-t5-shock-bicycle-keiler-maxicosi-0-SeatBotacc_ver-rep0.png}
-  \caption{Raw seat pan vertical acceleration versus time from session 015:
-  Keiler tricycle during the shock test.}
-  \label{fig:shock_time-history}
+  \includegraphics[width=160mm]{fig/SeatBotacc_ver-shock-test-compare.png}
+  \caption{Vertical acceleration recorded at the seat pan during the shock test
+  per each trial, grouped by vehicles. The colour indicates the mean speed of
+  the trial. The lighter the colour the lower the speed. ALT TEXT: Peak vertical
+  acceleration during shock tests grouped by vehicle.}
+  \label{fig:shock_vehicle_comparison}
 \end{figure}
 
 \begin{table}
@@ -2031,7 +2070,8 @@ Additional sensor locations are as follows.
   \subcaptionbox{IMU under the cargo bay}{\includegraphics[width=0.45\textwidth, angle=-90]{fig/BT_UA.jpg}}
   \caption{IMU locations on the Urban Arrow. The white 3D printed
   sensor supports are visible in (a) and (c). The last figure (d) shows how the
-  sensors were taped to the seat pan and backrest.}
+  sensors were taped to the seat pan and backrest. ALT TEXT: Photos of extra IMU
+  mounting locations.}
   \label{fig:sensors_UA2}
 \end{figure}
 
@@ -2040,7 +2080,7 @@ Additional sensor locations are as follows.
   \subcaptionbox{Lateral view}{\includegraphics[width=75mm]{fig/TechDraw_UA-Joolz_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=80mm]{fig/TechDraw_UA-Joolz_front.pdf}}
   \caption{IMU locations on the Urban Arrow, equipped with
-  Pebble.}
+  Pebble. ALT TEXT: Photos of the Urban Arrow with Pebble seat.}
   \label{fig:tech_drawing_UA_Joolz}
 \end{figure}
 
@@ -2048,8 +2088,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=75mm]{fig/TechDraw_UA-Melia_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=80mm]{fig/TechDraw_UA-Melia_front.pdf}}
-  \caption{IMU locations on the Urban Arrow, equipped with
-  Melia.}
+  \caption{IMU locations on the Urban Arrow, equipped with Melia. ALT TEXT:
+  Photos of the Urban Arrow with Melia seat.}
   \label{fig:tech_drawing_UA_Melia}
 \end{figure}
 
@@ -2059,7 +2099,7 @@ Additional sensor locations are as follows.
   \subcaptionbox{Lateral view}{\includegraphics[width=75mm]{fig/TechDraw_Trike-Joolz_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=80mm]{fig/TechDraw_Trike-Joolz_front.pdf}}
   \caption{IMU locations on the Keiler, equipped with
-  Pebble.}
+  Pebble. ALT TEXT: Photos of the Keiler with the Pebble seat.}
   \label{fig:tech_drawing_Trike_Joolz}
 \end{figure}
 
@@ -2069,7 +2109,7 @@ Additional sensor locations are as follows.
   \subcaptionbox{Lateral view}{\includegraphics[width=75mm]{fig/TechDraw_Trike-Melia_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=75mm]{fig/TechDraw_Trike-Melia_front.pdf}}
   \caption{IMU locations on the Keiler, equipped with
-  Melia.}
+  Melia. ALT TEXT: Photos of the Keiler with the Melia seat.}
   \label{fig:tech_drawing_Trike_Melia}
 \end{figure}
 
@@ -2078,7 +2118,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm]{fig/TechDraw_Bugaboo0_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_Bugaboo0_front.pdf}}
-  \caption{IMU locations on the Bugaboo, configured for a 0-month-old baby.}
+  \caption{IMU locations on the Bugaboo, configured for a 0-month-old baby. ALT
+  TEXT: Photos of the Bugaboo with cot.}
   \label{fig:tech_drawing_Bugaboo0}
 \end{figure}
 
@@ -2086,7 +2127,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_Bugaboo9_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_Bugaboo9_front.pdf}}
-  \caption{IMU locations on the Bugaboo, configured for a 9-month-old baby.}
+  \caption{IMU locations on the Bugaboo, configured for a 9-month-old baby. ALT
+  TEXT: Photos of the Bugaboo with seat.}
   \label{fig:tech_drawing_Bugaboo9}
 \end{figure}
 
@@ -2095,7 +2137,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_Maxicosi0_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_Maxicosi0_front.pdf}}
-  \caption{IMU locations on the Maxi-Cosi, configured for a 0-month-old baby.}
+  \caption{IMU locations on the Maxi-Cosi, configured for a 0-month-old baby.
+  ALT TEXT: Photos of the Maxi-Cosi with cot.}
   \label{fig:tech_drawing_Maxicosi0}
 \end{figure}
 
@@ -2103,7 +2146,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_Maxicosi9_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm,angle=-90]{fig/TechDraw_Maxicosi9_front.pdf}}
-  \caption{IMU locations on the Maxi-Cosi, configured for a 9-month-old baby.}
+  \caption{IMU locations on the Maxi-Cosi, configured for a 9-month-old baby.
+  ALT TEXT: Photos of the Maxi-Cosi with seat.}
   \label{fig:tech_drawing_Maxicosi9}
 \end{figure}
 
@@ -2112,7 +2156,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_YOYO0_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_YOYO0_front.pdf}}
-  \caption{IMU locations on the Stokke, configured for a 0-month-old baby.}
+  \caption{IMU locations on the Stokke, configured for a 0-month-old baby. ALT
+  TEXT: Photos of the Stokke with cot.}
   \label{fig:tech_drawing_YOYO0}
 \end{figure}
 
@@ -2120,7 +2165,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_YOYO9_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_YOYO9_front.pdf}}
-  \caption{IMU locations on the Stokke, configured for a 9-month-old baby.}
+  \caption{IMU locations on the Stokke, configured for a 9-month-old baby. ALT
+  TEXT: Photos of the Stokke with seat.}
   \label{fig:tech_drawing_YOYO9}
 \end{figure}
 
@@ -2129,7 +2175,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_GreenM0_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_GreenM0_front.pdf}}
-  \caption{IMU locations on the Green Machine, configured for a 0-month-old baby.}
+  \caption{IMU locations on the Green Machine, configured for a 0-month-old
+  baby. ALT TEXT: Photos of the Green Machine.}
   \label{fig:tech_drawing_GreenM0}
 \end{figure}
 
@@ -2137,7 +2184,8 @@ Additional sensor locations are as follows.
   \centering
   \subcaptionbox{Lateral view}{\includegraphics[width=70mm, angle=-90]{fig/TechDraw_OldR9_lat.pdf}}
   \subcaptionbox{Front view}{\includegraphics[width=70mm]{fig/TechDraw_OldR9_front.pdf}}
-  \caption{IMU locations on the Old Rusty, configured for a 9-month-old baby.}
+  \caption{IMU locations on the Old Rusty, configured for a 9-month-old baby.
+  ALT TEXT: Photos of the Old Rusty.}
   \label{fig:tech_drawing_OldR9}
 \end{figure}
 
@@ -2180,7 +2228,8 @@ Additional sensor locations are as follows.
 \begin{figure}[htbp]
   \centering
   {\includegraphics[width=70mm, angle=-90]{fig/Tarmac_bicycle.pdf}}
-  \caption{Tarmac surface where we tested bicycles.}
+  \caption{Tarmac surface where we tested bicycles. ALT TEXT: Photo of tarmac
+  for cargo bicycles.}
   \label{fig:tarmac_bicycle}
 \end{figure}
 
@@ -2190,7 +2239,7 @@ The bicycle experiment on the tarmac was conducted along Leeghwaterstraat, 2628 
 \begin{figure}[htbp]
   \centering
  {\includegraphics[width=70mm, angle=-90]{fig/Paver_bricks_bicycle.pdf}}
-  \caption{Paver bricks surface where we tested bicycles.}
+  \caption{Paver bricks surface where we tested bicycles. ALT TEXT: Photo of paver bricks for cargo bicycles.}
   \label{fig:paver_bricks_bicycle}
 \end{figure}
 
@@ -2203,7 +2252,8 @@ Details of paver brick: rectangular shape, dimensions 195x95~\si{\mm} (gap in be
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=70mm, angle=0]{fig/Shock_bicycle.pdf}
-  \caption{We performed a shock test with bicycles riding over a 30x30~\si{\mm} square section bar.}
+  \caption{We performed a shock test with bicycles riding over a 30x30~\si{\mm}
+  square section bar. ALT TEXT: Photo of cargo bicycle shock test.}
   \label{fig:shock_bicycle}
 \end{figure}
 
@@ -2220,7 +2270,7 @@ Details of the shock experiment: we rode over a square-sectioned aluminium bar 3
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=70mm, angle=-90]{fig/Tarmac_stroller.pdf}
-  \caption{Tarmac test area.}
+  \caption{Tarmac test area. ALT TEXT: Photo of tarmac for strollers.}
   \label{fig:tarmac_stroller}
 \end{figure}
 
@@ -2233,7 +2283,8 @@ The bicycle experiment on the tarmac was conducted along Julianalaan, 2628 BG De
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=60mm, angle=-90]{fig/Cobblestone_stroller.pdf}
-  \caption{Cobblestone surface where we tested strollers.}
+  \caption{Cobblestone surface where we tested strollers. ALT TEXT: Photo of
+  cobblestone for strollers.}
   \label{fig:cobblestone_area_stroller}
 \end{figure}
 
@@ -2245,7 +2296,8 @@ Details of cobblestone: rectangular shape, dimensions 180x125~\si{\mm} (gap in b
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=60mm, angle=-90]{fig/Sidewalk_pavers_stroller.pdf}
-  \caption{Sidewalk pavers test area for strollers.}
+  \caption{Sidewalk pavers test area for strollers. ALT TEXT: Photo of sidewalk
+  pavers for strollers.}
   \label{fig:sidewalkpavers_area_stroller}
 \end{figure}
 
@@ -2259,7 +2311,8 @@ Details of sidewalk bricks: rectangular shape, dimensions 290x290~\si{\mm} (gap 
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=70mm, angle=-90]{fig/Sidewalk_slabs_stroller.pdf}
-  \caption{Sidewalk slab test area where we conducted the test with strollers.}
+  \caption{Sidewalk slab test area where we conducted the test with strollers.
+  ALT TEXT: Photo of sidewalk slabs for strollers.}
   \label{fig:sidewalkslabs_area_stroller}
 \end{figure}
 
@@ -2270,7 +2323,8 @@ Details of sidewalk slab: made of concrete, rectangular shape, dimensions 2000x9
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=50mm, angle=-90]{fig/Paver_bricks_stroller.pdf}
-  \caption{Details of the paver bricks test area.}
+  \caption{Details of the paver bricks test area. ALT TEXT: Photo of paver
+  bricks for strollers.}
   \label{fig:paverbrick_area_stroller}
 \end{figure}
 
@@ -2283,7 +2337,8 @@ Details of paver brick: rectangular shape, dimensions 195x95~\si{\mm} (gap in be
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=60mm, angle=-90]{fig/Shock_stroller.pdf}
-  \caption{Area where we tested strollers during the shock experiment.}
+  \caption{Area where we tested strollers during the shock experiment. ALT TEXT:
+  Photo of shock test for strollers.}
   \label{fig:shock_area_stroller}
 \end{figure}
 
