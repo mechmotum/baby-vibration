@@ -11,6 +11,7 @@ strollers. The findings are summarized by this limerick by Brecht Daams:
 | Vibes are higher than good
 | for comfort and mood
 | Thus ride slow please and limit the hike
+|
 
 Preliminary results can be viewed at:
 
