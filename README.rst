@@ -4,7 +4,13 @@ Vibration Characterisation of Strollers and Cargo Bicycles for Transporting Infa
 
 This repository houses the analysis and paper that investigates the vibrations
 experienced by infants (0-9 months old) when carried in cargo bicycles and
-strollers.
+strollers. The findings are summarized by this limerick by Brecht Daams:
+
+| Transporation in stroller and bike
+| Gives vibrations that children don’t like
+| Vibes are higher than good
+| for comfort and mood
+| Thus ride slow please and limit the hike
 
 Preliminary results can be viewed at:
 
