@@ -39,17 +39,29 @@ Build Instructions
 
 Create a ``config.yml`` file in the repository directory with these contents::
 
-   data-directory: /path/to/Trillingen-Project_Dec2024/raw_data
+   data-directory: /path/to/csv/data
 
 or on Windows::
 
-   data-directory: C:\path\to\Trillingen-Project_Dec2024\raw_data
+   data-directory: C:\path\to\csv\data
 
 **Do not commit the configuration file to Git.**
 
-The ``Trillingen-Project_Dec2024`` is currently a private mountable directory
-share on TU Delft network. The data will be shared in a public repository in
-the future.
+The ``data-directory`` should contain a folder for each session and each
+session contains the csv files collected from the Shimmer IMUs. For example,
+one directory is::
+
+   /path/to/csv/data/2024-11-28_Maxicos_1_0months/
+   ├── 2024-11-28_10.43.58_Maxicos_1_SH_SD_Session1
+   │   └── Maxicos_1_SH_Session1_S_SeatHead_Calibrated_SD.csv
+   ├── 2024-11-28_10.44.49_Maxicos_1_FW_SD_Session1
+   │   └── Maxicos_1_FW_Session1_S_FrontWheel_Calibrated_SD.csv
+   ├── 2024-11-28_10.45.23_Maxicos_1_RW_SD_Session1
+   │   └── Maxicos_1_RW_Session1_S_RearWheel_Calibrated_SD.csv
+   ├── 2024-11-28_10.45.57_Maxicos_1_SB_SD_Session1
+   │   └── Maxicos_1_SB_Session1_S_SeatBot_Calibrated_SD.csv
+   └── 2024-11-28_10.46.45_Maxicos_1_BT_SD_Session1
+       └── Maxicos_1_BT_Session1_S_BotTrike_Calibrated_SD.csv
 
 Install conda then create and activate the environment::
 

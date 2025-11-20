@@ -164,8 +164,7 @@ def load_session_files(session_label):
     file_names = sessions[session_label]['imu_files']
     data_frames = {}
     for label, filename in file_names.items():
-        path_to_file = os.path.join(PATH_TO_SESSION_DATA, 'Raw_data_csv',
-                                    filename)
+        path_to_file = os.path.join(PATH_TO_SESSION_DATA, filename)
         data_frames[label] = load_shimmer_file(path_to_file)
     return data_frames
 
