@@ -189,17 +189,9 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
-fig, ax = plt.subplots()
-sns.residplot(
-    x=bicycle_res.fittedvalues,
-    y=bicycle_res.resid,
-    lowess=True,
-    ax=ax,
-)
-fname = '{}-residual-variance-bicycle.png'.format(SIGNAL)
-fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
-fig = sma.qqplot(bicycle_res.resid, line='s')
-fname = '{}-qqplot-bicycle.png'.format(SIGNAL)
+diag = LinearRegDiagnostic(bicycle_res)
+_, fig, ax = diag()  # returns panel plot of all diagnostics
+fname = '{}-regression-diagnostics-bicycle.png'.format(SIGNAL)
 fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 breuschpagan_labels = ["Lagrange multiplier statistic", "p-value", "f-value",
                        "f p-value"]
@@ -246,17 +238,7 @@ print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
 diag = LinearRegDiagnostic(stroller_res)
 _, fig, ax = diag()  # returns panel plot of all diagnostics
-fig, ax = plt.subplots()
-sns.residplot(
-    x=stroller_res.fittedvalues,
-    y=stroller_res.resid,
-    lowess=True,
-    ax=ax,
-)
-fname = '{}-residual-variance-stroller.png'.format(SIGNAL)
-fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
-fig = sma.qqplot(stroller_res.resid, line='s')
-fname = '{}-qqplot-stroller.png'.format(SIGNAL)
+fname = '{}-regression-diagnostics-stroller.png'.format(SIGNAL)
 fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
 breuschpagan_labels = ["Lagrange multiplier statistic", "p-value", "f-value",
                        "f p-value"]

@@ -35,7 +35,7 @@ and the specific file:
 https://github.com/statsmodels/statsmodels/blob/main/examples/notebooks/linear_regression_diagnostics_plots.ipynb
 
 which is licensed under the modified BSD 3-clause license and reproduced here
-as per the terms:
+as per the terms. Some lines have been modifed post copy.
 
 Copyright (C) 2006, Jonathan E. Taylor
 All rights reserved.
@@ -189,7 +189,7 @@ class LinearRegDiagnostic:
         if plot_context not in plt.style.available:
             plot_context = "default"
         with plt.style.context(plot_context):
-            fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 10))
+            fig, ax = plt.subplots(nrows=2, ncols=2, layout='constrained')
             self.residual_plot(ax=ax[0, 0])
             self.qq_plot(ax=ax[0, 1])
             self.scale_location_plot(ax=ax[1, 0])
@@ -198,7 +198,6 @@ class LinearRegDiagnostic:
                 high_leverage_threshold=kwargs.get("high_leverage_threshold"),
                 cooks_threshold=kwargs.get("cooks_threshold"),
             )
-            plt.show()
 
         return (
             self.vif_table(),
