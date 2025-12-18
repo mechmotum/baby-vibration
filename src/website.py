@@ -7,6 +7,7 @@ import subprocess
 
 # external dependencies
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
+from statsmodels.stats.diagnostic import het_breuschpagan
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
@@ -17,6 +18,7 @@ import statsmodels.formula.api as smf
 
 # local
 from functions import print_header, eval_health
+from plots import LinearRegDiagnostic
 from html_templates import INDEX, H2, H4, P, IMG
 from paths import (PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR,
                    PATH_TO_TABLE_DIR)
@@ -187,6 +189,23 @@ mod = smf.ols(formula=f, data=bicycle_df)
 bicycle_res = mod.fit()
 print_header("Bicycle OLS Results (Vertical ISO Weigthed RMS)")
 print(bicycle_res.summary())
+fig, ax = plt.subplots()
+sns.residplot(
+    x=bicycle_res.fittedvalues,
+    y=bicycle_res.resid,
+    lowess=True,
+    ax=ax,
+)
+fname = '{}-residual-variance-bicycle.png'.format(SIGNAL)
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+fig = sma.qqplot(bicycle_res.resid, line='s')
+fname = '{}-qqplot-bicycle.png'.format(SIGNAL)
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+breuschpagan_labels = ["Lagrange multiplier statistic", "p-value", "f-value",
+                       "f p-value"]
+pprint.pprint(dict(zip(breuschpagan_labels,
+                       het_breuschpagan(bicycle_res.resid,
+                                        bicycle_res.model.exog))))
 with open(os.path.join(PATH_TO_TABLE_DIR, 'bicycle-ols.tex'), 'w') as f:
     f.write(bicycle_res.summary().as_latex())
 bicycle_comp_tables = []
@@ -225,6 +244,25 @@ mod = smf.ols(formula=f, data=stroller_df)
 stroller_res = mod.fit()
 print_header("Stroller OLS Results (Vertical ISO Weigthed RMS)")
 print(stroller_res.summary())
+diag = LinearRegDiagnostic(stroller_res)
+_, fig, ax = diag()  # returns panel plot of all diagnostics
+fig, ax = plt.subplots()
+sns.residplot(
+    x=stroller_res.fittedvalues,
+    y=stroller_res.resid,
+    lowess=True,
+    ax=ax,
+)
+fname = '{}-residual-variance-stroller.png'.format(SIGNAL)
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+fig = sma.qqplot(stroller_res.resid, line='s')
+fname = '{}-qqplot-stroller.png'.format(SIGNAL)
+fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
+breuschpagan_labels = ["Lagrange multiplier statistic", "p-value", "f-value",
+                       "f p-value"]
+pprint.pprint(dict(zip(breuschpagan_labels,
+                       het_breuschpagan(stroller_res.resid,
+                                        stroller_res.model.exog))))
 with open(os.path.join(PATH_TO_TABLE_DIR, 'stroller-ols.tex'), 'w') as f:
     f.write(stroller_res.summary().as_latex())
 anova = sma.stats.anova_lm(stroller_res)
