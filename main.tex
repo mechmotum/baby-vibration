@@ -508,13 +508,12 @@ variation in surface quality.
 
 \subsection{Data Processing}
 %
-We analysed the raw data with a custom data processing pipeline. The open source
-MIT licensed code is hosted at
+We analysed the raw data with a custom data processing pipeline. The open
+source MIT licensed code is hosted at
 \href{https://github.com/mechmotum/baby-vibration}{github.com/mechmotum/baby-vibration}
 and implemented in Python 3.13.1 using the following libraries:
 DynamicistToolKit 0.6.1, Matplotlib 3.9.3, NumPy 2.2.0, Pandas 2.2.3, pyyaml
-6.0.2, SciPy 1.14.1, Seaborn 0.13.2, and statsmodels 0.14.4. The pipeline
-generates a website at
+6.0.2, SciPy 1.14.1, and Seaborn 0.13.2. The pipeline generates a website at
 \href{https://mechmotum.github.io/baby-vibration}{mechmotum.github.io/baby-vibration}
 with an exhaustive collection of figures to examine the quality of the data and
 general results for all trials, including the selected tables and figures in
@@ -708,52 +707,6 @@ equations describe the metrics:
   \textrm{CF}_{a_{z}} =\frac{\max|a_{z}(t_m)|}{\sqrt{\frac{1}{M}\sum_{m=1}^{M} a_{z}^2(t_m)}}
   \label{eq:crest-factor}
 \end{align}
-
-\subsection{Statistical Modelling}
-%
-To determine how road surface and stroller setup predict ISO~2631-1 weighted
-vertical RMS acceleration, we fitted an ordinary linear least squares model to
-the data using:
-%
-\begin{align}
-  \textrm{RMS}_{a_{w,z}} =
-  \beta_0 +
-  \beta_1 x_\textrm{Road Surface} +
-  \beta_2 x_\textrm{Stroller} +
-  \epsilon
-\end{align}
-%
-Both \(x_\textrm{Road Surface}\) and \(x_\textrm{Stroller}\) are categorical
-variables, and we selected tarmac and the Green Machine as reference values when
-coding the categorical variables, respectively. We did not consider the
-interaction of road surface and stroller given no expectation of such an effect.
-
-To determine how speed, road surface, and cargo bicycle setup predict ISO~2631-1
-weighted vertical RMS acceleration, we fit an ordinary linear least squares
-model to the data using:
-%
-\begin{align}
-  \textrm{RMS}_{a_{w,z}} =
-  \kappa_0 +
-  \kappa_1 x_\textrm{Road Surface} +
-  \kappa_2 x_\textrm{Cargo Bicycle} +
-  \kappa_3 x_\textrm{Speed} +
-  \kappa_4 x_\textrm{Road Surface} \times x_\textrm{Speed} +
-  \epsilon
-\end{align}
-%
-Both \(x_\textrm{Road Surface}\) and \(x_\textrm{Cargo Bicycle}\) are
-categorical variables and \(x_\textrm{Speed}\) is a continuous variable. We
-selected tarmac and the `Keiler, Pebble, 0 mo' setup as the reference values
-when coding the categorical variables, respectively. We did not consider the
-interaction of road surface and cargo bicycle setup given no expectation of such
-an effect but we did consider the interaction of speed with road surface. For
-both strollers and cargo bicycles, each tested combination of vehicle, seat, and
-dummy size was considered as a different vehicle type. We use \(p<0.05\) to
-indicate significant differences for both models. Following fitting of the two
-statistical models, we applied Tukey's Range Test to compare vehicle setups
-among each other for the different road surfaces and speed ranges with
-\(p=0.05\) for the adjusted limit for significance.
 
 \section{Results}
 %
@@ -1174,175 +1127,6 @@ speeds.
   \label{fig:comfort-bicycle}
 \end{figure}
 
-\subsection{Statistical Results}
-\label{sec:statistical-results}
-%
-For strollers, Table~\ref{tab:stroller-ols} shows the results of the 11 degrees
-of freedom statistical model for the 104 repetitions~(\(R^2=0.867,F=54.69\)).
-Both categorical variables have significant effects. The intercept gives the
-mean acceleration of the Green Machine pushed over tarmac, which is not
-significant. All road surfaces cause significantly higher acceleration than
-tarmac, with cobblestones having the largest relative effect
-(3.0~\si{\mps\squared} larger), followed by sidewalk slabs
-(2.7~\si{\mps\squared} larger), sidewalk pavers (1.8~\si{\mps\squared} larger),
-and paver bricks (1.6~\si{\mps\squared} larger). The `Bugaboo, Seat, 9 mo' and
-`Maxi-Cosi, Seat, 9 mo' are not significantly different from the `Green Machine,
-Cot, 0 mo' but the other strollers are. The `Old Rusty, Seat, 9 mo' and
-`Bugaboo, Cot, 0 mo' showed significantly lower RMS acceleration than `Green
-Machine, Cot, 0 mo' by 0.8 and 0.5~\si{\mps\squared}, respectively. The
-remaining strollers have higher accelerations than the `Green Machine, Cot, 0
-Mo' on tarmac: `Maxi-Cosi, Cot, 0 mo' (1.1~\si{\mps\squared}), `Bugaboo, Cot, 0
-mo' (1.0~\si{\mps\squared}), `Stokke, Seat, 9 mo' (1.0~\si{\mps\squared}), and
-`Stokke, Seat, 0 mo' (0.6~\si{\mps\squared}).
-%
-\begin{table}
-  \centering
-  \caption{Ordinary Linear Regression Results for Strollers. Tarmac and Green
-  Machine (with Cot 0 month) are the references for the categorical Road Surface and
-  Stroller variables, respectively. The columns give the effect \(\beta\), standard
-  error, T-statistic, p-value, and the 95\% confidence interval.}
-  \label{tab:stroller-ols}
-\begin{tabular}{lcccccc}
-\toprule
-& \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{P$> |$t$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
-\midrule
-\textbf{Intercept}                                                                                     &       0.2212  &        0.188     &     1.177  &         0.242        &       -0.152    &        0.595     \\
-Cobblestones                                     &       3.0117  &        0.163     &    18.473  &         0.000        &        2.688    &        3.336     \\
-Paver Bricks                                     &       1.6000  &        0.172     &     9.299  &         0.000        &        1.258    &        1.942     \\
-Sidewalk Pavers                                  &       1.7566  &        0.174     &    10.092  &         0.000        &        1.411    &        2.102     \\
-Sidewalk Slabs                                   &       2.7754  &        0.167     &    16.637  &         0.000        &        2.444    &        3.107     \\
-Bugaboo, cot, 0 mo   &       0.9706  &        0.202     &     4.813  &         0.000        &        0.570    &        1.371     \\
-Bugaboo, seat, 9 mo  &      -0.5065  &        0.199     &    -2.551  &         0.012        &       -0.901    &       -0.112     \\
-Maxi-Cosi, cot, 0 mo  &       1.0795  &        0.202     &     5.353  &         0.000        &        0.679    &        1.480     \\
-Maxi-Cosi, seat, 9 mo &       0.3012  &        0.209     &     1.441  &         0.153        &       -0.114    &        0.716     \\
-Old Rusty, seat, 9 mo &      -0.7551  &        0.209     &    -3.605  &         0.001        &       -1.171    &       -0.339     \\
-Stokke, cot, 0 mo     &       0.5766  &        0.209     &     2.753  &         0.007        &        0.161    &        0.993     \\
-Stokke, seat, 9 mo     &       0.9706  &        0.205     &     4.731  &         0.000        &        0.563    &        1.378     \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-For cargo bicycles, Table~\ref{tab:bicycle-ols} shows the results of the 8
-degree of freedom statistical model for the 50
-repetitions~(\(R^2=0.925,F=63.17\)). The categorical variable for vehicle setup
-has significant effects, the categorical variable for road surface alone does
-not, but the interaction of speed with road surface does have significant
-effects. The intercept should be zero because there is no vertical vibration
-when the speed is zero which aligns with the intercept not being significantly
-different than zero. Speed is not a significant predictor on tarmac, but the
-interaction variable shows that 0.8~\si{\mps\squared} is gained in acceleration
-for each 1~\si{\kph} increase on paver bricks. The Urban Arrow with the 3~mo
-infant in either seat has significant difference to the `Keiler, Pebble, 3~mo',
-both showing reduction in relative acceleration. If the 0~mo dummy is used in
-the Keiler with the Pebble there is significantly higher vibration.
-%
-\begin{table}
-  \centering
-  \caption{Ordinary Linear Regression Results for Cargo Bicycles. Tarmac and
-  `Keiler, Pebble, 3 mo' are the references for the categorical Road Surface
-  and Cargo Bicycle variables, respectively. The columns give the effect
-  \(\kappa\), standard error, T-statistic, p-value, and the 95\% confidence
-  interval.}
-  \label{tab:bicycle-ols}
-\begin{tabular}{lcccccc}
-\toprule
-& \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{P$> |$t$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
-\midrule
-\textbf{Intercept}                                                                                          &       0.8067  &        0.643     &     1.255  &         0.216        &       -0.491    &        2.104     \\
-Paver Bricks                                          &       1.2956  &        0.889     &     1.457  &         0.153        &       -0.500    &        3.091     \\
-Keiler, Pebble, 0 mo     &       0.8664  &        0.415     &     2.085  &         0.043        &        0.027    &        1.705     \\
-Keiler, Melia, 3 mo        &      -0.5060  &        0.415     &    -1.219  &         0.230        &       -1.344    &        0.332     \\
-Urban Arrow, Pebble, 0 mo &      -0.0512  &        0.404     &    -0.127  &         0.900        &       -0.867    &        0.764     \\
-Urban Arrow, Pebble, 3 mo &      -0.8895  &        0.415     &    -2.141  &         0.038        &       -1.728    &       -0.051     \\
-Urban Arrow, Melia, 3 mo    &      -1.1357  &        0.403     &    -2.819  &         0.007        &       -1.949    &       -0.322     \\
-Mean Speed [m/s]                                                                              &       0.2034  &        0.116     &     1.747  &         0.088        &       -0.032    &        0.439     \\
-Mean Speed\(\times\)Road Surface                    &       0.7803  &        0.180     &     4.338  &         0.000        &        0.417    &        1.144     \\
-\bottomrule
-\end{tabular}
-  \end{table}
-
-Given that the vehicle setup (\(x_\textrm{Stroller}\) and \(x_\textrm{Cargo
-Bicycle}\)) has a significant effect, we performed a post-hoc analysis to
-compare vehicles on each road surface. Table~\ref{tab:sig-group-stroller},
-derived from Figure~\ref{fig:tukey-stroller} in Appendix~\ref{app:compare},
-shows the groupings of non-significant comparisons for a Tukey Range Test among
-the strollers.  Old Rusty and `Bugaboo, Seat, 9 mo' and the Green Machine
-perform generally better (significantly) than the other vehicles, shown by the
-``overall'' ranking.  For cobblestones, this is also true as well as: 1) the
-`Stokke, Seat, 9 mo' is the worst stroller tested and, interestingly, the
-heavier dummy performs worse than the lighter one; 2) the 9-month dummy
-experiences lower acceleration in the Bugaboo and Maxi-Cosi.  For paver bricks:
-1) Old Rusty, `Bugaboo, Seat, 9 mo', and Green Machine are again the best and
-2) `Stokke, Seat, 9 mo' sees higher acceleration than the 0-month
-configuration.  For sidewalk pavers, there was no significant difference among
-all the strollers. For sidewalk slabs: 1) Old Rusty is the best and Bugaboo the
-second best; 2) the 0-month in the Bugaboo and Maxi-Cosi see more than the
-9-month in the same vehicle, respectively; and 3) no difference in Stokke when
-comparing dummy sizes. For tarmac: 1) the Green Machine, `Bugaboo, Seat, 9 mo',
-and `Stokke, Seat, 9 mo' are better than Maxi-Cosi with either dummy size; and
-2) the Green Machine is better than the `Bugaboo, Cot, 0 mo'.
-%
-\begin{table}
-\centering
-\caption{Stroller Significance Ranking Groups (based on
-Figure~\ref{fig:tukey-stroller}). The numbers indicate the group where there is
-no significant difference with 1 being the best (lower acceleration) and 8 being
-the worst (higher acceleration). The ``Overall'' column gives an overall ranking
-based on the mean ranking of the other columns.}
-\label{tab:sig-group-stroller}
-\begin{tabular}{lcccccc}
-  \toprule
-                          &         &              & Paver  & Sidewalk & Sidewalk & \\
-  Vehicle Setup           & Overall & Cobblestones & Bricks & Pavers   & Slabs    & Tarmac \\
-  \midrule
-  Bugaboo, cot, 0 mo        & 7 & 5-7 & 4-8 & 1-8 & 7-8 & 2-8 \\
-  Bugaboo, seat, 9 mo       & 2 & 1-2 & 1-5 & 1-8 & 2   & 1-6 \\
-  Green Machine, cot, 0 mo  & 3 & 3   & 1-3 & 1-8 & 3-4 & 1-5 \\
-  Maxi-Cosi, seat, 0 mo     & 8 & 5-7 & 5-8 & 1-8 & 7-8 & 4-8 \\
-  Maxi-Cosi, seat, 9 mo     & 4 & 4-5 & 3-8 & 1-8 & 3-4 & 4-8 \\
-  Old Rusty, seat, 9 mo     & 1 & 1-2 & 1-3 & 1-8 & 1   & 1-8 \\
-  Stokke, cot, 0 mo         & 5 & 4-7 & 3-6 & 1-8 & 5-6 & 1-8 \\
-  Stokke, seat, 9 mo        & 6 & 8   & 6-8 & 1-8 & 5-6 & 1-6 \\
-  \bottomrule
-\end{tabular}
-\end{table}
-
-When comparing cargo bicycles (Table~\ref{tab:sig-group-bicycle}), most
-vehicle setups deliver similar acceleration to the seat pan when ridden over the
-same surface at the same target speed. For low speed on tarmac, the Urban Arrow
-with Melia and a 3-month dummy has significantly less acceleration
-than the Keiler with Pebble and 0-month dummy. There is no significant
-difference in any vehicle setups at low speed on paver bricks. At higher speeds,
-the Urban Arrow and Keiler with Melia and the 3-month dummy are
-significantly better than the Keiler with Pebble and the 0-month dummy on paver
-bricks and on tarmac. It is important to point out that there is no significant
-difference when simply swapping the seat for the 3-month dummy, which does not
-support the hypothesis in Section~\ref{sec:health-assesment}.
-%
-\begin{table}
-\centering
-\caption{Cargo Bicycle Significance Ranking Groups (based on
-Figure~\ref{fig:tukey-bicycle}). The numbers indicate the group where there is
-no significant difference with 1 being the best (lower acceleration) and 6 being
-the worst (higher acceleration). The ``Overall'' column gives an overall ranking
-based on the mean ranking of the other columns. Note that the mean ranking is
-very close for all cargo bicycles.}
-\label{tab:sig-group-bicycle}
-\begin{tabular}{lccccc}
-     \toprule
-                                &         & Paver Bricks & Tarmac    & Paver Bricks & Tarmac \\
-     Vehicle Setup              & Overall & Low Speed    & Low Speed & High Speed   & High Speed \\
-     \midrule
-     Keiler, Melia, 3 mo       & 2 & 1-6 & 1-6 & 1-5 & 1-5\\
-     Keiler, Pebble, 0 mo      & 6 & 1-6 & 2-6 & 3-6 & 5-6\\
-     Keiler, Pebble, 3 mo      & 5 & 1-6 & 1-6 & 1-6 & 1-6\\
-     Urban Arrow, Melia, 3 mo  & 1 & 1-6 & 1-5 & 1-5 & 1-5\\
-     Urban Arrow, Pebble, 0 mo & 4 & 1-6 & 1-6 & 1-6 & 1-5\\
-     Urban Arrow, Pebble, 3 mo & 2 & 1-6 & 1-6 & 1-5 & 1-5\\
-     \bottomrule
-\end{tabular}
-\end{table}
-
 \section{Discussion}
 %
 We have presented a comprehensive set of acceleration measurements from
@@ -1732,46 +1516,6 @@ cargo bicycles. Paver bricks result in approximately 4-5\(\times\) higher accele
   (8-24 km/h). ALT TEXT: Vertical acceleration for each repetition grouped by
   road surface.}
   \label{fig:compare-road-surface}
-\end{figure}
-
-\newpage
-\section{Vehicle Statistical Comparisons}
-\label{app:compare}
-%
-Tukey Range Test multiple comparison plots. Horizontal lines indicate 95\%
-confidence intervals. Non-overlapping confidence intervals indicate a
-significant difference.
-%
-\begin{figure}[!ht]
-  \centering
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Cobblestones.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Paver Bricks.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Sidewalk Pavers.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Sidewalk Slabs.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-stroller-Tarmac.png}}
-  \caption{Tukey comparison plots for the strollers. ALT TEXT: Tukey comparison
-  plots for the strollers.}
-  \label{fig:tukey-stroller}
-\end{figure}
-%
-\begin{figure}[!ht]
-  \centering
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-bicycle-Paver Bricks-Low.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-bicycle-Tarmac-Low.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-bicycle-Paver Bricks-High.png}}
-  \subcaptionbox{}{
-  \includegraphics[width=90mm]{fig/tukey-SeatBotacc_ver-bicycle-Tarmac-High.png}}
-  \caption{Tukey comparison plots for the cargo bicycles. ALT TEXT: Tukey
-  comparison plots for the cargo bicycles.}
-  \label{fig:tukey-bicycle}
 \end{figure}
 
 \newpage
