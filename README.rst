@@ -24,6 +24,13 @@ Moore can be viewed at:
 
 https://doi.org/10.31224/4415
 
+The data collected in the study can be found here:
+
+Dell'Orto, G., Daams, B., Happee, R., Papaioannou, G., Loeve, A. J., Meijerink,
+J., Valk, T., & Moore, J. (2025). Vibration Characterisation of Strollers and
+Cargo Bicycles for Transporting Infants - Dataset [Data set].  Zenodo.
+https://doi.org/10.5281/zenodo.17909133
+
 License
 =======
 
