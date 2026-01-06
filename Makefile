@@ -1,3 +1,5 @@
+#SECOND_DIFF_TAG = master
+SECOND_DIFF_TAG = bb423fd0f2b9ecc24dcf3d2bbdf44b5deaf099bf
 FIRST_DIFF_TAG = v8
 NETWORKDIR := $(shell grep -A3 'network-data-directory:' config.yml | tail -n1 | cut -c 25-)
 rsync:
@@ -20,11 +22,11 @@ pushwebsite:
 trackchanges:
 	git checkout $(FIRST_DIFF_TAG)
 	cp main.tex $(FIRST_DIFF_TAG).tex
-	git checkout master
-	latexdiff $(FIRST_DIFF_TAG).tex main.tex > diff-master_$(FIRST_DIFF_TAG).tex
+	git checkout $(SECOND_DIFF_TAG)
+	latexdiff $(FIRST_DIFF_TAG).tex main.tex > diff-$(SECOND_DIFF_TAG)_$(FIRST_DIFF_TAG).tex
 	rm $(FIRST_DIFF_TAG).tex
 	git checkout -- main.tex
-	pdflatex -interaction nonstopmode diff-master_$(FIRST_DIFF_TAG).tex
-	bibtex diff-master_$(FIRST_DIFF_TAG).aux
-	pdflatex -interaction nonstopmode diff-master_$(FIRST_DIFF_TAG).tex
-	pdflatex -interaction nonstopmode diff-master_$(FIRST_DIFF_TAG).tex
+	pdflatex -interaction nonstopmode diff-$(SECOND_DIFF_TAG)_$(FIRST_DIFF_TAG).tex
+	bibtex diff-$(SECOND_DIFF_TAG)_$(FIRST_DIFF_TAG).aux
+	pdflatex -interaction nonstopmode diff-$(SECOND_DIFF_TAG)_$(FIRST_DIFF_TAG).tex
+	pdflatex -interaction nonstopmode diff-$(SECOND_DIFF_TAG)_$(FIRST_DIFF_TAG).tex
