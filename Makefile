@@ -1,5 +1,5 @@
-#SECOND_DIFF_TAG = master
-SECOND_DIFF_TAG = bb423fd0f2b9ecc24dcf3d2bbdf44b5deaf099bf
+SECOND_DIFF_TAG = master
+#SECOND_DIFF_TAG = bb423fd0f2b9ecc24dcf3d2bbdf44b5deaf099bf  # Gabriele's review updates.
 FIRST_DIFF_TAG = v8
 NETWORKDIR := $(shell grep -A3 'network-data-directory:' config.yml | tail -n1 | cut -c 25-)
 rsync:
