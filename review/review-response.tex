@@ -1,28 +1,33 @@
 \documentclass{letter}
 \usepackage[margin=25mm]{geometry}
 \usepackage{csquotes}
+\usepackage{siunitx}  % use for all units
 
-\date{17 December 2025}
-\title{Ergonomics Review Response}
+% NOTE : Use as \si{\kph} or \si{\mps}
+\def\kph{\kilo\meter\per\hour}
+\def\mps{\meter\per\second}
+
+\date{January 8, 2026}
+\signature{The Authors}
 
 \begin{document}
-Dear Reviewers,
+\begin{letter}{Ergonomics Review Response}
+\opening{Dear Reviewers,}
 
-Thank you for the careful review of our work. We have revised the paper to
-address your comments both for clarification of various methods and details as
-well as providing background and support for some of our choices. The revision
-is an improved version based on your feedback.
+Thank you for the careful review of our work. We revised the paper to address
+your comments. The revision is an improved version based on your feedback.
 
 \begin{displayquote}
   \textbf{Editor}: I have now received replies from reviewers regarding your
   manuscript and their comments are appended at the end of this email.  You
   will see that although the reviewers judge there to be some merit in the
-  paper, they advise that substantial revisions are required.  The reviewers’
+  paper, they advise that substantial revisions are required. The reviewers’
   comments appear reasonable and you are invited to consider these and modify
   your paper accordingly.
 \end{displayquote}
 
-TODO
+Our comments are listed below, according to the reviewers' order. Comments from
+the reviewers are indented.
 
 \begin{displayquote}
   \textbf{Reviewer 1}: This paper evaluates vibrations with dummies
@@ -42,7 +47,10 @@ TODO
   recommendations….''.
 \end{displayquote}
 
-TODO
+We streamlined the title to ``Vibration Characterisation of Strollers and Cargo
+Bicycles for Transporting Infants Over Different Road Surfaces''. We added
+``Over Different Road Surfaces'' to make the title clearer to the reader, as
+suggested by reviewer 2.
 
 \begin{displayquote}
   It is not clear why the authors included the age 0 (newborn) infants.
@@ -50,25 +58,28 @@ TODO
   rare that people taking a newborn out using a stroller or cargo bicycles.
 \end{displayquote}
 
-We are aware that newborns are less frequently carried outdoors compared to
-older infants. However, in daily routine, strollers are used for short trips
-(medical appointments, brief walks, going with older siblings to school,
-sports, and so on), particularly in urban environments. Parents also transport
-newborns by bicycle in The Netherlands and also likely in other countries.
+We tested newborn sized dummies in lying postures in systems dedicated for their
+transport. We are aware that newborns are transported in strollers and cargo
+bicycles less frequently compared to older infants. Nonetheless, newborns are
+transported by these means in many countries around the world.
 
-An extremely common question parents have is what the minimum age for
-transporting an infant by stroller or bicycle is (as shown by the abudance of
-internet articles). We want to characterize the full range of infant ages so
-that this question can be answered definitiely in the future.
+One motivation for a study such as ours is to provide information that can
+inform guidance on the minimum age for transporting an infant by stroller or
+bicycle. Thus, we characterize a encompassing range of infant ages. Testing
+different dummy mass and size also quantifies the relationship between body size
+and vibration transmission. For these reasons, we measured newborn-sized
+dummies.
 
-Including newborns allowed us to consider the worst-case scenario: newborns
-have the least developed musculoskeletal system, making them potentially the
-most vulnerable group. It is a conservative approach of our study, that does
-not exclude tests with older infants (9 months).
+We added the following in the paper (Section 2.1 Test Equipment) to clarify
+this:
 
-For these reasons, we measured newborn sized dummies.
-
-TODO : Add a short statement in the paper that states this?
+``Although newborns are less frequently transported in strollers and cargo
+bicycles compared to older infants, these means are used in daily routines for
+newborns. For example, in the Netherlands parents do transport newborns by
+bicycle. Including newborns in the test matrix is therefore a conservative
+approach and allows us to consider the worst-case scenario: newborns have the
+least developed musculoskeletal system, have the lowest mass, and are
+potentially the most vulnerable group.''
 
 \begin{displayquote}
   This paper is much longer than ordinary submission. It is unbelievable that
@@ -77,12 +88,13 @@ TODO : Add a short statement in the paper that states this?
   8000 words) to determine if the word count is acceptable.
 \end{displayquote}
 
-The paper has 8193 words, which we disclosed to the editor at submission. The
-appendices are intended to be electronic supplementary materials and not word
-counted. We provide this supplementary material to ensure the reproducibility
-and completeness of our work.
-
-TODO : Separate appendices into a new PDF and name it supplementary materials.
+The paper we first submitted contained 8193 words in main article text and was
+accepted for review with that disclosure. The appendices are intended to be
+electronic supplementary materials and not included in the article word count.
+We provide this supplementary material to ensure the reproducibility and
+completeness of our work. We have moved the appendices into a separate document
+to make this more clear. After the edits made to address this review the word
+count of the main article text is 7721. 
 
 \begin{displayquote}
   Unrelevant issues should be deleted to make the paper concise. An example is
@@ -93,26 +105,41 @@ TODO : Separate appendices into a new PDF and name it supplementary materials.
   also have little and very limited information.
 \end{displayquote}
 
-We desire to keep the appendices as electronic supplementary material to ensure
-reproducibilty and completeness of our work.
+We agree that the paragraph beginning with ``Cycling is beneficial for
+health\ldots'' is unnecessary and have deleted it to make the introduction more
+concise. We desire to keep the appendices as supplementary material to ensure
+reproducibility and completeness of our work and thus have not removed the
+suggested material from the appendices.
 
 \begin{displayquote}
   Paver bricks and tarmac were tested for all vehicles, but only strollers were
   tested on cobblestones, sidewalk pavers, and sidewalk slabs. Even with the
   pavements of the same materials, road surface conditions could be quite
   different (high variations) due to the installation, years of usage, traffic,
-  and many other conditions.  The road surfaces adopted in this study may
+  and many other conditions. The road surfaces adopted in this study may
   represent very small samples of all road surfaces.
 \end{displayquote}
 
-Yes, the road surfaces we selected do not represent a large quality and
-maintenance variation of that surface. We choose surfaces that were at typical
-maintenance levels observed The Netherlands. We traveled various lengths, at
-least kilometer in the case of the bicycles,  on these surfaces to encounter
-some variation in surface quality.
+This comment along with comments from the other reviewers helped us reconsider
+the statistical approach we originally proposed. We had made the assumption that
+variation in sections of the road surface we traversed during a single trial
+would represent independent observations of road surface variability, but you
+are correct in that the roads we tested did not offer a large variability
+relative to that found in the world for that surface type. We have completely
+removed the statistical model and hypothesis tests from the paper because we
+could not easily justify that our repetitions constituted independent sampling
+from a population of road surfaces. The road surfaces we tested do still allow
+for comparisons among them and do give an idea of vibrations induced for similar
+road surface geometries. Removal of the statistical analysis does not alter our
+conclusions.
 
-TODO: add a sentence in the paper that states "these surfaces do not represent
-large variation in road surface quality"
+Additionally, we added the following sentence to the section ``2.4 Experimental
+Protocol'' to address this remark:
+
+``We selected convenient road surfaces representative of commonly occurring
+urban conditions in Delft. Although these surfaces cover only part of the full
+range of worldwide possibilities, we tested at various locations to capture
+local variation in surface quality.''
 
 \begin{displayquote}
   The authors have mentioned that ISO 2631 considers the effects of vibration
@@ -125,16 +152,31 @@ large variation in road surface quality"
   children/infants.
 \end{displayquote}
 
-We have stated these limitations in the study, some more than once. We also
-recommend that the standards be improved to address its deficiencies. We decide
-to report our findings in reference to the current standard and other
-references because we want to benchmark against something rather than nothing.
-We believe that conservative conclusions can be made via the standards such as
-``We did measure vibrations that would not be permitted for adults to maintain
-long-term occupational health, and it is reasonable to believe we should not
-subject our infants to the same.'' Our aim in using ISO 2631-1 was not to claim
-direct applicability to infants, but rather to provide a well-known framework,
-widely used in vibration research.
+We are aware of the limitations of ISO~2631 and we stated this multiple times in
+the paper for emphasis. We also recommend that the standards be improved to
+address their deficiencies. We decided to report our findings in reference to
+the current standard and other references because we want to benchmark against
+something, rather than nothing. We believe that sensible conclusions can be
+made with reference to the standards, such as our statement: ``We did measure
+vibrations that would not be permitted for adults to maintain long-term
+occupational health, and it is reasonable to believe we should not subject our
+infants to the same.'' Our aim in using ISO~2631 was not to claim direct
+applicability to infants, but rather to provide a well-known framework, widely
+used in vibration research. Furthermore, the use of ISO~2631 allows us to
+compare the results with other research. We now close the introduction with this
+addition to further highlight this reason: `` Furthermore, as an example of how
+such measurements could be used for assessing discomfort and health effects, we
+discuss these in the light of thresholds suggested by ISO~2631-1 and Gao~et.~al
+to benchmark against the limited, but established, references.`` We also report
+unweighted values for the benefit of future researchers and to highlight the
+effect of the weighting.
+
+We do not believe that the findings we report (seatpan vertical acceleration)
+are significantly dependent on the biomechanical and physiological
+characteristics of the children/infants other than their mass and size. If we
+were reporting on other measures (e.g. head motion), then we would need to
+further address the deficiencies in the dummies' characteristics as compared to
+live humans. We have now noted this in the discussion.
 
 \begin{displayquote}
   \textbf{Reviewer 2}: Authors have chosen an interesting topic in the field of
@@ -142,78 +184,88 @@ widely used in vibration research.
   conducted and explained. To make it more interesting to readers, I have some
   suggestions/ comments.
 
-  1. The title looks very general, it should be improved and include the targeted age or location from where the data of infants are considered.
+  1. The title looks very general, it should be improved and include the
+  targeted age or location from where the data of infants are considered.
 \end{displayquote}
 
-TODO
+We streamlined the title to ``Vibration Characterisation of Strollers and Cargo
+Bicycles for Transporting Infants Over Different Road Surfaces''. We added
+``Over Different Road Surfaces'' to make the title clearer to the reader.
 
 \begin{displayquote}
 2. The abstract starts with "We" that should be avoided.
 \end{displayquote}
 
-Active voice is not prohibited by Ergonomics and is our preferred writing style
-for scientific writing. The six most recent papers published in Ergonimics
-checked on December 17, 2025 were all written with active voice. Thus, we have
-kept active voice as it was in the paper.
+The abstract now starts with ``The objective of this study was to\ldots''.
 
 \begin{displayquote}
 3. Abstract needs revision and include the novelty/ objective/ findings of the
 work.
 \end{displayquote}
 
-TODO
+We have edited the abstract to make clear the objective and noted the novelty of
+its comprehensiveness. We believe we have already included the primary findings
+in the original abstract and the 150 word limit leaves no room to add secondary
+findings.
 
 \begin{displayquote}
 4. Authors are recommended to avoid "we" in the content.
 \end{displayquote}
 
-Active voice is not prohibited by Ergonomics and is our preferred writing style
-for scientific writing. The six most recent papers published in Ergonimics
-checked on December 17, 2025 were all written with active voice. Thus, we have
-kept active voice as it was in the paper.
+We thank the reviewer for the suggestion. However, we did not find any
+prohibition from Ergonomics on the active voice and it is our preferred style
+for scientific writing. The six most recent papers published in Ergonomics as of
+December 17, 2025 were all written with the active voice. Thus, we have kept the
+active voice as it was in the paper.
 
 \begin{displayquote}
 5. In keywords, only ISO is written, but not mentioned the full standard of ISO.
 \end{displayquote}
 
-TODO
+We edited it; now the keyword is: ``ISO~2631''.
 
 \begin{displayquote}
-6. The starting paragraph of the introduction can be deleted as it only consists of the facts that is not related to the technical aspects of the work.
+6. The starting paragraph of the introduction can be deleted as it only consists
+of the facts that is not related to the technical aspects of the work.
 \end{displayquote}
 
-TODO
+We removed the starting paragraph of the introduction as per your
+recommendation.
 
 \begin{displayquote}
-7. The introduction can be reduced and should be focused on the previous literature, novelty not on the mechanism of bicycle or other general topics.
+7. The introduction can be reduced and should be focused on the previous
+literature, novelty not on the mechanism of bicycle or other general topics.
 \end{displayquote}
 
-TODO
+We have removed the first paragraph and the paragraph beginning with ``Cycling
+is beneficial for health\ldots'' to address this comment.
 
 \begin{displayquote}
 8. The citations are starting with [4] , [20] etc. It should start with [1] [2] etc.
 \end{displayquote}
 
-TODO
+We have now ordered the reference list by the order the citations appear in the
+paper.
 
 \begin{displayquote}
 9. The materials and methods are well explained.
 \end{displayquote}
 
-Thank you for the compliment.
+We thank the reviewer for the compliment.
 
 \begin{displayquote}
-10. The results and discussion are also well explained but it shall be better
-if authors can compare the results with any previous studies.
+10. The results and discussion are also well explained but it shall be better if
+authors can compare the results with any previous studies.
 \end{displayquote}
 
-TODO: add some comparisons to values from prior studies in the dicussion
+We added three more comparisons with previous studies in the section ``4
+Discussion''.
 
 \begin{displayquote}
 Overall, the work done by authors is appreciable.
 \end{displayquote}
 
-Thank you, we are happy you appreciate the work.
+We thank the reviewer for the appreciation.
 
 \begin{displayquote}
   \textbf{Reviewer 3}: The manuscript presents a valuable and methodologically
@@ -227,15 +279,27 @@ Thank you, we are happy you appreciate the work.
   Recommendations partially overlap.
 \end{displayquote}
 
+We reduced the length of the paper be removing content from the introduction, as
+per suggestions from the other two reviewers, and by removing the statistical
+analysis. We merged subsections 3.1 and 3.2 to avoid excessive fragmentation of
+the paper. We edited the paper for overlap and repetition.
+
 \begin{displayquote}
-  The Introduction provides background on
-  whole-body vibration but does not clearly articulate the research gap,
-  particularly why the adult-oriented ISO 2631-1 standard is used despite its
-  known limitations for infants, nor does it situate the work adequately within
-  infant-specific vibration literature.
+  The Introduction provides background on whole-body vibration but does not
+  clearly articulate the research gap, particularly why the adult-oriented ISO
+  2631-1 standard is used despite its known limitations for infants, nor does it
+  situate the work adequately within infant-specific vibration literature.
 \end{displayquote}
 
-TODO
+We have more clearly stated the research gap in the opening introduction
+paragraph. To explain earlier in the paper why we make use of the ISO~2631
+standard, we now close the introduction with this addition: ``Furthermore, as
+an example of how such measurements could be used for assessing discomfort and
+health effects, we discuss these in the light of thresholds suggested by
+ISO~2631-1 and Gao~et.~al to benchmark against the limited, but established,
+references.`` We believe we situate the paper within the closest literature we
+have been able to find and now cite our exhaustive literature study as a
+reference for more background information.
 
 \begin{displayquote}
   Although the study cites relevant works (e.g., vibration transmissibility,
@@ -244,7 +308,8 @@ TODO
   or contradict existing knowledge.
 \end{displayquote}
 
-TODO
+We added a comparison with three previous studies in ``Section 4, Discussion''
+noting confirmation and contradiction.
 
 \begin{displayquote}
   The statistical analysis does not include verification of key model
@@ -257,9 +322,18 @@ TODO
   test, or residual plots)
 \end{displayquote}
 
-The residuals of both our models are normally distributed (non-significant
-Omnibus \(\ki^2\) and Jarque-Bera tests). The Durbin-Watson test indicates no
-autocorrelation. 
+As mentioned above in response to Reviewer 1, we have decided to drop the
+statistical model and analysis from the paper, which obviates addressing this
+comment directly. In the process of investigating this remark, we re-examined
+another assumption we made for the statistics: whether our observations (each
+repetition) were independent. We had convinced ourselves that dividing our long
+time series measurements into 20-40 second repetitions resulted in independent
+observations resulting from a sample from a different portion of the traversed
+road in a trial. This methodology may be marginally sound, but we no longer feel
+confident in this assumption holding due to the more-or-less arbitrary choice in
+a 40 second maximum and little variation within a trial's road surface. Choosing
+different repetition durations has effects on the observation distributions and
+resulting p-values as well as the heteroscedasticity.
 
 \begin{displayquote}
   The Discussion, while rich in engineering insights, does not critically
@@ -269,7 +343,21 @@ autocorrelation.
   comfort thresholds.
 \end{displayquote}
 
-TODO
+We added the following in subsection ``4.2 Baby Mass'': ``Due to a lack of
+dummies validated for vibration conditions, we tested with dummies of
+representative mass and body size. As is common for adult vibration,
+accelerations were measured at the dummy-seat interface rather than on the body.
+This limits the influence of the actual dynamics of the dummies.''
+
+Regarding the issue with road surfaces, we edited the section ``2.4 Experimental
+Protocol'' by stating as follows: ``We selected arbitrary surfaces
+representative of commonly occurring urban conditions in Delft, the Netherlands.
+Although these surfaces cover only part of the full range of possibilities, we
+travelled various distances to capture variation in surface quality.''
+
+We stressed the limitations of the ISO thresholds applicability and
+methodological constraints of our study throughout the entire section ``4
+Discussion''.
 
 \begin{displayquote}
   The key limitation concerns the applicability of the ISO 2631-1 standard used
@@ -285,7 +373,31 @@ TODO
   study.
 \end{displayquote}
 
-TODO
+In Section 5.1 we state: ``We did measure vibrations that would not be permitted
+for adults to maintain long-term occupational health, and it is reasonable to
+believe we should not subject our infants to the same.'' We do not have any
+plausible explanations pointing towards infants being able to tolerate larger
+magnitude vibration than an adult, so we feel confident in making this
+statement. Our hypothesis is that any future validated vibration limits for
+infants would be lower than those of adults. If use of the generally accepted
+adult ISO limits for infants results in infants no longer being vibrated above
+these limits, it is hard to imagine a resulting negative health or comfort
+outcome for the infant in that case. If someone were to treat the adult ISO
+limits in an inverse perspective, in that it is completely acceptable to vibrate
+an infant at the limits but never over, then such an interpretation may very
+likely lead to negative health and comfort results for the infant. We state
+caution as clearly as we can and multiple times to dissuade such an
+interpretation but believe that providing some limits are better than none.
+
+We have updated the summary in 5.1 with this wording to expose our deeper
+reflection: ``We did measure vibrations that would not be permitted for adults
+to maintain long-term occupational health and it is reasonable to believe we
+should not subject our infants to the same. The preceding statement should
+certainly not be interpreted to mean that vibration lower than these limits is
+deemed acceptable for infants. The relative vulnerability of infants points more
+towards infant limits being lower than those of adults. Further research to
+establish direct evidence to infant health and comfort would possibly permit
+more or less caution than we conclude below in our recommendations.''
 
 \begin{displayquote}
   Overall, the non-applicability of the ISO 2631-1 standard to infants and
@@ -295,24 +407,17 @@ TODO
   tested.
 \end{displayquote}
 
-Increase in vibration intensity undoutedly correlates to larger internal forces
-in the vibrated object. It should be undisputed, in general, that adults can
-endure larger forces than infants for equivalent injury or discomfort. This
-then implies that health and comfort thresholds for infants are lower than
-those for adults. So stating that we shouldn't subject infants to vibrations
-known to cause discomfort and health issues to adults should not be
-controversial and referencing the standards for adults at least provides an
-extreme limit that if exceeded is most certainly not good for the infant. This
-standard is the only substatinal benchmarkable reference we can use to put the
-values we measure into some context. We believe that providing this context is
-better than providing no context because infants are also made of flesh and
-bones as adults are. We hope our work prompts future researchers to seek the
-thresholds for infants so these thresholds are not exceeded if they are lower
-than the adult thresholds. We believe that placing our results relative to some
-known, is preferrable providing them only in relative comparison among the
-tested scenarios. We have stated our conclusions and recommendations ``in spite
-of the standard's limitations`` based on this reasoning.
+We do agree that the lack of any validated standards for infant vibration limits
+the strength of what we can conclude, but we have done our best to explain the,
+albeit limited, applicability and utility of the ISO~2631 standard in this
+context and why we feel confident in the reasonableness of our presented
+conclusions and recommendations. We do not agree that the results are valid only
+in a comparative sense between the different stroller and cargo bicycle models.
+That is one virtue of our approach and it can be used by designers to make
+relative improvements, but our study also presents absolute raw and ISO-weighted
+measures of vertical vibration at the seat pan that can be compared to similar
+measures in other vehicles or used to replicate these vibrations in simulations.
 
-\closing{Sincerely, \\
-The Authors}
+\closing{Sincerely}
+\end{letter}
 \end{document}
