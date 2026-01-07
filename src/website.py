@@ -301,8 +301,8 @@ strol_ax.set_ylabel('Amplitude [m/s$^2$]')
 strol_ax.set_xlabel('Frequency [Hz]')
 strol_ax.set_title('Target Speed: 5 km/h')
 strol_ax.grid(visible=True)
-_ = correct_legend(strol_ax)
 strol_ax.legend()
+_ = correct_legend(strol_ax)
 
 surf_select = bicycle_df['Road Surface'] == 'Paver Bricks'
 sped_select = bicycle_df['Target Speed [km/h]'] == 12
@@ -977,6 +977,10 @@ p.set_xticklabels(
      for label in p.get_xticklabels()],
     rotation=30)
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
+xlabs = p.get_xticklabels()
+p.set_xticklabels([functools.reduce(lambda x, y: x.replace(y, LEGEND_MAP[y]),
+                                    LEGEND_MAP, lab.get_text()) for lab in
+                   xlabs], rotation=30)
 fname = '{}-shock-test-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 110*MM2INCH))
 p.figure.set_layout_engine('constrained')
