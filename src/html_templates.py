@@ -164,6 +164,16 @@ INDEX = """\
   <p>
     Ordinary linear least squares regression models fit to the data.
   </p>
+  <div class="alert alert-danger" role="alert">
+    <p>
+      Warning: The ordinary linear least squares are from earlier drafts of the
+      paper but have been dropped from the final version of the paper due to
+      low confidence in the independence of the observations. See <a
+      href="https://github.com/mechmotum/baby-vibration/issues/90">Issue 90</a>
+      for more explanation. The results are still present here only for
+      historical purposes.
+    </p>
+  </div>
 
   <h2>Strollers</h2>
 {stroller_stats}
