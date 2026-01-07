@@ -8,6 +8,36 @@ import yaml
 
 from paths import PATH_TO_SESSION_DATA, PATH_TO_REPO
 
+LEGEND_MAP = {
+    'bugaboo': 'Bugaboo',
+    'greenmachine': 'Green Machine',
+    'maxicosi': 'Maxi-Cosi',
+    'oldrusty': 'Old Rusty',
+    'stokke': 'Stokke',
+    'keiler': 'Keiler',
+    'urbanarrow': 'Urban Arrow',
+    'pebble': 'Pebble',
+    'melia': 'Melia',
+}
+
+
+def correct_xticks(ax):
+    ticks = ax.get_xticks().tolist()
+    new_ticks = []
+    for tick in ticks:
+        for old, new in LEGEND_MAP.items():
+            new_ticks.append(tick.replace(old, new))
+    ax.set_xticklabels(new_ticks)
+
+
+def correct_legend(ax):
+    handles, previous_labels = ax.get_legend_handles_labels()
+    new_labels = []
+    for label in previous_labels:
+        new_labels.append(LEGEND_MAP[label])
+    ax.legend(handles=handles, labels=new_labels)
+    return ax
+
 
 def eval_health(minutes):
     """Returns the acceleration RMS caution and risk limits from ISO 2631-1 for

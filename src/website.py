@@ -1,5 +1,6 @@
 # builtin
 import datetime
+import functools
 import os
 import pickle
 import pprint
@@ -17,7 +18,8 @@ import statsmodels.api as sma
 import statsmodels.formula.api as smf
 
 # local
-from functions import print_header, eval_health
+from functions import (print_header, eval_health, correct_legend, LEGEND_MAP,
+                       correct_xticks)
 from plots import LinearRegDiagnostic
 from html_templates import INDEX, H2, H4, P, IMG
 from paths import (PATH_TO_REPO, PATH_TO_DATA_DIR, PATH_TO_FIG_DIR,
@@ -299,6 +301,7 @@ strol_ax.set_ylabel('Amplitude [m/s$^2$]')
 strol_ax.set_xlabel('Frequency [Hz]')
 strol_ax.set_title('Target Speed: 5 km/h')
 strol_ax.grid(visible=True)
+_ = correct_legend(strol_ax)
 strol_ax.legend()
 
 surf_select = bicycle_df['Road Surface'] == 'Paver Bricks'
@@ -328,6 +331,9 @@ axes[0, 1].set_xticklabels([])
 axes[0, 1].set_title('Target Speed: 20 & 25 km/h')
 axes[0, 1].grid(visible=True)
 axes[0, 1].legend()
+
+for ax in axes.flatten():
+    _ = correct_legend(ax)
 
 fname = '{}-spectra-compare.png'.format(SIGNAL)
 fig.savefig(os.path.join(PATH_TO_FIG_DIR, fname), dpi=300)
@@ -393,6 +399,10 @@ p.set_xticks(p.get_xticks())
 xlabs = p.get_xticklabels()
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    xlabs], rotation=90)
+xlabs = p.get_xticklabels()
+p.set_xticklabels([functools.reduce(lambda x, y: x.replace(y, LEGEND_MAP[y]),
+                                    LEGEND_MAP, lab.get_text()) for lab in
+                   xlabs], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -426,6 +436,10 @@ for val, note in zip((10.0, 20.0, 60.0, 240.0),
 p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
+xlabs = p.get_xticklabels()
+p.set_xticklabels([functools.reduce(lambda x, y: x.replace(y, LEGEND_MAP[y]),
+                                    LEGEND_MAP, lab.get_text()) for lab in
+                   xlabs], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -505,6 +519,11 @@ p.axes.grid(False)
 p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
+
+xlabs = p.get_xticklabels()
+p.set_xticklabels([functools.reduce(lambda x, y: x.replace(y, LEGEND_MAP[y]),
+                                    LEGEND_MAP, lab.get_text()) for lab in
+                   xlabs], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 1.2*MAXWIDTH*MM2INCH))
@@ -554,6 +573,10 @@ p.axes.grid(False)
 p.set_xticks(p.get_xticks())
 p.set_xticklabels([lab.get_text().replace(', ', ',\n', count=1) for lab in
                    p.get_xticklabels()], rotation=90)
+xlabs = p.get_xticklabels()
+p.set_xticklabels([functools.reduce(lambda x, y: x.replace(y, LEGEND_MAP[y]),
+                                    LEGEND_MAP, lab.get_text()) for lab in
+                   xlabs], rotation=90)
 sns.move_legend(p, "upper left", bbox_to_anchor=(1, 1))
 p.set_ylabel(r'Acceleration Magnitude RMS [m/s$^2$]')
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, MAXWIDTH*MM2INCH))
@@ -891,6 +914,7 @@ p = sns.pointplot(
 p.set_ylabel(r'Vertical Acceleration RMS [m/s$^2$]')
 p.set_xticks(p.get_xticks())
 p.set_xticklabels(p.get_xticklabels(), rotation=30)
+_ = correct_legend(p)
 plt.setp(p.get_legend().get_texts(), fontsize='9')
 fname = '{}-stroller-type-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
@@ -916,6 +940,9 @@ p = sns.lmplot(
 )
 sns.move_legend(p, 'center right', bbox_to_anchor=(0.8, 0.8))
 p.set_ylabels(r'Vertical Acceleration RMS [m/s$^2$]')
+legend_texts = p.legend.get_texts()
+for txt in legend_texts:
+    txt.set_text(LEGEND_MAP[txt.get_text()])
 fname = '{}-bicycle-type-compare.png'.format(SIGNAL)
 p.figure.set_size_inches((MAXWIDTH*MM2INCH, 100*MM2INCH))
 p.figure.set_layout_engine('constrained')
