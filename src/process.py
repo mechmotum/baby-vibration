@@ -18,7 +18,8 @@ from paths import (PATH_TO_DATA_DIR, PATH_TO_FIG_DIR, PATH_TO_BOUNDS_DIR,
                    PATH_TO_ACCROT_DIR, PATH_TO_SYNC_DIR)
 
 
-def process_sessions(start_num, end_num, signal, sample_rate):
+def process_sessions(start_num, end_num, signal, sample_rate,
+                     include_plot_titles=False):
 
     print('Processing {} to {}'.format(start_num, end_num))
 
@@ -96,7 +97,7 @@ def process_sessions(start_num, end_num, signal, sample_rate):
             html_data['trial_html'].append(s._repr_html_())
             html_data['sync_html'].append(s._repr_html_())
 
-            ax = s.plot_speed_with_trial_bounds()
+            ax = s.plot_speed_with_trial_bounds(title=include_plot_titles)
             ses_img_fn = session_label + '.png'
             ax.figure.savefig(os.path.join(PATH_TO_BOUNDS_DIR, ses_img_fn),
                               dpi=300)
@@ -247,7 +248,8 @@ def process_sessions(start_num, end_num, signal, sample_rate):
                                 signal, sample_rate, cutoff=cutoff,
                                 smooth=True, iso_weighted=True,
                                 show_features='bandwidth from smooth', ax=ax)
-                            ax.set_title(file_name)
+                            if include_plot_titles:
+                                ax.set_title(file_name)
                             ax.figure.savefig(os.path.join(PATH_TO_SPECT_DIR,
                                                            file_name + '.png'),
                                               dpi=300)

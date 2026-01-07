@@ -816,7 +816,7 @@ class Session():
             gyr_mag = magnitude(self.imu_data[gyr_cols].values)
             self.imu_data['{}gyr_mag'.format(sensor)] = gyr_mag
 
-    def plot_speed_with_trial_bounds(self):
+    def plot_speed_with_trial_bounds(self, title=True):
         """Createas a plot of forward speed versus time for the whole session
         with shaded labeled areas for each trial."""
         fig, ax = plt.subplots(figsize=(16, 3), layout='constrained')
@@ -842,7 +842,8 @@ class Session():
             ax.text(start, 0.0, row['surface'], rotation='vertical')
 
         ax.set_ylabel('Speed [km/h]')
-        ax.set_title(self.meta_data['imu_files']['rear_wheel'])
+        if title:
+            ax.set_title(self.meta_data['imu_files']['rear_wheel'])
         ax.grid()
         return ax
 
