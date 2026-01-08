@@ -238,10 +238,7 @@ for a 2~\si{\hour} duration. She points out the importance of correcting for
 duration, otherwise the values point to moderate and high risks. The type of
 road surface had the greatest influence on the levels of vibration exposure,
 followed by the type of trailer, while the gel cushions as support did not
-significantly influence the vibration measured at the seat/pan interface. Hence,
-there is a need to refocus on the impact of vibrations on infants and children's
-health and comfort~\cite{rybarczyk2020physiological} to ensure safe, comfortable
-and widespread use of bicycles.
+significantly influence the vibration measured at the seat/pan interface.
 
 In the context of infant transportation with stroller seats, Kok
 Siong~\cite{lim2018study} carried out an indoor and an outdoor experiment to
@@ -285,7 +282,7 @@ road surface and provided recommendations to users, designers, and for future
 research. Furthermore, as an example of how such measurements could be used for
 assessing discomfort and health effects, we discuss these in the light of
 thresholds suggested by ISO~2631-1 and Gao~et.~al~\cite{Gao2018} to benchmark
-against the limited, but established, references.
+against these limited, but established, references.
 
 \section{Materials and Methods}
 %
@@ -462,13 +459,15 @@ conducted all trials to be consistent across different sessions (rider mass:
 paver bricks road surfaces at target speeds of 12~\si{\kph}, 20~\si{\kph}, and
 25~\si{\kph}. The stroller tests were conducted on tarmac, paver bricks,
 sidewalk pavers, cobblestones, and sidewalk slabs (concrete blocks with gaps in
-between) road surfaces. Figure~\ref{fig:surfaces} shows the road surfaces used
-for each vehicle type. In all tests, the speed was manually controlled by the
-pusher or cyclist by observing a speedometer mounted on the handlebar of the
-stroller or cargo bicycle. We selected convenient road surfaces representative
-of commonly occurring urban conditions in Delft. Although these surfaces cover
-only part of the full range of worldwide possibilities, we tested at various
-locations to capture local variation in surface quality.
+between) road surfaces~\footnote{We also performed shock measurements but do not
+include the results due to the abundance of sensor saturation. See the
+Supplementary Materials for those results.}. Figure~\ref{fig:surfaces} shows the
+road surfaces used for each vehicle type. In all tests, the speed was manually
+controlled by the pusher or cyclist by observing a speedometer mounted on the
+handlebar of the stroller or cargo bicycle. We selected convenient road surfaces
+representative of commonly occurring urban conditions in Delft. Although these
+surfaces cover only part of the full range of worldwide possibilities, we tested
+at various locations to capture local variation in surface quality.
 %
 \begin{figure}
   \centering
@@ -503,7 +502,9 @@ body-fixed orthogonal axes of the IMU alongside Epoch Unix timestamps. We
 segmented the sessions into trials representing a motion state of the vehicle:
 either static on level ground or being propelled over one of the surfaces of
 interest at a constant speed. Figure~\ref{fig:session} gives an example of
-segmenting a session in different trials. The data were processed per session as
+segmenting a session in different trials. 
+
+The data were processed per session as
 follows:
 %
 % NOTE : Putting the figure before the enumeration causes a slightly better
@@ -594,7 +595,7 @@ interpolation, giving sufficient samples for the bandwidth of interest based on
 the Nyquist frequency. We set any acceleration values outside of the sensor
 manufacturer's reported operating range of \(\pm\)16~g to that maximum or
 minimum, respectively, given that values outside the range may be unreliable.
-Values that exceeded the range only present rarely in nine of the cargo bicycle
+Values that exceeded the range are rare, and only present in nine of the cargo bicycle
 paver brick repetitions. Following the ISO~2631-1 recommendation, we low-pass
 filtered the signal at \(1.5\times80~\si{\hertz}=120~\si{\hertz}\) using a
 zero-lag 2\textsuperscript{nd} order Butterworth filter, given that the standard
@@ -647,16 +648,16 @@ Equation~\ref{eq:rms-acc-mag} for the comfort assessment, as per ISO 2631-1
 guidelines. We set the ISO~2631-1 adjustment factors \(k_x,k_y,k_z\) equal to 1
 for all acceleration components. RMS gives an indication of the average vertical
 acceleration experienced at the infant's buttocks-seat interface for the
-duration of the trial and can be seen in Figure~\ref{fig:vert-acc-example}. It
+duration of the trial and is indicated in Figure~\ref{fig:vert-acc-example} with black horizontal lines. It
 is the primary metric recommended by ISO-2631-1 for evaluation of health and
 comfort in adult whole-body vibration. We also calculated the vibration dose
-value \(\textrm{VDV}_{a_{z}}\) of the \(M\) raw data vertical acceleration
-\(a_{z}\) samples corresponding to the first 10~\si{\second} of the repetition
-with Equation~\ref{eq:vdv-acc}, seen in Figure~\ref{fig:vert-acc-example}.
+value \(\textrm{VDV}_{a_{z}}\) of the raw data vertical acceleration
+\(a_{z}\) using \(M\) samples corresponding to the first 10~\si{\second} of the repetition
+with Equation~\ref{eq:vdv-acc}, indicated in Figure~\ref{fig:vert-acc-example}.
 Lastly, we computed the crest factor \(\textrm{CF}_{a_{z}}\) of the downsampled
 and low pass filtered vertical acceleration\footnote{Some scenarios have crest
 factors larger than 9, but we do not report metrics other than RMS as ISO~2631-1
-recommends for this study.} with Equations~\ref{eq:crest-factor}, respectively.
+recommends for this study.} with Equation~\ref{eq:crest-factor}.
 All of these per-repetition metrics are reported as mean values over the
 repetitions corresponding to a scenario in Table~\ref{tab:summary-stroller} and
 Table~\ref{tab:summary-bicycle}. The following equations describe the metrics:
@@ -708,8 +709,8 @@ ISO weighting leads to an average reduction of 16\%. The Keiler with Melia on
 paver bricks at 20~\si{\kph} sees a 29\% reduction with a bandwidth of
 83~\si{\hertz}. These strong effects of ISO frequency weighting in some vehicle
 and speed combinations are addressed further in the discussion. Below we present
-ISO weighted results for which guidelines have been published using magnitude
-for discomfort and vertical for health.
+ISO weighted results for which guidelines have been published using acceleration magnitude
+for discomfort and vertical acceleration for health.
 %
 % NOTE : These tables are generated automatically from the Python scripts. I
 % manually edit the header rows to fit on the page width. Save the edits between
@@ -719,8 +720,8 @@ for discomfort and vertical for health.
 \setlength\tabcolsep{0.4mm}  % reduces horiztonal padding between columns
 \begin{table}[!ht]
   \centering
-  \caption{Mean computed metrics of the strollers for all 40 non-shock
-  scenarios, using seat pan acceleration.}
+  \caption{Mean computed metrics of the strollers for all 40 scenarios using
+  seat pan acceleration.}
   \label{tab:summary-stroller}
   \scriptsize
 \begin{tabular}{lllcccccccccc}
@@ -820,8 +821,8 @@ Vehicle & Seat, Baby & Surface & [\si{\kph}] & & [\si{\mps\squared}] & [\si{\mps
 \setlength\tabcolsep{0.4mm}  % reduces horiztonal padding between columns
 \begin{table}[!ht]
   \centering
-  \caption{Mean computed metrics of the cargo bicycles for all 27 non-shock scenarios, using seat pan
-  acceleration.}
+  \caption{Mean computed metrics of the cargo bicycles for all 27 scenarios,
+  using seat pan acceleration.}
   \label{tab:summary-bicycle}
   \scriptsize
 \begin{tabular}{lllcccccccccc}
@@ -950,7 +951,7 @@ road surfaces is not as apparent or consistent.
   \centering
   \includegraphics[width=160mm]{fig/SeatBotacc_ver-peak-freq-dist.png}
   \caption{Seat pan vertical peak frequency distributions comparisons among
-    road surfaces for each target speed group for non-shock repetitions. The
+    road surfaces for each target speed group for all repetitions. The
     boxes bound the quartiles and indicate the median. The whiskers indicate
     the 95\textsuperscript{th} percentile and circles are outliers. ALT TEXT:
     Box plots of peak frequencies for strollers and bicycles on each road
@@ -968,7 +969,7 @@ bicycles.
   \centering
   \includegraphics[width=160mm]{fig/SeatBotacc_ver-bandwidth-dist.png}
   \caption{Bandwidth (based on 80\% of the area under the unfiltered seat pan
-  vertical amplitude spectrum) for each target speed group for non-shock
+  vertical amplitude spectrum) for each target speed group for all
   repetitions. The boxes bound the quartiles and indicate the median. The
   whiskers indicate the 95\textsuperscript{th} percentile and circles are
   outliers. ALT TEXT: Box plots of bandwidth for strollers and bicycles on each
@@ -1131,7 +1132,7 @@ the effect of speed on vibration was apparent for paver bricks but not so much
 for tarmac. Rothhämel~et~al.~\cite{rothhamel2023comfort} contrarily found a
 larger effect of speed on tarmac.
 
-Whereas speed strongly affected the acceleration amplitude, it had lesser effect
+Whereas speed strongly affected the acceleration amplitude, it had less effect
 on the peak frequency and the bandwidth. Peak frequency at the highest speed was
 1.25\(\times\) higher for tarmac than paver bricks and bandwidth approximately
 doubled for paver bricks relative to tarmac at high speeds. This suggests that
@@ -1190,7 +1191,7 @@ we see that:
     that equals or exceeds the ``health risk zone''.
 \end{itemize}
 
-When utilizing the ISO~2631-1 guidance, we can conclude that strollers can be
+When utilizing the ISO~2631-1 standard, we can conclude that strollers can be
 pushed over paver bricks and sidewalk pavers continuously for no more than half
 an hour. On extreme surfaces like cobblestones and sidewalk slabs, strollers
 should be pushed slower than 5~\si{\kph} with a duration of maximal
@@ -1218,7 +1219,7 @@ When considering comfort, the ISO~2631-1 guidelines estimate that adults would
 report the vibrations experienced in strollers and bicycles as uncomfortable.
 For strollers, the vibrations over tarmac would be rated ``fairly
 uncomfortable'' and all other road surfaces would be ``very'' or ``extremely
-uncomfortable''. Similar results were drawn by Kok Siong~\cite{lim2018study}.
+uncomfortable''. Similar results were reported by Kok Siong~\cite{lim2018study}.
 When riding a cargo bicycle over paver bricks, the vibrations would be rated as
 ``extremely uncomfortable'' and over tarmac spans ``fairly'' to ``extremely''.
 The ISO~2631-1 comfort rating scale is derived from adult subjective ratings of
