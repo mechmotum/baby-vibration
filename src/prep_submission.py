@@ -34,18 +34,27 @@ image_filenames_in_main = [
 if not os.path.exists('submission'):
     os.mkdir('submission')
 
+shutil.copy('main.tex', 'submission/')
+shutil.copy('reference.bib', 'submission/')
+
 for filename in image_filenames_in_main:
     if filename.endswith('.png'):
         name, ext = filename.split('.')
+        new_filename = name.replace('-', '_') + '.jpg'
         subprocess.call(['convert',
                          'fig/' + filename,
                          '-quality', '90',
-                         'submission/' + name + '.jpg'])
+                         'submission/' + new_filename])
     else:
-        shutil.copy('fig/' + filename, 'submission/')
+        new_filename = filename.replace('-', '_')
+        shutil.copy('fig/' + filename,
+                    'submission/' + new_filename)
 
-shutil.copy('main.tex', 'submission/')
-shutil.copy('reference.bib', 'submission/')
+    with open('submission/main.tex', 'r') as f:
+        txt = f.read().replace(filename, new_filename)
+
+    with open('submission/main.tex', 'w') as f:
+        f.write(txt)
 
 subprocess.call([
     'sed',
