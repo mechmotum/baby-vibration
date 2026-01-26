@@ -1,6 +1,6 @@
-SECOND_DIFF_TAG = master
+SECOND_DIFF_TAG = v11
 #SECOND_DIFF_TAG = bb423fd0f2b9ecc24dcf3d2bbdf44b5deaf099bf  # Gabriele's review updates.
-FIRST_DIFF_TAG = v8
+FIRST_DIFF_TAG = v10
 NETWORKDIR := $(shell grep -A3 'network-data-directory:' config.yml | tail -n1 | cut -c 25-)
 rsync:
 	# --archive, -a            archive mode is -rlptgoD (no -A,-X,-U,-N,-H)
