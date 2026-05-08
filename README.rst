@@ -17,7 +17,7 @@ Preliminary results can be viewed at:
 
 https://mechmotum.github.io/baby-vibration/
 
-Published paper: 
+Published paper: \\
 Dell’Orto, G., Daams, B., Happee, R., Papaioannou, G., Loeve, A. J., Meijerink, J., … Moore, J. K. (2026). Vibration characterisation of strollers and cargo bicycles for transporting infants over different road surfaces. Ergonomics, 1–22. https://doi.org/10.1080/00140139.2026.2642987
 
 The data collected in the study can be found here:
