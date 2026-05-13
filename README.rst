@@ -176,7 +176,7 @@ Data Processing
    files for each session.
 #. Use a period of no motion, "static", in the session to find the direction of
    gravity in all sensors assuming that one axis of each sensor is aligned with
-   the lateral axis of the vehicle.
+   the lateral axis of the vehicle. Align each sensor's lateral axis with the vehicle’s sae body-fixed axes (society of automotive engineers 2008 - B. Vehicle Axis System - Z-down, page 8)
 #. Calculate the RMS from the raw time series for each repitition.
 #. Calculate the vibration dose value (VDV) from the raw time series for the
    first 10 seconds of each repitition, skipping shock data.
